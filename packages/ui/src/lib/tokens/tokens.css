@@ -1,0 +1,47 @@
+:root {
+  /* ── Surfaces ─────────────────────────────── */
+  --color-bg:      #F4F3F0;
+  --color-bg-2:    #ECEAE6;
+  --color-bg-3:    #E2DFD9;
+  --color-white:   #FFFFFF;
+  --color-black:   #0A0A0A;
+  --color-black-2: #111111;
+  --color-black-3: #1C1C1C;
+
+  /* ── Brand ────────────────────────────────── */
+  --color-pink:        #FF3CAC;
+  --color-pink-light:  #FF6EC7;
+  --color-pink-soft:   #FFD6EE;
+
+  /* ── Neutrals ─────────────────────────────── */
+  --color-gray:   #888888;
+  --color-gray-2: #BCBCBC;
+
+  /* ── Semantic ─────────────────────────────── */
+  --color-success: #16A34A;
+  --color-error:   #DC2626;
+  --color-warning: #B45309;
+  --color-info:    #1D4ED8;
+
+  /* ── Typography ───────────────────────────── */
+  --font-ui:    'Lato', sans-serif;
+  --font-serif: 'Cormorant Garamond', serif;
+  --font-body:  Verdana, Geneva, sans-serif;
+
+  /* ── Border radius ────────────────────────── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-pill: 100px;
+
+  /* ── Shadows ──────────────────────────────── */
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+  --shadow-pk: 0 4px 16px rgba(255, 60, 172, 0.30);
+
+  /* ── Transitions ──────────────────────────── */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.20s ease;
+}

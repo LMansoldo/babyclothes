@@ -1,0 +1,43 @@
+{
+  "name": "@babyclothes/ui",
+  "version": "0.0.1",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "build":           "svelte-package -i src/lib",
+    "dev":             "vite build --watch",
+    "check":           "svelte-check --tsconfig ./tsconfig.json",
+    "test":            "vitest run",
+    "test:watch":      "vitest",
+    "storybook":       "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@storybook/svelte":       "^8.3.0",
+    "@storybook/svelte-vite":  "^8.3.0",
+    "@sveltejs/package":       "^2.3.0",
+    "@sveltejs/vite-plugin-svelte": "^4.0.0",
+    "@testing-library/svelte": "^5.2.0",
+    "autoprefixer":            "^10.4.0",
+    "postcss":                 "^8.4.0",
+    "storybook":               "^8.3.0",
+    "svelte":                  "^5.0.0",
+    "svelte-check":            "^4.0.0",
+    "typescript":              "^5.5.0",
+    "vite":                    "^5.4.0",
+    "vitest":                  "^2.1.0"
+  },
+  "exports": {
+    ".": {
+      "types":  "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    },
+    "./tokens.css": "./src/lib/tokens/tokens.css"
+  },
+  "svelte": "./dist/index.js",
+  "types":  "./dist/index.d.ts",
+  "files":  ["dist", "src/lib/tokens"]
+}
