@@ -1,0 +1,69 @@
+name: babyclothes
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: babyclothes
+      POSTGRES_PASSWORD: babyclothes
+      POSTGRES_DB: babyclothes_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U babyclothes"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+    ports:
+      - "4000:4000"
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://babyclothes:babyclothes@postgres:5432/babyclothes_dev
+      GRPC_AGENT_URL: agents:50051
+      MIX_ENV: dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./apps/api:/app
+      - ./proto:/proto
+
+  agents:
+    build:
+      context: .
+      dockerfile: docker/agents.Dockerfile
+    ports:
+      - "50051:50051"
+    env_file: .env
+    environment:
+      INTERNAL_API_URL: http://api:4000
+    volumes:
+      - ./apps/agents:/app
+      - ./proto:/proto
+    depends_on:
+      - api
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    ports:
+      - "5173:5173"
+    env_file: .env
+    environment:
+      PUBLIC_API_URL: http://localhost:4000
+    volumes:
+      - ./apps/web:/app
+      - ./packages:/packages
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
