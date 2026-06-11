@@ -1,0 +1,31 @@
+# Node
+node_modules/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+dist/
+.svelte-kit/
+build/
+
+# Elixir
+_build/
+deps/
+*.ez
+erl_crash.dump
+.elixir_ls/
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Storybook
+storybook-static/
+
+# OS
+.DS_Store
+*.swp
+
+# Docker
+docker-compose.override.yml
