@@ -12,8 +12,8 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@babyclothes/ui": "workspace:*",
     "@auth/sveltekit": "^1.7.0",
+    "@babyclothes/ui": "workspace:*",
     "zod": "^3.23.0"
   },
   "devDependencies": {

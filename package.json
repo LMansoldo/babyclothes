@@ -8,9 +8,9 @@
   ],
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "dev:web":    "yarn workspace @babyclothes/web dev",
+    "dev:web": "yarn workspace @babyclothes/web dev",
     "dev:agents": "yarn workspace @babyclothes/agents dev",
-    "build":      "yarn workspaces foreach --all run build",
-    "test":       "yarn workspaces foreach --all run test"
+    "build": "yarn workspaces foreach --all run build",
+    "test": "yarn workspaces foreach --all run test"
   }
 }
