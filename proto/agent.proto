@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package agent;
+
+service AgentService {
+  rpc Chat(ChatRequest) returns (stream ChatChunk);
+  rpc PredictGrowth(GrowthRequest) returns (GrowthPrediction);
+}
+
+// ── Chat ──────────────────────────────────────────
+
+message ChatRequest {
+  string       user_id  = 1;
+  string       child_id = 2;
+  string       message  = 3;
+  ChildContext context  = 4;
+}
+
+message ChildContext {
+  string               name             = 1;
+  string               birth_date       = 2;
+  string               current_size     = 3;
+  Measurement          last_measurement = 4;
+  repeated Measurement history          = 5;
+}
+
+message ChatChunk {
+  string type    = 1; // "text" | "component"
+  string content = 2; // text string OR JSON { "component": "...", "props": {...} }
+  // stream ends by EOF — no "done" chunk
+}
+
+// ── Growth ────────────────────────────────────────
+
+message Measurement {
+  string recorded_at   = 1; // ISO 8601
+  int32  weight_g      = 2;
+  int32  height_cm     = 3;
+  string clothing_size = 4;
+}
+
+message GrowthRequest {
+  string               user_id      = 1;
+  string               child_id     = 2;
+  int32                birth_weight = 3;
+  int32                birth_height = 4;
+  repeated Measurement measurements = 5;
+}
+
+message GrowthPrediction {
+  string next_size  = 1;
+  int32  days_until = 2;
+}
