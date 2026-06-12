@@ -15,12 +15,13 @@
   }
 </script>
 
-<nav class="bottomnav">
+<nav class="bottomnav" aria-label="Navegação principal">
   {#each tabs as tab (tab.href)}
     <a
       href={tab.href}
       class="bottomnav__tab"
       class:bottomnav__tab--active={isActive(tab.href)}
+      aria-current={isActive(tab.href) ? 'page' : undefined}
       aria-label={tab.label}
     >
       <span class="bottomnav__icon">{tab.icon}</span>
@@ -40,6 +41,7 @@
     align-items: center;
     justify-content: space-around;
     padding: 8px 0;
+    padding-bottom: env(safe-area-inset-bottom);
     background: var(--color-white);
     border-top: 1px solid var(--color-bg-2);
   }
