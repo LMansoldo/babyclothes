@@ -25,7 +25,7 @@
 <header class="page-header">
   <div class="page-header__left">
     {#if showBack}
-      <button class="page-header__back" onclick={handleBack} aria-label="Voltar">
+      <button class="page-header__back" type="button" onclick={handleBack} aria-label="Voltar">
         ←
       </button>
     {/if}
@@ -71,6 +71,11 @@
 
   .page-header__back:hover {
     background: var(--color-bg-2);
+  }
+
+  .page-header__back:focus-visible {
+    outline: 2px solid var(--color-pink);
+    outline-offset: 2px;
   }
 
   .page-header__title {
