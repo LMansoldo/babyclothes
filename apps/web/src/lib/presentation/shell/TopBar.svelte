@@ -4,7 +4,7 @@
   import { Button, Avatar, Badge } from '@babyclothes/ui'
   import type { Session } from '$lib/domain/auth/entities/Session'
 
-  const session = getContext<Session>('session')
+  const session = getContext<Session>('session')!
   const unreadCount = getContext<number>('unreadCount') ?? 0
 </script>
 
@@ -14,8 +14,8 @@
   </a>
 
   <div class="topbar__actions">
-    <a href="/notifications" class="topbar__notification">
-      <span class="topbar__bell" aria-label="Notificações">🔔</span>
+    <a href="/notifications" class="topbar__notification" aria-label="Notificações">
+      <span class="topbar__bell" aria-hidden="true">🔔</span>
       {#if unreadCount > 0}
         <Badge label={String(unreadCount)} variant="pk" size="sm" />
       {/if}
