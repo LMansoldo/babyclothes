@@ -13,6 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       const apiUrl = import.meta.env.PUBLIC_API_URL ?? ''
       const res = await fetch(`${apiUrl}/auth/session`, {
         headers: { Authorization: `Bearer ${token}` },
+        signal: AbortSignal.timeout(5000),
       })
 
       if (res.ok) {
@@ -29,7 +30,8 @@ export const handle: Handle = async ({ event, resolve }) => {
         event.cookies.delete(JWT_COOKIE, { path: '/' })
         event.locals.session = undefined
       }
-    } catch {
+    } catch (err) {
+      console.error('Auth session validation failed:', err)
       event.locals.session = undefined
     }
   } else {
