@@ -40,22 +40,39 @@
 
   const progress = $derived(65)
 
+  function getAge(birthDate: string): string {
+    const birth = new Date(birthDate)
+    const now = new Date()
+    const months = (now.getFullYear() - birth.getFullYear()) * 12 + now.getMonth() - birth.getMonth()
+    if (months < 1) return '< 1m'
+    if (months < 12) return `${months}m`
+    const years = Math.floor(months / 12)
+    const rem = months % 12
+    return rem > 0 ? `${years}a ${rem}m` : `${years}a`
+  }
+
+  function getChildSize(childId: string): string {
+    const records = mockGrowthRecords
+      .filter((r) => r.childId === childId)
+      .sort((a, b) => b.recordedAt.getTime() - a.recordedAt.getTime())
+    return records[0]?.clothingSize ?? '?'
+  }
+
+  const childOptions = $derived(
+    mockChildren.map((c) => ({
+      id: c.id,
+      name: c.name,
+      age: getAge(c.birthDate),
+      size: getChildSize(c.id),
+    }))
+  )
+
   function handleSelectChild(id: string) {
     activeChildId = id
   }
 
   function handleAddChild() {
     goto('/child/register')
-  }
-
-  function getAge(birthDate: Date): string {
-    const now = new Date()
-    const months = (now.getFullYear() - birthDate.getFullYear()) * 12 + now.getMonth() - birthDate.getMonth()
-    if (months < 1) return '< 1m'
-    if (months < 12) return `${months}m`
-    const years = Math.floor(months / 12)
-    const rem = months % 12
-    return rem > 0 ? `${years}a ${rem}m` : `${years}a`
   }
 </script>
 
@@ -65,7 +82,7 @@
 
 <div class="child-page">
   <ChildSelector
-    children={mockChildren.map((c) => ({ id: c.id, name: c.name, age: getAge(c.birthDate), size: latestRecord?.clothingSize ?? '?' }))}
+    children={childOptions}
     activeId={activeChildId}
     onSelect={handleSelectChild}
     onAdd={handleAddChild}
@@ -75,7 +92,7 @@
     <EmptyState
       variant="centered"
       title={$t('child.title')}
-      description="Adicione uma criança para ver as previsões de crescimento."
+      description={$t('child.empty_description')}
       action={{ label: $t('child.add'), variant: 'pk', onclick: handleAddChild }}
     />
   {:else}
@@ -88,9 +105,9 @@
         daysUntil={daysUntil}
         progress={progress}
         sizes={growthSizes}
-        description="Baseado no histórico de crescimento de {activeChild.name}"
-        primaryAction={{ label: 'Ver catálogo', onclick: () => goto('/catalog') }}
-        secondaryAction={{ label: 'Atualizar medidas', onclick: () => console.log('Update measurements') }}
+        description={$t('child.growth_description', { name: activeChild.name })}
+        primaryAction={{ label: $t('child.view_catalog'), onclick: () => goto('/catalog') }}
+        secondaryAction={{ label: $t('child.update_measurements'), onclick: () => console.log('Update measurements') }}
       />
     </div>
   {/if}

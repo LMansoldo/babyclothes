@@ -64,7 +64,14 @@
     "add_first": "Adicione seu primeiro filho para acompanhar o crescimento",
     "detail_title": "Detalhes do Filho",
     "growth_history": "Histórico de Crescimento",
-    "predictions": "Previsões de Tamanho"
+    "predictions": "Previsões de Tamanho",
+    "empty_description": "Adicione um filho para ver previsões de tamanho",
+    "growth_description": "Baseado no histórico de crescimento de {{name}}",
+    "view_catalog": "Ver catálogo",
+    "update_measurements": "Atualizar medidas",
+    "growth_prediction": "Previsão de crescimento",
+    "growth_detail": "Baseado no histórico de {{name}}, eles precisarão do tamanho {{size}} em breve.",
+    "history": "Histórico"
   },
   "child_selector": {
     "add_child": "Adicionar filho"
@@ -74,7 +81,10 @@
     "height": "Altura",
     "head": "Cabeça",
     "age_months": "{{age}} meses",
-    "percentile": "P{{percentile}}"
+    "percentile": "P{{percentile}}",
+    "current_size": "Atual",
+    "next_size": "Próximo",
+    "days_until": "Em cerca de {{days}} dias"
   },
   "item_card": {
     "condition_new": "Novo",
@@ -85,7 +95,8 @@
     "gender_unisex": "Unissex",
     "contact": "Contato",
     "buy": "Comprar",
-    "favorite": "Favoritar"
+    "favorite": "Favoritar",
+    "verified": "Verificado"
   },
   "item_form": {
     "new_listing": "Nova Peça",
@@ -97,8 +108,8 @@
     "category_romper": "Macacão",
     "category_bodysuit": "Body",
     "category_dress": "Vestido",
-    "category_jacket": "Jaqueta",
-    "category_outfit": "Conjunto",
+    "category_coat": "Casaco",
+    "category_set": "Conjunto",
     "category_accessory": "Acessório",
     "size_label": "Tamanho",
     "condition_label": "Condição",

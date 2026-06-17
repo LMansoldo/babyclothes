@@ -2,11 +2,11 @@
   import { Plus } from 'lucide-svelte'
   import { t } from '$lib/i18n'
 
-  type Child = {
+  type ChildOption = {
     id: string
     name: string
-    birthDate: string
-    gender: 'male' | 'female'
+    age: string
+    size: string
   }
 
   let {
@@ -15,7 +15,7 @@
     onSelect,
     onAdd,
   }: {
-    children?: Child[]
+    children?: ChildOption[]
     activeId?: string
     onSelect?: (id: string) => void
     onAdd?: () => void
@@ -23,16 +23,6 @@
 
   function initials(name: string): string {
     return name.charAt(0).toUpperCase()
-  }
-
-  function ageLabel(birthDate: string): string {
-    const birth = new Date(birthDate)
-    const now = new Date()
-    const months = (now.getFullYear() - birth.getFullYear()) * 12 + now.getMonth() - birth.getMonth()
-    if (months < 1) return '< 1m'
-    if (months < 12) return `${months}m`
-    const years = Math.floor(months / 12)
-    return `${years}a`
   }
 </script>
 
@@ -47,7 +37,8 @@
         {initials(child.name)}
       </span>
       <span class="childselector__name">{child.name}</span>
-      <span class="childselector__age">{ageLabel(child.birthDate)}</span>
+      <span class="childselector__age">{child.age}</span>
+      <span class="childselector__size">{child.size}</span>
     </button>
   {/each}
 
@@ -120,6 +111,16 @@
     font-style: italic;
     font-size: 0.65rem;
     color: var(--gr);
+  }
+
+  .childselector__size {
+    font-family: var(--ld);
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: var(--pk);
+    background: var(--pk3);
+    border-radius: 4px;
+    padding: 0.1rem 0.3rem;
   }
 
   .childselector__add {

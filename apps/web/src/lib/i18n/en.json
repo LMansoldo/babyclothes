@@ -64,7 +64,14 @@
     "add_first": "Add your first child to track growth",
     "detail_title": "Child Details",
     "growth_history": "Growth History",
-    "predictions": "Size Predictions"
+    "predictions": "Size Predictions",
+    "empty_description": "Add a child to see growth predictions",
+    "growth_description": "Based on {{name}}'s growth history",
+    "view_catalog": "View catalog",
+    "update_measurements": "Update measurements",
+    "growth_prediction": "Growth prediction",
+    "growth_detail": "Based on {{name}}'s history, they will need size {{size}} soon.",
+    "history": "History"
   },
   "child_selector": {
     "add_child": "Add child"
@@ -74,7 +81,10 @@
     "height": "Height",
     "head": "Head",
     "age_months": "{{age}} months",
-    "percentile": "P{{percentile}}"
+    "percentile": "P{{percentile}}",
+    "current_size": "Current",
+    "next_size": "Next",
+    "days_until": "In about {{days}} days"
   },
   "item_card": {
     "condition_new": "New",
@@ -85,7 +95,8 @@
     "gender_unisex": "Unisex",
     "contact": "Contact",
     "buy": "Buy",
-    "favorite": "Favorite"
+    "favorite": "Favorite",
+    "verified": "Verified"
   },
   "item_form": {
     "new_listing": "New Listing",
@@ -97,8 +108,8 @@
     "category_romper": "Romper",
     "category_bodysuit": "Bodysuit",
     "category_dress": "Dress",
-    "category_jacket": "Jacket",
-    "category_outfit": "Outfit",
+    "category_coat": "Coat",
+    "category_set": "Set",
     "category_accessory": "Accessory",
     "size_label": "Size",
     "condition_label": "Condition",

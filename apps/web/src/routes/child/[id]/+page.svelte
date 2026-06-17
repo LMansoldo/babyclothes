@@ -26,9 +26,10 @@
     latestRecord ? allSizes[allSizes.indexOf(latestRecord.clothingSize) + 1] ?? '?' : '?'
   )
 
-  function getAge(birthDate: Date): string {
+  function getAge(birthDate: string | Date): string {
+    const birth = typeof birthDate === 'string' ? new Date(birthDate) : birthDate
     const now = new Date()
-    const months = (now.getFullYear() - birthDate.getFullYear()) * 12 + now.getMonth() - birthDate.getMonth()
+    const months = (now.getFullYear() - birth.getFullYear()) * 12 + now.getMonth() - birth.getMonth()
     if (months < 1) return '< 1 mês'
     if (months < 12) return `${months} meses`
     const years = Math.floor(months / 12)
@@ -61,15 +62,15 @@
       daysUntil={30}
       progress={65}
       sizes={growthSizes}
-      eyebrow="Previsão de crescimento"
-      description="Baseado no histórico de {data.child.name}, ela vai precisar do tamanho {nextSize} em breve."
-      primaryAction={{ label: 'Ver catálogo', onclick: () => goto('/catalog') }}
-      secondaryAction={{ label: 'Atualizar medidas', onclick: () => console.log('Update') }}
+      eyebrow={$t('child.growth_prediction')}
+      description={$t('child.growth_detail', { name: data.child.name, size: nextSize })}
+      primaryAction={{ label: $t('child.view_catalog'), onclick: () => goto('/catalog') }}
+      secondaryAction={{ label: $t('child.update_measurements'), onclick: () => console.log('Update') }}
     />
 
     {#if data.records.length > 0}
       <div class="child-detail-page__history">
-        <h2 class="child-detail-page__section-title">Histórico</h2>
+        <h2 class="child-detail-page__section-title">{$t('child.history')}</h2>
         {#each data.records as record (record.id)}
           <div class="child-detail-page__record">
             <span class="child-detail-page__record-date">
