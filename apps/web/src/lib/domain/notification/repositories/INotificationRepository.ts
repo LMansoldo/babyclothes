@@ -1,7 +1,7 @@
-import type { Notification } from '../entities/Notification'
+import type { Notification } from '../entities/Notification';
 
 export interface INotificationRepository {
-  findAll(): Promise<Notification[]>
-  markAsRead(id: string): Promise<void>
-  subscribe(): AsyncIterable<Notification>
+  findAll(): Promise<Notification[]>;
+  markAsRead(id: string): Promise<void>;
+  subscribe(): AsyncIterable<Notification>;
 }

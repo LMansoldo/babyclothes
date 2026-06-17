@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/svelte'
-import FilterBar from '../lib/components/FilterBar/FilterBar.svelte'
+import type { Meta, StoryObj } from '@storybook/svelte';
+import FilterBar from '../lib/components/FilterBar/FilterBar.svelte';
 
 const sampleFilters = [
   { label: 'Roupas', value: 'clothes' },
@@ -7,7 +7,7 @@ const sampleFilters = [
   { label: 'Acessórios', value: 'accessories' },
   { label: 'Brinquedos', value: 'toys' },
   { label: 'Móveis', value: 'furniture' },
-]
+];
 
 const meta: Meta<typeof FilterBar> = {
   title: 'SDK/FilterBar',
@@ -23,9 +23,9 @@ const meta: Meta<typeof FilterBar> = {
       options: ['sm', 'md'],
     },
   },
-}
-export default meta
-type Story = StoryObj<typeof meta>
+};
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -34,7 +34,7 @@ export const Default: Story = {
     variant: 'default',
     size: 'md',
   },
-}
+};
 
 export const WithPreselection: Story = {
   args: {
@@ -43,7 +43,7 @@ export const WithPreselection: Story = {
     variant: 'default',
     size: 'md',
   },
-}
+};
 
 export const WithCounts: Story = {
   args: {
@@ -57,7 +57,7 @@ export const WithCounts: Story = {
     variant: 'default',
     size: 'md',
   },
-}
+};
 
 export const PinkVariant: Story = {
   args: {
@@ -66,7 +66,7 @@ export const PinkVariant: Story = {
     variant: 'pk',
     size: 'md',
   },
-}
+};
 
 export const SmallSize: Story = {
   args: {
@@ -75,7 +75,7 @@ export const SmallSize: Story = {
     variant: 'default',
     size: 'sm',
   },
-}
+};
 
 export const ManyFilters: Story = {
   args: {
@@ -94,4 +94,4 @@ export const ManyFilters: Story = {
     variant: 'pk',
     size: 'md',
   },
-}
+};

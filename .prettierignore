@@ -1,0 +1,7 @@
+dist
+build
+.svelte-kit
+.storybook-static
+node_modules
+.yarn
+*.md

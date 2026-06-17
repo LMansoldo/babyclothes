@@ -5,7 +5,7 @@
 
   let currentStep = $state<1 | 2>(1)
 
-  function handleSubmit(data: any) {
+  function handleSubmit(data: unknown) {
     console.log('Publish listing:', data)
     goto('/catalog')
   }

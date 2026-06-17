@@ -1,1 +1,1 @@
-export { default as ItemList } from './ItemList.svelte'
+export { default as ItemList } from './ItemList.svelte';

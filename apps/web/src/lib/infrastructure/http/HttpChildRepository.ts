@@ -1,25 +1,25 @@
-import { env } from '$env/dynamic/public'
+import { env } from '$env/dynamic/public';
 import type {
   IChildRepository,
   CreateChildInput,
   MeasurementInput,
-} from '$lib/domain/child/repositories/IChildRepository'
-import type { Child } from '$lib/domain/child/entities/Child'
-import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
-import { getAuthToken } from './HttpAuthRepository'
+} from '$lib/domain/child/repositories/IChildRepository';
+import type { Child } from '$lib/domain/child/entities/Child';
+import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord';
+import { getAuthToken } from './HttpAuthRepository';
 
 export class HttpChildRepository implements IChildRepository {
-  private readonly baseUrl: string
+  private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = env.PUBLIC_API_URL ?? ''
+    this.baseUrl = env.PUBLIC_API_URL ?? '';
   }
 
   private authHeaders(): Record<string, string> {
-    const token = getAuthToken()
+    const token = getAuthToken();
     return token
       ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
-      : { 'Content-Type': 'application/json' }
+      : { 'Content-Type': 'application/json' };
   }
 
   async create(data: CreateChildInput): Promise<Child> {
@@ -32,41 +32,41 @@ export class HttpChildRepository implements IChildRepository {
         birth_weight_g: data.birthWeightG,
         birth_height_cm: data.birthHeightCm,
       }),
-    })
+    });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
-      throw new Error((err as { error?: string }).error ?? `Create child failed: ${res.status}`)
+      const err = await res.json().catch(() => ({}));
+      throw new Error((err as { error?: string }).error ?? `Create child failed: ${res.status}`);
     }
 
-    const { child } = await res.json() as { child: ApiChildDTO }
-    return mapChild(child)
+    const { child } = (await res.json()) as { child: ApiChildDTO };
+    return mapChild(child);
   }
 
   async findAll(): Promise<Child[]> {
     const res = await fetch(`${this.baseUrl}/children`, {
       headers: this.authHeaders(),
-    })
+    });
 
     if (!res.ok) {
-      throw new Error(`Fetch children failed: ${res.status}`)
+      throw new Error(`Fetch children failed: ${res.status}`);
     }
 
-    const { children } = await res.json() as { children: ApiChildDTO[] }
-    return children.map(mapChild)
+    const { children } = (await res.json()) as { children: ApiChildDTO[] };
+    return children.map(mapChild);
   }
 
   async findById(id: string): Promise<Child> {
     const res = await fetch(`${this.baseUrl}/children/${id}`, {
       headers: this.authHeaders(),
-    })
+    });
 
     if (!res.ok) {
-      throw new Error(`Child ${id} not found: ${res.status}`)
+      throw new Error(`Child ${id} not found: ${res.status}`);
     }
 
-    const { child } = await res.json() as { child: ApiChildDTO }
-    return mapChild(child)
+    const { child } = (await res.json()) as { child: ApiChildDTO };
+    return mapChild(child);
   }
 
   async addMeasurement(childId: string, data: MeasurementInput): Promise<GrowthRecord> {
@@ -79,35 +79,35 @@ export class HttpChildRepository implements IChildRepository {
         clothing_size: data.clothingSize,
         recorded_at: data.recordedAt,
       }),
-    })
+    });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
-      throw new Error((err as { error?: string }).error ?? `Add measurement failed: ${res.status}`)
+      const err = await res.json().catch(() => ({}));
+      throw new Error((err as { error?: string }).error ?? `Add measurement failed: ${res.status}`);
     }
 
-    const { measurement } = await res.json() as { measurement: ApiMeasurementDTO }
-    return mapMeasurement(measurement)
+    const { measurement } = (await res.json()) as { measurement: ApiMeasurementDTO };
+    return mapMeasurement(measurement);
   }
 }
 
 type ApiChildDTO = {
-  id: string
-  user_id: string
-  name: string
-  birth_date: string
-  birth_weight_g: number
-  birth_height_cm: number
-}
+  id: string;
+  user_id: string;
+  name: string;
+  birth_date: string;
+  birth_weight_g: number;
+  birth_height_cm: number;
+};
 
 type ApiMeasurementDTO = {
-  id: string
-  child_id: string
-  recorded_at: string
-  weight_g: number
-  height_cm: number
-  clothing_size: string
-}
+  id: string;
+  child_id: string;
+  recorded_at: string;
+  weight_g: number;
+  height_cm: number;
+  clothing_size: string;
+};
 
 function mapChild(dto: ApiChildDTO): Child {
   return {
@@ -117,7 +117,7 @@ function mapChild(dto: ApiChildDTO): Child {
     birthDate: new Date(dto.birth_date),
     birthWeightG: dto.birth_weight_g,
     birthHeightCm: dto.birth_height_cm,
-  }
+  };
 }
 
 function mapMeasurement(dto: ApiMeasurementDTO): GrowthRecord {
@@ -128,5 +128,5 @@ function mapMeasurement(dto: ApiMeasurementDTO): GrowthRecord {
     weightG: dto.weight_g,
     heightCm: dto.height_cm,
     clothingSize: dto.clothing_size,
-  }
+  };
 }
