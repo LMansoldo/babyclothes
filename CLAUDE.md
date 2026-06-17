@@ -11,14 +11,18 @@ C2C marketplace for buying/selling baby clothes with AI growth prediction.
 - Workspaces: `apps/web`, `apps/agents`, `packages/ui`
 - `apps/api` is Elixir (Mix, not part of Yarn workspaces)
 
-## Workspace Commands
+## Commands (Docker First)
+
+All commands run inside Docker containers. See `RULES.md` for full list.
 
 ```bash
-yarn install                     # Install all dependencies
-yarn dev:web                     # Start web dev server
-yarn dev:agents                  # Start agents dev server
-yarn build                       # Build all workspaces
-yarn test                        # Test all workspaces
+yarn dev               # Start all services (postgres + api + agents + web)
+yarn dev:down          # Stop all services
+yarn build             # Build all workspaces (inside container)
+yarn preview           # Preview web build (inside container)
+yarn test              # Test all workspaces (inside container)
+yarn check             # Type check all workspaces (inside container)
+yarn api:migrate       # Run Ecto migrations
 ```
 
 ## Architecture Overview
@@ -46,9 +50,14 @@ CSS custom properties defined in `packages/ui/src/lib/tokens/tokens.css`:
 
 ## Docker
 
-```bash
-docker-compose up -d   # PostgreSQL (5432), API, Agents, Web
-```
+All services run via `docker compose up`. Dependency chain: `postgres` → `api` → `agents` + `web`.
+
+| Service | Port | Description |
+|---------|------|-------------|
+| `postgres` | 5432 | PostgreSQL 16 |
+| `api` | 4000 | Elixir REST API |
+| `agents` | 50051 | TypeScript gRPC AI agent |
+| `web` | 5173 | SvelteKit dev server |
 
 ## Conventions
 

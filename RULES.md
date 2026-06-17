@@ -2,6 +2,51 @@
 
 Mandatory rules for all code in this monorepo. Read this file before writing any code.
 
+## Docker First
+
+All dev, build, test, and preview commands **must run inside Docker containers**. Never run workspace commands directly on the host.
+
+```bash
+# Dev (all services: postgres + api + agents + web)
+yarn dev
+
+# Build
+yarn build           # all workspaces
+yarn build:ui        # just ui
+yarn build:web       # just web
+
+# Preview
+yarn preview
+
+# Test
+yarn test            # all
+yarn test:web        # just web
+yarn test:ui         # just ui
+yarn test:agents     # just agents
+yarn test:api        # just api (mix test)
+
+# Type check
+yarn check           # all
+yarn check:web       # just web
+yarn check:ui        # just ui
+
+# API
+yarn api:migrate     # mix ecto.migrate
+yarn api:credo       # mix credo
+
+# Logs
+yarn logs            # all services
+yarn logs:web        # just web
+yarn logs:api        # just api
+yarn logs:agents     # just agents
+```
+
+**Exception:** Storybook runs locally (not in containers):
+```bash
+yarn storybook:ui
+yarn storybook:web
+```
+
 ## Type Safety
 
 - **Never use `any`.** Use `unknown` with runtime type validation (type guards, Zod, `typeof` checks).
