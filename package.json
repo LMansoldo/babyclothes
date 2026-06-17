@@ -29,6 +29,14 @@
     "logs": "docker compose logs -f",
     "logs:web": "docker compose logs -f web",
     "logs:api": "docker compose logs -f api",
-    "logs:agents": "docker compose logs -f agents"
+    "logs:agents": "docker compose logs -f agents",
+    "lint": "docker compose exec web yarn workspaces foreach --all run lint",
+    "lint:ui": "docker compose exec web yarn workspace @babyclothes/ui lint",
+    "lint:web": "docker compose exec web yarn workspace @babyclothes/web lint",
+    "lint:fix": "docker compose exec web yarn workspaces foreach --all run lint:fix",
+    "format": "docker compose exec web yarn workspaces foreach --all run format",
+    "stylelint": "docker compose exec web yarn workspaces foreach --all run stylelint",
+    "stylelint:ui": "docker compose exec web yarn workspace @babyclothes/ui stylelint",
+    "stylelint:web": "docker compose exec web yarn workspace @babyclothes/web stylelint"
   }
 }

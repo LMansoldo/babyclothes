@@ -1,9 +1,9 @@
-import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
+import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord';
 
 export type GrowthCurvePoint = {
-  date: Date
-  clothingSize: string
-}
+  date: Date;
+  clothingSize: string;
+};
 
 export class ComputeGrowthCurve {
   execute(records: GrowthRecord[]): GrowthCurvePoint[] {
@@ -12,6 +12,6 @@ export class ComputeGrowthCurve {
       .map((r) => ({
         date: r.recordedAt,
         clothingSize: r.clothingSize,
-      }))
+      }));
   }
 }

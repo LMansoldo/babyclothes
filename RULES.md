@@ -34,6 +34,20 @@ yarn check:ui        # just ui
 yarn api:migrate     # mix ecto.migrate
 yarn api:credo       # mix credo
 
+# Lint
+yarn lint            # all workspaces
+yarn lint:ui         # just ui
+yarn lint:web        # just web
+yarn lint:fix        # auto-fix all
+
+# Format
+yarn format          # prettier --write all workspaces
+
+# Stylelint
+yarn stylelint       # all workspaces
+yarn stylelint:ui    # just ui
+yarn stylelint:web   # just web
+
 # Logs
 yarn logs            # all services
 yarn logs:web        # just web

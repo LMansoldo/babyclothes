@@ -1,6 +1,7 @@
 <script lang="ts">
   import '../app.postcss'
   import { setContext } from 'svelte'
+  import { writable } from 'svelte/store'
   import { page } from '$app/stores'
   import TopBar from '$lib/presentation/shell/TopBar.svelte'
   import BottomNav from '$lib/presentation/shell/BottomNav.svelte'
@@ -9,10 +10,13 @@
 
   const isLoginRoute = $derived($page.url.pathname === '/login')
 
-  // Context must be set during initialization, not in $effect
-  if (data.session) {
-    setContext('session', data.session)
-  }
+  // Create a writable store for session so children can react to changes
+  const sessionStore = writable(undefined)
+  $effect(() => {
+    sessionStore.set(data.session)
+  })
+
+  setContext('session', sessionStore)
 </script>
 
 {#if isLoginRoute}

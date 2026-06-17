@@ -9,7 +9,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write src",
+    "stylelint": "stylelint \"src/**/*.css\""
   },
   "peerDependencies": {
     "svelte": "^5.0.0"
@@ -22,10 +26,18 @@
     "@sveltejs/vite-plugin-svelte": "^4.0.0",
     "@testing-library/jest-dom": "^6.4.0",
     "@testing-library/svelte": "^5.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
     "autoprefixer": "^10.4.0",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-svelte": "^2.46.0",
     "jsdom": "^25.0.0",
     "postcss": "^8.4.0",
+    "prettier": "^3.8.1",
     "storybook": "^8.3.0",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0",
     "svelte": "^5.0.0",
     "svelte-check": "^4.0.0",
     "typescript": "^5.5.0",

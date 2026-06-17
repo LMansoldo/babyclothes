@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { ComputeGrowthCurve } from './ComputeGrowthCurve'
-import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
+import { describe, it, expect } from 'vitest';
+import { ComputeGrowthCurve } from './ComputeGrowthCurve';
+import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord';
 
 describe('ComputeGrowthCurve', () => {
   const records: GrowthRecord[] = [
@@ -28,36 +28,36 @@ describe('ComputeGrowthCurve', () => {
       heightCm: 68,
       clothingSize: 'M',
     },
-  ]
+  ];
 
   it('returns points ordered by date ascending', () => {
-    const useCase = new ComputeGrowthCurve()
-    const curve = useCase.execute(records)
+    const useCase = new ComputeGrowthCurve();
+    const curve = useCase.execute(records);
 
-    expect(curve).toHaveLength(3)
-    expect(curve[0].clothingSize).toBe('P')
-    expect(curve[1].clothingSize).toBe('M')
-    expect(curve[2].clothingSize).toBe('G')
-  })
+    expect(curve).toHaveLength(3);
+    expect(curve[0].clothingSize).toBe('P');
+    expect(curve[1].clothingSize).toBe('M');
+    expect(curve[2].clothingSize).toBe('G');
+  });
 
   it('maps each record to { date, clothingSize }', () => {
-    const useCase = new ComputeGrowthCurve()
-    const curve = useCase.execute(records)
+    const useCase = new ComputeGrowthCurve();
+    const curve = useCase.execute(records);
 
     expect(curve[0]).toEqual({
       date: new Date('2026-01-01'),
       clothingSize: 'P',
-    })
-  })
+    });
+  });
 
   it('returns empty array for empty input', () => {
-    const useCase = new ComputeGrowthCurve()
-    expect(useCase.execute([])).toEqual([])
-  })
+    const useCase = new ComputeGrowthCurve();
+    expect(useCase.execute([])).toEqual([]);
+  });
 
   it('handles single record', () => {
-    const useCase = new ComputeGrowthCurve()
-    const curve = useCase.execute([records[0]])
-    expect(curve).toHaveLength(1)
-  })
-})
+    const useCase = new ComputeGrowthCurve();
+    const curve = useCase.execute([records[0]]);
+    expect(curve).toHaveLength(1);
+  });
+});

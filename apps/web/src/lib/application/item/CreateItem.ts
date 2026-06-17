@@ -1,6 +1,9 @@
-import type { IItemRepository, CreateItemInput } from '$lib/domain/item/repositories/IItemRepository'
-import { CreateItemInputSchema } from '$lib/domain/item/schemas'
-import type { Item } from '$lib/domain/item/entities/Item'
+import type {
+  IItemRepository,
+  CreateItemInput,
+} from '$lib/domain/item/repositories/IItemRepository';
+import { CreateItemInputSchema } from '$lib/domain/item/schemas';
+import type { Item } from '$lib/domain/item/entities/Item';
 
 export class CreateItem {
   constructor(private readonly items: IItemRepository) {}
@@ -14,8 +17,8 @@ export class CreateItem {
       clothingSize: data.clothingSize,
       condition: data.condition,
       priceCents: data.priceCents,
-    })
+    });
 
-    return this.items.create(data)
+    return this.items.create(data);
   }
 }
