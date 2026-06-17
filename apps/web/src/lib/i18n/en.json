@@ -41,7 +41,8 @@
   },
   "chat": {
     "title": "AI Assistant",
-    "placeholder": "Type your message..."
+    "placeholder": "Type your message...",
+    "send": "Send message"
   },
   "chat_header": {
     "seller_online_verified": "online now · verified seller",

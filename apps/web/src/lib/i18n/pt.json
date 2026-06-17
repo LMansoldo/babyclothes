@@ -41,7 +41,8 @@
   },
   "chat": {
     "title": "Assistente IA",
-    "placeholder": "Digite sua mensagem..."
+    "placeholder": "Digite sua mensagem...",
+    "send": "Enviar mensagem"
   },
   "chat_header": {
     "seller_online_verified": "online agora · vendedora verificada",

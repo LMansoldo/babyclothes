@@ -15,7 +15,6 @@ describe('Condition', () => {
   })
 
   it('throws on invalid condition', () => {
-    // @ts-expect-error — testing runtime
     expect(() => new Condition('broken')).toThrow('Invalid condition: broken')
   })
 })
