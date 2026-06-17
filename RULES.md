@@ -114,3 +114,66 @@ font-size: 1.4rem;
 9. **No getters/setters** — tell objects what to do, don't ask for their state.
 
 > Note: Rules 7-9 are aspirational. Apply judgment — don't create artificial splits that hurt readability. The goal is small, focused units.
+
+## Backend (Elixir/OTP)
+
+Additional rules for `apps/api`. See also `.claude/agents/backend-reviewer.md`.
+
+### DDD & Contexts
+
+- Business logic in context modules (`Api.ContextName`), not controllers or schemas
+- Contexts expose a public API — no cross-context Repo queries
+- Controllers delegate only — zero business logic
+- Schemas define structure, changesets validate, contexts orchestrate
+
+### Processes & Concurrency
+
+- GenServer for mutable state only — never for trivial operations
+- Supervisors for fault tolerance (`let it crash`)
+- Task/Task.Supervisor for fire-and-forget async
+- Oban for reliable background jobs (email, S3, AI)
+- `cast` when response not needed, `call` when it is
+
+### Pattern Matching & Errors
+
+- Pattern matching preferred over `if/else`
+- Return `{:ok, value}` / `{:error, reason}`
+- `with` for chaining fallible operations
+- No excessive `rescue` — functional error handling
+
+### Database (Ecto)
+
+- Changesets always validate before persist
+- No N+1 queries — use `preload` or joins
+- `Repo.transaction` for atomic multi-step operations
+- Migrations are immutable once applied
+- No business logic in changesets
+
+### Performance
+
+- `Stream` for large collections, `Enum` for small/medium
+- `ETS` for high-performance in-memory cache
+- No blocking calls in critical processes
+- Always paginate queries — never load unbounded result sets
+
+### Code Quality
+
+- Credo passes (no warnings) — run `yarn api:credo`
+- Dialyxir typespec check passes
+- `@moduledoc` on all public modules
+- `@doc` on all public functions
+- `@spec` on all public functions
+
+### Security
+
+- No sensitive data in logs (passwords, tokens, CPF)
+- JWT via JOSE/Joken
+- External input validated and sanitized
+- Rate limiting on critical routes
+- SQL injection prevention — Ecto queries only, never raw strings
+
+### API Documentation
+
+- Swagger/OpenAPI spec updated for new/changed endpoints
+- Request/response schemas documented
+- Error responses documented with status codes
