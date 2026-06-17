@@ -9,6 +9,7 @@
 
   const isLoginRoute = $derived($page.url.pathname === '/login')
 
+  // Context must be set during initialization, not in $effect
   if (data.session) {
     setContext('session', data.session)
   }

@@ -46,7 +46,6 @@ describe('AddMeasurement', () => {
 
     const useCase = new AddMeasurement(children)
     await expect(
-      // @ts-expect-error — testing runtime validation
       useCase.execute('child-1', { weightG: 7800, heightCm: 68, clothingSize: 'XL' }),
     ).rejects.toThrow()
     expect(children.addMeasurement).not.toHaveBeenCalled()

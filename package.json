@@ -8,9 +8,27 @@
   ],
   "packageManager": "yarn@4.5.1",
   "scripts": {
-    "dev:web": "yarn workspace @babyclothes/web dev",
-    "dev:agents": "yarn workspace @babyclothes/agents dev",
-    "build": "yarn workspaces foreach --all run build",
-    "test": "yarn workspaces foreach --all run test"
+    "dev": "docker compose up",
+    "dev:down": "docker compose down",
+    "build": "docker compose exec web yarn workspaces foreach --all run build",
+    "build:ui": "docker compose exec web yarn workspace @babyclothes/ui build",
+    "build:web": "docker compose exec web yarn workspace @babyclothes/web build",
+    "preview": "docker compose exec web yarn workspace @babyclothes/web preview",
+    "test": "docker compose exec web yarn workspaces foreach --all run test",
+    "test:web": "docker compose exec web yarn workspace @babyclothes/web test",
+    "test:ui": "docker compose exec web yarn workspace @babyclothes/ui test",
+    "test:agents": "docker compose exec agents yarn workspace @babyclothes/agents test",
+    "test:api": "docker compose exec api mix test",
+    "check": "docker compose exec web yarn workspaces foreach --all run check",
+    "check:web": "docker compose exec web yarn workspace @babyclothes/web check",
+    "check:ui": "docker compose exec web yarn workspace @babyclothes/ui check",
+    "storybook:ui": "yarn workspace @babyclothes/ui storybook",
+    "storybook:web": "yarn workspace @babyclothes/web storybook",
+    "api:migrate": "docker compose exec api mix ecto.migrate",
+    "api:credo": "docker compose exec api mix credo",
+    "logs": "docker compose logs -f",
+    "logs:web": "docker compose logs -f web",
+    "logs:api": "docker compose logs -f api",
+    "logs:agents": "docker compose logs -f agents"
   }
 }

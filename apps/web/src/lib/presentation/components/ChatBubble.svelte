@@ -1,25 +1,27 @@
 <script lang="ts">
-  import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse'
-
   let {
     role,
     content,
+    timestamp,
   }: {
     role: 'user' | 'agent'
-    content: AgentResponse
+    content: string
+    timestamp?: Date
   } = $props()
 
   const isUser = $derived(role === 'user')
+
+  const timeLabel = $derived(
+    timestamp
+      ? timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+      : ''
+  )
 </script>
 
 <div class="chat-bubble" class:chat-bubble--user={isUser} class:chat-bubble--agent={!isUser}>
-  {#if content.type === 'text'}
-    <p class="chat-bubble__text">{content.content}</p>
-  {:else}
-    <div class="chat-bubble__component">
-      <!-- Dynamic component rendering handled by parent -->
-      <span class="chat-bubble__component-label">Component: {content.component}</span>
-    </div>
+  <p class="chat-bubble__text">{content}</p>
+  {#if timeLabel}
+    <span class="chat-bubble__time">{timeLabel}</span>
   {/if}
 </div>
 
@@ -27,37 +29,44 @@
   .chat-bubble {
     max-width: 80%;
     padding: 12px 16px;
-    border-radius: var(--radius-lg);
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    line-height: 1.5;
+    border-radius: 16px;
+    font-family: var(--vd);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    position: relative;
   }
 
   .chat-bubble--user {
     align-self: flex-end;
-    background: var(--color-pink);
-    color: var(--color-white);
-    border-bottom-right-radius: var(--radius-sm);
+    background: var(--pk);
+    color: var(--wh);
+    border-bottom-right-radius: 4px;
   }
 
   .chat-bubble--agent {
     align-self: flex-start;
-    background: var(--color-white);
-    color: var(--color-black);
-    border-bottom-left-radius: var(--radius-sm);
-    border: 1px solid var(--color-bg-2);
+    background: var(--wh);
+    color: var(--bk);
+    border-bottom-left-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   .chat-bubble__text {
     margin: 0;
+    white-space: pre-wrap;
   }
 
-  .chat-bubble__component {
+  .chat-bubble__time {
+    display: block;
+    font-family: var(--sr);
     font-style: italic;
-    color: var(--color-gray);
+    font-size: 0.58rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.3rem;
+    text-align: right;
   }
 
-  .chat-bubble__component-label {
-    font-size: 0.75rem;
+  .chat-bubble--agent .chat-bubble__time {
+    color: rgba(0, 0, 0, 0.3);
   }
 </style>

@@ -51,7 +51,6 @@ describe('CreateItem', () => {
     }
 
     const useCase = new CreateItem(items)
-    // @ts-expect-error — testing runtime validation
     await expect(useCase.execute({ ...validInput, clothingSize: 'XL' })).rejects.toThrow()
     expect(items.create).not.toHaveBeenCalled()
   })

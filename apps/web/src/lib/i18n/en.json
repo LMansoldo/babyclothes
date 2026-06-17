@@ -1,0 +1,159 @@
+{
+  "nav": {
+    "catalog": "Catalog",
+    "chat": "Chat",
+    "child": "Child",
+    "sell": "Sell",
+    "main_aria": "Main navigation"
+  },
+  "topbar": {
+    "search_label": "Search",
+    "search_placeholder": "Search clothes...",
+    "search_aria": "Search clothes",
+    "publish": "Publish",
+    "notifications_aria": "Notifications",
+    "unread_aria": "unread notifications",
+    "profile_aria": "Profile",
+    "login_google": "Google Login",
+    "get_started": "Get Started",
+    "aria_label": "Main navigation",
+    "nav": {
+      "catalog": "Catalog",
+      "chat_ai": "Chat AI",
+      "messages": "Messages",
+      "growth": "Growth",
+      "how_it_works": "How It Works"
+    }
+  },
+  "auth": {
+    "title": "Buy and sell baby clothes with intelligence",
+    "subtitle": "The marketplace that grows with your baby",
+    "google": "Continue with Google",
+    "terms": "By continuing, you agree to our Terms of Service"
+  },
+  "catalog": {
+    "title": "Catalog",
+    "all": "All",
+    "search": "Search clothes..."
+  },
+  "category_nav": {
+    "aria_label": "Categories"
+  },
+  "chat": {
+    "title": "AI Assistant",
+    "placeholder": "Type your message...",
+    "send": "Send message"
+  },
+  "chat_header": {
+    "seller_online_verified": "online now · verified seller",
+    "reconnecting": "Reconnecting",
+    "sse_live": "SSE live",
+    "reconnect": "Reconnect",
+    "more_options": "More options"
+  },
+  "child": {
+    "title": "My Children",
+    "add": "Add Child",
+    "name": "Name",
+    "birthdate": "Birth Date",
+    "gender": "Gender",
+    "weight": "Weight",
+    "height": "Height",
+    "head": "Head Circumference",
+    "register": "Register Child",
+    "no_children": "No children registered yet",
+    "add_first": "Add your first child to track growth",
+    "detail_title": "Child Details",
+    "growth_history": "Growth History",
+    "predictions": "Size Predictions",
+    "empty_description": "Add a child to see growth predictions",
+    "growth_description": "Based on {{name}}'s growth history",
+    "view_catalog": "View catalog",
+    "update_measurements": "Update measurements",
+    "growth_prediction": "Growth prediction",
+    "growth_detail": "Based on {{name}}'s history, they will need size {{size}} soon.",
+    "history": "History"
+  },
+  "child_selector": {
+    "add_child": "Add child"
+  },
+  "growth_chart": {
+    "weight": "Weight",
+    "height": "Height",
+    "head": "Head",
+    "age_months": "{{age}} months",
+    "percentile": "P{{percentile}}",
+    "current_size": "Current",
+    "next_size": "Next",
+    "days_until": "In about {{days}} days"
+  },
+  "item_card": {
+    "condition_new": "New",
+    "condition_like_new": "Like New",
+    "condition_used": "Used",
+    "gender_girl": "Girl",
+    "gender_boy": "Boy",
+    "gender_unisex": "Unisex",
+    "contact": "Contact",
+    "buy": "Buy",
+    "favorite": "Favorite",
+    "verified": "Verified"
+  },
+  "item_form": {
+    "new_listing": "New Listing",
+    "step_info": "Item Info",
+    "step_photos_price": "Photos & Price",
+    "title_label": "Item title",
+    "title_placeholder": "Ex: Floral romper size L",
+    "category_label": "Category",
+    "category_romper": "Romper",
+    "category_bodysuit": "Bodysuit",
+    "category_dress": "Dress",
+    "category_coat": "Coat",
+    "category_set": "Set",
+    "category_accessory": "Accessory",
+    "size_label": "Size",
+    "condition_label": "Condition",
+    "condition_new": "New",
+    "condition_like_new": "Like New",
+    "condition_used": "Used",
+    "gender_label": "Gender",
+    "gender_girl": "Girl",
+    "gender_boy": "Boy",
+    "gender_unisex": "Unisex",
+    "photos_label": "Photos",
+    "photo_drop_text": "Drag photos here",
+    "photo_drop_hint": "or click to select",
+    "photo_drop_aria": "Drop zone for photos",
+    "photo_alt": "Photo {{index}}",
+    "remove_photo": "Remove photo",
+    "price_label": "Price (R$)",
+    "description_label": "Description",
+    "description_placeholder": "Describe the item condition, brand, etc.",
+    "publish": "Publish"
+  },
+  "notification": {
+    "title": "Notifications",
+    "mark_all": "Mark all as read",
+    "empty": "No new notifications"
+  },
+  "profile": {
+    "title": "Profile",
+    "settings": "Settings",
+    "language": "Language",
+    "logout": "Log out",
+    "my_listings": "My Listings",
+    "favorites": "Favorites",
+    "purchases": "Purchases"
+  },
+  "common": {
+    "loading": "Loading...",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "of": "of",
+    "error": "Error",
+    "retry": "Retry"
+  }
+}

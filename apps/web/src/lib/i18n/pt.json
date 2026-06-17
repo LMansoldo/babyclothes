@@ -1,0 +1,159 @@
+{
+  "nav": {
+    "catalog": "Catálogo",
+    "chat": "Chat",
+    "child": "Filho",
+    "sell": "Vender",
+    "main_aria": "Navegação principal"
+  },
+  "topbar": {
+    "search_label": "Buscar",
+    "search_placeholder": "Buscar roupas...",
+    "search_aria": "Buscar roupas",
+    "publish": "Anunciar",
+    "notifications_aria": "Notificações",
+    "unread_aria": "notificações não lidas",
+    "profile_aria": "Perfil",
+    "login_google": "Entrar com Google",
+    "get_started": "Começar",
+    "aria_label": "Navegação principal",
+    "nav": {
+      "catalog": "Catálogo",
+      "chat_ai": "Chat IA",
+      "messages": "Mensagens",
+      "growth": "Crescimento",
+      "how_it_works": "Como Funciona"
+    }
+  },
+  "auth": {
+    "title": "Compre e venda roupas de bebê com inteligência",
+    "subtitle": "O marketplace que cresce com seu bebê",
+    "google": "Continuar com Google",
+    "terms": "Ao continuar, você concorda com nossos Termos de Serviço"
+  },
+  "catalog": {
+    "title": "Catálogo",
+    "all": "Todos",
+    "search": "Buscar roupas..."
+  },
+  "category_nav": {
+    "aria_label": "Categorias"
+  },
+  "chat": {
+    "title": "Assistente IA",
+    "placeholder": "Digite sua mensagem...",
+    "send": "Enviar mensagem"
+  },
+  "chat_header": {
+    "seller_online_verified": "online agora · vendedora verificada",
+    "reconnecting": "Reconectando",
+    "sse_live": "SSE ao vivo",
+    "reconnect": "Reconectar",
+    "more_options": "Mais opções"
+  },
+  "child": {
+    "title": "Meus Filhos",
+    "add": "Adicionar Filho",
+    "name": "Nome",
+    "birthdate": "Data de Nascimento",
+    "gender": "Gênero",
+    "weight": "Peso",
+    "height": "Altura",
+    "head": "Perímetro Cefálico",
+    "register": "Cadastrar Filho",
+    "no_children": "Nenhum filho cadastrado ainda",
+    "add_first": "Adicione seu primeiro filho para acompanhar o crescimento",
+    "detail_title": "Detalhes do Filho",
+    "growth_history": "Histórico de Crescimento",
+    "predictions": "Previsões de Tamanho",
+    "empty_description": "Adicione um filho para ver previsões de tamanho",
+    "growth_description": "Baseado no histórico de crescimento de {{name}}",
+    "view_catalog": "Ver catálogo",
+    "update_measurements": "Atualizar medidas",
+    "growth_prediction": "Previsão de crescimento",
+    "growth_detail": "Baseado no histórico de {{name}}, eles precisarão do tamanho {{size}} em breve.",
+    "history": "Histórico"
+  },
+  "child_selector": {
+    "add_child": "Adicionar filho"
+  },
+  "growth_chart": {
+    "weight": "Peso",
+    "height": "Altura",
+    "head": "Cabeça",
+    "age_months": "{{age}} meses",
+    "percentile": "P{{percentile}}",
+    "current_size": "Atual",
+    "next_size": "Próximo",
+    "days_until": "Em cerca de {{days}} dias"
+  },
+  "item_card": {
+    "condition_new": "Novo",
+    "condition_like_new": "Semi-novo",
+    "condition_used": "Usado",
+    "gender_girl": "Menina",
+    "gender_boy": "Menino",
+    "gender_unisex": "Unissex",
+    "contact": "Contato",
+    "buy": "Comprar",
+    "favorite": "Favoritar",
+    "verified": "Verificado"
+  },
+  "item_form": {
+    "new_listing": "Nova Peça",
+    "step_info": "Informações",
+    "step_photos_price": "Fotos e Preço",
+    "title_label": "Título da peça",
+    "title_placeholder": "Ex: Macacão floral tam. G",
+    "category_label": "Categoria",
+    "category_romper": "Macacão",
+    "category_bodysuit": "Body",
+    "category_dress": "Vestido",
+    "category_coat": "Casaco",
+    "category_set": "Conjunto",
+    "category_accessory": "Acessório",
+    "size_label": "Tamanho",
+    "condition_label": "Condição",
+    "condition_new": "Novo",
+    "condition_like_new": "Semi-novo",
+    "condition_used": "Usado",
+    "gender_label": "Gênero",
+    "gender_girl": "Menina",
+    "gender_boy": "Menino",
+    "gender_unisex": "Unissex",
+    "photos_label": "Fotos",
+    "photo_drop_text": "Arraste fotos aqui",
+    "photo_drop_hint": "ou clique para selecionar",
+    "photo_drop_aria": "Área para soltar fotos",
+    "photo_alt": "Foto {{index}}",
+    "remove_photo": "Remover foto",
+    "price_label": "Preço (R$)",
+    "description_label": "Descrição",
+    "description_placeholder": "Descreva o estado da peça, marca, etc.",
+    "publish": "Publicar"
+  },
+  "notification": {
+    "title": "Notificações",
+    "mark_all": "Marcar todas como lidas",
+    "empty": "Nenhuma notificação nova"
+  },
+  "profile": {
+    "title": "Perfil",
+    "settings": "Configurações",
+    "language": "Idioma",
+    "logout": "Sair",
+    "my_listings": "Minhas Peças",
+    "favorites": "Favoritos",
+    "purchases": "Compras"
+  },
+  "common": {
+    "loading": "Carregando...",
+    "back": "Voltar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "of": "de",
+    "error": "Erro",
+    "retry": "Tentar novamente"
+  }
+}

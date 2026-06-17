@@ -1,5 +1,5 @@
 <script lang="ts">
-  type Variant = 'default' | 'pk'
+  type Variant = 'default' | 'pk' | 'on-dark'
   type Size = 'sm' | 'md'
 
   let {
@@ -7,12 +7,14 @@
     selected = $bindable([]),
     variant = 'default',
     size = 'md',
+    label,
     onchange,
   }: {
     filters: Array<{ label: string; value: string; count?: number }>
     selected?: string[]
     variant?: Variant
     size?: Size
+    label?: string
     onchange?: (selected: string[]) => void
   } = $props()
 
@@ -28,6 +30,9 @@
 </script>
 
 <div class="filter-bar filter-bar--{variant} filter-bar--{size}" role="group">
+  {#if label}
+    <span class="filter-bar__label">{label}</span>
+  {/if}
   {#each filters as filter (filter.value)}
     <button
       class="filter-bar__chip"
@@ -153,5 +158,53 @@
   .filter-bar--pk .filter-bar__chip[data-selected] .filter-bar__count {
     background: rgba(255, 255, 255, 0.25);
     color: var(--color-white);
+  }
+
+  /* ── Label ────────────────────────────────────── */
+  .filter-bar__label {
+    font-family: var(--font-ui);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-black);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding-right: 4px;
+  }
+
+  /* ── Variant: on-dark ─────────────────────────── */
+  .filter-bar--on-dark .filter-bar__label {
+    color: var(--color-white);
+  }
+
+  .filter-bar--on-dark .filter-bar__chip {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: var(--color-white);
+  }
+
+  .filter-bar--on-dark .filter-bar__chip:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .filter-bar--on-dark .filter-bar__chip[data-selected] {
+    background: var(--color-white);
+    color: var(--color-black);
+    border-color: var(--color-white);
+  }
+
+  .filter-bar--on-dark .filter-bar__chip[data-selected]:hover {
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  .filter-bar--on-dark .filter-bar__count {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--color-white);
+  }
+
+  .filter-bar--on-dark .filter-bar__chip[data-selected] .filter-bar__count {
+    background: rgba(0, 0, 0, 0.12);
+    color: var(--color-black);
   }
 </style>
