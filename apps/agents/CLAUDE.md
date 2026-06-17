@@ -1,5 +1,7 @@
 # apps/agents — AI Growth Prediction Agent
 
+> **Before writing any code, read `RULES.md` at the project root.**
+
 ## Tech Stack
 
 - **TypeScript 5** (strict, ES2022 target)

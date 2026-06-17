@@ -1,5 +1,7 @@
 # BabyClothes Monorepo
 
+> **Before writing any code, read `RULES.md` at the project root.**
+
 C2C marketplace for buying/selling baby clothes with AI growth prediction.
 
 ## Monorepo Structure

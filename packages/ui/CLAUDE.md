@@ -1,5 +1,7 @@
 # packages/ui — Shared Component Library
 
+> **Before writing any code, read `RULES.md` at the project root.**
+
 ## Overview
 
 `@babyclothes/ui` — Svelte 5 component library consumed by `apps/web` as a workspace dependency.

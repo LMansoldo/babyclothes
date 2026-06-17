@@ -1,5 +1,7 @@
 # apps/web — SvelteKit Frontend
 
+> **Before writing any code, read `RULES.md` at the project root.**
+
 ## Tech Stack
 
 - **SvelteKit 2** with `@sveltejs/adapter-auto`

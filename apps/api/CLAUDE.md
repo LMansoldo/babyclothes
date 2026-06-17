@@ -1,5 +1,7 @@
 # apps/api — Elixir REST API
 
+> **Before writing any code, read `RULES.md` at the project root.**
+
 ## Tech Stack
 
 - **Elixir ~> 1.17** with **OTP**
