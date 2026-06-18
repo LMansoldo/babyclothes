@@ -1,78 +1,254 @@
 <script lang="ts">
   import { getContext } from 'svelte'
   import { page } from '$app/stores'
-  import { Button, Avatar, Badge } from '@babyclothes/ui'
+  import { Search, MessageSquare } from 'lucide-svelte'
   import type { Session } from '$lib/domain/auth/entities/Session'
 
+  interface Props {
+    variant?: 'catalog' | 'chat'
+  }
+
+  let { variant = 'catalog' }: Props = $props()
+
   const session = getContext<Session>('session')!
-  const unreadCount = getContext<number>('unreadCount') ?? 0
+  const currentPath = $derived($page.url.pathname)
 </script>
 
-<header class="topbar">
-  <a href="/catalog" class="topbar__logo">
-    <span class="topbar__logo-text">BabyClothes</span>
-  </a>
+<nav class="topnav">
+  <div class="topnav__inner">
+    <a href="/catalog" class="topnav__logo">BabyClothes</a>
 
-  <div class="topbar__actions">
-    <a href="/notifications" class="topbar__notification" aria-label="Notificações">
-      <span class="topbar__bell" aria-hidden="true">🔔</span>
-      {#if unreadCount > 0}
-        <Badge label={String(unreadCount)} variant="pk" size="sm" />
+    {#if variant === 'catalog'}
+      <div class="topnav__search">
+        <Search size={16} class="topnav__search-icon" />
+        <input
+          type="text"
+          placeholder="Busca"
+          class="topnav__search-input"
+          aria-label="Buscar produtos"
+        />
+      </div>
+    {:else}
+      <div class="topnav__tabs">
+        <a
+          href="/catalog"
+          class="topnav__tab"
+          class:topnav__tab--active={currentPath.startsWith('/catalog')}
+        >
+          Catalogo
+        </a>
+        <a
+          href="/chat"
+          class="topnav__tab"
+          class:topnav__tab--active={currentPath.startsWith('/chat')}
+        >
+          Mensagens
+        </a>
+        <a
+          href="/child"
+          class="topnav__tab"
+          class:topnav__tab--active={currentPath.startsWith('/child')}
+        >
+          Crescimento
+        </a>
+      </div>
+    {/if}
+
+    <div class="topnav__actions">
+      {#if variant === 'catalog'}
+        <a href="/chat" class="topnav__btn-ghost">
+          <MessageSquare size={16} />
+          Chat IA
+        </a>
+        <a href="/sell" class="topnav__btn-pink">+ Anunciar</a>
       {/if}
-    </a>
-
-    <a href="/profile" class="topbar__avatar">
-      <Avatar
-        name={session.name}
-        src={session.avatarUrl}
-        size="sm"
-      />
-    </a>
+      <a href="/profile" class="topnav__avatar">
+        {#if session.avatarUrl}
+          <img src={session.avatarUrl} alt={session.name} />
+        {:else}
+          <span class="topnav__avatar-fallback">{session.name?.charAt(0)?.toUpperCase()}</span>
+        {/if}
+      </a>
+    </div>
   </div>
-</header>
+</nav>
 
 <style>
-  .topbar {
-    position: sticky;
+  .topnav {
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 100;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--glass-brd);
+  }
+
+  .topnav__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 16px;
-    background: var(--color-white);
-    border-bottom: 1px solid var(--color-bg-2);
+    gap: 16px;
+    height: 100%;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
-  .topbar__logo {
+  .topnav__logo {
+    font-family: var(--ld);
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--bk);
     text-decoration: none;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
   }
 
-  .topbar__logo-text {
-    font-family: var(--font-serif);
-    font-size: 1.4rem;
+  /* ── Search bar (catalog variant) ── */
+  .topnav__search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-brd);
+    border-radius: 999px;
+    padding: 6px 14px;
+    transition: background 0.2s;
+  }
+
+  .topnav__search:focus-within {
+    background: rgba(255, 255, 255, 0.55);
+  }
+
+  :global(.topnav__search-icon) {
+    color: var(--gr);
+    flex-shrink: 0;
+  }
+
+  .topnav__search-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+    color: var(--bk);
+    width: 100%;
+  }
+
+  .topnav__search-input::placeholder {
+    color: var(--gr);
+  }
+
+  /* ── Center tabs (chat variant) ── */
+  .topnav__tabs {
+    display: flex;
+    gap: 4px;
+  }
+
+  .topnav__tab {
+    padding: 6px 14px;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: var(--color-pink);
+    color: var(--gr);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
   }
 
-  .topbar__actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  .topnav__tab:hover {
+    color: var(--bk);
   }
 
-  .topbar__notification {
-    position: relative;
+  .topnav__tab--active {
+    color: var(--pk);
+    border-bottom-color: var(--pk);
+  }
+
+  .topnav__tab--active:hover {
+    color: var(--pk);
+  }
+
+  /* ── Actions (right side) ── */
+  .topnav__actions {
     display: flex;
     align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .topnav__btn-ghost {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--bk);
+    text-decoration: none;
+    border: 1px solid var(--glass-line);
+    border-radius: var(--r-sm);
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .topnav__btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+  }
+
+  .topnav__btn-pink {
+    display: flex;
+    align-items: center;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--wh);
+    text-decoration: none;
+    background: var(--pk);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  .topnav__btn-pink:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Avatar ── */
+  .topnav__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-xs);
+    overflow: hidden;
+    flex-shrink: 0;
     text-decoration: none;
   }
 
-  .topbar__bell {
-    font-size: 1.2rem;
+  .topnav__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .topbar__avatar {
-    text-decoration: none;
+  .topnav__avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: var(--of2);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--gr);
   }
 </style>

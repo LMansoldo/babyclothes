@@ -5,10 +5,14 @@
   import { page } from '$app/stores'
   import TopBar from '$lib/presentation/shell/TopBar.svelte'
   import BottomNav from '$lib/presentation/shell/BottomNav.svelte'
+  import Footer from '$lib/presentation/components/Footer.svelte'
 
   let { data, children } = $props()
 
   const isLoginRoute = $derived($page.url.pathname === '/login')
+  const isChatRoute = $derived($page.url.pathname.startsWith('/chat'))
+  const topbarVariant = $derived(isChatRoute ? 'chat' : 'catalog')
+  const showFooter = $derived(!isLoginRoute && !isChatRoute)
 
   // Create a writable store for session so children can react to changes
   const sessionStore = writable(undefined)
@@ -17,16 +21,20 @@
   })
 
   setContext('session', sessionStore)
+  setContext('unreadCount', writable(0))
 </script>
 
 {#if isLoginRoute}
   {@render children()}
 {:else}
-  <div class="app-shell">
-    <TopBar />
+  <div class="app-shell" class:app-shell--chat={isChatRoute}>
+    <TopBar variant={topbarVariant} />
     <main class="app-main">
       {@render children()}
     </main>
+    {#if showFooter}
+      <Footer />
+    {/if}
     <BottomNav />
   </div>
 {/if}
@@ -38,8 +46,21 @@
     min-height: 100vh;
   }
 
+  .app-shell--chat {
+    height: 100vh;
+    overflow: hidden;
+  }
+
   .app-main {
     flex: 1;
-    padding-bottom: 64px; /* Space for BottomNav */
+    padding-top: 56px; /* Space for fixed TopBar */
+    padding-bottom: 0;
+  }
+
+  /* Mobile: add space for BottomNav */
+  @media (max-width: 768px) {
+    .app-main {
+      padding-bottom: 64px;
+    }
   }
 </style>

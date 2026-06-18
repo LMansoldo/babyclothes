@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Lato:wght@400;700;900&display=swap');
 @import url('@babyclothes/ui/tokens.css');
 
 *, *::before, *::after {
@@ -11,9 +12,45 @@ html {
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-black);
-  font-family: var(--font-body);
+  background: var(--of);
+  color: var(--bk);
+  font-family: var(--vd);
   font-size: 1.4rem;
   line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Ambient gradient blobs for glass refraction ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 600px at 15% 20%, rgba(255, 60, 172, 0.08), transparent),
+    radial-gradient(circle 500px at 80% 10%, rgba(244, 243, 240, 0.6), transparent),
+    radial-gradient(circle 400px at 50% 80%, rgba(255, 110, 199, 0.06), transparent),
+    radial-gradient(circle 700px at 90% 70%, rgba(255, 214, 238, 0.10), transparent);
+}
+
+/* ── Custom pink dot cursor ── */
+#cur {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: var(--pk);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s, transform 0.2s;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+
+#cur.grow {
+  width: 32px;
+  height: 32px;
 }

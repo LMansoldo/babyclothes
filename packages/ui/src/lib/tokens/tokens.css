@@ -44,4 +44,35 @@
   /* ── Transitions ──────────────────────────── */
   --transition-fast: 0.15s ease;
   --transition-base: 0.20s ease;
+
+  /* ── Short aliases (mockup compat) ────────── */
+  --bk:  var(--color-black);
+  --wh:  var(--color-white);
+  --of:  var(--color-bg);
+  --of2: var(--color-bg-2);
+  --of3: var(--color-bg-3);
+  --pk:  var(--color-pink);
+  --pk2: var(--color-pink-light);
+  --pk3: var(--color-pink-soft);
+  --gr:  var(--color-gray);
+  --gr2: var(--color-gray-2);
+
+  /* ── Font aliases ─────────────────────────── */
+  --ld: var(--font-ui);
+  --sr: var(--font-serif);
+  --vd: var(--font-body);
+
+  /* ── Radius aliases ───────────────────────── */
+  --r:    var(--radius-md);
+  --r-sm: var(--radius-sm);
+  --r-xs: 4px;
+
+  /* ── Liquid Glass ─────────────────────────── */
+  --glass:       rgba(255, 255, 255, 0.52);
+  --glass-hi:    rgba(255, 255, 255, 0.62);
+  --glass-brd:   rgba(255, 255, 255, 0.75);
+  --glass-line:  rgba(10, 10, 10, 0.06);
+  --glass-blur:  blur(24px) saturate(170%);
+  --glass-shadow: 0 8px 32px rgba(10, 10, 10, 0.07),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }

@@ -4,21 +4,17 @@
     content,
     timestamp,
   }: {
-    role: 'user' | 'agent'
+    role: 'user' | 'agent' | 'system'
     content: string
-    timestamp?: Date
+    timestamp?: string
   } = $props()
 
-  const isUser = $derived(role === 'user')
-
   const timeLabel = $derived(
-    timestamp
-      ? timestamp.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-      : ''
+    timestamp ?? ''
   )
 </script>
 
-<div class="chat-bubble" class:chat-bubble--user={isUser} class:chat-bubble--agent={!isUser}>
+<div class="chat-bubble" class:chat-bubble--user={role === 'user'} class:chat-bubble--agent={role === 'agent'} class:chat-bubble--system={role === 'system'}>
   <p class="chat-bubble__text">{content}</p>
   {#if timeLabel}
     <span class="chat-bubble__time">{timeLabel}</span>
@@ -27,28 +23,45 @@
 
 <style>
   .chat-bubble {
-    max-width: 80%;
-    padding: 12px 16px;
-    border-radius: 16px;
+    padding: 10px 14px;
     font-family: var(--vd);
-    font-size: 0.82rem;
-    line-height: 1.55;
+    font-size: 1.3rem;
+    line-height: 1.5;
     position: relative;
   }
 
-  .chat-bubble--user {
-    align-self: flex-end;
-    background: var(--pk);
-    color: var(--wh);
-    border-bottom-right-radius: 4px;
-  }
-
+  /* Agent bubble — glass */
   .chat-bubble--agent {
     align-self: flex-start;
-    background: var(--wh);
+    max-width: 80%;
+    background: var(--glass);
+    backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-brd);
+    border-radius: var(--r) var(--r) var(--r) var(--r-xs);
     color: var(--bk);
-    border-bottom-left-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* User bubble — dark */
+  .chat-bubble--user {
+    align-self: flex-end;
+    max-width: 80%;
+    background: rgba(10, 10, 10, 0.92);
+    color: rgba(255, 255, 255, 0.88);
+    border-radius: var(--r) var(--r) var(--r-xs) var(--r);
+    border: none;
+  }
+
+  /* System message — pink-tinted glass */
+  .chat-bubble--system {
+    align-self: center;
+    max-width: 90%;
+    background: rgba(255, 60, 172, 0.08);
+    border: 1px solid rgba(255, 60, 172, 0.2);
+    border-radius: var(--r);
+    color: var(--pk);
+    font-size: 1.2rem;
+    text-align: center;
   }
 
   .chat-bubble__text {
@@ -58,15 +71,9 @@
 
   .chat-bubble__time {
     display: block;
-    font-family: var(--sr);
-    font-style: italic;
-    font-size: 0.58rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 0.3rem;
+    font-size: 1rem;
+    color: var(--gr);
+    margin-top: 4px;
     text-align: right;
-  }
-
-  .chat-bubble--agent .chat-bubble__time {
-    color: rgba(0, 0, 0, 0.3);
   }
 </style>

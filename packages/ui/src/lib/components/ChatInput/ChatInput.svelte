@@ -113,12 +113,13 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: rgba(244, 243, 240, 0.82);
-    backdrop-filter: blur(28px) saturate(180%);
-    -webkit-backdrop-filter: blur(28px) saturate(180%);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-brd);
+    border-radius: var(--r);
     padding: 10px 12px;
+    box-shadow: var(--glass-shadow);
   }
 
   /* ── Quick action chips ───────────────────────── */
@@ -139,23 +140,24 @@
     display: inline-flex;
     align-items: center;
     padding: 5px 12px;
-    border: 1.5px solid var(--color-pink-light);
-    background: var(--color-pink-soft);
-    color: var(--color-pink);
-    font-family: var(--font-ui);
+    border: 1.5px solid rgba(255, 110, 199, 0.3);
+    background: rgba(255, 214, 238, 0.3);
+    color: var(--pk);
+    font-family: var(--ld);
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    border-radius: var(--radius-pill);
+    border-radius: 999px;
     cursor: pointer;
     white-space: nowrap;
-    transition: background var(--transition-base);
+    transition: all 0.15s;
     flex-shrink: 0;
   }
 
   .chat-input__chip:hover {
-    background: var(--color-pink-light);
+    background: rgba(255, 214, 238, 0.55);
+    border-color: var(--pk);
   }
 
   /* ── Input row ────────────────────────────────── */
@@ -169,26 +171,20 @@
     flex: 1;
     border: none;
     outline: none;
-    background: var(--color-white);
-    border-radius: var(--radius-md);
+    background: transparent;
+    border-radius: var(--r-sm);
     padding: 8px 12px;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    color: var(--color-black);
+    font-family: var(--ld);
+    font-size: 0.85rem;
+    color: var(--bk);
     resize: none;
     min-height: 36px;
     max-height: 120px;
     line-height: 1.4;
-    border: 1px solid rgba(0, 0, 0, 0.08);
   }
 
   .chat-input__textarea::placeholder {
-    color: var(--color-gray-2);
-  }
-
-  .chat-input__textarea:focus {
-    border-color: var(--color-pink);
-    box-shadow: 0 0 0 2px rgba(255, 60, 172, 0.1);
+    color: var(--gr);
   }
 
   /* ── Add button ───────────────────────────────── */
@@ -196,20 +192,23 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border: 1.5px solid rgba(0, 0, 0, 0.12);
-    background: var(--color-white);
-    color: var(--color-gray);
+    border: 1px solid var(--glass-brd);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--gr);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: border-color var(--transition-base), color var(--transition-base);
+    transition: all 0.15s;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   .chat-input__add-btn:hover {
-    border-color: var(--color-pink);
-    color: var(--color-pink);
+    border-color: var(--pk);
+    color: var(--pk);
   }
 
   /* ── Send button ──────────────────────────────── */
@@ -218,19 +217,19 @@
     height: 36px;
     border-radius: 50%;
     border: none;
-    background: var(--color-pink);
-    color: var(--color-white);
+    background: var(--pk);
+    color: var(--wh);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     flex-shrink: 0;
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    transition: transform 0.15s, box-shadow 0.15s;
   }
 
   .chat-input__send:hover:not(:disabled) {
     transform: scale(1.05);
-    box-shadow: var(--shadow-pk);
+    box-shadow: 0 4px 16px rgba(255, 60, 172, 0.3);
   }
 
   .chat-input__send:disabled {
@@ -252,7 +251,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--color-gray);
+    background: var(--gr);
     animation: chat-dot 1.2s ease-in-out infinite;
   }
 

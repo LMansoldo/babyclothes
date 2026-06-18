@@ -46,13 +46,13 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "svelte": "./dist/index.js"
+      "types": "./src/lib/index.ts",
+      "svelte": "./src/lib/index.ts"
     },
     "./tokens.css": "./src/lib/tokens/tokens.css"
   },
-  "svelte": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "svelte": "./src/lib/index.ts",
+  "types": "./src/lib/index.ts",
   "files": [
     "dist",
     "src/lib/tokens"

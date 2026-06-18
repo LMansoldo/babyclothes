@@ -1,191 +1,180 @@
 <script lang="ts">
-  import { RefreshCw, MoreHorizontal, Wifi, WifiOff } from 'lucide-svelte'
-  import { t } from '$lib/i18n'
+  import { Baby, MoreHorizontal } from 'lucide-svelte'
 
   let {
-    variant = 'agent',
-    name,
-    subtitle,
-    chatState = 'idle',
-    avatarGradient,
+    title = 'Agente BabyClothes',
+    subtitle = 'assistente de descoberta e crescimento',
     childContext,
-    onRetry,
     onMore,
   }: {
-    variant?: 'agent' | 'seller'
-    name: string
+    title?: string
     subtitle?: string
-    chatState?: 'idle' | 'streaming' | 'error'
-    avatarGradient?: string
     childContext?: string
-    onRetry?: () => void
     onMore?: () => void
   } = $props()
-
-  const resolvedSubtitle = $derived(
-    subtitle ?? $t('chat_header.seller_online_verified')
-  )
-
-  const stateLabel = $derived(
-    chatState === 'streaming'
-      ? $t('chat_header.sse_live')
-      : chatState === 'error'
-        ? $t('chat_header.reconnecting')
-        : ''
-  )
 </script>
 
-<header class="chatheader">
-  <div class="chatheader__left">
-    <div
-      class="chatheader__avatar"
-      style={avatarGradient ? `background: ${avatarGradient}` : ''}
-    >
-      <span class="chatheader__avatar-icon">
-        {#if variant === 'agent'}
-          <Wifi size={16} strokeWidth={2} />
-        {:else}
-          <WifiOff size={16} strokeWidth={2} />
-        {/if}
-      </span>
+<header class="header">
+  <div class="header__left">
+    <div class="header__avatar">
+      <span class="header__avatar-dot"></span>
     </div>
-
-    <div class="chatheader__info">
-      <span class="chatheader__name">{name}</span>
-      <span class="chatheader__subtitle">
-        {resolvedSubtitle}
-        {#if childContext}
-          <span class="chatheader__child">· {childContext}</span>
-        {/if}
-      </span>
+    <div class="header__info">
+      <span class="header__name">{title}</span>
+      <div class="header__sub">
+        <span class="header__subtitle">{subtitle}</span>
+        <span class="header__live-pill">
+          <span class="header__live-dot"></span>
+          SSE ao vivo
+        </span>
+      </div>
     </div>
   </div>
 
-  <div class="chatheader__right">
-    {#if chatState !== 'idle'}
-      <span class="chatheader__state" class:chatheader__state--error={chatState === 'error'}>
-        {stateLabel}
-      </span>
-    {/if}
-
-    {#if chatState === 'error' && onRetry}
-      <button
-        class="chatheader__btn"
-        onclick={onRetry}
-        aria-label={$t('chat_header.reconnect')}
-      >
-        <RefreshCw size={14} strokeWidth={2} />
+  <div class="header__actions">
+    {#if childContext}
+      <button class="header__btn" aria-label="Contexto da crian&ccedil;a">
+        <Baby size={14} strokeWidth={2} />
+        <span>{childContext}</span>
       </button>
     {/if}
-
-    {#if onMore}
-      <button
-        class="chatheader__btn"
-        onclick={onMore}
-        aria-label={$t('chat_header.more_options')}
-      >
-        <MoreHorizontal size={16} strokeWidth={2} />
-      </button>
-    {/if}
+    <button class="header__btn" onclick={onMore} aria-label="Mais op&ccedil;&otilde;es">
+      <MoreHorizontal size={14} strokeWidth={2} />
+    </button>
   </div>
 </header>
 
 <style>
-  .chatheader {
+  .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1rem;
-    background: var(--wh);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 0.8rem 5vw;
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--glass-brd);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
     flex-shrink: 0;
   }
 
-  .chatheader__left {
+  .header__left {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.85rem;
   }
 
-  .chatheader__avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--pk), #7b2ff7);
+  /* ── Avatar ── */
+  .header__avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--r);
+    background: var(--bk);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(10, 10, 10, 0.25);
   }
 
-  .chatheader__avatar-icon {
-    color: var(--wh);
-    display: flex;
+  .header__avatar-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    background: var(--pk);
   }
 
-  .chatheader__info {
+  /* ── Info ── */
+  .header__info {
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    gap: 0.05rem;
   }
 
-  .chatheader__name {
+  .header__name {
     font-family: var(--ld);
-    font-size: 0.85rem;
     font-weight: 900;
+    font-size: 0.88rem;
     color: var(--bk);
+    letter-spacing: -0.01em;
+    line-height: 1.2;
   }
 
-  .chatheader__subtitle {
+  .header__sub {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .header__subtitle {
     font-family: var(--sr);
     font-style: italic;
     font-size: 0.72rem;
     color: var(--gr);
   }
 
-  .chatheader__child {
-    color: var(--pk);
-    font-weight: 600;
+  /* ── Live pill ── */
+  .header__live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.28rem;
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: var(--r-xs);
+    padding: 0.08rem 0.4rem;
+    font-family: var(--ld);
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #16A34A;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  .chatheader__right {
+  .header__live-dot {
+    width: 5px;
+    height: 5px;
+    background: #22C55E;
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  /* ── Actions ── */
+  .header__actions {
     display: flex;
     align-items: center;
     gap: 0.4rem;
   }
 
-  .chatheader__state {
+  .header__btn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 32px;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    padding: 0 0.7rem;
+    cursor: pointer;
+    transition: all 0.15s;
     font-family: var(--ld);
     font-size: 0.6rem;
     font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #22c55e;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
+    letter-spacing: 0.04em;
+    color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
-  .chatheader__state--error {
-    color: #ef4444;
-  }
-
-  .chatheader__btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: none;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+  .header__btn:hover {
+    background: rgba(255, 255, 255, 0.7);
     color: var(--bk);
-    transition: all 0.15s;
-  }
-
-  .chatheader__btn:hover {
-    background: var(--of2);
-    border-color: rgba(0, 0, 0, 0.18);
   }
 </style>

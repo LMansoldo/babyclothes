@@ -1,11 +1,12 @@
 <script lang="ts">
   import { page } from '$app/stores'
+  import { Home, MessageSquare, Baby, Plus } from 'lucide-svelte'
 
   const tabs = [
-    { href: '/catalog', label: 'Catálogo', icon: '🏠' },
-    { href: '/chat', label: 'Chat', icon: '💬' },
-    { href: '/child', label: 'Filho', icon: '👶' },
-    { href: '/sell', label: 'Vender', icon: '➕' },
+    { href: '/catalog', label: 'Catálogo', icon: Home },
+    { href: '/chat', label: 'Chat', icon: MessageSquare },
+    { href: '/child', label: 'Filho', icon: Baby },
+    { href: '/sell', label: 'Vender', icon: Plus },
   ]
 
   const currentPath = $derived($page.url.pathname)
@@ -24,7 +25,9 @@
       aria-current={isActive(tab.href) ? 'page' : undefined}
       aria-label={tab.label}
     >
-      <span class="bottomnav__icon">{tab.icon}</span>
+      <span class="bottomnav__icon">
+        <tab.icon size={20} strokeWidth={1.75} />
+      </span>
       <span class="bottomnav__label">{tab.label}</span>
     </a>
   {/each}
@@ -38,12 +41,19 @@
     right: 0;
     z-index: 100;
     display: flex;
-    align-items: center;
     justify-content: space-around;
-    padding: 8px 0;
+    padding: 10px 0;
     padding-bottom: env(safe-area-inset-bottom);
-    background: var(--color-white);
-    border-top: 1px solid var(--color-bg-2);
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-top: 1px solid var(--glass-brd);
+  }
+
+  @media (min-width: 769px) {
+    .bottomnav {
+      display: none;
+    }
   }
 
   .bottomnav__tab {
@@ -52,16 +62,20 @@
     align-items: center;
     gap: 2px;
     text-decoration: none;
-    color: var(--color-gray);
-    transition: color var(--transition-fast);
+    color: var(--gr);
+    font-size: 1rem;
+    transition: color 0.15s ease;
   }
 
   .bottomnav__tab--active {
-    color: var(--color-pink);
+    color: var(--pk);
   }
 
   .bottomnav__icon {
-    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
   }
 
   .bottomnav__label {

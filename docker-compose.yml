@@ -45,7 +45,7 @@ services:
     environment:
       INTERNAL_API_URL: http://api:4000
     volumes:
-      - ./apps/agents:/app
+      - ./apps/agents:/app/apps/agents
       - ./proto:/proto
     depends_on:
       - api
@@ -60,8 +60,8 @@ services:
     environment:
       PUBLIC_API_URL: http://localhost:4000
     volumes:
-      - ./apps/web:/app
-      - ./packages:/packages
+      - ./apps/web:/app/apps/web
+      - ./packages/ui:/app/packages/ui
     depends_on:
       - api
 

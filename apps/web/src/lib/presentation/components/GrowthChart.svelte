@@ -105,13 +105,16 @@
 
 <style>
   .growthchart {
-    background: var(--wh);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 16px;
+    background: var(--glass);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-brd);
+    border-radius: var(--r);
     padding: 1.2rem;
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
+    box-shadow: var(--glass-shadow);
   }
 
   .growthchart--full {
@@ -163,7 +166,10 @@
     font-size: 1.3rem;
     font-weight: 900;
     color: var(--bk);
-    background: var(--of2);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-brd);
     border-radius: 10px;
     padding: 0.3rem 0.7rem;
     min-width: 40px;
@@ -198,7 +204,7 @@
   .growthchart__progress-bar {
     flex: 1;
     height: 6px;
-    background: var(--of2);
+    background: rgba(0, 0, 0, 0.06);
     border-radius: 3px;
     overflow: hidden;
   }
@@ -230,8 +236,8 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--of2);
-    border: 2px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--glass-brd);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -304,12 +310,14 @@
   }
 
   .growthchart__btn--ghost {
-    background: var(--of2);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     color: var(--bk);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--glass-brd);
   }
 
   .growthchart__btn--ghost:hover {
-    background: var(--of3);
+    background: rgba(255, 255, 255, 0.65);
   }
 </style>
