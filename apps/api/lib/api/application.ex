@@ -7,6 +7,8 @@ defmodule Api.Application do
 
     children = [
       Api.Repo,
+      {Oban, Application.fetch_env!(:api, Oban)},
+      {Finch, name: Api.Finch},
       {Bandit, plug: Api.Router, port: port}
     ]
 

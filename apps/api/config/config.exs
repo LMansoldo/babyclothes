@@ -1,5 +1,7 @@
 import Config
 
+config :api, ecto_repos: [Api.Repo]
+
 config :api, Api.Repo,
   database: "babyclothes_dev",
   username: "babyclothes",
