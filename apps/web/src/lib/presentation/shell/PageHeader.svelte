@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+  import { ArrowLeft } from 'lucide-svelte'
+  import { t } from '$lib/i18n'
 
   let {
     title,
@@ -25,8 +27,8 @@
 <header class="page-header">
   <div class="page-header__left">
     {#if showBack}
-      <button class="page-header__back" type="button" onclick={handleBack} aria-label="Voltar">
-        ←
+      <button class="page-header__back" type="button" onclick={handleBack} aria-label={$t('common.back')}>
+        <ArrowLeft size={18} />
       </button>
     {/if}
     <h1 class="page-header__title">{title}</h1>
@@ -44,22 +46,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
+    padding: 1.6rem;
     background: var(--color-white);
   }
 
   .page-header__left {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 1.2rem;
   }
 
   .page-header__back {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 3.2rem;
+    height: 3.2rem;
     border: none;
     background: transparent;
     font-size: 1.2rem;
@@ -74,8 +76,8 @@
   }
 
   .page-header__back:focus-visible {
-    outline: 2px solid var(--color-pink);
-    outline-offset: 2px;
+    outline: 0.2rem solid var(--color-pink);
+    outline-offset: 0.2rem;
   }
 
   .page-header__title {
@@ -88,6 +90,6 @@
   .page-header__actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.8rem;
   }
 </style>

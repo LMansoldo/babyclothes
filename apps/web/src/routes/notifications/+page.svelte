@@ -1,28 +1,60 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { t } from '$lib/i18n'
+  import { HttpNotificationRepository } from '$lib/infrastructure/http/HttpNotificationRepository'
+  import type { Notification } from '$lib/domain/notification/entities/Notification'
+  import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockNotifications } from '$lib/mocks/data'
   import { Bell, Check } from 'lucide-svelte'
 
-  let notifications = $state([...mockNotifications])
+  const notifRepo = new HttpNotificationRepository()
+
+  const mockMode = PUBLIC_MOCK_DATA === 'true'
+
+  let notifications = $state<Notification[]>([])
+  let loading = $state(true)
+
+  onMount(async () => {
+    try {
+      if (mockMode) {
+        notifications = [...mockNotifications]
+      } else {
+        notifications = await notifRepo.findAll()
+      }
+    } catch (e) {
+      console.error('Failed to load notifications:', e)
+    } finally {
+      loading = false
+    }
+  })
 
   const unreadCount = $derived(notifications.filter((n) => !n.isRead()).length)
 
-  function handleMarkAllRead() {
+  async function handleMarkAllRead() {
+    const unread = notifications.filter((n) => !n.isRead())
     notifications = notifications.map((n) => {
       if (!n.isRead()) {
         return { ...n, readAt: new Date() }
       }
       return n
     })
+    if (!mockMode) await Promise.allSettled(unread.map((n) => notifRepo.markAsRead(n.id)))
   }
 
-  function handleItemClick(id: string) {
+  async function handleItemClick(id: string) {
+    const target = notifications.find((n) => n.id === id)
+    if (target?.isRead()) return
     notifications = notifications.map((n) => {
       if (n.id === id && !n.isRead()) {
         return { ...n, readAt: new Date() }
       }
       return n
     })
+    try {
+      await notifRepo.markAsRead(id)
+    } catch (e) {
+      console.error('Failed to mark notification read:', e)
+    }
   }
 
   function timeAgo(date?: Date): string {
@@ -105,7 +137,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.07);
   }
 
   .notifs-page__title {
@@ -147,7 +179,7 @@
     align-items: flex-start;
     gap: 0.75rem;
     padding: 0.85rem 1.1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: background 0.15s;
     position: relative;
@@ -175,14 +207,14 @@
     left: 0;
     top: 0;
     bottom: 0;
-    width: 3px;
+    width: 0.3rem;
     background: var(--pk);
-    border-radius: 0 2px 2px 0;
+    border-radius: 0 0.2rem 0.2rem 0;
   }
 
   .notifs__icon {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
     flex-shrink: 0;
     display: flex;
@@ -191,8 +223,8 @@
   }
 
   .notifs__icon-dot {
-    width: 14px;
-    height: 14px;
+    width: 1.4rem;
+    height: 1.4rem;
     border-radius: 50%;
   }
 
@@ -259,8 +291,8 @@
   }
 
   .notifs-page__empty-icon {
-    width: 56px;
-    height: 56px;
+    width: 5.6rem;
+    height: 5.6rem;
     border-radius: 50%;
     background: var(--of2);
     display: flex;

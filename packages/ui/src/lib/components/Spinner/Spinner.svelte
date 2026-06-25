@@ -27,21 +27,21 @@
   }
 
   .spinner--sm {
-    width: 16px;
-    height: 16px;
-    border-width: 2px;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-width: 0.2rem;
   }
 
   .spinner--md {
-    width: 28px;
-    height: 28px;
-    border-width: 3px;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-width: 0.3rem;
   }
 
   .spinner--lg {
-    width: 44px;
-    height: 44px;
-    border-width: 4px;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-width: 0.4rem;
   }
 
   .spinner--default {

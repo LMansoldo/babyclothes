@@ -93,7 +93,7 @@
   .input-field {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.5rem;
     width: 100%;
   }
 
@@ -110,7 +110,7 @@
     display: flex;
     align-items: center;
     background: var(--color-white);
-    border: 1.5px solid rgba(0, 0, 0, .12);
+    border: 0.15rem solid rgba(0, 0, 0, .12);
     border-radius: var(--radius-md);
     overflow: hidden;
     transition: border-color var(--transition-base), box-shadow var(--transition-base);
@@ -118,7 +118,7 @@
 
   .input-wrapper:focus-within {
     border-color: var(--color-pink);
-    box-shadow: 0 0 0 3px rgba(255, 60, 172, .12);
+    box-shadow: 0 0 0 0.3rem rgba(255, 60, 172, .12);
   }
 
   .input-wrapper--error {
@@ -127,7 +127,7 @@
 
   .input-wrapper--error:focus-within {
     border-color: var(--color-error);
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, .12);
+    box-shadow: 0 0 0 0.3rem rgba(220, 38, 38, .12);
   }
 
   .input-wrapper--success {
@@ -136,7 +136,7 @@
 
   .input-wrapper--success:focus-within {
     border-color: var(--color-success);
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, .12);
+    box-shadow: 0 0 0 0.3rem rgba(22, 163, 74, .12);
   }
 
   .input-el {
@@ -144,7 +144,7 @@
     border: none;
     outline: none;
     background: transparent;
-    padding: 10px 12px;
+    padding: 1rem 1.2rem;
     font-family: var(--font-body);
     font-size: .875rem;
     color: var(--color-black);
@@ -156,7 +156,7 @@
   }
 
   .input-prefix {
-    padding: 0 10px 0 12px;
+    padding: 0 1rem 0 1.2rem;
     font-family: var(--font-ui);
     font-size: .82rem;
     font-weight: 700;
@@ -165,10 +165,10 @@
   }
 
   .input-suffix-btn {
-    padding: 0 12px;
+    padding: 0 1.2rem;
     height: 100%;
     border: none;
-    border-left: 1.5px solid rgba(0, 0, 0, .08);
+    border-left: 0.15rem solid rgba(0, 0, 0, .08);
     background: var(--color-bg-2);
     color: var(--color-black);
     font-family: var(--font-ui);

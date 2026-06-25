@@ -112,13 +112,13 @@
     background: var(--color-white);
     border-radius: var(--radius-md);
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 0.1rem solid rgba(0, 0, 0, 0.06);
     transition: box-shadow var(--transition-base), transform 0.2s;
   }
 
   .item-card:hover {
     box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+    transform: translateY(-0.2rem);
   }
 
   .item-card__main {
@@ -146,10 +146,10 @@
 
   .item-card__fav {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    width: 32px;
-    height: 32px;
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.9);
     border: none;
@@ -159,7 +159,7 @@
     justify-content: center;
     color: var(--gr);
     transition: all 0.15s;
-    backdrop-filter: blur(4px);
+    backdrop-filter: blur(0.4rem);
   }
 
   .item-card__fav:hover {
@@ -170,8 +170,8 @@
   .item-card__info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    padding: 12px;
+    gap: 0.4rem;
+    padding: 1.2rem;
   }
 
   .item-card__title {
@@ -196,16 +196,16 @@
 
   .item-card__badges {
     display: flex;
-    gap: 6px;
-    margin-top: 4px;
+    gap: 0.6rem;
+    margin-top: 0.4rem;
   }
 
   .item-card__seller {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.5rem 12px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0.5rem 1.2rem;
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.05);
     background: none;
     border-left: none;
     border-right: none;
@@ -219,8 +219,8 @@
   }
 
   .item-card__seller-avatar {
-    width: 22px;
-    height: 22px;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--pk), #7b2ff7);
     display: flex;
@@ -253,7 +253,7 @@
   .item-card__actions {
     display: flex;
     gap: 0.5rem;
-    padding: 0.6rem 12px 12px;
+    padding: 0.6rem 1.2rem 1.2rem;
   }
 
   .item-card__action {
@@ -263,7 +263,7 @@
     justify-content: center;
     gap: 0.3rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 0.8rem;
     padding: 0.5rem 0.75rem;
     font-family: var(--ld);
     font-size: 0.7rem;
@@ -275,7 +275,7 @@
   .item-card__action--ghost {
     background: var(--of2);
     color: var(--bk);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 0.1rem solid rgba(0, 0, 0, 0.08);
   }
 
   .item-card__action--ghost:hover {

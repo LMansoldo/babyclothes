@@ -1,42 +1,21 @@
-import * as grpc from '@grpc/grpc-js'
-import * as protoLoader from '@grpc/proto-loader'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { startServer } from './server.js';
+import { startHttpServer } from './http-server.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const PROTO_PATH = path.resolve(__dirname, '../../../proto/agent.proto')
+const GRPC_PORT = parseInt(process.env.GRPC_PORT || '50051', 10);
+const HTTP_PORT = parseInt(process.env.HTTP_PORT || '50052', 10);
 
-const packageDef = protoLoader.loadSync(PROTO_PATH, {
-  keepCase: true,
-  longs: String,
-  enums: String,
-  defaults: true,
-  oneofs: true,
-})
+console.log('Starting agents service...');
+const grpcServer = startServer(GRPC_PORT);
+const httpServer = startHttpServer(HTTP_PORT);
 
-const proto = grpc.loadPackageDefinition(packageDef) as any
-const AgentService = proto.agent.AgentService
+// Graceful shutdown
+function shutdown() {
+  console.log('Shutting down...');
+  httpServer.close();
+  grpcServer.tryShutdown(() => {
+    process.exit(0);
+  });
+}
 
-const server = new grpc.Server()
-
-server.addService(AgentService.service, {
-  Chat: (call: grpc.ServerWritableStream<any, any>) => {
-    call.write({ type: 'text', content: 'stub response' })
-    call.end()
-  },
-  PredictGrowth: (
-    call: grpc.ServerUnaryCall<any, any>,
-    callback: grpc.sendUnaryData<any>,
-  ) => {
-    callback(null, { next_size: 'M', days_until: 30 })
-  },
-})
-
-const port = process.env.GRPC_PORT ?? '50051'
-server.bindAsync(`0.0.0.0:${port}`, grpc.ServerCredentials.createInsecure(), (err) => {
-  if (err) {
-    console.error('Failed to bind gRPC server:', err)
-    process.exit(1)
-  }
-  console.log(`gRPC server listening on port ${port}`)
-})
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);

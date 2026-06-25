@@ -1,8 +1,18 @@
 <script lang="ts">
-  import { t } from '$lib/i18n'
+  import { onMount } from 'svelte'
+  import { t, get } from '$lib/i18n'
+  import { HttpCatalogRepository } from '$lib/infrastructure/http/HttpCatalogRepository'
+  import type { Item } from '$lib/domain/item/entities/Item'
+  import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockItems } from '$lib/mocks/data'
   import { Card } from '@babyclothes/ui'
   import CategoryTabNav from '$lib/presentation/components/CategoryTabNav.svelte'
+  import EmptyState from '$lib/presentation/components/EmptyState.svelte'
+  import { RefreshCw, AlertCircle } from 'lucide-svelte'
+
+  const catalogRepo = new HttpCatalogRepository()
+
+  const mockMode = PUBLIC_MOCK_DATA === 'true'
 
   const categories = [
     'Destaques', 'Recem-nascido', 'Macacoes', 'Bodies',
@@ -33,16 +43,35 @@
     { label: '3', active: false },
   ]
 
-  const aiItems = mockItems.filter((i) => i.clothingSize === 'G').slice(0, 5)
-  const trendingItems = mockItems.slice(0, 5)
-  const newbornItems = mockItems.filter((i) => i.clothingSize === 'RN' || i.clothingSize === 'P').slice(0, 6)
-  const romperItems = mockItems.filter((i) => i.category === 'romper').slice(0, 5)
-  const budgetItems = mockItems.filter((i) => i.priceCents < 5000).slice(0, 6)
+  let allItems = $state<Item[]>([])
+  let loading = $state(true)
+  let error = $state<string | null>(null)
+
+  const aiItems = $derived(allItems.filter((item) => item.clothingSize === 'G').slice(0, 5))
+  const trendingItems = $derived(allItems.slice(0, 5))
+  const newbornItems = $derived(allItems.filter((item) => item.clothingSize === 'RN' || item.clothingSize === 'P').slice(0, 6))
+  const romperItems = $derived(allItems.filter((item) => item.category === 'romper').slice(0, 5))
+  const budgetItems = $derived(allItems.filter((item) => item.priceCents < 5000).slice(0, 6))
+
+  async function fetchCatalog() {
+    loading = true
+    error = null
+    try {
+      allItems = mockMode ? [...mockItems] : await catalogRepo.fetch({})
+    } catch (e) {
+      error = e instanceof Error ? e.message : 'Failed to load catalog'
+    } finally {
+      loading = false
+    }
+  }
+
+  onMount(fetchCatalog)
 
   function conditionLabel(c: string) {
-    if (c === 'new') return 'Novo'
-    if (c === 'like_new') return 'Seminovo'
-    return 'Usado'
+    const translate = get(t)
+    if (c === 'new') return translate('item_card.condition_new')
+    if (c === 'like_new') return translate('item_card.condition_like_new')
+    return translate('item_card.condition_used')
   }
 
   function conditionClass(c: string) {
@@ -55,15 +84,15 @@
     return `R$ ${(cents / 100).toFixed(0)}`
   }
 
-  let activeFilters = $state(filters.map((f) => f.active))
-  let activeSizes = $state(sizes.map((s) => s.active))
+  let activeFilters = $state(filters.map((filter) => filter.active))
+  let activeSizes = $state(sizes.map((size) => size.active))
 
-  function toggleFilter(i: number) {
-    activeFilters[i] = !activeFilters[i]
+  function toggleFilter(index: number) {
+    activeFilters[index] = !activeFilters[index]
   }
 
-  function toggleSize(i: number) {
-    activeSizes[i] = !activeSizes[i]
+  function toggleSize(index: number) {
+    activeSizes[index] = !activeSizes[index]
   }
 </script>
 
@@ -96,6 +125,31 @@
 
   <!-- Content -->
   <div class="content">
+    {#if loading}
+      <div class="catalog-loading">
+        <p>{$t('catalog.loading') ?? 'Loading catalog...'}</p>
+      </div>
+    {:else if error}
+      <div class="catalog-status catalog-status--error">
+        <div class="catalog-status__icon">
+          <AlertCircle size={32} />
+        </div>
+        <h2 class="catalog-status__title">{$t('catalog.error_title')}</h2>
+        <p class="catalog-status__desc">{$t('catalog.error_description')}</p>
+        <button class="catalog-status__btn" onclick={fetchCatalog}>
+          <RefreshCw size={14} />
+          {$t('catalog.error_retry')}
+        </button>
+      </div>
+    {:else if allItems.length === 0}
+      <EmptyState
+        variant="centered"
+        title={$t('catalog.empty_title')}
+        description={$t('catalog.empty_description')}
+        accent="pink"
+        action={{ label: $t('catalog.error_retry'), variant: 'pk', onclick: fetchCatalog }}
+      />
+    {:else}
     <!-- Size Row -->
     <div class="size-row">
       <span class="sz-lbl">Tamanho</span>
@@ -115,16 +169,16 @@
     <div class="cat-row">
       <div class="cat-row-hdr">
         <div class="cat-row-title">
-          <span class="eyebrow">Agente de crescimento</span> — Preparando para tam. G
+          <span class="eyebrow">{$t('catalog.section_ai_eyebrow')}</span> — {$t('catalog.section_ai_detail')}
         </div>
-        <a href="/chat" class="cat-row-see">Perguntar ao agente</a>
+        <a href="/chat" class="cat-row-see">{$t('catalog.ask_agent')}</a>
       </div>
       <div class="row-track">
         {#each aiItems as item (item.id)}
           <Card
             image={item.photoUrls[0] ?? ''}
             title={item.title}
-            detail={`Tam. ${item.clothingSize} · ${item.gender === 'female' ? 'menina' : item.gender === 'male' ? 'menino' : 'unissex'}`}
+            detail={`Tam. ${item.clothingSize} · ${item.gender === 'female' ? $t('item_card.gender_girl') : item.gender === 'male' ? $t('item_card.gender_boy') : $t('item_card.gender_unisex')}`}
             price={formatPrice(item.priceCents)}
             condition={conditionLabel(item.condition)}
             badge="IA"
@@ -138,20 +192,20 @@
     <!-- Row 2: Trending -->
     <div class="cat-row">
       <div class="cat-row-hdr">
-        <div class="cat-row-title">Em alta esta semana</div>
-        <a href="#" class="cat-row-see">Ver todos</a>
+        <div class="cat-row-title">{$t('catalog.section_trending')}</div>
+        <a href="#" class="cat-row-see">{$t('catalog.view_all')}</a>
       </div>
       <div class="row-track">
-        {#each trendingItems as item, idx (item.id)}
+        {#each trendingItems as item, index (item.id)}
           <Card
             image={item.photoUrls[0] ?? ''}
             title={item.title}
             detail={`Tam. ${item.clothingSize} · ${item.category}`}
             price={formatPrice(item.priceCents)}
-            oldPrice={idx === 0 ? formatPrice(item.priceCents + 6000) : undefined}
+            oldPrice={index === 0 ? formatPrice(item.priceCents + 6000) : undefined}
             condition={conditionLabel(item.condition)}
-            size={idx === 0 ? 'featured' : 'md'}
-            pinkPrice={idx === 0}
+            size={index === 0 ? 'featured' : 'md'}
+            pinkPrice={index === 0}
             onAdd={() => console.log('View item:', item.id)}
           />
         {/each}
@@ -161,15 +215,15 @@
     <!-- Row 3: Newborn -->
     <div class="cat-row">
       <div class="cat-row-hdr">
-        <div class="cat-row-title">Recem-nascido · RN</div>
-        <a href="#" class="cat-row-see">Ver categoria</a>
+        <div class="cat-row-title">{$t('catalog.section_newborn')}</div>
+        <a href="#" class="cat-row-see">{$t('catalog.view_category')}</a>
       </div>
       <div class="row-track">
         {#each newbornItems as item (item.id)}
           <Card
             image={item.photoUrls[0] ?? ''}
             title={item.title}
-            detail={`${item.clothingSize} · ${item.gender === 'female' ? 'menina' : item.gender === 'male' ? 'menino' : 'unissex'}`}
+            detail={`${item.clothingSize} · ${item.gender === 'female' ? $t('item_card.gender_girl') : item.gender === 'male' ? $t('item_card.gender_boy') : $t('item_card.gender_unisex')}`}
             price={formatPrice(item.priceCents)}
             condition={conditionLabel(item.condition)}
             size="sm"
@@ -182,15 +236,15 @@
     <!-- Row 4: Rompers -->
     <div class="cat-row">
       <div class="cat-row-hdr">
-        <div class="cat-row-title">Macacoes · todos os tamanhos</div>
-        <a href="#" class="cat-row-see">Ver categoria</a>
+        <div class="cat-row-title">{$t('catalog.section_rompers')}</div>
+        <a href="#" class="cat-row-see">{$t('catalog.view_category')}</a>
       </div>
       <div class="row-track">
         {#each romperItems as item (item.id)}
           <Card
             image={item.photoUrls[0] ?? ''}
             title={item.title}
-            detail={`Tam. ${item.clothingSize} · ${item.gender === 'female' ? 'menina' : item.gender === 'male' ? 'menino' : 'unissex'}`}
+            detail={`Tam. ${item.clothingSize} · ${item.gender === 'female' ? $t('item_card.gender_girl') : item.gender === 'male' ? $t('item_card.gender_boy') : $t('item_card.gender_unisex')}`}
             price={formatPrice(item.priceCents)}
             condition={conditionLabel(item.condition)}
             size="md"
@@ -203,8 +257,8 @@
     <!-- Row 5: Budget -->
     <div class="cat-row">
       <div class="cat-row-hdr">
-        <div class="cat-row-title">Boas pecas abaixo de R$50</div>
-        <a href="#" class="cat-row-see">Ver todos</a>
+        <div class="cat-row-title">{$t('catalog.section_budget')}</div>
+        <a href="#" class="cat-row-see">{$t('catalog.view_all')}</a>
       </div>
       <div class="row-track">
         {#each budgetItems as item (item.id)}
@@ -220,6 +274,7 @@
         {/each}
       </div>
     </div>
+    {/if}
   </div>
 </div>
 
@@ -236,10 +291,10 @@
     gap: 0.4rem;
     flex-wrap: wrap;
     background: rgba(255, 255, 255, 0.32);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(1.6rem);
+    -webkit-backdrop-filter: blur(1.6rem);
+    border-bottom: 0.1rem solid rgba(255, 255, 255, 0.6);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.7);
   }
 
   .filter-lbl {
@@ -255,7 +310,7 @@
 
   .fchip {
     background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 0.1rem solid rgba(255, 255, 255, 0.7);
     border-radius: var(--r-xs);
     padding: 0.25rem 0.7rem;
     font-family: var(--ld);
@@ -266,8 +321,8 @@
     cursor: pointer;
     transition: all 0.15s;
     white-space: nowrap;
-    backdrop-filter: blur(10px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(1rem);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.8);
   }
 
   .fchip:hover {
@@ -326,7 +381,7 @@
 
   .sz-chip {
     background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.75);
+    border: 0.1rem solid rgba(255, 255, 255, 0.75);
     border-radius: var(--r-xs);
     padding: 0.28rem 0.62rem;
     font-family: var(--ld);
@@ -335,8 +390,8 @@
     color: rgba(0, 0, 0, 0.42);
     cursor: pointer;
     transition: all 0.15s;
-    backdrop-filter: blur(10px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(1rem);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.85);
   }
 
   .sz-chip:hover {
@@ -348,7 +403,7 @@
     background: rgba(10, 10, 10, 0.9);
     border-color: rgba(10, 10, 10, 0.9);
     color: var(--wh);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.15);
   }
 
   .sz-chip--predicted {
@@ -361,14 +416,14 @@
   .sz-chip--predicted::after {
     content: 'IA';
     position: absolute;
-    top: -5px;
-    right: -4px;
+    top: -0.5rem;
+    right: -0.4rem;
     background: var(--pk);
     color: var(--wh);
     font-size: 0.44rem;
     font-family: var(--ld);
     font-weight: 900;
-    border-radius: 3px;
+    border-radius: 0.3rem;
     padding: 0.03rem 0.22rem;
     letter-spacing: 0.05em;
   }
@@ -430,7 +485,7 @@
   }
 
   .cat-row-see:hover::after {
-    transform: translateX(4px);
+    transform: translateX(0.4rem);
   }
 
   .row-track {
@@ -443,11 +498,66 @@
   }
 
   .row-track::-webkit-scrollbar {
-    height: 3px;
+    height: 0.3rem;
   }
 
   .row-track::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
+    border-radius: 0.2rem;
+  }
+
+  /* ── Status States (error) ── */
+  .catalog-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    gap: 0.5rem;
+  }
+
+  .catalog-status__icon {
+    color: var(--pk);
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  .catalog-status__title {
+    font-family: var(--ld);
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--bk);
+    margin: 0;
+  }
+
+  .catalog-status__desc {
+    font-family: var(--sr);
+    font-size: 0.82rem;
+    color: var(--gr);
+    margin: 0;
+    max-width: 20rem;
+  }
+
+  .catalog-status__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    background: var(--pk);
+    color: var(--wh);
+    border: none;
+    border-radius: var(--r-xs);
+    padding: 0.55rem 1.4rem;
+    font-family: var(--ld);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .catalog-status__btn:hover {
+    opacity: 0.85;
   }
 </style>

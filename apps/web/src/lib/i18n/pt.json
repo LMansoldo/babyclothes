@@ -26,23 +26,66 @@
     }
   },
   "auth": {
-    "title": "Compre e venda roupas de bebê com inteligência",
+    "headline": {
+      "buy_sell": "Compre e venda",
+      "clothes_smart": "roupas de bebê com inteligência"
+    },
     "subtitle": "O marketplace que cresce com seu bebê",
-    "google": "Continuar com Google",
-    "terms": "Ao continuar, você concorda com nossos Termos de Serviço"
+    "loading": "Carregando...",
+    "continue_google": "Continuar com Google",
+    "terms_prefix": "Ao continuar, você concorda com nossos",
+    "terms_of_use": "Termos de Uso",
+    "or": "ou",
+    "privacy_policy": "Política de Privacidade",
+    "registration": {
+      "title": "Complete seu cadastro",
+      "subtitle": "Conte um pouco sobre você",
+      "pf": "Pessoa Física (PF)",
+      "pj": "Pessoa Jurídica (PJ)",
+      "pf_description": "Para compradores e vendedores individuais",
+      "pj_description": "Para empresas e negócios",
+      "cpf": "CPF",
+      "cnpj": "CNPJ",
+      "cpf_placeholder": "000.000.000-00",
+      "cnpj_placeholder": "00.000.000/0000-00",
+      "submit": "Completar cadastro",
+      "skip": "Pular por agora"
+    }
   },
   "catalog": {
     "title": "Catálogo",
     "all": "Todos",
-    "search": "Buscar roupas..."
+    "search": "Buscar roupas...",
+    "section_ai_eyebrow": "Agente de crescimento",
+    "section_ai_detail": "Preparando para tam. G",
+    "section_trending": "Em alta esta semana",
+    "section_newborn": "Recém-nascido · RN",
+    "section_rompers": "Macacões · todos os tamanhos",
+    "section_budget": "Boas peças abaixo de R$50",
+    "ask_agent": "Perguntar ao agente",
+    "view_all": "Ver todos",
+    "view_category": "Ver categoria",
+    "empty_title": "Nenhum item encontrado",
+    "empty_description": "Tente ajustar os filtros ou volte mais tarde para novas peças.",
+    "error_title": "Algo deu errado",
+    "error_description": "Não foi possível carregar o catálogo. Tente novamente.",
+    "error_retry": "Tentar novamente"
   },
   "category_nav": {
     "aria_label": "Categorias"
   },
   "chat": {
     "title": "Assistente IA",
-    "placeholder": "Digite sua mensagem...",
-    "send": "Enviar mensagem"
+    "placeholder": "Mensagem, proposta ou pergunta ao agente…",
+    "send": "Enviar mensagem",
+    "quick_send_item": "Enviar item",
+    "quick_search_size": "Buscar por tamanho",
+    "quick_make_offer": "Fazer oferta",
+    "quick_update_measurement": "Atualizar medição",
+    "quick_ask_agent": "Perguntar ao agente",
+    "filter_result": "Filtrei por Novo · G · até R$100 — encontrei {{count}} peças:",
+    "items_new_label": "itens novos · tam. G · até R$100",
+    "item_detail_condition_size": "{{condition}} · Tam. {{size}} · {{category}}"
   },
   "chat_header": {
     "seller_online_verified": "online agora · vendedora verificada",
@@ -60,6 +103,7 @@
     "weight": "Peso",
     "height": "Altura",
     "head": "Perímetro Cefálico",
+    "document": "CPF (opcional)",
     "register": "Cadastrar Filho",
     "no_children": "Nenhum filho cadastrado ainda",
     "add_first": "Adicione seu primeiro filho para acompanhar o crescimento",
@@ -72,7 +116,20 @@
     "update_measurements": "Atualizar medidas",
     "growth_prediction": "Previsão de crescimento",
     "growth_detail": "Baseado no histórico de {{name}}, eles precisarão do tamanho {{size}} em breve.",
-    "history": "Histórico"
+    "history": "Histórico",
+    "age_less_than_month": "< 1m",
+    "age_months_short": "{{count}}m",
+    "age_years_short": "{{count}}a",
+    "age_years_months_short": "{{years}}a {{months}}m",
+    "age_less_than_one_month": "Menos de 1 mês",
+    "age_one_month": "1 mês",
+    "age_months_long": "{{count}} meses",
+    "age_one_year": "1 ano",
+    "age_years_long": "{{count}} anos",
+    "age_one_year_one_month": "1 ano e 1 mês",
+    "age_one_year_months": "1 ano e {{months}} meses",
+    "age_years_one_month": "{{years}} anos e 1 mês",
+    "age_years_months_long": "{{years}} anos e {{months}} meses"
   },
   "child_selector": {
     "add_child": "Adicionar filho"
@@ -135,7 +192,15 @@
   "notification": {
     "title": "Notificações",
     "mark_all": "Marcar todas como lidas",
-    "empty": "Nenhuma notificação nova"
+    "mark_all_read": "Marcar todas como lidas",
+    "empty": "Nenhuma notificação nova",
+    "empty_title": "Tudo em dia!",
+    "empty_subtitle": "Nenhuma notificação nova",
+    "time_now": "Agora",
+    "time_minutes": "{{count}}min",
+    "time_hours": "{{count}}h",
+    "time_days": "{{count}}d",
+    "unread_aria": "Não lida"
   },
   "profile": {
     "title": "Perfil",
@@ -144,7 +209,9 @@
     "logout": "Sair",
     "my_listings": "Minhas Peças",
     "favorites": "Favoritos",
-    "purchases": "Compras"
+    "purchases": "Compras",
+    "language_portuguese": "Português",
+    "language_english": "English"
   },
   "common": {
     "loading": "Carregando...",

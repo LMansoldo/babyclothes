@@ -79,7 +79,7 @@
     background: var(--glass);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
     border-radius: var(--r);
     overflow: hidden;
     box-shadow: var(--glass-shadow);
@@ -97,15 +97,15 @@
   }
 
   .card--clickable:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(10, 10, 10, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transform: translateY(-0.2rem);
+    box-shadow: 0 1.2rem 4rem rgba(10, 10, 10, 0.12), inset 0 0.1rem 0 rgba(255, 255, 255, 0.9);
   }
 
   /* ── Sizes ─────────────────────────────────────── */
-  .card--sm { width: 155px; }
-  .card--md { width: 195px; }
-  .card--lg { width: 230px; }
-  .card--featured { width: 300px; }
+  .card--sm { width: 15.5rem; }
+  .card--md { width: 19.5rem; }
+  .card--lg { width: 23rem; }
+  .card--featured { width: 30rem; }
 
   /* ── Image ─────────────────────────────────────── */
   .card__image-wrap {
@@ -115,10 +115,10 @@
     background: var(--of2);
   }
 
-  .card--sm .card__image-wrap { height: 125px; }
-  .card--md .card__image-wrap { height: 155px; }
-  .card--lg .card__image-wrap { height: 185px; }
-  .card--featured .card__image-wrap { height: 220px; }
+  .card--sm .card__image-wrap { height: 12.5rem; }
+  .card--md .card__image-wrap { height: 15.5rem; }
+  .card--lg .card__image-wrap { height: 18.5rem; }
+  .card--featured .card__image-wrap { height: 22rem; }
 
   .card__image {
     width: 100%;
@@ -136,14 +136,14 @@
   /* ── Condition badge (top-left) ── */
   .card__condition {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: 0.8rem;
+    left: 0.8rem;
     font-family: var(--ld);
     font-size: 0.5rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 2px 7px;
+    padding: 0.2rem 0.7rem;
     border-radius: var(--r-xs);
     line-height: 1.3;
     white-space: nowrap;
@@ -152,26 +152,26 @@
   .card__condition--new {
     background: rgba(22, 163, 74, 0.15);
     color: #16A34A;
-    border: 1px solid rgba(22, 163, 74, 0.25);
+    border: 0.1rem solid rgba(22, 163, 74, 0.25);
   }
 
   .card__condition--semi {
     background: rgba(255, 214, 238, 0.6);
     color: var(--pk);
-    border: 1px solid rgba(255, 110, 199, 0.3);
+    border: 0.1rem solid rgba(255, 110, 199, 0.3);
   }
 
   .card__condition--used {
     background: rgba(136, 136, 136, 0.15);
     color: var(--gr);
-    border: 1px solid rgba(136, 136, 136, 0.25);
+    border: 0.1rem solid rgba(136, 136, 136, 0.25);
   }
 
   /* ── IA badge (top-right) ── */
   .card__badge {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 0.8rem;
+    right: 0.8rem;
     font-family: var(--ld);
     font-size: 0.48rem;
     font-weight: 900;
@@ -179,8 +179,8 @@
     text-transform: uppercase;
     background: var(--pk);
     color: var(--wh);
-    padding: 2px 6px;
-    border-radius: 3px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.3rem;
     line-height: 1;
     white-space: nowrap;
   }
@@ -188,22 +188,22 @@
   /* ── Fav button (bottom-right) ── */
   .card__fav {
     position: absolute;
-    bottom: 8px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
+    bottom: 0.8rem;
+    right: 0.8rem;
+    width: 2.8rem;
+    height: 2.8rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.55);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    border: 0.1rem solid rgba(255, 255, 255, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     color: rgba(0, 0, 0, 0.45);
     cursor: pointer;
     transition: all 0.15s;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.8);
   }
 
   .card__fav:hover {
@@ -216,8 +216,8 @@
   .card__body {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 8px 10px 10px;
+    gap: 0.2rem;
+    padding: 0.8rem 1rem 1rem;
     min-width: 0;
   }
 
@@ -244,8 +244,8 @@
   .card__price-row {
     display: flex;
     align-items: baseline;
-    gap: 5px;
-    margin-top: 2px;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
   }
 
   .card__price {

@@ -5,6 +5,8 @@ defmodule Api.Controllers.ItemsController do
 
   import Plug.Conn
   alias Api.Items
+  alias Api.Repo
+  alias Api.Users.User
 
   @doc """
   GET /items — List items with optional filters.
@@ -40,13 +42,22 @@ defmodule Api.Controllers.ItemsController do
 
   @doc """
   POST /items — Create a new item.
+
+  Requires JWT authentication. Automatically activates the seller role
+  for the user if not already set.
   """
   def create(conn) do
-    case Items.create_item(conn.body_params) do
-      {:ok, item} ->
+    with {:ok, claims} <- authenticate(conn),
+         {:ok, item} <- Items.create_item(Map.put(conn.body_params, "seller_id", claims["sub"])),
+         {:ok, _user} <- activate_seller(claims["sub"]) do
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(201, Jason.encode!(item_json(item)))
+    else
+      {:error, :unauthorized} ->
         conn
         |> put_resp_content_type("application/json")
-        |> send_resp(201, Jason.encode!(item_json(item)))
+        |> send_resp(401, Jason.encode!(%{error: "unauthorized"}))
 
       {:error, changeset} ->
         errors = format_changeset_errors(changeset)
@@ -128,6 +139,25 @@ defmodule Api.Controllers.ItemsController do
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(200, Jason.encode!(%{photos: Enum.map(photos, &photo_json/1)}))
+  end
+
+  defp authenticate(conn) do
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> token] -> Api.Auth.verify_internal_token(token)
+      _ -> {:error, :unauthorized}
+    end
+  end
+
+  defp activate_seller(user_id) do
+    user = Repo.get!(User, user_id)
+
+    if user.is_seller do
+      {:ok, user}
+    else
+      user
+      |> User.changeset(%{is_seller: true})
+      |> Repo.update()
+    end
   end
 
   defp item_json(item) do

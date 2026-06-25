@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Notification } from '$lib/domain/notification/entities/Notification'
+  import { TrendingUp, Target, Bell } from 'lucide-svelte'
+  import { t } from '$lib/i18n'
 
   let {
     notification,
@@ -12,15 +14,16 @@
   const isRead = $derived(notification.isRead())
 
   const timeAgo = $derived.by(() => {
+    const translate = $t
     const now = new Date()
     const diff = now.getTime() - (notification.readAt?.getTime() ?? now.getTime())
     const minutes = Math.floor(diff / 60000)
-    if (minutes < 1) return 'Agora'
-    if (minutes < 60) return `${minutes}min`
+    if (minutes < 1) return translate('notification.time_now')
+    if (minutes < 60) return translate('notification.time_minutes', { count: minutes })
     const hours = Math.floor(minutes / 60)
-    if (hours < 24) return `${hours}h`
+    if (hours < 24) return translate('notification.time_hours', { count: hours })
     const days = Math.floor(hours / 24)
-    return `${days}d`
+    return translate('notification.time_days', { count: days })
   })
 </script>
 
@@ -31,11 +34,11 @@
 >
   <div class="notification-card__icon">
     {#if notification.type === 'growth_prediction'}
-      📈
+      <TrendingUp size={18} strokeWidth={2} />
     {:else if notification.type === 'new_match'}
-      🎯
+      <Target size={18} strokeWidth={2} />
     {:else}
-      🔔
+      <Bell size={18} strokeWidth={2} />
     {/if}
   </div>
 
@@ -47,7 +50,7 @@
   <div class="notification-card__meta">
     <span class="notification-card__time">{timeAgo}</span>
     {#if !isRead}
-      <span class="notification-card__dot" aria-label="Não lida"></span>
+      <span class="notification-card__dot" aria-label={$t('notification.unread_aria')}></span>
     {/if}
   </div>
 </button>
@@ -56,8 +59,8 @@
   .notification-card {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: 16px;
+    gap: 1.2rem;
+    padding: 1.6rem;
     background: var(--color-white);
     border: none;
     cursor: pointer;
@@ -87,7 +90,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.4rem;
     min-width: 0;
   }
 
@@ -116,7 +119,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 6px;
+    gap: 0.6rem;
     flex-shrink: 0;
   }
 
@@ -127,8 +130,8 @@
   }
 
   .notification-card__dot {
-    width: 8px;
-    height: 8px;
+    width: 0.8rem;
+    height: 0.8rem;
     background: var(--color-pink);
     border-radius: 50%;
   }

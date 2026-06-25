@@ -26,6 +26,8 @@
     "storybook:ui": "yarn workspace @babyclothes/ui storybook",
     "storybook:web": "yarn workspace @babyclothes/web storybook",
     "api:migrate": "docker-compose exec api mix ecto.migrate",
+    "api:seed": "docker-compose run --rm --entrypoint mix api run --no-start priv/repo/seeds_standalone.exs",
+"api:seed:reset": "docker-compose exec api mix ecto.drop --force && docker-compose exec api mix ecto.create && docker-compose exec api mix ecto.migrate && docker-compose run --rm --entrypoint mix api run --no-start priv/repo/seeds_standalone.exs",
     "api:credo": "docker-compose exec api mix credo",
     "logs": "docker-compose logs -f",
     "logs:web": "docker-compose logs -f web",

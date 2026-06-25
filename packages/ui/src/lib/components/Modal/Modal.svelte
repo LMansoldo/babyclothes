@@ -103,9 +103,9 @@
     align-items: center;
     justify-content: center;
     background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    padding: 16px;
+    backdrop-filter: blur(0.4rem);
+    -webkit-backdrop-filter: blur(0.4rem);
+    padding: 1.6rem;
     animation: modal-fade-in 0.2s ease;
   }
 
@@ -114,7 +114,7 @@
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     width: 100%;
-    max-width: 360px;
+    max-width: 36rem;
     max-height: 85vh;
     display: flex;
     flex-direction: column;
@@ -126,14 +126,14 @@
   .modal__header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 16px 16px 12px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    gap: 0.8rem;
+    padding: 1.6rem 1.6rem 1.2rem;
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.06);
   }
 
   .modal__icon {
-    width: 32px;
-    height: 32px;
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -162,8 +162,8 @@
   }
 
   .modal__close {
-    width: 28px;
-    height: 28px;
+    width: 2.8rem;
+    height: 2.8rem;
     border-radius: 50%;
     border: none;
     background: rgba(0, 0, 0, 0.06);
@@ -184,7 +184,7 @@
   /* ── Body ─────────────────────────────────────── */
   .modal__body {
     flex: 1;
-    padding: 16px;
+    padding: 1.6rem;
     overflow-y: auto;
     font-family: var(--font-body);
     font-size: 0.875rem;
@@ -195,10 +195,10 @@
   /* ── Footer ───────────────────────────────────── */
   .modal__footer {
     display: flex;
-    gap: 8px;
+    gap: 0.8rem;
     justify-content: flex-end;
-    padding: 12px 16px;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 1.2rem 1.6rem;
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.06);
   }
 
   /* ── Animations ───────────────────────────────── */
@@ -208,7 +208,7 @@
   }
 
   @keyframes modal-slide-up {
-    from { opacity: 0; transform: translateY(16px) scale(0.97); }
+    from { opacity: 0; transform: translateY(1.6rem) scale(0.97); }
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
 </style>

@@ -23,7 +23,7 @@
 
 <style>
   .chat-bubble {
-    padding: 10px 14px;
+    padding: 1rem 1.4rem;
     font-family: var(--vd);
     font-size: 1.3rem;
     line-height: 1.5;
@@ -36,7 +36,7 @@
     max-width: 80%;
     background: var(--glass);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
     border-radius: var(--r) var(--r) var(--r) var(--r-xs);
     color: var(--bk);
     box-shadow: var(--glass-shadow);
@@ -57,7 +57,7 @@
     align-self: center;
     max-width: 90%;
     background: rgba(255, 60, 172, 0.08);
-    border: 1px solid rgba(255, 60, 172, 0.2);
+    border: 0.1rem solid rgba(255, 60, 172, 0.2);
     border-radius: var(--r);
     color: var(--pk);
     font-size: 1.2rem;
@@ -73,7 +73,7 @@
     display: block;
     font-size: 1rem;
     color: var(--gr);
-    margin-top: 4px;
+    margin-top: 0.4rem;
     text-align: right;
   }
 </style>

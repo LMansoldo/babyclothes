@@ -80,8 +80,8 @@
   }
 
   .emptystate__shape {
-    width: 72px;
-    height: 72px;
+    width: 7.2rem;
+    height: 7.2rem;
     border-radius: 50%;
     background: var(--of2);
     display: flex;
@@ -96,8 +96,8 @@
   }
 
   .emptystate__shape-inner {
-    width: 28px;
-    height: 28px;
+    width: 2.8rem;
+    height: 2.8rem;
     border-radius: 50%;
     background: var(--of3);
   }
@@ -121,13 +121,13 @@
     font-size: 0.85rem;
     color: var(--gr);
     line-height: 1.65;
-    max-width: 260px;
+    max-width: 26rem;
     margin: 0 0 1.25rem;
   }
 
   .emptystate__action {
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
     padding: 0.7rem 1.4rem;
     font-family: var(--ld);
     font-size: 0.78rem;
@@ -157,7 +157,7 @@
   .emptystate__action--ghost {
     background: var(--of2);
     color: var(--bk);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 0.1rem solid rgba(0, 0, 0, 0.08);
   }
 
   .emptystate__action--ghost:hover {
@@ -172,12 +172,12 @@
     gap: 0.9rem;
     padding: 1.1rem;
     background: var(--of2);
-    border-radius: 12px;
+    border-radius: 1.2rem;
   }
 
   .emptystate__icon {
-    width: 38px;
-    height: 38px;
+    width: 3.8rem;
+    height: 3.8rem;
     border-radius: 50%;
     background: var(--of3);
     flex-shrink: 0;
@@ -187,8 +187,8 @@
   }
 
   .emptystate__icon-dot {
-    width: 14px;
-    height: 14px;
+    width: 1.4rem;
+    height: 1.4rem;
     border-radius: 50%;
     background: var(--gr2);
   }

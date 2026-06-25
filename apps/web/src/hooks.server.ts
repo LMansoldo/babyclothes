@@ -18,13 +18,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 
       if (res.ok) {
         const { user } = (await res.json()) as {
-          user: { id: string; email: string; name: string; avatar_url: string };
+          user: { id: string; email: string; name: string; avatar_url: string; type: string | null; cpf?: string; cnpj?: string; is_seller: boolean };
         };
         event.locals.session = {
           userId: user.id,
           email: user.email,
           name: user.name,
           avatarUrl: user.avatar_url,
+          type: user.type as 'pf' | 'pj' | null,
+          cpf: user.cpf,
+          cnpj: user.cnpj,
+          isSeller: user.is_seller,
         };
       } else {
         event.cookies.delete(JWT_COOKIE, { path: '/' });

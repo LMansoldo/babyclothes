@@ -6,6 +6,10 @@ declare global {
         email: string;
         name: string;
         avatarUrl: string;
+        type: 'pf' | 'pj' | null;
+        cpf?: string;
+        cnpj?: string;
+        isSeller: boolean;
       };
     }
   }

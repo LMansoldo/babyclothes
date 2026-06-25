@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Baby, MoreHorizontal } from 'lucide-svelte'
+  import { t } from '$lib/i18n'
 
   let {
     title = 'Agente BabyClothes',
@@ -25,7 +26,7 @@
         <span class="header__subtitle">{subtitle}</span>
         <span class="header__live-pill">
           <span class="header__live-dot"></span>
-          SSE ao vivo
+          {$t('chat_header.sse_live')}
         </span>
       </div>
     </div>
@@ -53,8 +54,8 @@
     background: rgba(255, 255, 255, 0.38);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: 1px solid var(--glass-brd);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border-bottom: 0.1rem solid var(--glass-brd);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.7);
     flex-shrink: 0;
   }
 
@@ -66,21 +67,21 @@
 
   /* ── Avatar ── */
   .header__avatar {
-    width: 38px;
-    height: 38px;
+    width: 3.8rem;
+    height: 3.8rem;
     border-radius: var(--r);
     background: var(--bk);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 4px 14px rgba(10, 10, 10, 0.25);
+    box-shadow: 0 0.4rem 1.4rem rgba(10, 10, 10, 0.25);
   }
 
   .header__avatar-dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 0.3rem;
     background: var(--pk);
   }
 
@@ -119,7 +120,7 @@
     align-items: center;
     gap: 0.28rem;
     background: rgba(34, 197, 94, 0.12);
-    border: 1px solid rgba(34, 197, 94, 0.3);
+    border: 0.1rem solid rgba(34, 197, 94, 0.3);
     border-radius: var(--r-xs);
     padding: 0.08rem 0.4rem;
     font-family: var(--ld);
@@ -128,13 +129,13 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #16A34A;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(0.8rem);
+    -webkit-backdrop-filter: blur(0.8rem);
   }
 
   .header__live-dot {
-    width: 5px;
-    height: 5px;
+    width: 0.5rem;
+    height: 0.5rem;
     background: #22C55E;
     border-radius: 50%;
     animation: pulse 1.4s ease-in-out infinite;
@@ -156,10 +157,10 @@
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    height: 32px;
+    height: 3.2rem;
     border-radius: var(--r-sm);
     background: rgba(255, 255, 255, 0.45);
-    border: 1px solid rgba(255, 255, 255, 0.7);
+    border: 0.1rem solid rgba(255, 255, 255, 0.7);
     padding: 0 0.7rem;
     cursor: pointer;
     transition: all 0.15s;
@@ -168,9 +169,9 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.8);
   }
 
   .header__btn:hover {

@@ -15,8 +15,16 @@ defmodule Api.Router do
     send_resp(conn, 200, Jason.encode!(%{status: "ok"}))
   end
 
+  get "/auth/session" do
+    Api.Controllers.AuthController.session(conn)
+  end
+
   post "/auth/google" do
     Api.Controllers.AuthController.google_login(conn)
+  end
+
+  patch "/auth/me" do
+    Api.Controllers.AuthController.update_me(conn)
   end
 
   # Feature Flags
@@ -76,6 +84,11 @@ defmodule Api.Router do
   # Catalog
   get "/catalog" do
     Api.Controllers.CatalogController.index(conn)
+  end
+
+  # Agent Chat (SSE proxy)
+  post "/agent/chat" do
+    Api.Controllers.AgentController.chat(conn)
   end
 
   # Children

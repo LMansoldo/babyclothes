@@ -32,6 +32,7 @@ yarn check:ui        # just ui
 
 # API
 yarn api:migrate     # mix ecto.migrate
+yarn api:seed        # mix seeds (standalone, no Bandit)
 yarn api:credo       # mix credo
 
 # Lint

@@ -22,6 +22,7 @@ export type MockChild = {
   gender: 'male' | 'female';
   birthWeightG: number;
   birthHeightCm: number;
+  document?: string;
 };
 
 export const mockChildren: MockChild[] = [
@@ -32,6 +33,7 @@ export const mockChildren: MockChild[] = [
     gender: 'female',
     birthWeightG: 3200,
     birthHeightCm: 49,
+    document: '123.456.789-00',
   },
   {
     id: 'child-2',
@@ -40,6 +42,7 @@ export const mockChildren: MockChild[] = [
     gender: 'male',
     birthWeightG: 3500,
     birthHeightCm: 51,
+    document: undefined,
   },
   {
     id: 'child-3',
@@ -48,6 +51,7 @@ export const mockChildren: MockChild[] = [
     gender: 'female',
     birthWeightG: 2900,
     birthHeightCm: 47,
+    document: undefined,
   },
 ];
 

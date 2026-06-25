@@ -1,6 +1,6 @@
 import Config
 
-if config_env() == :prod do
+if System.get_env("DATABASE_URL") do
   config :api, Api.Repo,
     url: System.fetch_env!("DATABASE_URL"),
     pool_size: String.to_integer(System.get_env("POOL_SIZE", "10"))
@@ -11,4 +11,5 @@ config :api,
   internal_jwt_secret: System.get_env("INTERNAL_JWT_SECRET", "dev-secret-change-in-production"),
   google_client_id: System.get_env("GOOGLE_CLIENT_ID", ""),
   grpc_agent_url: System.get_env("GRPC_AGENT_URL", "localhost:50051"),
+  agents_http_url: System.get_env("AGENTS_HTTP_URL", "http://localhost:50052"),
   internal_api_key: System.get_env("INTERNAL_API_KEY", "dev-internal-key")

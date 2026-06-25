@@ -51,7 +51,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 0.8rem;
     border: none;
     border-radius: var(--radius-pill);
     font-family: var(--font-ui);
@@ -69,22 +69,22 @@
   }
 
   .btn:not(:disabled):hover {
-    transform: translateY(-1px);
+    transform: translateY(-0.1rem);
   }
 
   /* Sizes */
   .btn--sm {
-    padding: 6px 16px;
+    padding: 0.6rem 1.6rem;
     font-size: .72rem;
   }
 
   .btn--md {
-    padding: 10px 24px;
+    padding: 1rem 2.4rem;
     font-size: .82rem;
   }
 
   .btn--lg {
-    padding: 14px 32px;
+    padding: 1.4rem 3.2rem;
     font-size: .9rem;
   }
 
@@ -110,19 +110,19 @@
   .btn--secondary {
     background: var(--color-white);
     color: var(--color-black);
-    border: 1.5px solid var(--color-black);
+    border: 0.15rem solid var(--color-black);
   }
 
   .btn--ghost {
     background: transparent;
     color: var(--color-black);
-    border: 1.5px solid rgba(10, 10, 10, .2);
+    border: 0.15rem solid rgba(10, 10, 10, .2);
   }
 
   .btn--ghost-pk {
     background: transparent;
     color: var(--color-pink);
-    border: 1.5px solid var(--color-pink-light);
+    border: 0.15rem solid var(--color-pink-light);
   }
 
   /* Dark canvas variants */
@@ -134,15 +134,15 @@
   .btn--ghost-inv {
     background: transparent;
     color: var(--color-white);
-    border: 1.5px solid rgba(255, 255, 255, .35);
+    border: 0.15rem solid rgba(255, 255, 255, .35);
   }
 
   /* Spinner */
   .btn__spinner {
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid currentColor;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 0.2rem solid currentColor;
     border-top-color: transparent;
     border-radius: 50%;
     animation: btn-spin .6s linear infinite;

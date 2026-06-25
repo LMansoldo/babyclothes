@@ -1,18 +1,30 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
-  import { t } from '$lib/i18n'
-  import { mockChildren, mockGrowthRecords } from '$lib/mocks/data'
+  import { t, get } from '$lib/i18n'
+  import { PUBLIC_MOCK_DATA } from '$lib/env'
+  import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
+  import type { Child } from '$lib/domain/child/entities/Child'
+  import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
+  import { mockChildren as mockChildrenRaw, mockGrowthRecords } from '$lib/mocks/data'
+  import type { MockChild } from '$lib/mocks/data'
   import GrowthChart from '$lib/presentation/components/GrowthChart.svelte'
   import EmptyState from '$lib/presentation/components/EmptyState.svelte'
   import ChildSelector from '$lib/presentation/components/ChildSelector.svelte'
 
-  let activeChildId = $state(mockChildren[0]?.id ?? '')
+  const mockMode = PUBLIC_MOCK_DATA === 'true'
 
-  const activeChild = $derived(mockChildren.find((c) => c.id === activeChildId))
+  const childRepo = new HttpChildRepository()
+
+  let children = $state<Child[]>([])
+  let measurements = $state<Record<string, GrowthRecord[]>>({})
+  let loading = $state(true)
+  let activeChildId = $state('')
+
+  const activeChild = $derived(children.find((c) => c.id === activeChildId))
 
   const childRecords = $derived(
-    mockGrowthRecords
-      .filter((r) => r.childId === activeChildId)
+    (measurements[activeChildId] ?? [])
       .sort((a, b) => a.recordedAt.getTime() - b.recordedAt.getTime())
   )
 
@@ -40,35 +52,70 @@
 
   const progress = $derived(65)
 
-  function getAge(birthDate: string): string {
-    const birth = new Date(birthDate)
-    const now = new Date()
-    const months = (now.getFullYear() - birth.getFullYear()) * 12 + now.getMonth() - birth.getMonth()
-    if (months < 1) return '< 1m'
-    if (months < 12) return `${months}m`
-    const years = Math.floor(months / 12)
-    const rem = months % 12
-    return rem > 0 ? `${years}a ${rem}m` : `${years}a`
+  onMount(async () => {
+    try {
+      if (mockMode) {
+        const loaded = mockChildrenRaw.map((c: MockChild) => ({
+          ...c,
+          birthDate: new Date(c.birthDate),
+        }))
+        children = loaded
+        if (loaded.length > 0) {
+          activeChildId = loaded[0].id
+        }
+      } else {
+        const loadedChildren = await childRepo.findAll()
+        children = loadedChildren
+        if (loadedChildren.length > 0) {
+          activeChildId = loadedChildren[0].id
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load children:', e)
+    } finally {
+      loading = false
+    }
+  })
+
+  async function loadMeasurements(childId: string) {
+    if (measurements[childId]) return
+    try {
+      if (mockMode) {
+        measurements = { ...measurements, [childId]: mockGrowthRecords.filter((r) => r.childId === childId) }
+      } else {
+        const records = await childRepo.getMeasurements(childId)
+        measurements = { ...measurements, [childId]: records }
+      }
+    } catch (e) {
+      console.error('Failed to load measurements:', e)
+    }
   }
 
-  function getChildSize(childId: string): string {
-    const records = mockGrowthRecords
-      .filter((r) => r.childId === childId)
-      .sort((a, b) => b.recordedAt.getTime() - a.recordedAt.getTime())
-    return records[0]?.clothingSize ?? '?'
+  function getAge(birthDate: Date): string {
+    const translate = get(t)
+    const now = new Date()
+    const months = (now.getFullYear() - birthDate.getFullYear()) * 12 + now.getMonth() - birthDate.getMonth()
+    if (months < 1) return translate('child.age_less_than_month')
+    if (months < 12) return translate('child.age_months_short', { count: months })
+    const years = Math.floor(months / 12)
+    const remainingMonths = months % 12
+    return remainingMonths > 0
+      ? translate('child.age_years_months_short', { years, months: remainingMonths })
+      : translate('child.age_years_short', { count: years })
   }
 
   const childOptions = $derived(
-    mockChildren.map((c) => ({
+    children.map((c) => ({
       id: c.id,
       name: c.name,
       age: getAge(c.birthDate),
-      size: getChildSize(c.id),
+      size: (measurements[c.id] ?? [])[0]?.clothingSize ?? '?',
     }))
   )
 
   function handleSelectChild(id: string) {
     activeChildId = id
+    loadMeasurements(id)
   }
 
   function handleAddChild() {
@@ -120,7 +167,7 @@
 
   .child-page__content {
     padding: 1rem;
-    max-width: 600px;
+    max-width: 60rem;
     margin: 0 auto;
   }
 </style>

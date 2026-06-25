@@ -37,7 +37,7 @@
   .item-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
     width: 100%;
   }
 
@@ -45,8 +45,8 @@
   .item-list__header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 0 4px;
+    gap: 0.8rem;
+    padding: 0 0.4rem;
   }
 
   .item-list__label {
@@ -62,9 +62,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    padding: 0 6px;
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.6rem;
     border-radius: var(--radius-pill);
     background: var(--color-bg-2);
     color: var(--color-gray);
@@ -78,10 +78,10 @@
   .item-list__track--grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 1.2rem;
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 64rem) {
     .item-list__track--grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -90,11 +90,11 @@
   /* ── Track: list ──────────────────────────────── */
   .item-list__track--list {
     display: flex;
-    gap: 12px;
+    gap: 1.2rem;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 4px;
+    padding: 0.4rem;
   }
 
   .item-list__track--list::-webkit-scrollbar {

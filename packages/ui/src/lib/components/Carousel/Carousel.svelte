@@ -85,7 +85,7 @@
   .carousel {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
     width: 100%;
   }
 
@@ -94,7 +94,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 4px;
+    padding: 0 0.4rem;
   }
 
   .carousel__label {
@@ -108,14 +108,14 @@
 
   .carousel__nav {
     display: flex;
-    gap: 4px;
+    gap: 0.4rem;
   }
 
   .carousel__btn {
-    width: 28px;
-    height: 28px;
+    width: 2.8rem;
+    height: 2.8rem;
     border-radius: 50%;
-    border: 1.5px solid rgba(0, 0, 0, 0.12);
+    border: 0.15rem solid rgba(0, 0, 0, 0.12);
     background: var(--color-white);
     color: var(--color-black);
     display: flex;
@@ -140,12 +140,12 @@
   /* ── Track ────────────────────────────────────── */
   .carousel__track {
     display: flex;
-    gap: 12px;
+    gap: 1.2rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 4px;
+    padding: 0.4rem;
   }
 
   .carousel__track::-webkit-scrollbar {

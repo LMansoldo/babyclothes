@@ -7,6 +7,7 @@ export const CreateChildInputSchema = z.object({
   birthDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Data deve estar no formato YYYY-MM-DD'),
   birthWeightG: z.number().int().min(0, 'Peso não pode ser negativo'),
   birthHeightCm: z.number().int().min(0, 'Altura não pode ser negativa'),
+  document: z.string().optional(),
 });
 
 export const MeasurementInputSchema = z.object({

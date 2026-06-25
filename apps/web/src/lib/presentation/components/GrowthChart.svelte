@@ -108,7 +108,7 @@
     background: var(--glass);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
     border-radius: var(--r);
     padding: 1.2rem;
     display: flex;
@@ -167,12 +167,12 @@
     font-weight: 900;
     color: var(--bk);
     background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--glass-brd);
-    border-radius: 10px;
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    border: 0.1rem solid var(--glass-brd);
+    border-radius: 1rem;
     padding: 0.3rem 0.7rem;
-    min-width: 40px;
+    min-width: 4rem;
     text-align: center;
   }
 
@@ -203,16 +203,16 @@
 
   .growthchart__progress-bar {
     flex: 1;
-    height: 6px;
+    height: 0.6rem;
     background: rgba(0, 0, 0, 0.06);
-    border-radius: 3px;
+    border-radius: 0.3rem;
     overflow: hidden;
   }
 
   .growthchart__progress-fill {
     height: 100%;
     background: linear-gradient(90deg, var(--pk), #7b2ff7);
-    border-radius: 3px;
+    border-radius: 0.3rem;
     transition: width 0.4s ease;
   }
 
@@ -221,7 +221,7 @@
     font-size: 0.65rem;
     font-weight: 700;
     color: var(--pk);
-    min-width: 30px;
+    min-width: 3rem;
     text-align: right;
   }
 
@@ -233,11 +233,11 @@
   }
 
   .growthchart__dot {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.5);
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -291,7 +291,7 @@
   .growthchart__btn {
     flex: 1;
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
     padding: 0.6rem 1rem;
     font-family: var(--ld);
     font-size: 0.72rem;
@@ -311,10 +311,10 @@
 
   .growthchart__btn--ghost {
     background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
     color: var(--bk);
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
   }
 
   .growthchart__btn--ghost:hover {

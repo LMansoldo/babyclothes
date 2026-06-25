@@ -1,4 +1,6 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_API_URL } from '$lib/env';
+
+<｜｜DSML｜｜parameter name="replace_all" string="false">false
 import type { INotificationRepository } from '$lib/domain/notification/repositories/INotificationRepository';
 import type { Notification } from '$lib/domain/notification/entities/Notification';
 import { createNotification } from '$lib/domain/notification/entities/Notification';
@@ -10,7 +12,7 @@ export class SseNotificationRepository implements INotificationRepository {
   private readonly http: HttpNotificationRepository;
 
   constructor() {
-    this.baseUrl = env.PUBLIC_API_URL ?? '';
+    this.baseUrl = PUBLIC_API_URL;
     this.http = new HttpNotificationRepository();
   }
 

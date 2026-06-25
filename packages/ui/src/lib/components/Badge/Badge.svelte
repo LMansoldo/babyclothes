@@ -29,15 +29,15 @@
     letter-spacing: .07em;
     text-transform: uppercase;
     border-radius: var(--radius-sm);
-    padding: 3px 8px;
+    padding: 0.3rem 0.8rem;
     line-height: 1;
     white-space: nowrap;
   }
 
   /* Sizes */
-  .badge--sm { font-size: .54rem; padding: 2px 6px; }
+  .badge--sm { font-size: .54rem; padding: 0.2rem 0.6rem; }
   .badge--md { font-size: .62rem; }
-  .badge--lg { font-size: .72rem; padding: 4px 10px; }
+  .badge--lg { font-size: .72rem; padding: 0.4rem 1rem; }
 
   /* Pill modifier */
   .badge--pill { border-radius: var(--radius-pill); }
@@ -56,24 +56,24 @@
   .badge--pk-soft {
     background: var(--color-pink-soft);
     color: var(--color-pink);
-    border: 1px solid var(--color-pink-light);
+    border: 0.1rem solid var(--color-pink-light);
   }
 
   .badge--neutral {
     background: var(--color-bg-2);
     color: var(--color-black);
-    border: 1px solid var(--color-bg-3);
+    border: 0.1rem solid var(--color-bg-3);
   }
 
   .badge--green {
     background: #DCFCE7;
     color: #15803D;
-    border: 1px solid #86EFAC;
+    border: 0.1rem solid #86EFAC;
   }
 
   .badge--amber {
     background: #FEF3C7;
     color: #B45309;
-    border: 1px solid #FCD34D;
+    border: 0.1rem solid #FCD34D;
   }
 </style>

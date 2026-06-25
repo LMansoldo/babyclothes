@@ -4,12 +4,13 @@
   import { ArrowLeft } from 'lucide-svelte'
 
   let name = $state('')
+  let document = $state('')
   let birthDate = $state('')
   let weight = $state('')
   let height = $state('')
 
   function handleSubmit() {
-    console.log('Register child:', { name, birthDate, weight, height })
+    console.log('Register child:', { name, document, birthDate, weight, height })
     goto('/child')
   }
 
@@ -38,12 +39,23 @@
         type="text"
         class="register-page__input"
         bind:value={name}
-        placeholder="Nome da criança"
+        placeholder={$t('child.name')}
       />
     </div>
 
     <div class="register-page__field">
-      <label class="register-page__label" for="birth-date">Data de nascimento</label>
+      <label class="register-page__label" for="child-document">{$t('child.document')}</label>
+      <input
+        id="child-document"
+        type="text"
+        class="register-page__input"
+        bind:value={document}
+        placeholder={$t('child.document')}
+      />
+    </div>
+
+    <div class="register-page__field">
+      <label class="register-page__label" for="birth-date">{$t('child.birthdate')}</label>
       <input
         id="birth-date"
         type="date"
@@ -54,7 +66,7 @@
 
     <div class="register-page__row">
       <div class="register-page__field">
-        <label class="register-page__label" for="weight">Peso ao nascer (g)</label>
+        <label class="register-page__label" for="weight">{$t('child.weight')}</label>
         <input
           id="weight"
           type="number"
@@ -65,7 +77,7 @@
       </div>
 
       <div class="register-page__field">
-        <label class="register-page__label" for="height">Altura ao nascer (cm)</label>
+        <label class="register-page__label" for="height">{$t('child.height')}</label>
         <input
           id="height"
           type="number"
@@ -93,12 +105,12 @@
     align-items: center;
     gap: 0.75rem;
     padding: 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.07);
   }
 
   .register-page__back {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
     background: var(--of2);
     border: none;
@@ -127,7 +139,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    max-width: 500px;
+    max-width: 50rem;
     margin: 0 auto;
   }
 
@@ -154,8 +166,8 @@
 
   .register-page__input {
     background: var(--of2);
-    border: 1.5px solid rgba(0, 0, 0, 0.09);
-    border-radius: 10px;
+    border: 0.15rem solid rgba(0, 0, 0, 0.09);
+    border-radius: 1rem;
     padding: 0.7rem 0.9rem;
     font-family: var(--vd);
     font-size: 0.85rem;
@@ -173,7 +185,7 @@
     background: var(--pk);
     color: var(--wh);
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
     padding: 0.8rem;
     font-family: var(--ld);
     font-size: 0.85rem;

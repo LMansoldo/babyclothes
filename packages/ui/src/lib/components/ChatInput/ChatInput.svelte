@@ -112,24 +112,24 @@
   .chat-input {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.8rem;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
     border-radius: var(--r);
-    padding: 10px 12px;
+    padding: 1rem 1.2rem;
     box-shadow: var(--glass-shadow);
   }
 
   /* ── Quick action chips ───────────────────────── */
   .chat-input__actions {
     display: flex;
-    gap: 6px;
+    gap: 0.6rem;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding-bottom: 2px;
+    padding-bottom: 0.2rem;
   }
 
   .chat-input__actions::-webkit-scrollbar {
@@ -139,8 +139,8 @@
   .chat-input__chip {
     display: inline-flex;
     align-items: center;
-    padding: 5px 12px;
-    border: 1.5px solid rgba(255, 110, 199, 0.3);
+    padding: 0.5rem 1.2rem;
+    border: 0.15rem solid rgba(255, 110, 199, 0.3);
     background: rgba(255, 214, 238, 0.3);
     color: var(--pk);
     font-family: var(--ld);
@@ -148,7 +148,7 @@
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    border-radius: 999px;
+    border-radius: 99.9rem;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.15s;
@@ -164,7 +164,7 @@
   .chat-input__row {
     display: flex;
     align-items: flex-end;
-    gap: 8px;
+    gap: 0.8rem;
   }
 
   .chat-input__textarea {
@@ -173,13 +173,13 @@
     outline: none;
     background: transparent;
     border-radius: var(--r-sm);
-    padding: 8px 12px;
+    padding: 0.8rem 1.2rem;
     font-family: var(--ld);
     font-size: 0.85rem;
     color: var(--bk);
     resize: none;
-    min-height: 36px;
-    max-height: 120px;
+    min-height: 3.6rem;
+    max-height: 12rem;
     line-height: 1.4;
   }
 
@@ -189,13 +189,13 @@
 
   /* ── Add button ───────────────────────────────── */
   .chat-input__add-btn {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
-    border: 1px solid var(--glass-brd);
+    border: 0.1rem solid var(--glass-brd);
     background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
     color: var(--gr);
     display: flex;
     align-items: center;
@@ -203,7 +203,7 @@
     cursor: pointer;
     flex-shrink: 0;
     transition: all 0.15s;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.8);
   }
 
   .chat-input__add-btn:hover {
@@ -213,8 +213,8 @@
 
   /* ── Send button ──────────────────────────────── */
   .chat-input__send {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
     border: none;
     background: var(--pk);
@@ -229,7 +229,7 @@
 
   .chat-input__send:hover:not(:disabled) {
     transform: scale(1.05);
-    box-shadow: 0 4px 16px rgba(255, 60, 172, 0.3);
+    box-shadow: 0 0.4rem 1.6rem rgba(255, 60, 172, 0.3);
   }
 
   .chat-input__send:disabled {
@@ -241,15 +241,15 @@
   .chat-input__typing {
     display: flex;
     align-items: center;
-    gap: 4px;
-    padding: 0 8px;
-    height: 36px;
+    gap: 0.4rem;
+    padding: 0 0.8rem;
+    height: 3.6rem;
     flex-shrink: 0;
   }
 
   .chat-input__dot {
-    width: 6px;
-    height: 6px;
+    width: 0.6rem;
+    height: 0.6rem;
     border-radius: 50%;
     background: var(--gr);
     animation: chat-dot 1.2s ease-in-out infinite;

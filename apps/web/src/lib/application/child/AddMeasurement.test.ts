@@ -18,6 +18,7 @@ describe('AddMeasurement', () => {
       create: vi.fn(),
       findAll: vi.fn(),
       findById: vi.fn(),
+      getMeasurements: vi.fn(),
       addMeasurement: vi.fn().mockResolvedValue(mockRecord),
     };
 
@@ -41,6 +42,7 @@ describe('AddMeasurement', () => {
       create: vi.fn(),
       findAll: vi.fn(),
       findById: vi.fn(),
+      getMeasurements: vi.fn(),
       addMeasurement: vi.fn(),
     };
 

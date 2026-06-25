@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_API_URL } from '$lib/env';
 import type { IChatRepository } from '$lib/domain/chat/repositories/IChatRepository';
 import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse';
 import { getAuthToken } from '$lib/infrastructure/http/HttpAuthRepository';
@@ -7,7 +7,7 @@ export class SseChatRepository implements IChatRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = env.PUBLIC_API_URL ?? '';
+    this.baseUrl = PUBLIC_API_URL;
   }
 
   async *sendMessage(

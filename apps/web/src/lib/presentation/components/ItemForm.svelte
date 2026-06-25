@@ -336,16 +336,16 @@
 <style>
   .itemform {
     background: var(--wh);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 16px;
+    border: 0.1rem solid rgba(0, 0, 0, 0.08);
+    border-radius: 1.6rem;
     overflow: hidden;
-    max-width: 440px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    max-width: 44rem;
+    box-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.06);
   }
 
   .itemform__header {
     padding: 1.1rem 1.3rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.07);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -391,8 +391,8 @@
 
   .itemform__input {
     background: var(--of2);
-    border: 1.5px solid rgba(0, 0, 0, 0.09);
-    border-radius: 10px;
+    border: 0.15rem solid rgba(0, 0, 0, 0.09);
+    border-radius: 1rem;
     padding: 0.55rem 0.85rem;
     font-family: var(--vd);
     font-size: 0.8rem;
@@ -407,7 +407,7 @@
   .itemform__input:focus {
     border-color: var(--pk);
     background: var(--wh);
-    box-shadow: 0 0 0 3px rgba(255, 60, 172, 0.08);
+    box-shadow: 0 0 0 0.3rem rgba(255, 60, 172, 0.08);
   }
 
   .itemform__input::placeholder {
@@ -415,7 +415,7 @@
   }
 
   .itemform__input--textarea {
-    min-height: 80px;
+    min-height: 8rem;
     line-height: 1.5;
   }
 
@@ -427,8 +427,8 @@
 
   .itemform__chip {
     background: var(--of2);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 7px;
+    border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    border-radius: 0.7rem;
     padding: 0.28rem 0.62rem;
     font-family: var(--ld);
     font-size: 0.68rem;
@@ -457,8 +457,8 @@
   }
 
   .itemform__photodrop {
-    border: 2px dashed rgba(0, 0, 0, 0.12);
-    border-radius: 12px;
+    border: 0.2rem dashed rgba(0, 0, 0, 0.12);
+    border-radius: 1.2rem;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
@@ -483,8 +483,8 @@
   }
 
   .itemform__photo-icon {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
     background: var(--of2);
     display: flex;
@@ -512,13 +512,13 @@
   }
 
   .itemform__thumb {
-    width: 56px;
-    height: 56px;
-    border-radius: 8px;
+    width: 5.6rem;
+    height: 5.6rem;
+    border-radius: 0.8rem;
     background: var(--of2);
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 0.1rem solid rgba(0, 0, 0, 0.08);
   }
 
   .itemform__thumb-img {
@@ -529,10 +529,10 @@
 
   .itemform__thumb-remove {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    width: 18px;
-    height: 18px;
+    top: 0.2rem;
+    right: 0.2rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.6);
     color: var(--wh);
@@ -550,7 +550,7 @@
   }
 
   .itemform__thumb--add {
-    border: 1.5px dashed rgba(0, 0, 0, 0.14);
+    border: 0.15rem dashed rgba(0, 0, 0, 0.14);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -567,7 +567,7 @@
 
   .itemform__footer {
     padding: 0.9rem 1.3rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    border-top: 0.1rem solid rgba(0, 0, 0, 0.07);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -575,16 +575,16 @@
 
   .itemform__progress {
     width: 100%;
-    height: 2px;
+    height: 0.2rem;
     background: var(--of2);
-    border-radius: 1px;
+    border-radius: 0.1rem;
     overflow: hidden;
   }
 
   .itemform__progress-fill {
     height: 100%;
     background: var(--pk);
-    border-radius: 1px;
+    border-radius: 0.1rem;
     transition: width 0.3s ease;
   }
 
@@ -600,7 +600,7 @@
     align-items: center;
     gap: 0.35rem;
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
     padding: 0.55rem 1rem;
     font-family: var(--ld);
     font-size: 0.78rem;
@@ -630,7 +630,7 @@
   .itemform__btn--ghost {
     background: var(--of2);
     color: var(--bk);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    border: 0.1rem solid rgba(0, 0, 0, 0.08);
   }
 
   .itemform__btn--ghost:hover {

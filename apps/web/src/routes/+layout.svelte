@@ -53,14 +53,14 @@
 
   .app-main {
     flex: 1;
-    padding-top: 56px; /* Space for fixed TopBar */
+    padding-top: 5.6rem; /* Space for fixed TopBar */
     padding-bottom: 0;
   }
 
   /* Mobile: add space for BottomNav */
-  @media (max-width: 768px) {
+  @media (max-width: 76.8rem) {
     .app-main {
-      padding-bottom: 64px;
+      padding-bottom: 6.4rem;
     }
   }
 </style>

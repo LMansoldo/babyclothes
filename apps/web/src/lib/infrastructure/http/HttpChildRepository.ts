@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_API_URL } from '$lib/env';
 import type {
   IChildRepository,
   CreateChildInput,
@@ -6,13 +6,13 @@ import type {
 } from '$lib/domain/child/repositories/IChildRepository';
 import type { Child } from '$lib/domain/child/entities/Child';
 import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord';
-import { getAuthToken } from './HttpAuthRepository';
+import { getAuthToken, getUserId } from './HttpAuthRepository';
 
 export class HttpChildRepository implements IChildRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = env.PUBLIC_API_URL ?? '';
+    this.baseUrl = PUBLIC_API_URL;
   }
 
   private authHeaders(): Record<string, string> {
@@ -31,6 +31,7 @@ export class HttpChildRepository implements IChildRepository {
         birth_date: data.birthDate,
         birth_weight_g: data.birthWeightG,
         birth_height_cm: data.birthHeightCm,
+        document: data.document,
       }),
     });
 
@@ -44,7 +45,10 @@ export class HttpChildRepository implements IChildRepository {
   }
 
   async findAll(): Promise<Child[]> {
-    const res = await fetch(`${this.baseUrl}/children`, {
+    const userId = getUserId();
+    if (!userId) throw new Error('Not authenticated — cannot fetch children');
+
+    const res = await fetch(`${this.baseUrl}/users/${userId}/children`, {
       headers: this.authHeaders(),
     });
 
@@ -67,6 +71,19 @@ export class HttpChildRepository implements IChildRepository {
 
     const { child } = (await res.json()) as { child: ApiChildDTO };
     return mapChild(child);
+  }
+
+  async getMeasurements(childId: string): Promise<GrowthRecord[]> {
+    const res = await fetch(`${this.baseUrl}/children/${childId}/measurements`, {
+      headers: this.authHeaders(),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Fetch measurements for child ${childId} failed: ${res.status}`);
+    }
+
+    const { measurements } = (await res.json()) as { measurements: ApiMeasurementDTO[] };
+    return measurements.map(mapMeasurement);
   }
 
   async addMeasurement(childId: string, data: MeasurementInput): Promise<GrowthRecord> {
@@ -95,7 +112,9 @@ type ApiChildDTO = {
   id: string;
   user_id: string;
   name: string;
+  document?: string;
   birth_date: string;
+  gender: 'male' | 'female';
   birth_weight_g: number;
   birth_height_cm: number;
 };
@@ -114,7 +133,9 @@ function mapChild(dto: ApiChildDTO): Child {
     id: dto.id,
     userId: dto.user_id,
     name: dto.name,
+    document: dto.document,
     birthDate: new Date(dto.birth_date),
+    gender: dto.gender,
     birthWeightG: dto.birth_weight_g,
     birthHeightCm: dto.birth_height_cm,
   };

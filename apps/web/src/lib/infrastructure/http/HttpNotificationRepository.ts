@@ -1,14 +1,14 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_API_URL } from '$lib/env';
 import type { INotificationRepository } from '$lib/domain/notification/repositories/INotificationRepository';
 import type { Notification } from '$lib/domain/notification/entities/Notification';
 import { createNotification } from '$lib/domain/notification/entities/Notification';
-import { getAuthToken } from './HttpAuthRepository';
+import { getAuthToken, getUserId } from './HttpAuthRepository';
 
 export class HttpNotificationRepository implements INotificationRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = env.PUBLIC_API_URL ?? '';
+    this.baseUrl = PUBLIC_API_URL;
   }
 
   private authHeaders(): Record<string, string> {
@@ -17,7 +17,10 @@ export class HttpNotificationRepository implements INotificationRepository {
   }
 
   async findAll(): Promise<Notification[]> {
-    const res = await fetch(`${this.baseUrl}/notifications`, {
+    const userId = getUserId();
+    if (!userId) throw new Error('Not authenticated — cannot fetch notifications');
+
+    const res = await fetch(`${this.baseUrl}/users/${userId}/notifications`, {
       headers: this.authHeaders(),
     });
 

@@ -50,11 +50,11 @@
 <style>
   .filter-bar {
     display: flex;
-    gap: 8px;
+    gap: 0.8rem;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding: 2px;
+    padding: 0.2rem;
   }
 
   .filter-bar::-webkit-scrollbar {
@@ -64,8 +64,8 @@
   .filter-bar__chip {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    border: 1.5px solid var(--color-black);
+    gap: 0.6rem;
+    border: 0.15rem solid var(--color-black);
     background: transparent;
     color: var(--color-black);
     font-family: var(--font-ui);
@@ -97,13 +97,13 @@
 
   /* ── Size: md (default) ──────────────────────── */
   .filter-bar--md .filter-bar__chip {
-    padding: 8px 18px;
+    padding: 0.8rem 1.8rem;
     font-size: 0.72rem;
   }
 
   /* ── Size: sm ────────────────────────────────── */
   .filter-bar--sm .filter-bar__chip {
-    padding: 5px 12px;
+    padding: 0.5rem 1.2rem;
     font-size: 0.62rem;
   }
 
@@ -133,9 +133,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 5px;
+    min-width: 1.8rem;
+    height: 1.8rem;
+    padding: 0 0.5rem;
     border-radius: var(--radius-pill);
     background: var(--color-bg-2);
     color: var(--color-black);
@@ -171,7 +171,7 @@
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    padding-right: 4px;
+    padding-right: 0.4rem;
   }
 
   /* ── Variant: on-dark ─────────────────────────── */

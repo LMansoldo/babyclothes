@@ -52,10 +52,10 @@
     flex-shrink: 0;
   }
 
-  .avatar--sm { width: 28px;  height: 28px; }
-  .avatar--md { width: 40px;  height: 40px; }
-  .avatar--lg { width: 56px;  height: 56px; }
-  .avatar--xl { width: 72px;  height: 72px; }
+  .avatar--sm { width: 2.8rem;  height: 2.8rem; }
+  .avatar--md { width: 4rem;   height: 4rem; }
+  .avatar--lg { width: 5.6rem; height: 5.6rem; }
+  .avatar--xl { width: 7.2rem; height: 7.2rem; }
 
   .avatar__img {
     width: 100%;
@@ -102,24 +102,24 @@
     right: 0;
     width: 28%;
     height: 28%;
-    min-width: 8px;
-    min-height: 8px;
+    min-width: 0.8rem;
+    min-height: 0.8rem;
     background: #22C55E;
     border-radius: 50%;
-    border: 2px solid var(--color-white);
+    border: 0.2rem solid var(--color-white);
   }
 
   .avatar__verified {
     position: absolute;
-    bottom: -2px;
-    right: -2px;
+    bottom: -0.2rem;
+    right: -0.2rem;
     width: 36%;
     height: 36%;
-    min-width: 12px;
-    min-height: 12px;
+    min-width: 1.2rem;
+    min-height: 1.2rem;
     background: var(--color-pink);
     border-radius: 50%;
-    border: 2px solid var(--color-white);
+    border: 0.2rem solid var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;

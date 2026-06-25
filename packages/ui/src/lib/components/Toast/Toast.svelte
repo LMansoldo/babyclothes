@@ -46,13 +46,13 @@
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
     overflow: hidden;
-    min-width: 280px;
-    max-width: 400px;
-    border: 1px solid rgba(0, 0, 0, .06);
+    min-width: 28rem;
+    max-width: 40rem;
+    border: 0.1rem solid rgba(0, 0, 0, .06);
   }
 
   .toast__bar {
-    width: 3px;
+    width: 0.3rem;
     flex-shrink: 0;
     align-self: stretch;
   }
@@ -67,8 +67,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    padding: 12px 10px 12px 14px;
+    gap: 0.2rem;
+    padding: 1.2rem 1rem 1.2rem 1.4rem;
   }
 
   .toast__title {
@@ -88,9 +88,9 @@
 
   .toast__close {
     align-self: flex-start;
-    margin: 8px 8px 0 0;
-    width: 22px;
-    height: 22px;
+    margin: 0.8rem 0.8rem 0 0;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
     border: none;
     background: rgba(0, 0, 0, .06);

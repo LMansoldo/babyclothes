@@ -34,7 +34,7 @@
   .pageheader--hero {
     padding: 2.5rem 1.5rem 1.5rem;
     background: linear-gradient(135deg, var(--of2), var(--pk3));
-    border-radius: 0 0 24px 24px;
+    border-radius: 0 0 2.4rem 2.4rem;
   }
 
   .pageheader__title {

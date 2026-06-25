@@ -8,7 +8,9 @@ describe('RegisterChild', () => {
     id: 'child-1',
     userId: 'u-1',
     name: 'Sofia',
+    document: undefined,
     birthDate: new Date('2024-03-15'),
+    gender: 'female',
     birthWeightG: 3200,
     birthHeightCm: 49,
   };
@@ -18,6 +20,7 @@ describe('RegisterChild', () => {
       create: vi.fn().mockResolvedValue(mockChild),
       findAll: vi.fn(),
       findById: vi.fn(),
+      getMeasurements: vi.fn(),
       addMeasurement: vi.fn(),
     };
 
@@ -38,6 +41,7 @@ describe('RegisterChild', () => {
       create: vi.fn(),
       findAll: vi.fn(),
       findById: vi.fn(),
+      getMeasurements: vi.fn(),
       addMeasurement: vi.fn(),
     };
 

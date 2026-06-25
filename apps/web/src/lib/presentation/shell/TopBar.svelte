@@ -3,6 +3,7 @@
   import { page } from '$app/stores'
   import { Search, MessageSquare } from 'lucide-svelte'
   import type { Session } from '$lib/domain/auth/entities/Session'
+  import { t } from '$lib/i18n'
 
   interface Props {
     variant?: 'catalog' | 'chat'
@@ -23,9 +24,9 @@
         <Search size={16} class="topnav__search-icon" />
         <input
           type="text"
-          placeholder="Busca"
+          placeholder={$t('topbar.search_label')}
           class="topnav__search-input"
-          aria-label="Buscar produtos"
+          aria-label={$t('topbar.search_aria')}
         />
       </div>
     {:else}
@@ -35,21 +36,21 @@
           class="topnav__tab"
           class:topnav__tab--active={currentPath.startsWith('/catalog')}
         >
-          Catalogo
+          {$t('topbar.nav.catalog')}
         </a>
         <a
           href="/chat"
           class="topnav__tab"
           class:topnav__tab--active={currentPath.startsWith('/chat')}
         >
-          Mensagens
+          {$t('topbar.nav.messages')}
         </a>
         <a
           href="/child"
           class="topnav__tab"
           class:topnav__tab--active={currentPath.startsWith('/child')}
         >
-          Crescimento
+          {$t('topbar.nav.growth')}
         </a>
       </div>
     {/if}
@@ -58,9 +59,9 @@
       {#if variant === 'catalog'}
         <a href="/chat" class="topnav__btn-ghost">
           <MessageSquare size={16} />
-          Chat IA
+          {$t('topbar.nav.chat_ai')}
         </a>
-        <a href="/sell" class="topnav__btn-pink">+ Anunciar</a>
+        <a href="/sell" class="topnav__btn-pink">+ {$t('topbar.publish')}</a>
       {/if}
       <a href="/profile" class="topnav__avatar">
         {#if session.avatarUrl}
@@ -80,21 +81,21 @@
     left: 0;
     right: 0;
     z-index: 100;
-    height: 56px;
+    height: 5.6rem;
     background: rgba(255, 255, 255, 0.38);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: 1px solid var(--glass-brd);
+    border-bottom: 0.1rem solid var(--glass-brd);
   }
 
   .topnav__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 1.6rem;
     height: 100%;
-    padding: 0 20px;
-    max-width: 1200px;
+    padding: 0 2rem;
+    max-width: 120rem;
     margin: 0 auto;
   }
 
@@ -104,7 +105,7 @@
     font-size: 1.5rem;
     color: var(--bk);
     text-decoration: none;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.05rem;
     flex-shrink: 0;
   }
 
@@ -112,15 +113,15 @@
   .topnav__search {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.8rem;
     flex: 1;
-    max-width: 400px;
+    max-width: 40rem;
     background: rgba(255, 255, 255, 0.38);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--glass-brd);
-    border-radius: 999px;
-    padding: 6px 14px;
+    border: 0.1rem solid var(--glass-brd);
+    border-radius: 99.9rem;
+    padding: 0.6rem 1.4rem;
     transition: background 0.2s;
   }
 
@@ -149,16 +150,16 @@
   /* ── Center tabs (chat variant) ── */
   .topnav__tabs {
     display: flex;
-    gap: 4px;
+    gap: 0.4rem;
   }
 
   .topnav__tab {
-    padding: 6px 14px;
+    padding: 0.6rem 1.4rem;
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--gr);
     text-decoration: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 0.2rem solid transparent;
     transition: color 0.15s ease, border-color 0.15s ease;
   }
 
@@ -179,20 +180,20 @@
   .topnav__actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
     flex-shrink: 0;
   }
 
   .topnav__btn-ghost {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
+    gap: 0.6rem;
+    padding: 0.6rem 1.4rem;
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--bk);
     text-decoration: none;
-    border: 1px solid var(--glass-line);
+    border: 0.1rem solid var(--glass-line);
     border-radius: var(--r-sm);
     background: transparent;
     cursor: pointer;
@@ -208,7 +209,7 @@
   .topnav__btn-pink {
     display: flex;
     align-items: center;
-    padding: 6px 14px;
+    padding: 0.6rem 1.4rem;
     font-size: 0.85rem;
     font-weight: 700;
     color: var(--wh);
@@ -225,8 +226,8 @@
 
   /* ── Avatar ── */
   .topnav__avatar {
-    width: 32px;
-    height: 32px;
+    width: 3.2rem;
+    height: 3.2rem;
     border-radius: var(--r-xs);
     overflow: hidden;
     flex-shrink: 0;

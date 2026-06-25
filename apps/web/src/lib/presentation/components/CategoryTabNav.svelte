@@ -14,8 +14,8 @@
 
 <nav class="categorytabnav" aria-label={$t('category_nav.aria_label')}>
   <div class="categorytabnav__inner">
-    {#each categories as category, i (category)}
-      {#if i > 0}
+    {#each categories as category, index (category)}
+      {#if index > 0}
         <span class="categorytabnav__sep" aria-hidden="true"></span>
       {/if}
       <button
@@ -37,11 +37,11 @@
     top: 0;
     z-index: 100;
     background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
-    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.04);
-    border-radius: 12px;
+    backdrop-filter: blur(2.4rem);
+    -webkit-backdrop-filter: blur(2.4rem);
+    border-bottom: 0.1rem solid rgba(0, 0, 0, 0.07);
+    box-shadow: 0 0.2rem 1.4rem rgba(0, 0, 0, 0.04);
+    border-radius: 1.2rem;
     overflow: hidden;
   }
 
@@ -70,7 +70,7 @@
     cursor: pointer;
     white-space: nowrap;
     border: none;
-    border-bottom: 2px solid transparent;
+    border-bottom: 0.2rem solid transparent;
     background: none;
     transition: all 0.2s;
   }
@@ -85,8 +85,8 @@
   }
 
   .categorytabnav__sep {
-    width: 1px;
-    height: 12px;
+    width: 0.1rem;
+    height: 1.2rem;
     background: rgba(0, 0, 0, 0.07);
     flex-shrink: 0;
     align-self: center;

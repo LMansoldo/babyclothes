@@ -193,6 +193,7 @@ defmodule Api.Controllers.ChildrenController do
     base = %{
       id: child.id,
       name: child.name,
+      document: child.document,
       birth_date: child.birth_date,
       birth_weight_g: child.birth_weight_g,
       birth_height_cm: child.birth_height_cm,

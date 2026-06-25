@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: babyclothes
       POSTGRES_PASSWORD: babyclothes
-      POSTGRES_DB: babyclothes_dev
+      POSTGRES_DB: babyclothes
     ports:
       - "5432:5432"
     volumes:
@@ -25,8 +25,9 @@ services:
       - "4000:4000"
     env_file: .env
     environment:
-      DATABASE_URL: postgres://babyclothes:babyclothes@postgres:5432/babyclothes_dev
+      DATABASE_URL: postgres://babyclothes:babyclothes@postgres:5432/babyclothes
       GRPC_AGENT_URL: agents:50051
+      AGENTS_HTTP_URL: http://agents:50052
       MIX_ENV: dev
     depends_on:
       postgres:
@@ -41,12 +42,12 @@ services:
       dockerfile: docker/agents.Dockerfile
     ports:
       - "50051:50051"
+      - "50052:50052"
     env_file: .env
     environment:
       INTERNAL_API_URL: http://api:4000
     volumes:
       - ./apps/agents:/app/apps/agents
-      - ./proto:/proto
     depends_on:
       - api
 

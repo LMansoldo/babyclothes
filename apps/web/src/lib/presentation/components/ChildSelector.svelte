@@ -69,8 +69,8 @@
     gap: 0.4rem;
     padding: 0.4rem 0.75rem;
     background: var(--of2);
-    border: 1.5px solid rgba(0, 0, 0, 0.08);
-    border-radius: 100px;
+    border: 0.15rem solid rgba(0, 0, 0, 0.08);
+    border-radius: 10rem;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.15s;
@@ -86,8 +86,8 @@
   }
 
   .childselector__avatar {
-    width: 22px;
-    height: 22px;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--pk), #7b2ff7);
     color: var(--wh);
@@ -119,7 +119,7 @@
     font-weight: 700;
     color: var(--pk);
     background: var(--pk3);
-    border-radius: 4px;
+    border-radius: 0.4rem;
     padding: 0.1rem 0.3rem;
   }
 
@@ -129,8 +129,8 @@
     gap: 0.3rem;
     padding: 0.4rem 0.75rem;
     background: none;
-    border: 1.5px dashed rgba(0, 0, 0, 0.15);
-    border-radius: 100px;
+    border: 0.15rem dashed rgba(0, 0, 0, 0.15);
+    border-radius: 10rem;
     cursor: pointer;
     color: var(--gr);
     font-family: var(--ld);

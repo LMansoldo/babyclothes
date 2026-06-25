@@ -26,23 +26,66 @@
     }
   },
   "auth": {
-    "title": "Buy and sell baby clothes with intelligence",
+    "headline": {
+      "buy_sell": "Buy & sell baby",
+      "clothes_smart": "clothes smart"
+    },
     "subtitle": "The marketplace that grows with your baby",
-    "google": "Continue with Google",
-    "terms": "By continuing, you agree to our Terms of Service"
+    "loading": "Loading...",
+    "continue_google": "Continue with Google",
+    "terms_prefix": "By continuing you agree to our",
+    "terms_of_use": "Terms of Use",
+    "or": "or",
+    "privacy_policy": "Privacy Policy",
+    "registration": {
+      "title": "Complete your registration",
+      "subtitle": "Tell us a bit about yourself",
+      "pf": "Individual (PF)",
+      "pj": "Legal Entity (PJ)",
+      "pf_description": "For individual sellers and buyers",
+      "pj_description": "For companies and businesses",
+      "cpf": "CPF",
+      "cnpj": "CNPJ",
+      "cpf_placeholder": "000.000.000-00",
+      "cnpj_placeholder": "00.000.000/0000-00",
+      "submit": "Complete registration",
+      "skip": "Skip for now"
+    }
   },
   "catalog": {
     "title": "Catalog",
     "all": "All",
-    "search": "Search clothes..."
+    "search": "Search clothes...",
+    "section_ai_eyebrow": "Growth Agent",
+    "section_ai_detail": "Preparing for size G",
+    "section_trending": "Trending this week",
+    "section_newborn": "Newborn · NB",
+    "section_rompers": "Rompers · all sizes",
+    "section_budget": "Great pieces under R$50",
+    "ask_agent": "Ask the agent",
+    "view_all": "View all",
+    "view_category": "View category",
+    "empty_title": "No items found",
+    "empty_description": "Try adjusting your filters or check back later for new listings.",
+    "error_title": "Something went wrong",
+    "error_description": "We couldn't load the catalog. Please try again.",
+    "error_retry": "Try again"
   },
   "category_nav": {
     "aria_label": "Categories"
   },
   "chat": {
     "title": "AI Assistant",
-    "placeholder": "Type your message...",
-    "send": "Send message"
+    "placeholder": "Message, offer or question for the agent…",
+    "send": "Send message",
+    "quick_send_item": "Send item",
+    "quick_search_size": "Search by size",
+    "quick_make_offer": "Make offer",
+    "quick_update_measurement": "Update measurement",
+    "quick_ask_agent": "Ask the agent",
+    "filter_result": "Filtered by New · G · up to R$100 — found {{count}} items:",
+    "items_new_label": "new items · size G · up to R$100",
+    "item_detail_condition_size": "{{condition}} · Size {{size}} · {{category}}"
   },
   "chat_header": {
     "seller_online_verified": "online now · verified seller",
@@ -60,6 +103,7 @@
     "weight": "Weight",
     "height": "Height",
     "head": "Head Circumference",
+    "document": "CPF (optional)",
     "register": "Register Child",
     "no_children": "No children registered yet",
     "add_first": "Add your first child to track growth",
@@ -72,7 +116,20 @@
     "update_measurements": "Update measurements",
     "growth_prediction": "Growth prediction",
     "growth_detail": "Based on {{name}}'s history, they will need size {{size}} soon.",
-    "history": "History"
+    "history": "History",
+    "age_less_than_month": "< 1mo",
+    "age_months_short": "{{count}}mo",
+    "age_years_short": "{{count}}y",
+    "age_years_months_short": "{{years}}y {{months}}mo",
+    "age_less_than_one_month": "Less than 1 month",
+    "age_one_month": "1 month",
+    "age_months_long": "{{count}} months",
+    "age_one_year": "1 year",
+    "age_years_long": "{{count}} years",
+    "age_one_year_one_month": "1 year and 1 month",
+    "age_one_year_months": "1 year and {{months}} months",
+    "age_years_one_month": "{{years}} years and 1 month",
+    "age_years_months_long": "{{years}} years and {{months}} months"
   },
   "child_selector": {
     "add_child": "Add child"
@@ -135,7 +192,15 @@
   "notification": {
     "title": "Notifications",
     "mark_all": "Mark all as read",
-    "empty": "No new notifications"
+    "mark_all_read": "Mark all as read",
+    "empty": "No new notifications",
+    "empty_title": "All caught up!",
+    "empty_subtitle": "No new notifications",
+    "time_now": "Now",
+    "time_minutes": "{{count}}min",
+    "time_hours": "{{count}}h",
+    "time_days": "{{count}}d",
+    "unread_aria": "Unread"
   },
   "profile": {
     "title": "Profile",
@@ -144,7 +209,9 @@
     "logout": "Log out",
     "my_listings": "My Listings",
     "favorites": "Favorites",
-    "purchases": "Purchases"
+    "purchases": "Purchases",
+    "language_portuguese": "Português",
+    "language_english": "English"
   },
   "common": {
     "loading": "Loading...",

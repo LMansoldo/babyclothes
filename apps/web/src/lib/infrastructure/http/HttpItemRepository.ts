@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_API_URL } from '$lib/env';
 import type {
   IItemRepository,
   CreateItemInput,
@@ -10,7 +10,7 @@ export class HttpItemRepository implements IItemRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = env.PUBLIC_API_URL ?? '';
+    this.baseUrl = PUBLIC_API_URL;
   }
 
   private authHeaders(): Record<string, string> {

@@ -10,6 +10,7 @@ defmodule Api.Children.Child do
     field :birth_date, :date
     field :birth_weight_g, :integer
     field :birth_height_cm, :integer
+    field :document, :string
 
     belongs_to :user, User
     has_many :measurements, Measurement
@@ -19,7 +20,7 @@ defmodule Api.Children.Child do
 
   def changeset(child, attrs) do
     child
-    |> cast(attrs, [:name, :birth_date, :birth_weight_g, :birth_height_cm, :user_id])
+    |> cast(attrs, [:name, :birth_date, :birth_weight_g, :birth_height_cm, :user_id, :document])
     |> validate_required([:name, :birth_date, :user_id])
     |> foreign_key_constraint(:user_id)
   end

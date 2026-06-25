@@ -29,17 +29,17 @@
   --font-body:  Verdana, Geneva, sans-serif;
 
   /* ── Border radius ────────────────────────── */
-  --radius-sm:   6px;
-  --radius-md:   10px;
-  --radius-lg:   14px;
-  --radius-xl:   18px;
-  --radius-pill: 100px;
+  --radius-sm:   0.6rem;
+  --radius-md:   1rem;
+  --radius-lg:   1.4rem;
+  --radius-xl:   1.8rem;
+  --radius-pill: 10rem;
 
   /* ── Shadows ──────────────────────────────── */
-  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.10);
-  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
-  --shadow-pk: 0 4px 16px rgba(255, 60, 172, 0.30);
+  --shadow-sm: 0 0.2rem 1.2rem rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 0.4rem 2.4rem rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 1.2rem 4rem rgba(0, 0, 0, 0.12);
+  --shadow-pk: 0 0.4rem 1.6rem rgba(255, 60, 172, 0.30);
 
   /* ── Transitions ──────────────────────────── */
   --transition-fast: 0.15s ease;
@@ -65,14 +65,14 @@
   /* ── Radius aliases ───────────────────────── */
   --r:    var(--radius-md);
   --r-sm: var(--radius-sm);
-  --r-xs: 4px;
+  --r-xs: 0.4rem;
 
   /* ── Liquid Glass ─────────────────────────── */
   --glass:       rgba(255, 255, 255, 0.52);
   --glass-hi:    rgba(255, 255, 255, 0.62);
   --glass-brd:   rgba(255, 255, 255, 0.75);
   --glass-line:  rgba(10, 10, 10, 0.06);
-  --glass-blur:  blur(24px) saturate(170%);
-  --glass-shadow: 0 8px 32px rgba(10, 10, 10, 0.07),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  --glass-blur:  blur(2.4rem) saturate(170%);
+  --glass-shadow: 0 0.8rem 3.2rem rgba(10, 10, 10, 0.07),
+                  inset 0 0.1rem 0 rgba(255, 255, 255, 0.85);
 }

@@ -6,5 +6,7 @@ RUN mix local.hex --force && mix local.rebar --force
 RUN mix deps.get
 COPY apps/api .
 COPY proto /proto
+COPY docker/api.entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 EXPOSE 4000
-CMD ["mix", "run", "--no-halt"]
+ENTRYPOINT ["/entrypoint.sh"]
