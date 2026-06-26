@@ -28,27 +28,31 @@
   "auth": {
     "headline": {
       "buy_sell": "Compre e venda",
-      "clothes_smart": "roupas de bebê com inteligência"
+      "clothes_smart": "roupas inteligentes"
     },
-    "subtitle": "O marketplace que cresce com seu bebê",
+    "subtitle": "para bebês e crianças · com IA",
     "loading": "Carregando...",
     "continue_google": "Continuar com Google",
+    "dev_login": "Entrar sem autenticação (dev)",
     "terms_prefix": "Ao continuar, você concorda com nossos",
     "terms_of_use": "Termos de Uso",
     "or": "ou",
     "privacy_policy": "Política de Privacidade",
     "registration": {
-      "title": "Complete seu cadastro",
+      "title": "Escolha o seu perfil",
       "subtitle": "Conte um pouco sobre você",
+      "subtitle_top": "Como você vai usar o BabyClothes?",
       "pf": "Pessoa Física (PF)",
       "pj": "Pessoa Jurídica (PJ)",
-      "pf_description": "Para compradores e vendedores individuais",
-      "pj_description": "Para empresas e negócios",
+      "pf_description": "Venda roupas dos seus filhos. Requer CPF para verificação.",
+      "pj_description": "Loja ou empresa. Requer CNPJ para verificação.",
       "cpf": "CPF",
       "cnpj": "CNPJ",
+      "cpf_label": "Seu CPF",
+      "cnpj_label": "Seu CNPJ",
       "cpf_placeholder": "000.000.000-00",
       "cnpj_placeholder": "00.000.000/0000-00",
-      "submit": "Completar cadastro",
+      "submit": "Continuar",
       "skip": "Pular por agora"
     }
   },

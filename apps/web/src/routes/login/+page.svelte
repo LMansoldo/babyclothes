@@ -93,7 +93,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 </svelte:head>
 
-<div class="login-page">
+<div class="login-page" class:login-page--register={step === 'register'}>
   {#if step === 'login'}
     <AuthScreen
       onGoogleLogin={() => {
@@ -128,8 +128,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--of2), var(--pk3));
+    background: linear-gradient(160deg, #0F0F0F 0%, #1A0814 60%, #0A0A0A 100%);
     padding: 1rem;
+  }
+
+  .login-page--register {
+    background: #F8F5F2;
   }
 
   .login-page__redirecting {

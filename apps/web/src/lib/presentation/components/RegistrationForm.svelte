@@ -1,6 +1,5 @@
 <script lang="ts">
   import { t } from '$lib/i18n'
-  import { UserCheck, Building2, ArrowRight, ArrowLeft } from 'lucide-svelte'
 
   let {
     onComplete,
@@ -66,221 +65,274 @@
 </script>
 
 <div class="registrationform">
-  <div class="registrationform__card">
-    <div class="registrationform__logo">
-      <span class="registrationform__logo-drop" aria-hidden="true"></span>
-      <span class="registrationform__logo-text">Baby<em>Clothes</em></span>
+  {#if step === 'select'}
+    <!-- Header row -->
+    <div class="registrationform__header">
+      <button class="registrationform__back" onclick={goBack} aria-label="Voltar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <span class="registrationform__header-title">Criar conta</span>
     </div>
 
-    {#if step === 'select'}
-      <h2 class="registrationform__title">{$t('auth.registration.title')}</h2>
-      <p class="registrationform__subtitle">{$t('auth.registration.subtitle')}</p>
+    <p class="registrationform__lead">{$t('auth.registration.subtitle_top')}</p>
+    <h2 class="registrationform__title">{$t('auth.registration.title')}</h2>
 
-      <div class="registrationform__options">
-        <button
-          class="registrationform__option"
-          class:registrationform__option--selected={selectedType === 'pf'}
-          onclick={() => selectType('pf')}
-        >
-          <div class="registrationform__option-icon">
-            <UserCheck size={28} />
-          </div>
+    <div class="registrationform__options">
+      <!-- PF card -->
+      <button
+        class="registrationform__option"
+        class:registrationform__option--selected={selectedType === 'pf'}
+        onclick={() => selectType('pf')}
+      >
+        <div class="registrationform__option-icon registrationform__option-icon--pf">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <div class="registrationform__option-text">
           <span class="registrationform__option-label">{$t('auth.registration.pf')}</span>
           <span class="registrationform__option-desc">{$t('auth.registration.pf_description')}</span>
-        </button>
-
-        <button
-          class="registrationform__option"
-          class:registrationform__option--selected={selectedType === 'pj'}
-          onclick={() => selectType('pj')}
-        >
-          <div class="registrationform__option-icon">
-            <Building2 size={28} />
+        </div>
+        {#if selectedType === 'pf'}
+          <div class="registrationform__checkmark">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+              <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
-          <span class="registrationform__option-label">{$t('auth.registration.pj')}</span>
-          <span class="registrationform__option-desc">{$t('auth.registration.pj_description')}</span>
-        </button>
-      </div>
-    {:else if step === 'document'}
-      <button class="registrationform__back" onclick={goBack}>
-        <ArrowLeft size={18} />
-      </button>
-
-      <h2 class="registrationform__title">
-        {selectedType === 'pf' ? $t('auth.registration.cpf') : $t('auth.registration.cnpj')}
-      </h2>
-
-      <div class="registrationform__field">
-        <input
-          class="registrationform__input"
-          type="text"
-          inputmode="numeric"
-          placeholder={selectedType === 'pf' ? $t('auth.registration.cpf_placeholder') : $t('auth.registration.cnpj_placeholder')}
-          value={document}
-          oninput={handleDocumentInput}
-          maxlength={selectedType === 'pf' ? 14 : 18}
-        />
-      </div>
-
-      <button
-        class="registrationform__submit"
-        onclick={handleSubmit}
-        disabled={!isDocumentValid || loading}
-      >
-        {#if loading}
-          <span class="registrationform__spinner"></span>
-          {$t('auth.loading')}
-        {:else}
-          {$t('auth.registration.submit')}
-          <ArrowRight size={18} />
         {/if}
       </button>
-    {/if}
-  </div>
+
+      <!-- PJ card -->
+      <button
+        class="registrationform__option"
+        class:registrationform__option--selected={selectedType === 'pj'}
+        onclick={() => selectType('pj')}
+      >
+        <div class="registrationform__option-icon registrationform__option-icon--pj">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="registrationform__option-text">
+          <span class="registrationform__option-label">{$t('auth.registration.pj')}</span>
+          <span class="registrationform__option-desc">{$t('auth.registration.pj_description')}</span>
+        </div>
+        {#if selectedType === 'pj'}
+          <div class="registrationform__checkmark">
+            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+              <path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        {/if}
+      </button>
+    </div>
+  {:else if step === 'document'}
+    <!-- Header row -->
+    <div class="registrationform__header">
+      <button class="registrationform__back" onclick={goBack} aria-label="Voltar">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <span class="registrationform__header-title">Criar conta</span>
+    </div>
+
+    <p class="registrationform__doc-label">
+      {selectedType === 'pf' ? $t('auth.registration.cpf_label') : $t('auth.registration.cnpj_label')}
+    </p>
+
+    <div class="registrationform__field">
+      <input
+        class="registrationform__input"
+        type="text"
+        inputmode="numeric"
+        placeholder={selectedType === 'pf' ? $t('auth.registration.cpf_placeholder') : $t('auth.registration.cnpj_placeholder')}
+        value={document}
+        oninput={handleDocumentInput}
+        maxlength={selectedType === 'pf' ? 14 : 18}
+      />
+    </div>
+
+    <button
+      class="registrationform__submit"
+      onclick={handleSubmit}
+      disabled={!isDocumentValid || loading}
+    >
+      {#if loading}
+        <span class="registrationform__spinner"></span>
+      {:else}
+        {$t('auth.registration.submit')}
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      {/if}
+    </button>
+  {/if}
 </div>
 
 <style>
   .registrationform {
     width: 100%;
     max-width: 40rem;
+    padding: 16px 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
-  .registrationform__card {
-    background: var(--wh);
-    border-radius: 2rem;
-    padding: 2.5rem 2rem;
-    box-shadow: 0 0.4rem 2.4rem rgba(0, 0, 0, 0.08);
-    text-align: center;
-    position: relative;
+  .registrationform__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
   }
 
-  .registrationform__logo {
+  .registrationform__back {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1.5px solid #EDE9E4;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
-    margin-bottom: 1.5rem;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.15s;
   }
 
-  .registrationform__logo-drop {
-    width: 1.2rem;
-    height: 1.6rem;
-    background: var(--pk);
-    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  .registrationform__back:hover {
+    background: #F3F4F6;
   }
 
-  .registrationform__logo-text {
-    font-family: var(--ld);
-    font-weight: 900;
-    font-size: 1.5rem;
-    letter-spacing: -0.03em;
-    color: var(--bk);
+  .registrationform__header-title {
+    font-family: var(--sr);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: #111;
   }
 
-  .registrationform__logo-text :global(em) {
-    font-style: normal;
-    color: var(--pk);
+  .registrationform__lead {
+    font-size: 0.78rem;
+    color: #6B7280;
+    margin: 0 0 6px;
+    line-height: 1.4;
   }
 
   .registrationform__title {
-    font-family: var(--ld);
-    font-size: 1.3rem;
-    font-weight: 900;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--bk);
-    margin: 0 0 0.5rem;
-  }
-
-  .registrationform__subtitle {
     font-family: var(--sr);
-    font-style: italic;
-    font-size: 0.85rem;
-    color: var(--gr);
-    margin: 0 0 1.5rem;
-    line-height: 1.5;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #111;
+    margin: 0 0 24px;
+    line-height: 1.3;
   }
 
   .registrationform__options {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 12px;
   }
 
   .registrationform__option {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 1.5rem 1rem;
-    background: var(--of2);
-    border: 0.15rem solid transparent;
-    border-radius: 1.2rem;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background: #fff;
+    border: 1.5px solid #EDE9E4;
+    border-radius: 14px;
     cursor: pointer;
     transition: all 0.15s;
     font-family: inherit;
+    text-align: left;
+    width: 100%;
   }
 
   .registrationform__option:hover {
-    background: var(--wh);
     border-color: var(--pk);
   }
 
   .registrationform__option--selected {
-    background: var(--wh);
-    border-color: var(--pk);
-    box-shadow: 0 0 0 0.15rem rgba(255, 107, 158, 0.2);
+    border: 2px solid var(--pk);
+    box-shadow: 0 2px 12px rgba(255, 60, 172, 0.12);
   }
 
   .registrationform__option-icon {
-    color: var(--pk);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .registrationform__option-icon--pf {
+    background: #FFE8F5;
+  }
+
+  .registrationform__option-icon--pj {
+    background: #F3F4F6;
+  }
+
+  .registrationform__option-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   .registrationform__option-label {
-    font-family: var(--ld);
-    font-size: 1rem;
+    font-family: var(--vd);
+    font-size: 0.9rem;
     font-weight: 700;
-    color: var(--bk);
+    color: #111;
   }
 
   .registrationform__option-desc {
-    font-family: var(--sr);
+    font-family: var(--vd);
     font-size: 0.75rem;
-    color: var(--gr);
-    line-height: 1.4;
+    color: #6B7280;
+    line-height: 1.5;
   }
 
-  .registrationform__back {
-    position: absolute;
-    top: 1.2rem;
-    left: 1.2rem;
-    background: none;
-    border: none;
-    color: var(--gr);
-    cursor: pointer;
-    padding: 0.4rem;
-    border-radius: 0.5rem;
-    transition: background 0.15s;
+  .registrationform__checkmark {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--pk);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
   }
 
-  .registrationform__back:hover {
-    background: var(--of2);
+  .registrationform__doc-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #374151;
+    margin: 0 0 8px;
   }
 
   .registrationform__field {
-    margin: 1.5rem 0;
+    margin-bottom: 20px;
   }
 
   .registrationform__input {
     width: 100%;
-    padding: 0.85rem 1.2rem;
-    background: var(--of2);
-    border: 0.15rem solid transparent;
-    border-radius: 1rem;
-    font-family: var(--ld);
-    font-size: 1.2rem;
-    text-align: center;
-    color: var(--bk);
+    padding: 14px 16px;
+    background: #fff;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 10px;
+    font-family: var(--vd);
+    font-size: 0.9rem;
+    color: #111;
     outline: none;
     transition: border-color 0.15s;
     box-sizing: border-box;
@@ -291,28 +343,28 @@
   }
 
   .registrationform__input::placeholder {
-    color: var(--gr);
-    font-family: var(--sr);
+    color: #9CA3AF;
+    font-family: var(--vd);
     font-size: 0.85rem;
-    opacity: 0.7;
   }
 
   .registrationform__submit {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 8px;
     width: 100%;
-    padding: 0.85rem 1.5rem;
+    padding: 14px;
     background: var(--pk);
     color: var(--wh);
     border: none;
-    border-radius: 1.2rem;
-    font-family: var(--ld);
+    border-radius: 10px;
+    font-family: var(--vd);
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
     transition: opacity 0.15s;
+    box-shadow: 0 4px 16px rgba(255, 60, 172, 0.3);
   }
 
   .registrationform__submit:hover {
@@ -322,11 +374,12 @@
   .registrationform__submit:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+    box-shadow: none;
   }
 
   .registrationform__spinner {
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.5rem;
+    height: 1.5rem;
     border: 0.2rem solid rgba(255, 255, 255, 0.3);
     border-top-color: var(--wh);
     border-radius: 50%;

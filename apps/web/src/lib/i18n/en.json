@@ -28,7 +28,7 @@
   "auth": {
     "headline": {
       "buy_sell": "Buy & sell baby",
-      "clothes_smart": "clothes smart"
+      "clothes_smart": "baby clothes smart"
     },
     "subtitle": "The marketplace that grows with your baby",
     "loading": "Loading...",
@@ -38,17 +38,20 @@
     "or": "or",
     "privacy_policy": "Privacy Policy",
     "registration": {
-      "title": "Complete your registration",
+      "title": "Choose your profile",
       "subtitle": "Tell us a bit about yourself",
+      "subtitle_top": "How will you use BabyClothes?",
       "pf": "Individual (PF)",
       "pj": "Legal Entity (PJ)",
-      "pf_description": "For individual sellers and buyers",
-      "pj_description": "For companies and businesses",
+      "pf_description": "Sell clothes from your children. Requires CPF for verification.",
+      "pj_description": "Store or company. Requires CNPJ for verification.",
       "cpf": "CPF",
       "cnpj": "CNPJ",
+      "cpf_label": "Your CPF",
+      "cnpj_label": "Your CNPJ",
       "cpf_placeholder": "000.000.000-00",
       "cnpj_placeholder": "00.000.000/0000-00",
-      "submit": "Complete registration",
+      "submit": "Continue",
       "skip": "Skip for now"
     }
   },
