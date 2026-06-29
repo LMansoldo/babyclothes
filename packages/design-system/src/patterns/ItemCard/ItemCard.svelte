@@ -110,17 +110,17 @@
         {:else}
           <span class="item-card__seller-initial">{sellerName.charAt(0)}</span>
         {/if}
+        {#if sellerVerifiedLabel}
+          <span class="item-card__verified-dot" aria-label={sellerVerifiedLabel}>
+            <svg width="7" height="5" viewBox="0 0 7 5" fill="none">
+              <path d="M1 2.5L2.8 4.2L6 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        {/if}
       </div>
       <span class="item-card__seller-name">{sellerName}</span>
       {#if sellerListings !== undefined}
         <span class="item-card__seller-listings">{sellerListings} anúncios</span>
-      {/if}
-      {#if sellerVerifiedLabel}
-        <span class="item-card__verified-dot" aria-label={sellerVerifiedLabel}>
-          <svg width="7" height="5" viewBox="0 0 7 5" fill="none">
-            <path d="M1 2.5L2.8 4.2L6 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
       {/if}
       <svg class="item-card__seller-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
         <path d="M9 18l6-6-6-6"/>

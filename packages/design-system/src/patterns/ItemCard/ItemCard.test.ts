@@ -28,7 +28,7 @@ describe('ItemCard', () => {
   })
 
   it('renders old price when provided', () => {
-    render(ItemCard, {
+    const { container } = render(ItemCard, {
       props: {
         title: 'Body',
         price: 32,
@@ -37,11 +37,11 @@ describe('ItemCard', () => {
         oldPrice: 55,
       },
     })
-    expect(document.querySelector('.item-card__old-price')).toBeInTheDocument()
+    expect(container.querySelector('.item-card__old-price')).toBeInTheDocument()
   })
 
   it('does not render old price when not provided', () => {
-    render(ItemCard, {
+    const { container } = render(ItemCard, {
       props: {
         title: 'Body',
         price: 32,
@@ -49,7 +49,7 @@ describe('ItemCard', () => {
         conditionLabel: 'Novo',
       },
     })
-    expect(document.querySelector('.item-card__old-price')).not.toBeInTheDocument()
+    expect(container.querySelector('.item-card__old-price')).not.toBeInTheDocument()
   })
 
   it('renders seller name when provided', () => {
