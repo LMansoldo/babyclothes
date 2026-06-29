@@ -144,7 +144,7 @@
   }
 
   .growthchart__name {
-    font-family: var(--ld);
+    font-family: var(--font-lato);
     font-size: 1rem;
     font-weight: 900;
     color: var(--bk);
@@ -302,7 +302,7 @@
   }
 
   .growthchart__progress-label {
-    font-family: var(--ld);
+    font-family: var(--font-lato);
     font-size: 0.65rem;
     font-weight: 700;
     color: var(--pk);
@@ -330,7 +330,7 @@
     border: none;
     border-radius: 0.75rem;
     padding: 0.6rem 1rem;
-    font-family: var(--ld);
+    font-family: var(--font-lato);
     font-size: 0.72rem;
     font-weight: 700;
     cursor: pointer;

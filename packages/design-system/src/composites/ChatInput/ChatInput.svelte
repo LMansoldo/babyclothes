@@ -210,7 +210,7 @@
     height: 2.5rem;
     border-radius: 50%;
     border: none;
-    background: #111;
+    background: var(--pk);
     color: var(--wh);
     display: flex;
     align-items: center;
@@ -223,7 +223,7 @@
 
   .chat-input__send:hover:not(:disabled) {
     transform: scale(1.05);
-    box-shadow: 0 0.4rem 1.6rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 60, 172, 0.25);
   }
 
   .chat-input__send:disabled {

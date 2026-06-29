@@ -268,7 +268,7 @@
   .card__title {
     font-family: var(--font-lato);
     font-weight: 700;
-    color: var(--wh);
+    color: var(--bk);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -300,7 +300,7 @@
   .card__price {
     font-family: var(--font-lato);
     font-weight: 900;
-    color: var(--wh);
+    color: var(--bk);
   }
 
   .card--sm .card__price { font-size: 1rem; }
