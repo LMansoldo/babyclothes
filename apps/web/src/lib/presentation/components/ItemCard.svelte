@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Badge } from '@babyclothes/ui'
+  import { Badge } from '@babyclothes/design-system'
   import { Heart, MessageCircle, ShoppingCart } from 'lucide-svelte'
   import type { Item } from '$lib/domain/item/entities/Item'
   import { t } from '$lib/i18n'

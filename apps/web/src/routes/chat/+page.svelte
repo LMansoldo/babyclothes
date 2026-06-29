@@ -14,7 +14,7 @@
   import ChatBubble from '$lib/presentation/components/ChatBubble.svelte'
   import ChatHeader from '$lib/presentation/components/ChatHeader.svelte'
   import GrowthChart from '$lib/presentation/components/GrowthChart.svelte'
-  import { Card, ChatInput } from '@babyclothes/ui'
+  import { Card, ChatInput } from '@babyclothes/design-system'
 
   const childRepo = new HttpChildRepository()
   const catalogRepo = new HttpCatalogRepository()

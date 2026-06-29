@@ -5,7 +5,7 @@
   import type { Item } from '$lib/domain/item/entities/Item'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockItems } from '$lib/mocks/data'
-  import { Card } from '@babyclothes/ui'
+  import { Card } from '@babyclothes/design-system'
   import CategoryTabNav from '$lib/presentation/components/CategoryTabNav.svelte'
   import EmptyState from '$lib/presentation/components/EmptyState.svelte'
   import { RefreshCw, AlertCircle } from 'lucide-svelte'
