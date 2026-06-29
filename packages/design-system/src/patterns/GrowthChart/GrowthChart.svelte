@@ -328,7 +328,7 @@
   .growthchart__btn {
     flex: 1;
     border: none;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
     padding: 0.6rem 1rem;
     font-family: var(--ld);
     font-size: 0.72rem;
