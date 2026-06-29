@@ -213,9 +213,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@babyclothes/ui@workspace:*, @babyclothes/ui@workspace:packages/ui":
+"@babyclothes/design-system@workspace:*, @babyclothes/design-system@workspace:packages/design-system":
   version: 0.0.0-use.local
-  resolution: "@babyclothes/ui@workspace:packages/ui"
+  resolution: "@babyclothes/design-system@workspace:packages/design-system"
   dependencies:
     "@storybook/addon-essentials": "npm:^8.3.0"
     "@storybook/svelte": "npm:^8.3.0"
@@ -251,7 +251,7 @@ __metadata:
   resolution: "@babyclothes/web@workspace:apps/web"
   dependencies:
     "@auth/sveltekit": "npm:^1.7.0"
-    "@babyclothes/ui": "workspace:*"
+    "@babyclothes/design-system": "workspace:*"
     "@playwright/test": "npm:^1.47.0"
     "@sveltejs/adapter-auto": "npm:^3.3.0"
     "@sveltejs/kit": "npm:^2.7.0"

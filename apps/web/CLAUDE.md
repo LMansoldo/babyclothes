@@ -8,7 +8,7 @@
 - **Svelte 5** with runes (`$props()`, `$state()`, `$derived()`, `$effect()`, `$bindable()`, `Snippet`)
 - **TypeScript 5** (strict, `verbatimModuleSyntax`, `moduleResolution: bundler`)
 - **Vite 5** (port 5173, `host: true`)
-- **@babyclothes/ui** (workspace dependency)
+- **@babyclothes/design-system** (workspace dependency)
 - **@auth/sveltekit** for Google OAuth
 - **zod** for validation schemas
 
@@ -85,7 +85,7 @@ src/lib/
 
 ## CSS Conventions
 
-- CSS custom properties from `@babyclothes/ui/tokens.css`
+- CSS custom properties from `@babyclothes/design-system/tokens.css`
 - BEM naming: `.block__element--modifier`
 - Component-scoped `<style>` blocks
 - Mobile-first responsive design

@@ -8,7 +8,7 @@ C2C marketplace for buying/selling baby clothes with AI growth prediction.
 
 - **Yarn 4 workspaces** with `nodeLinker: pnp` (`.yarnrc.yml`)
 - **Node 22** (`.nvmrc`)
-- Workspaces: `apps/web`, `apps/agents`, `packages/ui`
+- Workspaces: `apps/web`, `apps/agents`, `packages/design-system`
 - `apps/api` is Elixir (Mix, not part of Yarn workspaces)
 
 ## Commands (Docker First)
@@ -32,7 +32,7 @@ yarn api:migrate       # Run Ecto migrations
 | `apps/web` | SvelteKit 2 + Svelte 5 | 5173 | Frontend SPA |
 | `apps/api` | Elixir + Plug/Bandit | 4000 | REST API + gRPC client |
 | `apps/agents` | TypeScript + LangGraph | 50051 (gRPC) | AI growth prediction |
-| `packages/ui` | Svelte 5 component lib | — | Shared UI components |
+| `packages/design-system` | Svelte 5 component lib | — | Shared UI components |
 
 ## Communication
 
@@ -42,7 +42,7 @@ yarn api:migrate       # Run Ecto migrations
 
 ## Design Tokens
 
-CSS custom properties defined in `packages/ui/src/lib/tokens/tokens.css`:
+CSS custom properties defined in `packages/design-system/src/lib/tokens/tokens.css`:
 - `--pk` (pink), `--bk` (black), `--wh` (white)
 - `--of2`, `--of3` (off-white variants)
 - `--gr` (Inter body font)
