@@ -1,11 +1,22 @@
 <script lang="ts">
-  import { t } from '$lib/i18n'
-  import ItemCard from '$lib/presentation/components/ItemCard.svelte'
+  import { t, get } from '$lib/i18n'
+  import { ImageGallery, ProductTray } from '@babyclothes/design-system'
 
   let { data } = $props()
 
+  const conditionLabel = $derived(get(t)(`item_card.condition_${data.item.condition}`))
+  const formattedPrice = $derived(`R$ ${(data.item.priceCents / 100).toFixed(2)}`)
+
+  function handleBack() {
+    history.back()
+  }
+
   function handleFavorite() {
     console.log('Toggle favorite:', data.item.id)
+  }
+
+  function handleShare() {
+    console.log('Share item:', data.item.id)
   }
 
   function handleContact() {
@@ -26,23 +37,45 @@
 </svelte:head>
 
 <div class="item-detail-page">
-  <ItemCard
-    item={data.item}
-    seller={data.seller ? { name: data.seller.name, avatarUrl: data.seller.avatarUrl, listingCount: 3, verified: data.seller.verified } : undefined}
-    paymentEnabled={true}
-    onFavorite={handleFavorite}
-    onContact={handleContact}
-    onBuy={handleBuy}
-    onSellerClick={handleSellerClick}
-  />
+  <div class="item-detail-page__gallery">
+    <ImageGallery
+      images={data.item.photoUrls}
+      onBack={handleBack}
+      onFav={handleFavorite}
+      onShare={handleShare}
+    />
+  </div>
+
+  <div class="item-detail-page__tray">
+    <ProductTray
+      title={data.item.title}
+      price={formattedPrice}
+      condition={conditionLabel}
+      sizeLabel={data.item.clothingSize ? `Tam. ${data.item.clothingSize}` : undefined}
+      genderLabel={data.item.gender ? $t(`item_card.gender_${data.item.gender}`) : undefined}
+      sellerName={data.seller?.name}
+      sellerAvatar={data.seller?.avatarUrl}
+      sellerListings={data.seller?.listingsCount ? $t('product.listings', { count: data.seller.listingsCount }) : undefined}
+      verified={data.seller?.verified}
+      onContact={handleContact}
+      onBuy={handleBuy}
+      onSellerClick={handleSellerClick}
+    />
+  </div>
 </div>
 
 <style>
   .item-detail-page {
-    display: flex;
-    justify-content: center;
-    padding: 1.5rem 1rem;
     min-height: 100vh;
     background: var(--of2);
+  }
+
+  .item-detail-page__gallery {
+    width: 100%;
+  }
+
+  .item-detail-page__tray {
+    padding: 0 1rem;
+    margin-top: -1.6rem;
   }
 </style>
