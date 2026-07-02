@@ -137,7 +137,7 @@
     display: inline-flex;
     align-items: center;
     padding: 0.3rem 0.7rem;
-    border: 1.5px solid #FFD0ED;
+    border: 0.075rem solid #FFD0ED;
     background: #FFE8F5;
     color: var(--pk);
     font-family: var(--font-lato);
@@ -164,7 +164,7 @@
 
   .chat-input__textarea {
     flex: 1;
-    border: 1.5px solid #D1D5DB;
+    border: 0.075rem solid #D1D5DB;
     border-radius: 1.25rem;
     outline: none;
     background: transparent;
@@ -223,7 +223,7 @@
 
   .chat-input__send:hover:not(:disabled) {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(255, 60, 172, 0.25);
+    box-shadow: 0 0.2rem 0.6rem rgba(255, 60, 172, 0.25);
   }
 
   .chat-input__send:disabled {

@@ -110,7 +110,7 @@
     min-height: 0.5rem;
     background: #22C55E;
     border-radius: 50%;
-    border: 2px solid var(--color-white);
+    border: 0.1rem solid var(--color-white);
   }
 
   .avatar__verified {
@@ -121,7 +121,7 @@
     height: 1.1rem;
     background: var(--color-pink);
     border-radius: 50%;
-    border: 2px solid var(--color-white);
+    border: 0.1rem solid var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;

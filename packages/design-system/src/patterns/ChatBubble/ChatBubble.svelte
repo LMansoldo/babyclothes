@@ -36,8 +36,8 @@
   .chat-bubble--agent {
     align-self: flex-start;
     background: rgba(255, 255, 255, .12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(0.6rem);
+    -webkit-backdrop-filter: blur(0.6rem);
     border: 1px solid rgba(255, 255, 255, .15);
     border-radius: 1rem 1rem 1rem 0.25rem;
     color: #fff;

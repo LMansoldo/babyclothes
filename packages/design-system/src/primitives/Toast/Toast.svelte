@@ -47,7 +47,7 @@
     align-items: stretch;
     background: var(--color-white);
     border-radius: 0.875rem;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, .07);
+    box-shadow: 0 0.1rem 0.6rem rgba(0, 0, 0, .07);
     overflow: hidden;
     min-width: 28rem;
     max-width: 40rem;

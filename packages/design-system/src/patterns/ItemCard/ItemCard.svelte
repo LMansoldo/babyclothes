@@ -157,8 +157,8 @@
     background: var(--color-white);
     border-radius: 1.25rem;
     overflow: hidden;
-    border: 1.5px solid #EDE9E4;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, .07);
+    border: 0.075rem solid #EDE9E4;
+    box-shadow: 0 0.1rem 0.6rem rgba(0, 0, 0, .07);
     transition: box-shadow var(--transition-base), transform 0.2s;
   }
 
@@ -179,7 +179,7 @@
   }
 
   .item-card__photo {
-    height: 200px;
+    height: 10rem;
     overflow: hidden;
     position: relative;
   }
@@ -337,12 +337,12 @@
 
   .item-card__verified-dot {
     position: absolute;
-    bottom: -1px;
-    right: -1px;
+    bottom: -0.05rem;
+    right: -0.05rem;
     width: 0.7rem;
     height: 0.7rem;
     background: var(--color-pink);
-    border: 1.5px solid #fff;
+    border: 0.075rem solid #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -387,7 +387,7 @@
   .item-card__action--primary {
     background: var(--pk);
     color: var(--wh);
-    box-shadow: 0 4px 12px rgba(255, 60, 172, .28);
+    box-shadow: 0 0.2rem 0.6rem rgba(255, 60, 172, .28);
   }
 
   .item-card__action--primary:hover {

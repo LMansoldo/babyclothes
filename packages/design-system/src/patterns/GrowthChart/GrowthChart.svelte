@@ -119,15 +119,15 @@
 <style>
   .growthchart {
     background: rgba(255, 255, 255, .75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1.5px solid #EDE9E4;
+    backdrop-filter: blur(0.6rem);
+    -webkit-backdrop-filter: blur(0.6rem);
+    border: 0.075rem solid #EDE9E4;
     border-radius: 1.5rem;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, .07);
+    box-shadow: 0 0.2rem 1.2rem rgba(0, 0, 0, .07);
   }
 
   .growthchart--full {
@@ -248,7 +248,7 @@
     width: 0.7rem;
     height: 0.7rem;
     background: #111;
-    box-shadow: 0 0 0 2.5px #fff, 0 0 0 4px #111;
+    box-shadow: 0 0 0 0.125rem #fff, 0 0 0 0.2rem #111;
   }
 
   .growthchart__dot--next {
@@ -270,7 +270,7 @@
 
   .growthchart__line {
     flex: 1;
-    height: 1.5px;
+    height: 0.075rem;
     background: #D1D5DB;
     margin-bottom: 1.2rem;
   }
@@ -288,7 +288,7 @@
 
   .growthchart__progress-bar {
     flex: 1;
-    height: 6px;
+    height: 0.3rem;
     background: #F3F4F6;
     border-radius: 99rem;
     overflow: hidden;
@@ -348,7 +348,7 @@
   .growthchart__btn--ghost {
     background: rgba(255, 255, 255, .45);
     color: var(--bk);
-    border: 1.5px solid #EDE9E4;
+    border: 0.075rem solid #EDE9E4;
     border-radius: 0.75rem;
   }
 </style>

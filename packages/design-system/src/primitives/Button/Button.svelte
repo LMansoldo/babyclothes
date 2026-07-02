@@ -137,9 +137,9 @@
   /* Spinner */
   .btn__spinner {
     display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid;
+    width: 0.7rem;
+    height: 0.7rem;
+    border: 0.1rem solid;
     border-radius: 50%;
     animation: bc-spin .6s linear infinite;
     flex-shrink: 0;

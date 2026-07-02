@@ -121,7 +121,7 @@
     display: flex;
     align-items: center;
     background: var(--color-white);
-    border: 1.5px solid #D1D5DB;
+    border: 0.075rem solid #D1D5DB;
     border-radius: 0.5rem;
     overflow: hidden;
     transition: border-color var(--transition-base), box-shadow var(--transition-base);

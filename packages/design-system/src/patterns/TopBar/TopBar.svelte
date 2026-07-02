@@ -3,288 +3,283 @@
 
   let {
     variant = 'catalog',
-    currentPath,
     searchPlaceholder,
     searchAriaLabel,
-    chatAiLabel,
     publishLabel,
-    navItems,
     onSearch,
     onNavigate,
     avatar,
     searchIcon,
-    chatIcon,
+    chatTitle = 'Assistente IA',
+    chatStatus = 'SSE Live',
+    chatChildContext = '',
+    onMenuClick,
   }: {
     variant?: 'catalog' | 'chat'
-    currentPath?: string
     searchPlaceholder?: string
     searchAriaLabel?: string
-    chatAiLabel?: string
     publishLabel?: string
-    navItems?: { href: string; label: string }[]
     onSearch?: (value: string) => void
     onNavigate?: (href: string) => void
     avatar?: Snippet
     searchIcon?: Snippet
-    chatIcon?: Snippet
+    chatTitle?: string
+    chatStatus?: string
+    chatChildContext?: string
+    onMenuClick?: () => void
   } = $props()
 </script>
 
-<nav class="topnav">
-  <div class="topnav__inner">
+{#if variant === 'catalog'}
+  <nav class="topnav topnav--catalog">
     {#if onNavigate}
-      <button class="topnav__logo" onclick={() => onNavigate('/catalog')}>BabyClothes</button>
+      <button class="topnav__logo" onclick={() => onNavigate('/catalog')}>
+        <svg width="12" height="15" viewBox="0 0 20 24" fill="none">
+          <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
+        </svg>
+        <span>BabyClothes</span>
+      </button>
     {:else}
-      <a href="/catalog" class="topnav__logo">BabyClothes</a>
+      <a href="/catalog" class="topnav__logo">
+        <svg width="12" height="15" viewBox="0 0 20 24" fill="none">
+          <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
+        </svg>
+        <span>BabyClothes</span>
+      </a>
     {/if}
 
-    {#if variant === 'catalog'}
-      <div class="topnav__search">
-        <span class="topnav__search-icon">
-          {#if searchIcon}
-            {@render searchIcon()}
-          {:else}
-            <span class="topnav__search-icon-dot"></span>
-          {/if}
-        </span>
-        <input
-          type="text"
-          placeholder={searchPlaceholder}
-          class="topnav__search-input"
-          aria-label={searchAriaLabel}
-          oninput={(e) => onSearch?.((e.target as HTMLInputElement).value)}
-        />
-      </div>
-    {:else if navItems}
-      <div class="topnav__tabs">
-        {#each navItems as item (item.href)}
-          {#if onNavigate}
-            <button
-              class="topnav__tab"
-              class:topnav__tab--active={currentPath?.startsWith(item.href) ?? false}
-              onclick={() => onNavigate(item.href)}
-            >
-              {item.label}
-            </button>
-          {:else}
-            <a
-              href={item.href}
-              class="topnav__tab"
-              class:topnav__tab--active={currentPath?.startsWith(item.href) ?? false}
-            >
-              {item.label}
-            </a>
-          {/if}
-        {/each}
-      </div>
-    {/if}
-
-    <div class="topnav__actions">
-      {#if variant === 'catalog'}
-        {#if onNavigate}
-          <button class="topnav__btn-ghost" onclick={() => onNavigate('/chat')}>
-            {#if chatIcon}
-              {@render chatIcon()}
-            {/if}
-            {chatAiLabel}
-          </button>
-          <button class="topnav__btn-pink" onclick={() => onNavigate('/sell')}>
-            {publishLabel}
-          </button>
-        {:else}
-          <a href="/chat" class="topnav__btn-ghost">
-            {#if chatIcon}
-              {@render chatIcon()}
-            {/if}
-            {chatAiLabel}
-          </a>
-          <a href="/sell" class="topnav__btn-pink">+ {publishLabel}</a>
-        {/if}
-      {/if}
-      {#if avatar}
-        {@render avatar()}
+    <div class="topnav__search">
+      {#if searchIcon}
+        {@render searchIcon()}
       {:else}
-        <div class="topnav__avatar-placeholder"></div>
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2.5">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="M21 21l-4.35-4.35"/>
+        </svg>
       {/if}
+      <input
+        type="text"
+        placeholder={searchPlaceholder}
+        class="topnav__search-input"
+        aria-label={searchAriaLabel}
+        oninput={(e) => onSearch?.((e.target as HTMLInputElement).value)}
+      />
     </div>
-  </div>
-</nav>
+
+    {#if onNavigate}
+      <button class="topnav__btn-publish" onclick={() => onNavigate('/sell')}>
+        {publishLabel}
+      </button>
+    {:else}
+      <a href="/sell" class="topnav__btn-publish">{publishLabel}</a>
+    {/if}
+
+    {#if avatar}
+      {@render avatar()}
+    {:else}
+      <div class="topnav__avatar-placeholder">BC</div>
+    {/if}
+  </nav>
+{:else}
+  <nav class="topnav topnav--chat">
+    <div class="topnav__ai-avatar">
+      <svg width="14" height="17" viewBox="0 0 20 24" fill="none">
+        <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
+      </svg>
+      <div class="topnav__online-dot"></div>
+    </div>
+
+    <div class="topnav__chat-info">
+      <div class="topnav__chat-title">{chatTitle}</div>
+      <div class="topnav__chat-status">
+        <div class="topnav__status-dot"></div>
+        <span class="topnav__status-text">{chatStatus}</span>
+        {#if chatChildContext}
+          <span class="topnav__child-context">· {chatChildContext}</span>
+        {/if}
+      </div>
+    </div>
+
+    <button class="topnav__btn-menu" aria-label="Menu" onclick={() => onMenuClick?.()}>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2">
+        <circle cx="12" cy="12" r="1"/>
+        <circle cx="19" cy="12" r="1"/>
+        <circle cx="5" cy="12" r="1"/>
+      </svg>
+    </button>
+  </nav>
+{/if}
 
 <style>
   .topnav {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 100;
-    height: 5.6rem;
-    background: rgba(255, 255, 255, .88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, .6);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+    background: rgba(255, 255, 255, .95);
+    backdrop-filter: blur(0.6rem);
+    -webkit-backdrop-filter: blur(0.6rem);
+    border-bottom: 1px solid #F3F4F6;
   }
 
-  .topnav__inner {
+  .topnav--catalog {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 1.6rem;
-    height: 100%;
-    padding: 0 2rem;
-    max-width: 120rem;
-    margin: 0 auto;
+    gap: 0.4rem;
+    padding: 0 0.7rem;
+    height: 4rem;
   }
 
+  .topnav--chat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.7rem;
+    height: 4rem;
+    background: #fff;
+  }
+
+  /* Logo */
   .topnav__logo {
-    font-family: var(--ld);
-    font-size: 0.82rem;
-    color: var(--bk);
-    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
     flex-shrink: 0;
     background: none;
     border: none;
     cursor: pointer;
+    text-decoration: none;
+    font-family: var(--ld);
+    font-size: 0.8rem;
+    color: var(--bk);
   }
 
+  /* Search */
   .topnav__search {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    flex: 1;
-    max-width: 40rem;
+    gap: 0.3rem;
     background: #F3F4F6;
     border-radius: 99rem;
-    padding: 0.35rem 0.875rem;
-    transition: background 0.2s;
-  }
-
-  .topnav__search:focus-within {
-    background: #E5E7EB;
-  }
-
-  .topnav__search-icon-dot {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 0.2rem solid var(--gr);
-    display: block;
-    position: relative;
-  }
-
-  .topnav__search-icon-dot::after {
-    content: '';
-    position: absolute;
-    bottom: -0.3rem;
-    right: -0.3rem;
-    width: 0.3rem;
-    height: 0.5rem;
-    background: var(--gr);
-    border-radius: 0.1rem;
-    transform: rotate(-45deg);
+    padding: 0.35rem 0.5rem;
   }
 
   .topnav__search-input {
     border: none;
     outline: none;
     background: transparent;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: var(--bk);
     width: 100%;
   }
 
   .topnav__search-input::placeholder {
-    color: var(--gr);
+    color: #9CA3AF;
   }
 
-  .topnav__tabs {
-    display: flex;
-    gap: 0.4rem;
-  }
-
-  .topnav__tab {
-    padding: 0.6rem 1.4rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--gr);
-    text-decoration: none;
-    border-bottom: 0.2rem solid transparent;
-    transition: color 0.15s ease, border-color 0.15s ease;
-    background: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    cursor: pointer;
-  }
-
-  .topnav__tab:hover {
-    color: var(--bk);
-  }
-
-  .topnav__tab--active {
-    color: var(--pk);
-    border-bottom-color: var(--pk);
-  }
-
-  .topnav__tab--active:hover {
-    color: var(--pk);
-  }
-
-  .topnav__actions {
-    display: flex;
+  /* Publish button */
+  .topnav__btn-publish {
+    display: inline-flex;
     align-items: center;
-    gap: 1rem;
-    flex-shrink: 0;
-  }
-
-  .topnav__btn-ghost {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #374151;
-    text-decoration: none;
-    border: 1.5px solid #D1D5DB;
+    padding: 0.3rem 0.5rem;
     border-radius: 99rem;
-    background: transparent;
+    background: var(--pk);
+    border: none;
     cursor: pointer;
-    transition: background 0.15s ease;
     font-family: var(--font-lato);
-    flex-shrink: 0;
-  }
-
-  .topnav__btn-ghost:hover {
-    background: rgba(0, 0, 0, .04);
-  }
-
-  .topnav__btn-pink {
-    display: flex;
-    align-items: center;
-    padding: 0.4rem 0.75rem;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: #fff;
+    flex-shrink: 0;
     text-decoration: none;
-    background: var(--pk);
-    border-radius: 99rem;
-    cursor: pointer;
-    transition: opacity 0.15s ease;
-    border: none;
-    font-family: var(--font-lato);
+  }
+
+  /* Avatar placeholder */
+  .topnav__avatar-placeholder {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF3CAC, #B03EFF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: #fff;
     flex-shrink: 0;
   }
 
-  .topnav__btn-pink:hover {
-    opacity: 0.9;
+  /* Chat variant — AI avatar */
+  .topnav__ai-avatar {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
   }
 
-  .topnav__avatar-placeholder {
-    width: 3.2rem;
-    height: 3.2rem;
-    border-radius: var(--r-xs);
-    background: var(--of2);
+  .topnav__online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 0.45rem;
+    height: 0.45rem;
+    background: #22C55E;
+    border: 0.1rem solid #fff;
+    border-radius: 50%;
+  }
+
+  /* Chat variant — info */
+  .topnav__chat-info {
+    flex: 1;
+  }
+
+  .topnav__chat-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .topnav__chat-status {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .topnav__status-dot {
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 50%;
+    background: #22C55E;
+  }
+
+  .topnav__status-text {
+    font-size: 0.65rem;
+    color: #22C55E;
+    font-weight: 700;
+  }
+
+  .topnav__child-context {
+    font-size: 0.65rem;
+    color: #9CA3AF;
+    margin-left: 0.2rem;
+  }
+
+  /* Chat variant — menu button */
+  .topnav__btn-menu {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: #F3F4F6;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
     flex-shrink: 0;
   }
 </style>

@@ -60,10 +60,10 @@
     padding: 0.625rem 0.25rem;
     padding-bottom: calc(0.625rem + env(safe-area-inset-bottom));
     background: rgba(255, 255, 255, .88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(0.6rem);
+    -webkit-backdrop-filter: blur(0.6rem);
     border-top: 1px solid rgba(255, 255, 255, .6);
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, .06);
+    box-shadow: 0 -0.1rem 0.6rem rgba(0, 0, 0, .06);
   }
 
   @media (min-width: 76.9rem) {

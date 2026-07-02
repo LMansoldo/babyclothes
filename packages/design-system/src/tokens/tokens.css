@@ -31,8 +31,7 @@
   --color-glass-hi:   rgba(255, 255, 255, 0.18);
 
   /* ── Typography ───────────────────────────── */
-  --font-londrina: 'Londrina Solid', cursive;
-  --font-cormorant: 'Cormorant Garamond', serif;
+  --font-cormorant: var(--font-lato);
   --font-lato: 'Lato', sans-serif;
 
   /* ── Spacing scale (4px base) ─────────────── */
@@ -61,10 +60,10 @@
   --radius-pill: 99rem;
 
   /* ── Shadows ──────────────────────────────── */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.10);
+  --shadow-sm: 0 0.05rem 0.15rem rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 0.2rem 0.8rem rgba(0, 0, 0, 0.10);
   --shadow-lg: 0 1.2rem 4rem rgba(0, 0, 0, 0.12);
-  --shadow-pk: 0 4px 20px rgba(255, 60, 172, 0.25);
+  --shadow-pk: 0 0.2rem 1rem rgba(255, 60, 172, 0.25);
 
   /* ── Transitions ──────────────────────────── */
   --transition-fast: 0.15s ease;
@@ -84,11 +83,11 @@
   --color-purple: var(--color-pk-purple);
 
   /* ── Font aliases ─────────────────────────── */
-  --ld: var(--font-londrina);
+  --ld: var(--font-lato);
   --sr: var(--font-cormorant);
   --vd: var(--font-lato);
   --font-ui: var(--font-lato);
-  --font-body: var(--font-cormorant);
+  --font-body: var(--font-lato);
 
   /* ── Radius aliases ───────────────────────── */
   --r:    var(--radius-md);
@@ -112,7 +111,7 @@
 
 @keyframes bc-bounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  50% { transform: translateY(-0.25rem); }
 }
 
 @keyframes bc-pulse {
@@ -121,6 +120,6 @@
 }
 
 @keyframes bc-toast {
-  from { transform: translateX(-8px); opacity: 0; }
+  from { transform: translateX(-0.4rem); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }

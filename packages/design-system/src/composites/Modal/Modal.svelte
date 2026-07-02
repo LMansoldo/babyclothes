@@ -123,12 +123,12 @@
   }
 
   .modal--danger {
-    border: 1.5px solid #FEE2E2;
+    border: 0.075rem solid #FEE2E2;
   }
 
   .modal--pk {
-    border: 1.5px solid #FFD0ED;
-    box-shadow: 0 8px 32px rgba(255, 60, 172, .12);
+    border: 0.075rem solid #FFD0ED;
+    box-shadow: 0 0.4rem 1.6rem rgba(255, 60, 172, .12);
   }
 
   /* ── Header ───────────────────────────────────── */

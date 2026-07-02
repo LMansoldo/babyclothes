@@ -1,0 +1,109 @@
+/* ══════════════════════════════════════════════════════════════
+   brand.css — Brand tokens for BabyClothes Design System
+   Extracted from mock (Março 2025) and design decisions.
+
+   Use: @import '@babyclothes/design-system/brand.css';
+   ══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Hero (login/onboarding background) ─────────── */
+  --brand-hero-gradient:    linear-gradient(160deg, #0F0F0F 0%, #1A0814 60%, #0A0A1A 100%);
+  --brand-hero-glow:       radial-gradient(circle, rgba(255, 60, 172, 0.22) 0%, transparent 65%);
+
+  /* ── Logo / Wordmark ───────────────────────────────
+     BabyClothes logotipo: gota rosa (ícone SVG) + Lato
+     Usage:
+       <svg width="26" height="32" viewBox="0 0 20 24" fill="none">
+         <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--brand-logo-drop-color)"/>
+       </svg>
+       <span style="font-family:var(--brand-logo-font); ...">BabyClothes</span>
+  */
+  --brand-logo-font:        var(--font-lato);
+  --brand-logo-color:       #FFFFFF;
+  --brand-logo-drop-color:  var(--color-pink);
+  --brand-logo-size:        1.6rem;
+
+  /* ── Brand gradient (primary gradient) ──────────── */
+  --brand-gradient:         linear-gradient(135deg, #FF3CAC, #B03EFF);
+  --brand-gradient-hover:   linear-gradient(135deg, #FF2A9E, #A030F0);
+
+  /* ── Brand colors (aliases for semantic use) ────── */
+  --brand-primary:          var(--color-pink);
+  --brand-secondary:        var(--color-pk-purple);
+  --brand-bg:               var(--color-bg);           /* #F8F5F2 — off-white canvas */
+  --brand-surface:          var(--color-white);         /* card/sheet background */
+  --brand-text:             var(--color-black-2);       /* #111111 — primary text */
+  --brand-text-secondary:   #6B7280;                    /* body/secondary text */
+  --brand-text-muted:       #9CA3AF;                    /* placeholder/muted text */
+  --brand-border:           #EDE9E4;                    /* light borders */
+  --brand-border-strong:    #D1D5DB;                    /* input borders */
+
+  /* ── Status / Indicator colors ──────────────────── */
+  --brand-online:           #22C55E;                    /* SSE live dot, online badge */
+  --brand-success:          var(--color-success);
+  --brand-error:            var(--color-error);         /* #EF4444 — logout, destructive */
+  --brand-warning:          var(--color-warning);
+
+  /* ── Category chip colors ────────────────────────── */
+  --brand-category-new:     var(--color-black-2);       /* "Novo" badge bg */
+  --brand-category-semi:    var(--color-pk-soft);       /* "Seminovo" badge bg */
+  --brand-category-used:    #F3F4F6;                    /* "Usado" badge bg */
+  --brand-category-girl:    var(--color-pk-soft);       /* "Menina" filter */
+  --brand-category-boy:     #E0F2FE;                    /* "Menino" filter (not in mock) */
+
+  /* ── Gradient swatches (for item card placeholders) ─ */
+  --brand-swatch-1:         linear-gradient(135deg, #FDE68A, #FBCFE8);
+  --brand-swatch-2:         linear-gradient(135deg, #C7D2FE, #A5F3FC);
+  --brand-swatch-3:         linear-gradient(135deg, #BBF7D0, #6EE7B7);
+  --brand-swatch-4:         linear-gradient(135deg, #FED7AA, #FCA5A5);
+
+  /* ── Glass effects ─────────────────────────────── */
+  --brand-glass-bg:         rgba(255, 255, 255, 0.95);
+  --brand-glass-blur:       0.6rem;
+  --brand-glass-border:     1px solid #F3F4F6;
+
+  /* ── Button variants ────────────────────────────── */
+  --brand-btn-primary-bg:         var(--color-pink);
+  --brand-btn-primary-text:       #FFFFFF;
+  --brand-btn-primary-shadow:     0 0.2rem 0.8rem rgba(255, 60, 172, 0.30);
+
+  --brand-btn-ghost-bg:           #F3F4F6;
+  --brand-btn-ghost-text:         var(--color-black-2);
+
+  --brand-btn-gradient-bg:        var(--brand-gradient);
+  --brand-btn-gradient-text:      #FFFFFF;
+  --brand-btn-gradient-shadow:    0 0.2rem 0.8rem rgba(255, 60, 172, 0.30);
+
+  --brand-btn-outline-border:     var(--brand-border);
+  --brand-btn-outline-text:       var(--color-black-2);
+
+  /* ── Progress bar ──────────────────────────────── */
+  --brand-progress-bg:            #F3F4F6;
+  --brand-progress-fill:          var(--brand-gradient);
+  --brand-progress-fill-mono:     linear-gradient(90deg, #374151, #6B7280);
+  --brand-progress-height:        0.25rem;
+  --brand-progress-radius:        99rem;
+
+  /* ── Avatar gradient ring ───────────────────────── */
+  --brand-avatar-ring:            var(--brand-gradient);
+  --brand-avatar-verified-dot:    var(--color-pink);
+  --brand-avatar-initials-bg:     var(--color-black-2);
+
+  /* ── Chat tokens ────────────────────────────────── */
+  --brand-chat-agent-bg:          #FFFFFF;
+  --brand-chat-user-bg:           var(--color-black-2);
+  --brand-chat-user-text:         #FFFFFF;
+  --brand-chat-system-bg:         var(--color-pk-soft);
+  --brand-chat-system-text:       var(--color-pink);
+
+  /* ── Shadow system ──────────────────────────────── */
+  --brand-shadow-card:            0 0.05rem 0.3rem rgba(0, 0, 0, 0.07);
+  --brand-shadow-card-hover:      0 0.2rem 0.8rem rgba(0, 0, 0, 0.10);
+  --brand-shadow-phone:           0 0.2rem 1.2rem rgba(0, 0, 0, 0.12);
+
+  /* ── Social login colors ────────────────────────── */
+  --brand-google-blue:            #4285F4;
+  --brand-google-green:           #34A853;
+  --brand-google-yellow:          #FBBC05;
+  --brand-google-red:             #EA4335;
+}
