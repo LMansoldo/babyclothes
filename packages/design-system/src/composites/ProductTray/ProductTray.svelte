@@ -34,10 +34,6 @@
     onSellerClick?: () => void
     children?: Snippet
   } = $props()
-
-  function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter' && onSellerClick) onSellerClick()
-  }
 </script>
 
 <div class="product-tray">
@@ -79,12 +75,10 @@
   {/if}
 
   {#if sellerName}
-    <div
+    <button
+      type="button"
       class="product-tray__seller"
       onclick={onSellerClick}
-      role={onSellerClick ? 'button' : undefined}
-      tabindex={onSellerClick ? 0 : undefined}
-      onkeydown={onSellerClick ? handleKeydown : undefined}
     >
       <div class="product-tray__seller-left">
         {#if sellerAvatar}
@@ -110,7 +104,7 @@
       <svg class="product-tray__seller-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="9 18 15 12 9 6"/>
       </svg>
-    </div>
+    </button>
   {/if}
 
   {#if children}
@@ -237,8 +231,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.2rem 0;
-    border-top: 1px solid #F3F4F6;
-    border-bottom: 1px solid #F3F4F6;
+    border-top: 0.1rem solid #F3F4F6;
+    border-bottom: 0.1rem solid #F3F4F6;
     margin-top: 1.2rem;
     cursor: pointer;
     background: none;
@@ -264,7 +258,6 @@
     border-radius: 50%;
     object-fit: cover;
     flex-shrink: 0;
-    position: relative;
   }
 
   .product-tray__seller-avatar--empty {
