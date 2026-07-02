@@ -6,6 +6,7 @@ defmodule Api.Controllers.ItemsController do
   import Plug.Conn
   alias Api.Items
   alias Api.Repo
+  alias Api.Storage
   alias Api.Users.User
 
   @doc """
@@ -110,23 +111,29 @@ defmodule Api.Controllers.ItemsController do
   end
 
   @doc """
-  POST /items/:id/photos — Add a photo to an item.
+  POST /items/:id/photos — Generate an upload URL and create a photo record.
+
+  Returns presigned `upload_url` for direct S3 PUT and the created `photo` record.
   """
   def add_photo(conn, item_id) do
-    photo_params = Map.put(conn.body_params, "item_id", item_id)
-
-    case Items.add_photo(photo_params) do
-      {:ok, photo} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(201, Jason.encode!(photo_json(photo)))
-
-      {:error, changeset} ->
+    with {:ok, upload_url, photo_url} <- Storage.generate_upload_url(item_id),
+         photo_params <- %{"url" => photo_url, "item_id" => item_id},
+         {:ok, photo} <- Items.add_photo(photo_params) do
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(201, Jason.encode!(%{upload_url: upload_url, photo: photo_json(photo)}))
+    else
+      {:error, %Ecto.Changeset{} = changeset} ->
         errors = format_changeset_errors(changeset)
 
         conn
         |> put_resp_content_type("application/json")
         |> send_resp(422, Jason.encode!(%{errors: errors}))
+
+      {:error, reason} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(500, Jason.encode!(%{error: inspect(reason)}))
     end
   end
 
@@ -155,7 +162,7 @@ defmodule Api.Controllers.ItemsController do
       {:ok, user}
     else
       user
-      |> User.changeset(%{is_seller: true})
+      |> Ecto.Changeset.change(%{is_seller: true})
       |> Repo.update()
     end
   end

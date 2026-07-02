@@ -8,7 +8,13 @@ config :api, Api.Repo,
 
 config :api, Oban,
   repo: Api.Repo,
-  plugins: [Oban.Plugins.Pruner],
+  plugins: [
+    Oban.Plugins.Pruner,
+    {Oban.Plugins.Cron,
+     crontab: [
+       {"0 2 * * *", Api.Workers.GrowthCheckWorker, args: %{"check_all" => true}}
+     ]}
+  ],
   queues: [default: 10, growth: 5]
 
 import_config "#{config_env()}.exs"

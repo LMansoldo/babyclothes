@@ -154,6 +154,14 @@ defmodule Api.Router do
     Api.Controllers.NotificationsController.delete(conn, id)
   end
 
+  # SSE Notifications
+  get "/sse/notifications" do
+    Api.Controllers.SseController.stream(conn)
+  end
+
+  # Internal routes (agents service)
+  forward "/internal", to: Api.InternalRouter
+
   match _ do
     send_resp(conn, 404, Jason.encode!(%{error: "not found"}))
   end

@@ -86,4 +86,12 @@ defmodule Api.Notifications do
       notification -> Repo.delete(notification)
     end
   end
+
+  def broadcast_notification(notification) do
+    Phoenix.PubSub.broadcast(
+      Api.PubSub,
+      "notifications:#{notification.user_id}",
+      {:new_notification, notification}
+    )
+  end
 end

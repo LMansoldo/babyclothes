@@ -6,10 +6,13 @@ if System.get_env("DATABASE_URL") do
     pool_size: String.to_integer(System.get_env("POOL_SIZE", "10"))
 end
 
-config :api,
-  jwt_secret: System.get_env("JWT_SECRET", "dev-secret-change-in-prod"),
-  internal_jwt_secret: System.get_env("INTERNAL_JWT_SECRET", "dev-secret-change-in-production"),
-  google_client_id: System.get_env("GOOGLE_CLIENT_ID", ""),
-  grpc_agent_url: System.get_env("GRPC_AGENT_URL", "localhost:50051"),
-  agents_http_url: System.get_env("AGENTS_HTTP_URL", "http://localhost:50052"),
-  internal_api_key: System.get_env("INTERNAL_API_KEY", "dev-internal-key")
+if config_env() != :test do
+  config :api,
+    jwt_secret: System.get_env("JWT_SECRET", "dev-secret-change-in-prod"),
+    internal_jwt_secret: System.get_env("INTERNAL_JWT_SECRET", "dev-secret-change-in-production"),
+    google_client_id: System.get_env("GOOGLE_CLIENT_ID", ""),
+    grpc_agent_url: System.get_env("GRPC_AGENT_URL", "localhost:50051"),
+    agents_http_url: System.get_env("AGENTS_HTTP_URL", "http://localhost:50052"),
+    internal_api_key: System.get_env("INTERNAL_API_KEY", "dev-internal-key"),
+    s3_bucket: System.get_env("S3_BUCKET", "babyclothes-uploads")
+end

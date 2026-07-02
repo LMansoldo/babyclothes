@@ -125,6 +125,8 @@ defmodule Api.Controllers.ChildrenController do
 
     case Children.add_measurement(attrs) do
       {:ok, measurement} ->
+        Api.Workers.GrowthCheckWorker.schedule(child_id)
+
         conn
         |> put_resp_content_type("application/json")
         |> send_resp(201, Jason.encode!(%{measurement: measurement_json(measurement)}))

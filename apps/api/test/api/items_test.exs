@@ -3,6 +3,11 @@ defmodule Api.ItemsTest do
 
   alias Api.Items
 
+  setup do
+    Api.Repo.delete_all(Api.Items.Item)
+    :ok
+  end
+
   describe "list_items/0" do
     test "returns all items" do
       _item1 = insert(:item, title: "Item A")

@@ -3,12 +3,13 @@ defmodule Api.Application do
 
   @impl true
   def start(_type, _args) do
-    port = String.to_integer(System.get_env("PORT", "4000"))
+    port = Application.get_env(:api, :port, String.to_integer(System.get_env("PORT", "4000")))
 
     children = [
       Api.Repo,
       {Oban, Application.fetch_env!(:api, Oban)},
       {Finch, name: Api.Finch},
+      {Phoenix.PubSub, name: Api.PubSub},
       {Bandit, plug: Api.Router, port: port}
     ]
 

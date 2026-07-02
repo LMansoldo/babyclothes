@@ -38,6 +38,7 @@ defmodule Api.MixProject do
       {:ex_aws_s3,  "~> 2.5"},
       {:sweet_xml,  "~> 0.7"},
       {:hackney,    "~> 1.20"},
+      {:phoenix_pubsub, "~> 2.1"},
       # dev/test only
       {:credo,      "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_machina, "~> 2.8", only: :test}

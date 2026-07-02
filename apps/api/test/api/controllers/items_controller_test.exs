@@ -1,6 +1,11 @@
 defmodule Api.Controllers.ItemsControllerTest do
   use Api.ConnCase, async: true
 
+  setup do
+    Api.Repo.delete_all(Api.Items.Item)
+    :ok
+  end
+
   describe "GET /items" do
     test "returns empty list" do
       conn = conn(:get, "/items") |> Api.Router.call([])
@@ -49,20 +54,21 @@ defmodule Api.Controllers.ItemsControllerTest do
   describe "POST /items" do
     test "creates item with valid params" do
       seller = insert(:user)
+      token = Api.Auth.generate_internal_token(seller)
 
       params = %{
-        title: "New Item",
-        category: "body",
-        gender: "unisex",
-        clothing_size: "M",
-        condition: "new",
-        price_cents: 3500,
-        seller_id: seller.id
+        "title" => "New Item",
+        "category" => "body",
+        "gender" => "unisex",
+        "clothing_size" => "M",
+        "condition" => "new",
+        "price_cents" => 3500
       }
 
       conn =
         conn(:post, "/items", params)
         |> put_req_header("content-type", "application/json")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 201
@@ -72,9 +78,13 @@ defmodule Api.Controllers.ItemsControllerTest do
     end
 
     test "returns 422 with invalid params" do
+      seller = insert(:user)
+      token = Api.Auth.generate_internal_token(seller)
+
       conn =
-        conn(:post, "/items", %{title: "Bad"})
+        conn(:post, "/items", %{"title" => "Bad"})
         |> put_req_header("content-type", "application/json")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 422
@@ -119,24 +129,25 @@ defmodule Api.Controllers.ItemsControllerTest do
   end
 
   describe "POST /items/:id/photos" do
-    test "adds a photo to an item" do
+    test "generates upload URL and creates photo" do
       item = insert(:item)
 
       conn =
-        conn(:post, "/items/#{item.id}/photos", %{url: "https://cdn.example.com/photo.jpg", position: 0})
+        conn(:post, "/items/#{item.id}/photos", %{})
         |> put_req_header("content-type", "application/json")
         |> Api.Router.call([])
 
       assert conn.status == 201
       body = Jason.decode!(conn.resp_body)
-      assert body["url"] == "https://cdn.example.com/photo.jpg"
+      assert body["upload_url"] =~ "X-Amz-"
+      assert body["photo"]["url"] =~ "https://babyclothes-uploads.s3.amazonaws.com/items/#{item.id}/"
+      assert body["photo"]["id"] != nil
+      assert body["photo"]["position"] == 0
     end
 
-    test "returns 422 without url" do
-      item = insert(:item)
-
+    test "returns 422 for nonexistent item" do
       conn =
-        conn(:post, "/items/#{item.id}/photos", %{position: 0})
+        conn(:post, "/items/999999/photos", %{})
         |> put_req_header("content-type", "application/json")
         |> Api.Router.call([])
 
