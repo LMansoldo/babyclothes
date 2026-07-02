@@ -23,7 +23,8 @@
       "messages": "Messages",
       "growth": "Growth",
       "how_it_works": "How It Works"
-    }
+    },
+    "chat_status": "SSE Live"
   },
   "auth": {
     "headline": {
@@ -225,5 +226,16 @@
     "of": "of",
     "error": "Error",
     "retry": "Retry"
+  },
+  "product": {
+    "contact": "Contact",
+    "buy": "Buy",
+    "back": "Back",
+    "favorite": "Favorite",
+    "share": "Share",
+    "listings": "{{count}} listings",
+    "verified": "Verified",
+    "no_images": "No photos available",
+    "photo": "Photo {{current}} of {{total}}"
   }
 }

@@ -23,7 +23,8 @@
       "messages": "Mensagens",
       "growth": "Crescimento",
       "how_it_works": "Como Funciona"
-    }
+    },
+    "chat_status": "SSE Live"
   },
   "auth": {
     "headline": {
@@ -226,5 +227,16 @@
     "of": "de",
     "error": "Erro",
     "retry": "Tentar novamente"
+  },
+  "product": {
+    "contact": "Contatar",
+    "buy": "Comprar",
+    "back": "Voltar",
+    "favorite": "Favoritar",
+    "share": "Compartilhar",
+    "listings": "{{count}} anuncios",
+    "verified": "Verificado",
+    "no_images": "Nenhuma foto disponivel",
+    "photo": "Foto {{current}} de {{total}}"
   }
 }
