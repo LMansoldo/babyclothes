@@ -5,7 +5,6 @@
   import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
   import { HttpCatalogRepository } from '$lib/infrastructure/http/HttpCatalogRepository'
   import { SseChatRepository } from '$lib/infrastructure/sse/SseChatRepository'
-  import { getUserId } from '$lib/infrastructure/http/HttpAuthRepository'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockChildren, mockGrowthRecords, mockItems, mockMessages } from '$lib/mocks/data'
   import type { Child } from '$lib/domain/child/entities/Child'
@@ -44,8 +43,10 @@
         items = [...mockItems]
         messages = [...mockMessages]
       } else {
+        // TODO: Get userId from page data session and pass to findAll(userId)
+        // For now, this will fail without auth — needs a +page.server.ts to provide session
         const [loadedChildren, loadedItems] = await Promise.all([
-          childRepo.findAll(),
+          childRepo.findAll('TODO'),
           catalogRepo.fetch({}),
         ])
         children = loadedChildren
@@ -82,7 +83,9 @@
   }
 
   async function handleSend(msg: string) {
-    const userId = getUserId()
+    // Get userId from session (populated by hooks.server.ts)
+    const userId = mockMode ? 'mock-user-1' : undefined
+    // TODO: Get userId from page data session when available
     if (!userId || !activeChild) return
 
     // Add user message to UI

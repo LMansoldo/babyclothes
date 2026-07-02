@@ -1,41 +1,36 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
   import { t, locale, setLocale } from '$lib/i18n'
-  import { HttpAuthRepository } from '$lib/infrastructure/http/HttpAuthRepository'
   import type { Session } from '$lib/domain/auth/entities/Session'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockSession } from '$lib/mocks/data'
   import { User, Globe, Heart, ShoppingBag, Tag, LogOut, ChevronRight } from 'lucide-svelte'
-
-  const authRepo = new HttpAuthRepository()
 
   const mockMode = PUBLIC_MOCK_DATA === 'true'
 
   let session = $state<Session | null>(null)
   let loading = $state(true)
 
-  onMount(async () => {
-    try {
-      if (mockMode) {
-        session = { ...mockSession }
+  // Session is populated by hooks.server.ts — read from page data
+  import { page } from '$app/stores'
+
+  $effect(() => {
+    if (mockMode) {
+      session = { ...mockSession }
+    } else {
+      const pageSession = $page.data.session
+      if (pageSession) {
+        session = pageSession
       } else {
-        session = await authRepo.getSession()
-        if (!session) {
-          goto('/login')
-        }
+        goto('/login')
       }
-    } catch (e) {
-      console.error('Failed to load session:', e)
-      goto('/login')
-    } finally {
-      loading = false
     }
+    loading = false
   })
 
   async function handleLogout() {
-    if (!mockMode) await authRepo.logout()
-    goto('/login')
+    // Logout is handled by the server action
+    goto('/login?action=logout')
   }
 
   function handleLanguageToggle() {

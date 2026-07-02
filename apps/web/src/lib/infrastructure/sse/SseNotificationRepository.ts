@@ -1,44 +1,39 @@
-import { PUBLIC_API_URL } from '$lib/env';
-
-<｜｜DSML｜｜parameter name="replace_all" string="false">false
 import type { INotificationRepository } from '$lib/domain/notification/repositories/INotificationRepository';
 import type { Notification } from '$lib/domain/notification/entities/Notification';
 import { createNotification } from '$lib/domain/notification/entities/Notification';
 import { HttpNotificationRepository } from '$lib/infrastructure/http/HttpNotificationRepository';
-import { getAuthToken } from '$lib/infrastructure/http/HttpAuthRepository';
 
 export class SseNotificationRepository implements INotificationRepository {
   private readonly baseUrl: string;
   private readonly http: HttpNotificationRepository;
 
   constructor() {
-    this.baseUrl = PUBLIC_API_URL;
+    this.baseUrl = '/api';
     this.http = new HttpNotificationRepository();
   }
 
-  // Delega ao HttpNotificationRepository
-  findAll(): Promise<Notification[]> {
-    return this.http.findAll();
+  // Delegates to HttpNotificationRepository
+  findAll(userId: string): Promise<Notification[]> {
+    return this.http.findAll(userId);
   }
 
-  // Delega ao HttpNotificationRepository
+  // Delegates to HttpNotificationRepository
   markAsRead(id: string): Promise<void> {
     return this.http.markAsRead(id);
   }
 
   /**
-   * Abre uma conexão SSE via EventSource e emite Notification via async generator.
+   * Opens an SSE connection via EventSource and emits Notification via async generator.
    *
-   * O EventSource não suporta headers — o JWT é enviado via query string,
-   * conforme endpoint GET /sse/notifications?token=<jwt>.
+   * EventSource does not support headers — the httpOnly cookie is sent automatically
+   * since this is a same-origin request to the proxy.
+   *
+   * TODO: SSE streaming through the proxy is out of scope. The proxy (Task 13) does not
+   * stream SSE responses. This will need a direct connection or proxy streaming support.
    */
   async *subscribe(): AsyncIterable<Notification> {
-    const token = getAuthToken();
-    if (!token) {
-      throw new Error('Cannot subscribe to notifications: user is not authenticated');
-    }
-
-    const url = `${this.baseUrl}/sse/notifications?token=${encodeURIComponent(token)}`;
+    // TODO: authenticated SSE via cookie — EventSource sends cookies automatically for same-origin
+    const url = `${this.baseUrl}/sse/notifications`;
     const es = new EventSource(url);
 
     try {
@@ -50,8 +45,8 @@ export class SseNotificationRepository implements INotificationRepository {
 }
 
 /**
- * Converte um EventSource em AsyncIterable<Notification>.
- * Encerra quando a conexão é fechada ou ocorre erro.
+ * Converts an EventSource into AsyncIterable<Notification>.
+ * Closes when the connection is closed or an error occurs.
  */
 async function* listenEventSource(es: EventSource): AsyncIterable<Notification> {
   type Resolve = (value: IteratorResult<Notification>) => void;
@@ -76,7 +71,7 @@ async function* listenEventSource(es: EventSource): AsyncIterable<Notification> 
       const dto = JSON.parse(event.data as string) as ApiNotificationDTO;
       enqueue(mapNotification(dto));
     } catch {
-      // ignorar mensagens malformadas
+      // ignore malformed messages
     }
   });
 
@@ -99,7 +94,7 @@ async function* listenEventSource(es: EventSource): AsyncIterable<Notification> 
     yield await new Promise<Notification>((res) => {
       resolve = (result) => {
         if (result.done) {
-          // encerrar o generator
+          // close the generator
           closed = true;
           res(undefined as unknown as Notification);
         } else {

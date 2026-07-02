@@ -1,4 +1,3 @@
-import { PUBLIC_API_URL } from '$lib/env';
 import type {
   IChildRepository,
   CreateChildInput,
@@ -6,20 +5,16 @@ import type {
 } from '$lib/domain/child/repositories/IChildRepository';
 import type { Child } from '$lib/domain/child/entities/Child';
 import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord';
-import { getAuthToken, getUserId } from './HttpAuthRepository';
 
 export class HttpChildRepository implements IChildRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = PUBLIC_API_URL;
+    this.baseUrl = '/api';
   }
 
   private authHeaders(): Record<string, string> {
-    const token = getAuthToken();
-    return token
-      ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
-      : { 'Content-Type': 'application/json' };
+    return { 'Content-Type': 'application/json' };
   }
 
   async create(data: CreateChildInput): Promise<Child> {
@@ -44,10 +39,7 @@ export class HttpChildRepository implements IChildRepository {
     return mapChild(child);
   }
 
-  async findAll(): Promise<Child[]> {
-    const userId = getUserId();
-    if (!userId) throw new Error('Not authenticated — cannot fetch children');
-
+  async findAll(userId: string): Promise<Child[]> {
     const res = await fetch(`${this.baseUrl}/users/${userId}/children`, {
       headers: this.authHeaders(),
     });

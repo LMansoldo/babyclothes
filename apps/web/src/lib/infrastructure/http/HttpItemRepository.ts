@@ -1,21 +1,18 @@
-import { PUBLIC_API_URL } from '$lib/env';
 import type {
   IItemRepository,
   CreateItemInput,
 } from '$lib/domain/item/repositories/IItemRepository';
 import type { Item } from '$lib/domain/item/entities/Item';
-import { getAuthToken } from './HttpAuthRepository';
 
 export class HttpItemRepository implements IItemRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = PUBLIC_API_URL;
+    this.baseUrl = '/api';
   }
 
   private authHeaders(): Record<string, string> {
-    const token = getAuthToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    return { 'Content-Type': 'application/json' };
   }
 
   async create(data: CreateItemInput): Promise<Item> {
@@ -33,7 +30,6 @@ export class HttpItemRepository implements IItemRepository {
 
     const res = await fetch(`${this.baseUrl}/items`, {
       method: 'POST',
-      headers: this.authHeaders(),
       body: form,
     });
 
@@ -47,9 +43,7 @@ export class HttpItemRepository implements IItemRepository {
   }
 
   async findById(id: string): Promise<Item> {
-    const res = await fetch(`${this.baseUrl}/items/${id}`, {
-      headers: this.authHeaders(),
-    });
+    const res = await fetch(`${this.baseUrl}/items/${id}`);
 
     if (!res.ok) {
       throw new Error(`Item ${id} not found: ${res.status}`);
@@ -62,7 +56,6 @@ export class HttpItemRepository implements IItemRepository {
   async delete(id: string): Promise<void> {
     const res = await fetch(`${this.baseUrl}/items/${id}`, {
       method: 'DELETE',
-      headers: this.authHeaders(),
     });
 
     if (!res.ok) {

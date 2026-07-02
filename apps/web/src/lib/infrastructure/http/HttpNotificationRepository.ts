@@ -1,25 +1,19 @@
-import { PUBLIC_API_URL } from '$lib/env';
 import type { INotificationRepository } from '$lib/domain/notification/repositories/INotificationRepository';
 import type { Notification } from '$lib/domain/notification/entities/Notification';
 import { createNotification } from '$lib/domain/notification/entities/Notification';
-import { getAuthToken, getUserId } from './HttpAuthRepository';
 
 export class HttpNotificationRepository implements INotificationRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = PUBLIC_API_URL;
+    this.baseUrl = '/api';
   }
 
   private authHeaders(): Record<string, string> {
-    const token = getAuthToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    return { 'Content-Type': 'application/json' };
   }
 
-  async findAll(): Promise<Notification[]> {
-    const userId = getUserId();
-    if (!userId) throw new Error('Not authenticated — cannot fetch notifications');
-
+  async findAll(userId: string): Promise<Notification[]> {
     const res = await fetch(`${this.baseUrl}/users/${userId}/notifications`, {
       headers: this.authHeaders(),
     });
@@ -43,8 +37,8 @@ export class HttpNotificationRepository implements INotificationRepository {
     }
   }
 
-  // subscribe() é implementado pelo SseNotificationRepository — este método
-  // nunca deveria ser chamado diretamente nesta classe.
+  // subscribe() is implemented by SseNotificationRepository — this method
+  // should never be called directly on this class.
   async *subscribe(): AsyncIterable<Notification> {
     throw new Error(
       'HttpNotificationRepository does not support subscribe(). Use SseNotificationRepository.',

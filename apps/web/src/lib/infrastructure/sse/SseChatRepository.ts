@@ -1,13 +1,11 @@
-import { PUBLIC_API_URL } from '$lib/env';
 import type { IChatRepository } from '$lib/domain/chat/repositories/IChatRepository';
 import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse';
-import { getAuthToken } from '$lib/infrastructure/http/HttpAuthRepository';
 
 export class SseChatRepository implements IChatRepository {
   private readonly baseUrl: string;
 
   constructor() {
-    this.baseUrl = PUBLIC_API_URL;
+    this.baseUrl = '/api';
   }
 
   async *sendMessage(
@@ -15,13 +13,10 @@ export class SseChatRepository implements IChatRepository {
     childId: string,
     message: string,
   ): AsyncIterable<AgentResponse> {
-    const token = getAuthToken();
-
     const res = await fetch(`${this.baseUrl}/agent/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify({ user_id: userId, child_id: childId, message }),
     });
@@ -45,9 +40,9 @@ export class SseChatRepository implements IChatRepository {
 
         buffer += decoder.decode(value, { stream: true });
 
-        // Processar linhas completas do SSE (formato: "data: {json}\n\n")
+        // Process complete SSE lines (format: "data: {json}\n\n")
         const lines = buffer.split('\n');
-        // Manter a última linha incompleta no buffer
+        // Keep the last incomplete line in the buffer
         buffer = lines.pop() ?? '';
 
         for (const line of lines) {
@@ -61,7 +56,7 @@ export class SseChatRepository implements IChatRepository {
           try {
             parsed = JSON.parse(jsonStr);
           } catch {
-            // linha malformada — ignorar
+            // malformed line — ignore
             continue;
           }
 
@@ -72,7 +67,7 @@ export class SseChatRepository implements IChatRepository {
             props?: Record<string, unknown>;
           };
 
-          // O stream encerra por EOF — não há chunk 'done'
+          // The stream ends by EOF — no 'done' chunk
           if (chunk.type === 'text' && typeof chunk.content === 'string') {
             yield { type: 'text', content: chunk.content };
           } else if (
