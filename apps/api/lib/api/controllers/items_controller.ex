@@ -8,6 +8,8 @@ defmodule Api.Controllers.ItemsController do
   alias Api.Repo
   alias Api.Storage
   alias Api.Users.User
+  alias Api.Plugs.Auth
+  alias Api.Auth.Guard
 
   @doc """
   GET /items — List items with optional filters.
@@ -73,23 +75,36 @@ defmodule Api.Controllers.ItemsController do
   PATCH /items/:id — Update an item.
   """
   def update(conn, id) do
-    case Items.update_item(id, conn.body_params) do
-      {:ok, item} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(200, Jason.encode!(item_json(item)))
+    conn = Auth.call(conn, [])
 
-      {:error, :not_found} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(404, Jason.encode!(%{error: "item_not_found"}))
+    if conn.halted do
+      conn
+    else
+      case Items.get_item(id) do
+        {:ok, item} ->
+          conn = Guard.require_owner(conn, item.seller_id)
 
-      {:error, changeset} ->
-        errors = format_changeset_errors(changeset)
+          if conn.halted do
+            conn
+          else
+            case Items.update_item(id, conn.body_params) do
+              {:ok, item} ->
+                conn
+                |> put_resp_content_type("application/json")
+                |> send_resp(200, Jason.encode!(item_json(item)))
 
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(422, Jason.encode!(%{errors: errors}))
+              {:error, changeset} ->
+                errors = format_changeset_errors(changeset)
+
+                conn
+                |> put_resp_content_type("application/json")
+                |> send_resp(422, Jason.encode!(%{errors: errors}))
+            end
+          end
+
+        {:error, :not_found} ->
+          item_not_found(conn)
+      end
     end
   end
 
@@ -97,17 +112,32 @@ defmodule Api.Controllers.ItemsController do
   DELETE /items/:id — Delete an item.
   """
   def delete(conn, id) do
-    case Items.delete_item(id) do
-      {:ok, _item} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(204, "")
+    conn = Auth.call(conn, [])
 
-      {:error, :not_found} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(404, Jason.encode!(%{error: "item_not_found"}))
+    if conn.halted do
+      conn
+    else
+      case Items.get_item(id) do
+        {:ok, item} ->
+          conn = Guard.require_owner(conn, item.seller_id)
+
+          if conn.halted do
+            conn
+          else
+            {:ok, _item} = Items.delete_item(id)
+            send_resp(conn, 204, "")
+          end
+
+        {:error, :not_found} ->
+          item_not_found(conn)
+      end
     end
+  end
+
+  defp item_not_found(conn) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(404, Jason.encode!(%{error: "item_not_found"}))
   end
 
   @doc """

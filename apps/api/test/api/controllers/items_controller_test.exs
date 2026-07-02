@@ -1,6 +1,8 @@
 defmodule Api.Controllers.ItemsControllerTest do
   use Api.ConnCase, async: true
 
+  defp auth(conn, user), do: put_req_header(conn, "authorization", "Bearer #{Api.Auth.generate_access_token(user)}")
+
   setup do
     Api.Repo.delete_all(Api.Items.Item)
     :ok
@@ -93,11 +95,13 @@ defmodule Api.Controllers.ItemsControllerTest do
 
   describe "PATCH /items/:id" do
     test "updates an existing item" do
-      item = insert(:item, title: "Old Title")
+      owner = insert(:user)
+      item = insert(:item, seller: owner, title: "Old Title")
 
       conn =
         conn(:patch, "/items/#{item.id}", %{title: "New Title"})
         |> put_req_header("content-type", "application/json")
+        |> auth(owner)
         |> Api.Router.call([])
 
       assert conn.status == 200
@@ -106,9 +110,12 @@ defmodule Api.Controllers.ItemsControllerTest do
     end
 
     test "returns 404 for nonexistent item" do
+      user = insert(:user)
+
       conn =
         conn(:patch, "/items/999999", %{title: "Nope"})
         |> put_req_header("content-type", "application/json")
+        |> auth(user)
         |> Api.Router.call([])
 
       assert conn.status == 404
@@ -117,13 +124,25 @@ defmodule Api.Controllers.ItemsControllerTest do
 
   describe "DELETE /items/:id" do
     test "deletes an existing item" do
-      item = insert(:item)
-      conn = conn(:delete, "/items/#{item.id}") |> Api.Router.call([])
+      owner = insert(:user)
+      item = insert(:item, seller: owner)
+
+      conn =
+        conn(:delete, "/items/#{item.id}")
+        |> auth(owner)
+        |> Api.Router.call([])
+
       assert conn.status == 204
     end
 
     test "returns 404 for nonexistent item" do
-      conn = conn(:delete, "/items/999999") |> Api.Router.call([])
+      user = insert(:user)
+
+      conn =
+        conn(:delete, "/items/999999")
+        |> auth(user)
+        |> Api.Router.call([])
+
       assert conn.status == 404
     end
   end
@@ -164,6 +183,45 @@ defmodule Api.Controllers.ItemsControllerTest do
       assert conn.status == 200
       body = Jason.decode!(conn.resp_body)
       assert length(body["photos"]) == 1
+    end
+  end
+
+  describe "ownership" do
+    test "PATCH /items/:id forbids non-owner" do
+      owner = insert(:user)
+      other = insert(:user)
+      item = insert(:item, seller: owner)
+
+      conn =
+        conn(:patch, "/items/#{item.id}", %{"title" => "Hacked"})
+        |> put_req_header("content-type", "application/json")
+        |> auth(other)
+        |> Api.Router.call([])
+
+      assert conn.status == 403
+    end
+
+    test "DELETE /items/:id allows owner" do
+      owner = insert(:user)
+      item = insert(:item, seller: owner)
+
+      conn =
+        conn(:delete, "/items/#{item.id}")
+        |> auth(owner)
+        |> Api.Router.call([])
+
+      assert conn.status == 204
+    end
+
+    test "PATCH /items/:id requires auth" do
+      item = insert(:item)
+
+      conn =
+        conn(:patch, "/items/#{item.id}", %{"title" => "X"})
+        |> put_req_header("content-type", "application/json")
+        |> Api.Router.call([])
+
+      assert conn.status == 401
     end
   end
 end
