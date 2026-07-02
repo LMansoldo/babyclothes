@@ -1,9 +1,8 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import { page } from '$app/stores'
+  import { enhance } from '$app/forms'
   import AuthScreen from '$lib/presentation/components/AuthScreen.svelte'
   import RegistrationForm from '$lib/presentation/components/RegistrationForm.svelte'
-  import { HttpAuthRepository } from '$lib/infrastructure/http/HttpAuthRepository'
 
   type Step = 'login' | 'register' | 'redirecting'
 
@@ -11,78 +10,42 @@
   let loading = $state(false)
   let error = $state('')
 
-  const authRepo = new HttpAuthRepository()
+  let loginForm = $state<HTMLFormElement | undefined>(undefined)
+  let credentialInput = $state<HTMLInputElement | undefined>(undefined)
+  let registerForm = $state<HTMLFormElement | undefined>(undefined)
+  let registerType = $state<'pf' | 'pj'>('pf')
+  let registerDocument = $state('')
 
-  // Google Identity Services callback — invoked when user selects an account
-  declare global {
-    function handleGoogleCredential(response: { credential: string }): void
-  }
-
-  async function handleGoogleCredential(response: { credential: string }) {
-    loading = true
-    error = ''
-
-    try {
-      const session = await authRepo.loginWithGoogle(response.credential)
-      if (!session.type) {
-        step = 'register'
-      } else {
-        step = 'redirecting'
-        goto('/catalog')
-      }
-    } catch (e) {
-      error = (e as Error).message
-    } finally {
-      loading = false
+  // Called by Google GSI (via window bridge). Fills the hidden field and submits the login action.
+  function handleGoogleCredential(response: { credential: string }) {
+    if (credentialInput && loginForm) {
+      credentialInput.value = response.credential
+      loginForm.requestSubmit()
     }
   }
 
-  // Dev fallback: log in directly without Google
-  async function handleDevLogin() {
-    loading = true
-    error = ''
-
-    try {
-      // Try to get an existing token first
-      const existing = await authRepo.getSession()
-      if (existing) {
-        if (!existing.type) {
-          step = 'register'
-        } else {
-          step = 'redirecting'
-          goto('/catalog')
-        }
-        return
-      }
-      error = 'No session found. Seed the database and set localStorage manually.'
-    } catch (e) {
-      error = (e as Error).message
-    } finally {
-      loading = false
-    }
-  }
-
-  // Expose callback globally so Google's GSI library can call it
   if (typeof window !== 'undefined') {
     ;(window as unknown as Record<string, unknown>).handleGoogleCredential = handleGoogleCredential
   }
 
-  async function handleRegistrationComplete(data: {
-    type: 'pf' | 'pj'
-    cpf?: string
-    cnpj?: string
-  }) {
-    loading = true
-    error = ''
-
-    try {
-      await authRepo.updateProfile(data)
+  function onLoginResult(session: { type: string | null } | undefined) {
+    loading = false
+    if (!session) {
+      error = 'login_failed'
+      return
+    }
+    if (!session.type) {
+      step = 'register'
+    } else {
       step = 'redirecting'
       goto('/catalog')
-    } catch (e) {
-      error = (e as Error).message
-      loading = false
     }
+  }
+
+  function handleRegistrationComplete(data: { type: 'pf' | 'pj'; cpf?: string; cnpj?: string }) {
+    registerType = data.type
+    registerDocument = data.cpf ?? data.cnpj ?? ''
+    registerForm?.requestSubmit()
   }
 </script>
 
@@ -94,25 +57,60 @@
 </svelte:head>
 
 <div class="login-page" class:login-page--register={step === 'register'}>
+  <!-- Hidden login form driven by the Google credential -->
+  <form
+    method="POST"
+    action="?/login"
+    bind:this={loginForm}
+    use:enhance={() => {
+      loading = true
+      error = ''
+      return async ({ result }) => {
+        if (result.type === 'success') {
+          onLoginResult(result.data?.session as { type: string | null } | undefined)
+        } else {
+          loading = false
+          error = 'login_failed'
+        }
+      }
+    }}
+    hidden
+  >
+    <input type="hidden" name="credential" bind:this={credentialInput} />
+  </form>
+
+  <!-- Hidden register form -->
+  <form
+    method="POST"
+    action="?/register"
+    bind:this={registerForm}
+    use:enhance={() => {
+      loading = true
+      error = ''
+      return async ({ result }) => {
+        loading = false
+        if (result.type === 'success') {
+          step = 'redirecting'
+          goto('/catalog')
+        } else {
+          error = 'update_failed'
+        }
+      }
+    }}
+    hidden
+  >
+    <input type="hidden" name="type" value={registerType} />
+    <input type="hidden" name="document" value={registerDocument} />
+  </form>
+
   {#if step === 'login'}
-    <AuthScreen
-      onGoogleLogin={() => {
-        /* Handled by GSI button rendered inside AuthScreen */
-      }}
-      onDevLogin={handleDevLogin}
-      {loading}
-    />
+    <AuthScreen onGoogleLogin={() => {}} onDevLogin={() => {}} {loading} />
   {:else if step === 'register'}
-    <RegistrationForm
-      onComplete={handleRegistrationComplete}
-      {loading}
-    />
+    <RegistrationForm onComplete={handleRegistrationComplete} {loading} />
   {:else if step === 'redirecting'}
     <div class="login-page__redirecting">
       <span class="login-page__spinner"></span>
-      <p class="login-page__redirect-text">
-        {loading ? 'Redirecting...' : ''}
-      </p>
+      <p class="login-page__redirect-text">{loading ? 'Redirecting...' : ''}</p>
     </div>
   {/if}
 
