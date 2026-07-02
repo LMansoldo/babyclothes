@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projecao de Vendas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3f7;--s2:#ffffff;--s3:#fdf0f5;
+  --border:#e4d9ec;--border2:#d4c2e0;
+  --text:#1a0a2e;--muted:#7a6890;--muted2:#b0a0c0;
+  --pink:#e0257a;--pink-light:#fce8f2;--pink-dim:rgba(224,37,122,.12);
+  --blue:#2356e8;--blue-light:#eaf0ff;--blue-dim:rgba(35,86,232,.12);
+  --inp:#2356e8;--otim:#e0257a;--mod:#7c3aed;--pess:#0ea5c9;--ap:#f59e0b;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:9px 24px;background:var(--s2);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted);box-shadow:0 1px 3px rgba(35,86,232,.06)}
+.topbar label{font-family:'DM Mono',monospace;white-space:nowrap;color:var(--muted)}
+.topbar input[type=date]{background:var(--bg);border:1px solid var(--border2);border-radius:6px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;padding:5px 10px;outline:none;transition:border-color .15s}
+.topbar input[type=date]:focus{border-color:var(--blue)}
+.topbar input[type=date]::-webkit-calendar-picker-indicator{filter:none;cursor:pointer;opacity:.6}
+.topbar-info{font-family:'DM Mono',monospace;color:var(--muted2)}
+.topbar-info span{color:var(--pink);font-weight:500}
+.btn-reset{background:none;border:1px solid var(--border2);border-radius:6px;color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;padding:4px 10px;cursor:pointer;margin-left:auto;transition:border-color .15s,color .15s}
+.btn-reset:hover{border-color:var(--pink);color:var(--pink)}
+header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:14px 24px 12px;border-bottom:1px solid var(--border);background:var(--s2)}
+.brand h1{font-size:15px;font-weight:700;color:var(--text)}
+.brand p{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-top:3px}
+.kpis{display:flex;gap:8px;flex-wrap:wrap}
+.kpi{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:7px 13px;min-width:86px}
+.kpi .kv{font-family:'DM Mono',monospace;font-size:16px;font-weight:600;line-height:1;color:var(--text)}
+.kpi .kl{font-size:9px;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-top:4px}
+.layout{display:grid;grid-template-columns:255px 1fr;flex:1;min-height:0}
+@media(max-width:780px){.layout{grid-template-columns:1fr}}
+.sidebar{border-right:1px solid var(--border);padding:16px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;background:var(--s2)}
+.stitle{font-size:10px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace}
+.field input[type=date],.field input[type=number]{background:var(--bg);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:8px 11px;outline:none;transition:border-color .15s;width:100%}
+.field input:focus{border-color:var(--blue)}
+.field input[type=date]::-webkit-calendar-picker-indicator{filter:none;cursor:pointer;opacity:.5}
+.hint{font-size:10px;color:var(--muted2);font-family:'DM Mono',monospace;margin-top:1px;min-height:14px}
+.btn-add{background:linear-gradient(135deg,var(--blue),var(--pink));color:#fff;border:none;border-radius:7px;font-family:'Inter',sans-serif;font-weight:600;font-size:13px;padding:10px;cursor:pointer;transition:opacity .15s,transform .1s;width:100%;letter-spacing:.2px}
+.btn-add:hover{opacity:.88}
+.btn-add:active{transform:scale(.98)}
+.divider{height:1px;background:var(--border);flex-shrink:0}
+.entries{display:flex;flex-direction:column;gap:4px;max-height:230px;overflow-y:auto;padding-right:2px}
+.entries::-webkit-scrollbar{width:3px}
+.entries::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.entry{display:flex;align-items:center;justify-content:space-between;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-family:'DM Mono',monospace;font-size:11px}
+.entry-d{color:var(--muted)}
+.entry-v{color:var(--blue);font-weight:600}
+.btn-rm{background:none;border:none;color:var(--muted2);cursor:pointer;font-size:13px;padding:0 2px;transition:color .15s;line-height:1}
+.btn-rm:hover{color:var(--pink)}
+.empty{font-size:11px;color:var(--muted2);font-family:'DM Mono',monospace;text-align:center;padding:14px 0}
+.legend{display:flex;flex-direction:column;gap:7px}
+.lg{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted)}
+.lg-line{width:22px;height:2px;border-radius:2px;flex-shrink:0}
+.chart-area{display:flex;flex-direction:column;padding:18px 22px;flex:1;min-height:0;background:var(--bg)}
+.chart-wrap{position:relative;flex:1;min-height:360px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,var(--blue),var(--pink));color:#fff;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;padding:9px 20px;border-radius:999px;transition:transform .28s cubic-bezier(.22,1,.36,1);pointer-events:none;z-index:999;white-space:nowrap;box-shadow:0 4px 16px rgba(224,37,122,.3)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <label>Data do evento:</label>
+  <input type="date" id="cfg-evento" />
+  <span class="topbar-info" id="topbar-info">configure a data do evento acima</span>
+  <button class="btn-reset" onclick="resetAll()">limpar registros inseridos</button>
+</div>
+
+<header>
+  <div class="brand">
+    <h1>Projecao de Vendas - Ingressos</h1>
+    <p>acumulado por data - comparativo ano passado</p>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="kv" id="kv-total">3.418</div><div class="kl">vendidos</div></div>
+    <div class="kpi"><div class="kv" id="kv-dias">116</div><div class="kl">dias p/ evento</div></div>
+    <div class="kpi"><div class="kv" id="kv-mult">--</div><div class="kl">multiplicador</div></div>
+    <div class="kpi" style="border-color:rgba(224,37,122,.25)"><div class="kv" style="color:#e0257a" id="kv-otim">--</div><div class="kl">otimista</div></div>
+    <div class="kpi" style="border-color:rgba(124,58,237,.25)"><div class="kv" style="color:#7c3aed" id="kv-mod">--</div><div class="kl">moderada</div></div>
+    <div class="kpi" style="border-color:rgba(14,165,201,.25)"><div class="kv" style="color:#0ea5c9" id="kv-pess">--</div><div class="kl">pessimista</div></div>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="sidebar">
+    <div class="stitle">Inserir novo dia</div>
+    <div class="field">
+      <label>Data</label>
+      <input type="date" id="in-date" />
+      <div class="hint" id="in-hint"></div>
+    </div>
+    <div class="field">
+      <label>Ingressos vendidos</label>
+      <input type="number" id="in-qty" min="0" placeholder="ex: 30" />
+    </div>
+    <button class="btn-add" onclick="addEntry()">+ Adicionar</button>
+    <div class="divider"></div>
+    <div class="stitle">Registros inseridos</div>
+    <div class="entries" id="entries-list"><div class="empty">nenhum registro ainda</div></div>
+    <div class="divider"></div>
+    <div class="stitle">Legenda</div>
+    <div class="legend">
+      <div class="lg"><div class="lg-line" style="background:rgba(226,226,234,.9)"></div>historico atual (77 dias)</div>
+      <div class="lg"><div class="lg-line" style="background:var(--inp)"></div>dados inseridos</div>
+      <div class="lg"><div class="lg-line" style="background:var(--otim)"></div>otimista (+20%)</div>
+      <div class="lg"><div class="lg-line" style="background:var(--mod)"></div>moderada</div>
+      <div class="lg"><div class="lg-line" style="background:var(--pess)"></div>pessimista (-20%)</div>
+      <div class="lg"><div class="lg-line" style="background:var(--ap);opacity:.7"></div>ano passado (45 dias finais)</div>
+    </div>
+  </div>
+  <div class="chart-area">
+    <div class="chart-wrap"><canvas id="chart"></canvas></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const HIST_DEFAULT=[223,777,193,74,73,28,35,46,33,30,20,35,26,15,24,21,18,15,26,17,8,11,26,7,28,15,28,16,16,13,24,22,36,31,14,17,48,74,130,33,38,18,11,9,33,25,25,27,24,29,18,37,25,17,26,37,33,48,34,98,39,31,42,30,38,25,29,17,29,43,26,19,37,19,17,17,22];
+const HIST_START_ISO='2026-04-06';
+const HIST_LAST_ISO='2026-06-21';
+const TOTAL_BASE_DEFAULT=3418;
+const AP_VG_DEFAULT=[60,109,117,134,205,139,97,170,117,86,120,135,156,94,81,92,126,100,109,90,81,70,98,81,105,122,180,236,223,238,203,346,411,418,328,268,269,250,272,404,413,531,586,934];
+const AP_EV_DEFAULT=[2226,232,111];
+const AP_PRE_DEFAULT=3975;
+const EVENT_ISO_DEFAULT='2026-10-17';
+const LS_KEY='ingresso_proj_v2';
+const DIAS_VG_FASE=45;
+const N_TEND=20;
+
+function defaultState(){return{eventDate:EVENT_ISO_DEFAULT,hist:[...HIST_DEFAULT],histStartISO:HIST_START_ISO,histLastISO:HIST_LAST_ISO,totalBase:TOTAL_BASE_DEFAULT,apPre:AP_PRE_DEFAULT,apVG:[...AP_VG_DEFAULT],apEv:[...AP_EV_DEFAULT],entries:[]};}
+function loadState(){try{const r=localStorage.getItem(LS_KEY);return r?JSON.parse(r):defaultState();}catch(e){return defaultState();}}
+function saveState(){try{localStorage.setItem(LS_KEY,JSON.stringify(state));}catch(e){}}
+function resetAll(){if(!confirm('Limpar registros inseridos?'))return;const ev=state.eventDate;state=defaultState();state.eventDate=ev;saveState();applyState();showToast('Registros limpos');}
+let state=loadState();
+
+function parseISO(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function toISO(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function diffDays(a,b){return Math.round((b-a)/86400000);}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function fmtBR(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}
+function fmtLong(d){return d.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'});}
+function sum(a){return a.reduce((s,v)=>s+v,0);}
+
+function tendencia(){
+  const all=[...state.hist];
+  [...state.entries].sort((a,b)=>parseISO(a.date)-parseISO(b.date)).forEach(e=>all.push(e.q));
+  return sum(all.slice(-N_TEND))/N_TEND;
+}
+
+function calcMult(){
+  const media=tendencia();
+  const totalIns=sum(state.entries.map(e=>e.q));
+  const totalAtual=state.totalBase+totalIns;
+  const evDate=parseISO(state.eventDate);
+  let anchorDate=parseISO(state.histLastISO);
+  if(state.entries.length){
+    const sorted=[...state.entries].sort((a,b)=>parseISO(a.date)-parseISO(b.date));
+    const last=parseISO(sorted[sorted.length-1].date);
+    if(last>anchorDate) anchorDate=last;
+  }
+  const diasToEvent=diffDays(anchorDate,evDate);
+  const diasPVRest=Math.max(0,diasToEvent-DIAS_VG_FASE);
+  return (totalAtual+media*diasPVRest)/state.apPre;
+}
+
+// Curva do AP: existe APENAS nos ultimos 44+3 dias antes/durante o evento
+// Alinhada verticalmente para coincidir com anchorY no ponto ancora
+function buildAPcurve(anchorDate,anchorY,evDate){
+  const result={};
+  // VG: AP_VG[0] = 44 dias antes, AP_VG[43] = 1 dia antes
+  let acc=state.apPre;
+  for(let i=0;i<state.apVG.length;i++){
+    acc+=state.apVG[i];
+    const dbe=state.apVG.length-i; // 44..1
+    result[toISO(addDays(evDate,-dbe))]=acc;
+  }
+  // Evento
+  for(let i=0;i<state.apEv.length;i++){
+    acc+=state.apEv[i];
+    result[toISO(addDays(evDate,i))]=acc;
+  }
+  // Alinhamento: acha o valor do AP na data ancora ou no primeiro dia disponivel
+  const firstAPiso=toISO(addDays(evDate,-state.apVG.length)); // 44 dias antes
+  const refISO=toISO(anchorDate)>=firstAPiso?toISO(anchorDate):firstAPiso;
+  const apRefVal=result[refISO]||state.apPre;
+  const offset=anchorY-apRefVal;
+  const aligned={};
+  Object.entries(result).forEach(([iso,v])=>{aligned[iso]=v+offset;});
+  return aligned;
+}
+
+// Projecao usando shape das VG+evento do AP
+function buildProj(anchorDate,anchorY,mult,evDate){
+  // Constroi acumulado incremental do AP por dias antes do evento
+  const apCum={};
+  let acc=0;
+  for(let i=0;i<state.apVG.length;i++){
+    acc+=state.apVG[i];
+    apCum[state.apVG.length-i]=acc; // chave: dias antes do evento
+  }
+  for(let i=0;i<state.apEv.length;i++){
+    acc+=state.apEv[i];
+    apCum[-i]=acc;
+  }
+  const diasAnchorToEvent=diffDays(anchorDate,evDate);
+  const apAtAnchor=diasAnchorToEvent>DIAS_VG_FASE?0:(apCum[diasAnchorToEvent]||0);
+  const res={[toISO(anchorDate)]:anchorY};
+  const totalDays=diasAnchorToEvent+state.apEv.length;
+  for(let n=1;n<=totalDays;n++){
+    const d=addDays(anchorDate,n);
+    const dbe=diffDays(d,evDate);
+    if(apCum[dbe]===undefined) continue;
+    res[toISO(d)]=anchorY+(apCum[dbe]-apAtAnchor)*mult;
+  }
+  return res;
+}
+
+// Chart
+const chartCtx=document.getElementById('chart').getContext('2d');
+const chart=new Chart(chartCtx,{
+  type:'line',
+  data:{labels:[],datasets:[
+    {label:'Historico atual',     data:[],borderColor:'#1a0a2e',borderWidth:2,  pointRadius:0,tension:.35,fill:false,order:1},
+    {label:'Dados inseridos',     data:[],borderColor:'#2356e8',              borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#2356e8',pointBorderColor:'#ffffff',pointBorderWidth:1.5,tension:.3,fill:false,order:0},
+    {label:'Otimista (+20%)',      data:[],borderColor:'#e0257a',              borderWidth:2,  pointRadius:0,tension:.4,fill:false,order:2},
+    {label:'Moderada',            data:[],borderColor:'#7c3aed',              borderWidth:2,  pointRadius:0,tension:.4,fill:false,order:3},
+    {label:'Pessimista (-20%)',    data:[],borderColor:'#0ea5c9',              borderWidth:2,  pointRadius:0,tension:.4,fill:false,order:4},
+    {label:'Ano passado',         data:[],borderColor:'rgba(245,158,11,.8)',borderWidth:1.5,pointRadius:0,tension:.4,fill:false,borderDash:[5,4],order:5},
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,animation:{duration:350},
+    interaction:{mode:'index',intersect:false},
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:'#ffffff',borderColor:'#e4d9ec',borderWidth:1,
+        titleColor:'#7a6890',bodyColor:'#1a0a2e',
+        titleFont:{family:'DM Mono',size:11},bodyFont:{family:'DM Mono',size:12},
+        padding:12,
+        callbacks:{
+          title:items=>{const iso=chart.data.labels[items[0].dataIndex];return iso?fmtLong(parseISO(iso)):'';},
+          label:item=>item.raw===null?null:' '+item.dataset.label+': '+Math.round(item.raw).toLocaleString('pt-BR')
+        }
+      }
+    },
+    scales:{
+      x:{
+        ticks:{
+          color:'#3a3a4a',font:{family:'DM Mono',size:9},
+          maxRotation:45,autoSkip:true,maxTicksLimit:30,
+          callback:function(val,idx){
+            const iso=chart.data.labels[idx];
+            return iso?fmtBR(parseISO(iso)):'';
+          }
+        },
+        grid:{color:'rgba(35,86,232,.06)'},border:{color:'#e4d9ec'}
+      },
+      y:{
+        ticks:{color:'#7a6890',font:{family:'DM Mono',size:10},callback:v=>v>=1000?(v/1000).toFixed(0)+'k':v},
+        grid:{color:'rgba(35,86,232,.06)'},border:{color:'#e4d9ec'}
+      }
+    }
+  }
+});
+
+function rebuild(){
+  if(!state.eventDate){chart.data.labels=[];chart.data.datasets.forEach(d=>d.data=[]);chart.update();return;}
+  const evDate=parseISO(state.eventDate);
+  const histStart=parseISO(state.histStartISO);
+  const histLast=parseISO(state.histLastISO);
+  // Labels: do dia 1 do historico ate o ultimo dia do evento
+  const totalSpan=diffDays(histStart,evDate)+state.apEv.length;
+  const allLabels=[];
+  for(let i=0;i<=totalSpan;i++) allLabels.push(toISO(addDays(histStart,i)));
+  const N=allLabels.length;
+  const isoIdx={};allLabels.forEach((iso,i)=>isoIdx[iso]=i);
+  function mkNull(){return new Array(N).fill(null);}
+  function setP(ds,iso,v){const i=isoIdx[iso];if(i!==undefined)ds[i]=v;}
+
+  // DS0: historico acumulado - 77 dias a partir de histStart
+  const ds0=mkNull();
+  let acc=0;
+  for(let i=0;i<state.hist.length;i++){
+    acc+=state.hist[i];
+    setP(ds0,toISO(addDays(histStart,i)),acc);
+  }
+
+  // DS1: dados inseridos
+  const ds1=mkNull();
+  if(state.entries.length){
+    setP(ds1,state.histLastISO,state.totalBase);
+    const sorted=[...state.entries].sort((a,b)=>parseISO(a.date)-parseISO(b.date));
+    let a1=state.totalBase;
+    sorted.forEach(e=>{a1+=e.q;setP(ds1,e.date,a1);});
+  }
+
+  // Ancora
+  let anchorDate=histLast,anchorY=state.totalBase;
+  if(state.entries.length){
+    const sorted=[...state.entries].sort((a,b)=>parseISO(a.date)-parseISO(b.date));
+    anchorDate=parseISO(sorted[sorted.length-1].date);
+    let a2=state.totalBase;sorted.forEach(e=>a2+=e.q);anchorY=a2;
+  }
+
+  const mult=calcMult();
+  const pO=buildProj(anchorDate,anchorY,mult*1.2,evDate);
+  const pM=buildProj(anchorDate,anchorY,mult,evDate);
+  const pP=buildProj(anchorDate,anchorY,mult*0.8,evDate);
+  const ds2=mkNull(),ds3=mkNull(),ds4=mkNull();
+  Object.entries(pO).forEach(([iso,v])=>setP(ds2,iso,v));
+  Object.entries(pM).forEach(([iso,v])=>setP(ds3,iso,v));
+  Object.entries(pP).forEach(([iso,v])=>setP(ds4,iso,v));
+
+  // DS5: AP alinhado (so nos ultimos 44+3 dias)
+  const ds5=mkNull();
+  const apCurve=buildAPcurve(anchorDate,anchorY,evDate);
+  Object.entries(apCurve).forEach(([iso,v])=>setP(ds5,iso,v));
+
+  chart.data.labels=allLabels;
+  chart.data.datasets[0].data=ds0;
+  chart.data.datasets[1].data=ds1;
+  chart.data.datasets[2].data=ds2;
+  chart.data.datasets[3].data=ds3;
+  chart.data.datasets[4].data=ds4;
+  chart.data.datasets[5].data=ds5;
+  chart.update();
+
+  const fmt=v=>Math.round(v).toLocaleString('pt-BR');
+  const today=new Date(2026,5,22);
+  const diasHoje=diffDays(today,evDate);
+  const totalAtual=state.totalBase+sum(state.entries.map(e=>e.q));
+  const evISO=toISO(evDate);
+  document.getElementById('kv-total').textContent=totalAtual.toLocaleString('pt-BR');
+  document.getElementById('kv-dias').textContent=diasHoje>0?diasHoje:'--';
+  document.getElementById('kv-mult').textContent=mult.toFixed(2)+'x';
+  document.getElementById('kv-otim').textContent=pO[evISO]!==undefined?fmt(pO[evISO]):'--';
+  document.getElementById('kv-mod').textContent=pM[evISO]!==undefined?fmt(pM[evISO]):'--';
+  document.getElementById('kv-pess').textContent=pP[evISO]!==undefined?fmt(pP[evISO]):'--';
+  document.getElementById('topbar-info').innerHTML=
+    'evento <span>'+fmtLong(evDate)+'</span> &middot; hoje = <span>'+diasHoje+'d</span> antes'+
+    ' &middot; hist: <span>'+fmtBR(histStart)+'</span> a <span>'+fmtBR(histLast)+'</span>';
+}
+
+const cfgEl=document.getElementById('cfg-evento');
+const inDate=document.getElementById('in-date');
+cfgEl.addEventListener('change',()=>{state.eventDate=cfgEl.value||EVENT_ISO_DEFAULT;saveState();updateHint();rebuild();});
+inDate.max=HIST_LAST_ISO;
+inDate.value=HIST_LAST_ISO;
+inDate.addEventListener('change',updateHint);
+
+function updateHint(){
+  const hint=document.getElementById('in-hint');
+  if(!state.eventDate||!inDate.value){hint.textContent='';return;}
+  const dias=diffDays(parseISO(inDate.value),parseISO(state.eventDate));
+  if(dias<=0){hint.textContent='data invalida';return;}
+  hint.textContent=fmtLong(parseISO(inDate.value))+' - '+dias+' dias ate o evento';
+}
+
+function addEntry(){
+  if(!state.eventDate){showToast('Configure a data do evento');return;}
+  const dateStr=inDate.value;
+  const q=parseInt(document.getElementById('in-qty').value);
+  if(!dateStr){showToast('Selecione uma data');return;}
+  if(isNaN(q)||q<0){showToast('Quantidade invalida');return;}
+  const dias=diffDays(parseISO(dateStr),parseISO(state.eventDate));
+  if(dias<=0){showToast('Data deve ser anterior ao evento');return;}
+  if(state.entries.find(e=>e.date===dateStr)){showToast('Data ja registrada');return;}
+  state.entries.push({date:dateStr,q});
+  state.entries.sort((a,b)=>parseISO(a.date)-parseISO(b.date));
+  saveState();
+  document.getElementById('in-qty').value='';
+  renderList();rebuild();
+  showToast(fmtLong(parseISO(dateStr))+' - '+q+' ingressos');
+}
+
+function removeEntry(dateStr){
+  state.entries=state.entries.filter(e=>e.date!==dateStr);
+  saveState();renderList();rebuild();
+}
+
+function renderList(){
+  const el=document.getElementById('entries-list');
+  if(!state.entries.length){el.innerHTML='<div class="empty">nenhum registro ainda</div>';return;}
+  el.innerHTML=[...state.entries].sort((a,b)=>parseISO(b.date)-parseISO(a.date))
+    .map(e=>'<div class="entry"><span class="entry-d">'+fmtLong(parseISO(e.date))+'</span><span class="entry-v">'+e.q+' ingr.</span><button class="btn-rm" data-d="'+e.date+'">x</button></div>').join('');
+  el.querySelectorAll('.btn-rm').forEach(btn=>btn.addEventListener('click',()=>removeEntry(btn.dataset.d)));
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+document.getElementById('in-qty').addEventListener('keydown',e=>{if(e.key==='Enter')addEntry();});
+
+function applyState(){
+  cfgEl.value=state.eventDate||EVENT_ISO_DEFAULT;
+  renderList();updateHint();rebuild();
+}
+applyState();
+</script>
+</body>
+</html>

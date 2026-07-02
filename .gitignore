@@ -29,3 +29,4 @@ storybook-static/
 
 # Docker
 docker-compose.override.yml
+.claude/worktrees/

@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Londrina+Solid&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #F8F5F2; font-family: 'Lato', sans-serif; color: #111; -webkit-font-smoothing: antialiased; }
+    :root {
+      --color-pk: #FF3CAC;
+      --color-pk-soft: #FFE8F5;
+      --color-pk-mid: #FF85CC;
+      --color-pk-purple: #B03EFF;
+      --color-bk: #111111;
+      --color-wh: #FFFFFF;
+      --color-of: #F8F5F2;
+      --color-glass: rgba(255,255,255,0.15);
+      --font-lato: 'Lato', sans-serif;
+      --font-cormorant: 'Cormorant Garamond', serif;
+      --font-londrina: 'Londrina Solid', cursive;
+    }
+    @keyframes bc-spin { to { transform: rotate(360deg); } }
+    @keyframes bc-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes bc-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.8); } }
+    @keyframes bc-toast { from { transform: translateX(-8px); opacity:0; } to { transform: translateX(0); opacity:1; } }
+  </style>
+</helmet>
+
+<div style="display:flex; min-height:100vh;">
+
+  <!-- SIDEBAR -->
+  <aside style="width:216px; flex-shrink:0; position:sticky; top:0; height:100vh; overflow-y:auto; background:#fff; border-right:1.5px solid #EDE9E4; display:flex; flex-direction:column;">
+    <div style="padding:1.4rem 1.25rem 1.1rem; border-bottom:1.5px solid #EDE9E4;">
+      <div style="display:flex; align-items:center; gap:0.55rem; margin-bottom:0.35rem;">
+        <svg width="14" height="18" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+        <span style="font-family:'Londrina Solid',cursive; font-size:0.9rem; color:#111; letter-spacing:0.02em;">BabyClothes</span>
+      </div>
+      <div style="font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#B0A9A0;">Design System v1.0</div>
+    </div>
+    <nav style="padding:0.75rem 0.625rem; flex:1; display:flex; flex-direction:column; gap:0.1rem; font-size:0.78rem;">
+      <div style="padding:0.5rem 0.375rem 0.2rem; font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#B0A9A0;">Fundamentos</div>
+      <a href="#brand"        style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Marca</a>
+      <a href="#colors"       style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Cores</a>
+      <a href="#typography"   style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Tipografia</a>
+      <a href="#spacing"      style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Espaçamento</a>
+      <a href="#effects"      style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Efeitos</a>
+      <div style="padding:0.6rem 0.375rem 0.2rem; font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#B0A9A0;">Primitivos</div>
+      <a href="#avatar"       style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Avatar</a>
+      <a href="#badge"        style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Badge</a>
+      <a href="#button"       style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Button</a>
+      <a href="#filterbar"    style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">FilterBar</a>
+      <a href="#input"        style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Input</a>
+      <a href="#spinner"      style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Spinner</a>
+      <a href="#toast"        style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Toast</a>
+      <div style="padding:0.6rem 0.375rem 0.2rem; font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#B0A9A0;">Compostos</div>
+      <a href="#card"         style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Card</a>
+      <a href="#chatinput"    style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">ChatInput</a>
+      <a href="#modal"        style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Modal</a>
+      <div style="padding:0.6rem 0.375rem 0.2rem; font-size:0.58rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#B0A9A0;">Padrões</div>
+      <a href="#itemcard"     style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">ItemCard</a>
+      <a href="#chatbubble"   style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">ChatBubble</a>
+      <a href="#growth"       style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">GrowthChart</a>
+      <a href="#notifications" style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Notificações</a>
+      <a href="#navigation"   style="display:block; padding:0.32rem 0.5rem; color:#374151; text-decoration:none; border-radius:0.375rem;">Navegação</a>
+    </nav>
+    <div style="padding:0.875rem 1.25rem; border-top:1.5px solid #EDE9E4; font-size:0.65rem; color:#B0A9A0;">Gerado em 2026-06-26</div>
+  </aside>
+
+  <!-- MAIN -->
+  <main style="flex:1; min-width:0; overflow-x:hidden;">
+
+    <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+    <section id="brand" style="background:linear-gradient(140deg,#0F0F0F 0%,#1A0814 55%,#0A0A1A 100%); padding:4.5rem 3.5rem 4rem; position:relative; overflow:hidden;">
+      <div style="position:absolute;top:-80px;right:-40px;width:420px;height:420px;background:radial-gradient(circle,rgba(255,60,172,.18) 0%,transparent 65%);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:-60px;left:120px;width:280px;height:280px;background:radial-gradient(circle,rgba(176,62,255,.12) 0%,transparent 65%);pointer-events:none;"></div>
+      <div style="position:relative; max-width:940px;">
+        <div style="display:flex; align-items:center; gap:0.8rem; margin-bottom:2.5rem;">
+          <svg width="38" height="46" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+          <span style="font-family:'Londrina Solid',cursive; font-size:2rem; color:#fff; letter-spacing:0.03em;">BabyClothes</span>
+        </div>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-weight:300; font-size:4rem; color:#fff; line-height:1.06; margin-bottom:1.25rem;">
+          Design System<br><em style="color:#FF3CAC;">v 1.0</em>
+        </h1>
+        <p style="font-size:1rem; color:rgba(255,255,255,.55); max-width:460px; line-height:1.7; margin-bottom:3rem;">Tokens, componentes e padrões do marketplace de roupas infantis com IA integrada. Mobile-first · Svelte 5 · Clean Architecture.</p>
+        <div style="display:flex; gap:0.875rem; flex-wrap:wrap;">
+          <div style="background:rgba(255,255,255,.08); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.12); border-radius:0.875rem; padding:1rem 1.5rem;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:#FF3CAC; line-height:1;">28</div>
+            <div style="font-size:0.65rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:0.2rem;">Componentes</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.12); border-radius:0.875rem; padding:1rem 1.5rem;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:#FF85CC; line-height:1;">13</div>
+            <div style="font-size:0.65rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:0.2rem;">Rotas</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.12); border-radius:0.875rem; padding:1rem 1.5rem;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:#B03EFF; line-height:1;">33</div>
+            <div style="font-size:0.65rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:0.2rem;">Endpoints</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.12); border-radius:0.875rem; padding:1rem 1.5rem;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:600; color:#fff; line-height:1;">2</div>
+            <div style="font-size:0.65rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:0.08em; margin-top:0.2rem;">Grafos IA</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CORES ═══════════════════════════════ -->
+    <section id="colors" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2.25rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">FUNDAMENTOS</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Cores</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65; max-width:460px;">Todos os componentes referenciam estas variáveis CSS — nunca use valores hex diretamente.</p>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Rosa · Principal</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:0.875rem; margin-bottom:1.75rem;">
+          <div>
+            <div style="height:72px; background:#FF3CAC; border-radius:0.75rem; margin-bottom:0.6rem; box-shadow:0 4px 16px rgba(255,60,172,.28);"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-pk</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#FF3CAC · Rosa primária</div>
+          </div>
+          <div>
+            <div style="height:72px; background:#FFE8F5; border:1.5px solid #FFD0ED; border-radius:0.75rem; margin-bottom:0.6rem;"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-pk-soft</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#FFE8F5 · Superfícies suaves</div>
+          </div>
+          <div>
+            <div style="height:72px; background:#FF85CC; border-radius:0.75rem; margin-bottom:0.6rem;"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-pk-mid</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#FF85CC · Tom intermediário</div>
+          </div>
+          <div>
+            <div style="height:72px; background:#B03EFF; border-radius:0.75rem; margin-bottom:0.6rem; box-shadow:0 4px 16px rgba(176,62,255,.22);"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-pk-purple</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#B03EFF · Fim do gradiente</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Base</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:0.875rem; margin-bottom:1.75rem;">
+          <div>
+            <div style="height:72px; background:#111; border-radius:0.75rem; margin-bottom:0.6rem;"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-bk</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#111111 · Preto</div>
+          </div>
+          <div>
+            <div style="height:72px; background:#fff; border:1.5px solid #E5E7EB; border-radius:0.75rem; margin-bottom:0.6rem;"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-wh</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#FFFFFF · Branco</div>
+          </div>
+          <div>
+            <div style="height:72px; background:#F8F5F2; border:1.5px solid #EDE9E4; border-radius:0.75rem; margin-bottom:0.6rem;"></div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-of</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#F8F5F2 · Off-white</div>
+          </div>
+          <div>
+            <div style="height:72px; background:linear-gradient(135deg,#111 50%,#1a1a2e 100%); border-radius:0.75rem; margin-bottom:0.6rem; position:relative; overflow:hidden;">
+              <div style="position:absolute;inset:0;background:rgba(255,255,255,.15);backdrop-filter:blur(6px);border-radius:0.75rem;border:1px solid rgba(255,255,255,.2);"></div>
+            </div>
+            <code style="font-size:0.68rem; font-weight:700; color:#111;">--color-glass</code>
+            <div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">rgba(255,255,255,.15)</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Semânticas</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(165px,1fr)); gap:0.875rem; margin-bottom:1.75rem;">
+          <div><div style="height:72px; background:#22C55E; border-radius:0.75rem; margin-bottom:0.6rem;"></div><code style="font-size:0.68rem; font-weight:700; color:#111;">success / online</code><div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#22C55E</div></div>
+          <div><div style="height:72px; background:#F59E0B; border-radius:0.75rem; margin-bottom:0.6rem;"></div><code style="font-size:0.68rem; font-weight:700; color:#111;">warning / amber</code><div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#F59E0B</div></div>
+          <div><div style="height:72px; background:#EF4444; border-radius:0.75rem; margin-bottom:0.6rem;"></div><code style="font-size:0.68rem; font-weight:700; color:#111;">error / danger</code><div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#EF4444</div></div>
+          <div><div style="height:72px; background:#3B82F6; border-radius:0.75rem; margin-bottom:0.6rem;"></div><code style="font-size:0.68rem; font-weight:700; color:#111;">info / blue</code><div style="font-size:0.72rem; color:#6B7280; margin-top:0.12rem;">#3B82F6</div></div>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Gradiente de marca</div>
+        <div style="height:76px; background:linear-gradient(135deg,#FF3CAC,#B03EFF); border-radius:0.875rem; display:flex; align-items:center; padding:0 1.5rem; gap:1.5rem;">
+          <span style="font-size:0.85rem; color:rgba(255,255,255,.75);">Rosa → Roxo</span>
+          <code style="font-size:0.72rem; color:rgba(255,255,255,.5);">linear-gradient(135deg, var(--color-pk), var(--color-pk-purple))</code>
+        </div>
+        <div style="font-size:0.7rem; color:#9CA3AF; margin-top:0.45rem;">Progresso · GrowthChart · avatares pk · CTAs especiais</div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ TIPOGRAFIA ═══════════════════════════════ -->
+    <section id="typography" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2.25rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">FUNDAMENTOS</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Tipografia</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65; max-width:460px;">Três famílias com papéis distintos: logotipo, editorial display e corpo funcional.</p>
+        </div>
+
+        <!-- Londrina Solid -->
+        <div style="border:1.5px solid #EDE9E4; border-radius:1rem; padding:1.75rem; margin-bottom:1.125rem;">
+          <div style="display:flex; gap:0.75rem; align-items:baseline; margin-bottom:1.1rem; flex-wrap:wrap;">
+            <span style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#9CA3AF;">LOGO ONLY</span>
+            <code style="font-size:0.68rem; background:#F3F4F6; padding:0.15rem 0.4rem; border-radius:0.25rem; color:#374151;">--font-londrina</code>
+            <code style="font-size:0.68rem; background:#FFE8F5; padding:0.15rem 0.4rem; border-radius:0.25rem; color:#FF3CAC;">Londrina Solid</code>
+          </div>
+          <div style="font-family:'Londrina Solid',cursive; font-size:2.5rem; color:#111; display:flex; align-items:center; gap:0.75rem;">
+            <svg width="26" height="32" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+            BabyClothes
+          </div>
+          <div style="font-size:0.72rem; color:#9CA3AF; margin-top:0.6rem;">Exclusivo para logotipo/wordmark · weight 400</div>
+        </div>
+
+        <!-- Cormorant Garamond -->
+        <div style="border:1.5px solid #EDE9E4; border-radius:1rem; padding:1.75rem; margin-bottom:1.125rem;">
+          <div style="display:flex; gap:0.75rem; align-items:baseline; margin-bottom:1.25rem; flex-wrap:wrap;">
+            <span style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#9CA3AF;">DISPLAY</span>
+            <code style="font-size:0.68rem; background:#F3F4F6; padding:0.15rem 0.4rem; border-radius:0.25rem; color:#374151;">--font-cormorant</code>
+            <code style="font-size:0.68rem; background:#FFE8F5; padding:0.15rem 0.4rem; border-radius:0.25rem; color:#FF3CAC;">Cormorant Garamond</code>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0.875rem;">
+            <div style="display:flex; align-items:baseline; gap:1.5rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:3.5rem; font-weight:300; color:#111; line-height:1; min-width:80px;">Aa</div>
+              <span style="font-size:0.7rem; color:#9CA3AF;">300 · Títulos de página</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:1.5rem; border-top:1px solid #F3F4F6; padding-top:0.875rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:400; color:#111; line-height:1;">Compre e venda</div>
+              <span style="font-size:0.7rem; color:#9CA3AF;">400 · 2.25rem</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:1.5rem; border-top:1px solid #F3F4F6; padding-top:0.875rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.75rem; font-weight:600; color:#111; line-height:1;">Roupas inteligentes</div>
+              <span style="font-size:0.7rem; color:#9CA3AF;">600 · 1.75rem</span>
+            </div>
+            <div style="display:flex; align-items:baseline; gap:1.5rem; border-top:1px solid #F3F4F6; padding-top:0.875rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.35rem; font-style:italic; color:#FF3CAC; line-height:1;">Para bebês e crianças</div>
+              <span style="font-size:0.7rem; color:#9CA3AF;">400 italic · eyebrows</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lato -->
+        <div style="border:1.5px solid #EDE9E4; border-radius:1rem; padding:1.75rem;">
+          <div style="display:flex; gap:0.75rem; align-items:baseline; margin-bottom:1.25rem; flex-wrap:wrap;">
+            <span style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#9CA3AF;">CORPO</span>
+            <code style="font-size:0.68rem; background:#F3F4F6; padding:0.15rem 0.4rem; border-radius:0.25rem; color:#374151;">--font-lato</code>
+            <code style="font-size:0.68rem; background:#FFE8F5; padding:0.15rem 0.4rem; border-radius:0.25rem; color:#FF3CAC;">Lato</code>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:0;">
+            <div style="display:flex; align-items:center; gap:1.5rem; padding:0.625rem 0; border-bottom:1px solid #F3F4F6;">
+              <div style="width:90px; font-size:0.65rem; color:#9CA3AF; flex-shrink:0;">300 · 0.75rem</div>
+              <div style="font-size:0.75rem; font-weight:300; color:#374151;">Texto auxiliar e labels secundários</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:1.5rem; padding:0.625rem 0; border-bottom:1px solid #F3F4F6;">
+              <div style="width:90px; font-size:0.65rem; color:#9CA3AF; flex-shrink:0;">400 · 0.875rem</div>
+              <div style="font-size:0.875rem; font-weight:400; color:#374151;">Texto corrido, descrições, placeholders</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:1.5rem; padding:0.625rem 0; border-bottom:1px solid #F3F4F6;">
+              <div style="width:90px; font-size:0.65rem; color:#9CA3AF; flex-shrink:0;">700 · 0.875rem</div>
+              <div style="font-size:0.875rem; font-weight:700; color:#111;">Labels, títulos de cards, nomes</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:1.5rem; padding:0.625rem 0; border-bottom:1px solid #F3F4F6;">
+              <div style="width:90px; font-size:0.65rem; color:#9CA3AF; flex-shrink:0;">900 · 1rem</div>
+              <div style="font-size:1rem; font-weight:900; color:#111;">Destaques · preços principais</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:1.5rem; padding:0.625rem 0;">
+              <div style="width:90px; font-size:0.65rem; color:#9CA3AF; flex-shrink:0;">700 UPPER · 0.6rem</div>
+              <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; color:#9CA3AF;">Labels de seção · categoria · meta</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ ESPAÇAMENTO ═══════════════════════════════ -->
+    <section id="spacing" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2.25rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">FUNDAMENTOS</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Espaçamento &amp; Grid</h2>
+        </div>
+
+        <div style="margin-bottom:0.6rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Escala (base 4px)</div>
+        <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:1rem; padding:1.5rem; margin-bottom:1.75rem; display:flex; flex-direction:column; gap:0.7rem;">
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-1</div><div style="width:4px; height:18px; background:#FF3CAC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">0.25rem · 4px</span></div>
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-2</div><div style="width:8px; height:18px; background:#FF3CAC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">0.5rem · 8px</span></div>
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-4</div><div style="width:16px; height:18px; background:#FF3CAC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">1rem · 16px</span></div>
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-6</div><div style="width:24px; height:18px; background:#FF3CAC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">1.5rem · 24px</span></div>
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-8</div><div style="width:32px; height:18px; background:#FF3CAC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">2rem · 32px</span></div>
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-12</div><div style="width:48px; height:18px; background:#FF85CC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">3rem · 48px</span></div>
+          <div style="display:flex; align-items:center; gap:1.25rem;"><div style="width:64px; font-size:0.68rem; font-family:monospace; color:#374151;">--space-16</div><div style="width:64px; height:18px; background:#FFE8F5; border:1.5px solid #FF85CC; border-radius:2px;"></div><span style="font-size:0.68rem; color:#9CA3AF;">4rem · 64px</span></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:0.875rem; margin-bottom:1.75rem;">
+          <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1.25rem; text-align:center;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.75rem; font-weight:600; color:#FF3CAC;">48rem</div>
+            <div style="font-size:0.68rem; color:#9CA3AF; margin-top:0.2rem;">768px · Mobile L</div>
+          </div>
+          <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1.25rem; text-align:center;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.75rem; font-weight:600; color:#FF3CAC;">64rem</div>
+            <div style="font-size:0.68rem; color:#9CA3AF; margin-top:0.2rem;">1024px · Tablet</div>
+          </div>
+          <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1.25rem; text-align:center;">
+            <div style="font-family:'Cormorant Garamond',serif; font-size:1.75rem; font-weight:600; color:#FF3CAC;">76.8rem</div>
+            <div style="font-size:0.68rem; color:#9CA3AF; margin-top:0.2rem;">1228px · Desktop</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:0.6rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Border Radius</div>
+        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-end;">
+          <div style="text-align:center;"><div style="width:52px; height:52px; background:#111; border-radius:0.375rem; margin:0 auto 0.5rem;"></div><code style="font-size:0.62rem; color:#374151;">sm · 0.375rem</code></div>
+          <div style="text-align:center;"><div style="width:52px; height:52px; background:#111; border-radius:0.75rem; margin:0 auto 0.5rem;"></div><code style="font-size:0.62rem; color:#374151;">md · 0.75rem</code></div>
+          <div style="text-align:center;"><div style="width:52px; height:52px; background:#111; border-radius:1.25rem; margin:0 auto 0.5rem;"></div><code style="font-size:0.62rem; color:#374151;">lg · 1.25rem</code></div>
+          <div style="text-align:center;"><div style="width:52px; height:52px; background:#111; border-radius:99rem; margin:0 auto 0.5rem;"></div><code style="font-size:0.62rem; color:#374151;">full · 99rem</code></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ EFEITOS ═══════════════════════════════ -->
+    <section id="effects" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2.25rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">FUNDAMENTOS</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Efeitos</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65; max-width:460px;">Glassmorphism, gradientes e sombras definem a identidade visual premium do BabyClothes.</p>
+        </div>
+
+        <div style="background:linear-gradient(135deg,#FF3CAC 0%,#B03EFF 55%,#111 100%); border-radius:1.25rem; padding:2rem; margin-bottom:1.75rem; display:flex; gap:1rem; flex-wrap:wrap;">
+          <div style="background:rgba(255,255,255,.15); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.25); border-radius:1rem; padding:1.25rem 1.5rem; flex:1; min-width:200px;">
+            <div style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,.6); margin-bottom:0.4rem;">TopBar · BottomNav · Card</div>
+            <code style="font-size:0.78rem; color:#fff; line-height:1.6;">background: var(--color-glass)<br>backdrop-filter: blur(12px)</code>
+          </div>
+          <div style="background:rgba(0,0,0,.25); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.15); border-radius:1rem; padding:1.25rem 1.5rem; flex:1; min-width:200px;">
+            <div style="font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:rgba(255,255,255,.6); margin-bottom:0.4rem;">Dark overlay</div>
+            <code style="font-size:0.78rem; color:#fff; line-height:1.6;">background: rgba(0,0,0,.25)<br>backdrop-filter: blur(8px)</code>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.75rem;">
+          <div style="background:#fff; border-radius:0.875rem; padding:1.25rem 1.5rem; box-shadow:0 1px 3px rgba(0,0,0,.08); flex:1; min-width:120px; text-align:center;">
+            <code style="font-size:0.68rem; color:#374151; display:block; margin-bottom:0.25rem;">--shadow-sm</code>
+            <span style="font-size:0.65rem; color:#9CA3AF;">cards leves</span>
+          </div>
+          <div style="background:#fff; border-radius:0.875rem; padding:1.25rem 1.5rem; box-shadow:0 4px 16px rgba(0,0,0,.10); flex:1; min-width:120px; text-align:center;">
+            <code style="font-size:0.68rem; color:#374151; display:block; margin-bottom:0.25rem;">--shadow-md</code>
+            <span style="font-size:0.65rem; color:#9CA3AF;">modals</span>
+          </div>
+          <div style="background:#fff; border-radius:0.875rem; padding:1.25rem 1.5rem; box-shadow:0 4px 20px rgba(255,60,172,.25); flex:1; min-width:120px; text-align:center;">
+            <code style="font-size:0.68rem; color:#374151; display:block; margin-bottom:0.25rem;">--shadow-pk</code>
+            <span style="font-size:0.65rem; color:#9CA3AF;">botões rosa</span>
+          </div>
+        </div>
+
+        <div style="background:#F8F5F2; border-radius:1rem; padding:1.25rem 1.5rem; display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <div style="width:20px; height:20px; border:2.5px solid #EDE9E4; border-top-color:#FF3CAC; border-radius:50%; animation:bc-spin .6s linear infinite; flex-shrink:0;"></div>
+            <code style="font-size:0.72rem; color:#374151;">bc-spin</code>
+            <span style="font-size:0.72rem; color:#9CA3AF;">Spinner · 0.6s linear infinite</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <div style="display:flex; gap:3px; width:20px; justify-content:center; flex-shrink:0;">
+              <div style="width:5px; height:5px; background:#FF3CAC; border-radius:50%; animation:bc-bounce .6s ease infinite;"></div>
+              <div style="width:5px; height:5px; background:#FF3CAC; border-radius:50%; animation:bc-bounce .6s ease .1s infinite;"></div>
+              <div style="width:5px; height:5px; background:#FF3CAC; border-radius:50%; animation:bc-bounce .6s ease .2s infinite;"></div>
+            </div>
+            <code style="font-size:0.72rem; color:#374151;">bc-bounce</code>
+            <span style="font-size:0.72rem; color:#9CA3AF;">Typing indicator · delay escalonado</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:1rem;">
+            <div style="width:8px; height:8px; background:#22C55E; border-radius:50%; animation:bc-pulse 1.5s ease-in-out infinite; margin-left:6px; flex-shrink:0;"></div>
+            <code style="font-size:0.72rem; color:#374151;">bc-pulse</code>
+            <span style="font-size:0.72rem; color:#9CA3AF;">Online · SSE live indicator</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ AVATAR ═══════════════════════════════ -->
+    <section id="avatar" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Avatar</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Foto com fallback em iniciais. Indicadores de presença e verificação opcionais. 4 tamanhos × 3 fills.</p>
+        </div>
+        <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:1rem; padding:2rem; display:flex; flex-direction:column; gap:2rem;">
+
+          <div>
+            <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Tamanhos · sm/md/lg/xl</div>
+            <div style="display:flex; align-items:center; gap:1.75rem; flex-wrap:wrap;">
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:2rem; height:2rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:700; color:#fff;">AB</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">sm · 2rem</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.7rem; font-weight:700; color:#fff;">AB</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">md · 2.5rem</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:3rem; height:3rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff;">AB</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">lg · 3rem</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:4rem; height:4rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:700; color:#fff;">AB</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">xl · 4rem</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Fill variants · pk / bk / of</div>
+            <div style="display:flex; gap:1.75rem; flex-wrap:wrap; align-items:center;">
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:3rem; height:3rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff;">MC</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">pk</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:3rem; height:3rem; border-radius:50%; background:#111; display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff;">MC</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">bk</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="width:3rem; height:3rem; border-radius:50%; background:linear-gradient(135deg,#D1D5DB,#9CA3AF); display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff;">MC</div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">of</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Indicadores · online / verified</div>
+            <div style="display:flex; gap:2rem; flex-wrap:wrap; align-items:center;">
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="position:relative; width:3rem; height:3rem;">
+                  <div style="width:3rem; height:3rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff;">MJ</div>
+                  <div style="position:absolute; bottom:1px; right:1px; width:0.9rem; height:0.9rem; background:#22C55E; border:2px solid #fff; border-radius:50%;"></div>
+                </div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">online</span>
+              </div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.45rem;">
+                <div style="position:relative; width:3rem; height:3rem;">
+                  <div style="width:3rem; height:3rem; border-radius:50%; background:#111; display:flex; align-items:center; justify-content:center; font-size:0.85rem; font-weight:700; color:#fff;">JS</div>
+                  <div style="position:absolute; bottom:-1px; right:-1px; width:1.1rem; height:1.1rem; background:#FF3CAC; border:2px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+                    <svg width="7" height="5" viewBox="0 0 7 5" fill="none"><path d="M1 2.5L2.8 4.2L6 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  </div>
+                </div>
+                <span style="font-size:0.6rem; color:#9CA3AF;">verified</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ BADGE ═══════════════════════════════ -->
+    <section id="badge" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Badge</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">6 variantes × 3 tamanhos × modificador pill. Usado para condição de item, status, categorias.</p>
+        </div>
+        <div style="background:#F8F5F2; border:1.5px solid #EDE9E4; border-radius:1rem; padding:2rem; display:flex; flex-direction:column; gap:1.75rem;">
+
+          <div>
+            <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Variantes</div>
+            <div style="display:flex; gap:0.625rem; flex-wrap:wrap; align-items:center;">
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#111; color:#fff;">dark</span>
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#FF3CAC; color:#fff;">pk</span>
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#FFE8F5; color:#FF3CAC;">pk-soft</span>
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#F3F4F6; color:#374151;">neutral</span>
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#DCFCE7; color:#15803D;">green</span>
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#FEF3C7; color:#92400E;">amber</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Pill · condição do item</div>
+            <div style="display:flex; gap:0.625rem; flex-wrap:wrap; align-items:center;">
+              <span style="display:inline-flex; padding:0.25rem 0.75rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#111; color:#fff;">Novo</span>
+              <span style="display:inline-flex; padding:0.25rem 0.75rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#FFE8F5; color:#FF3CAC;">Seminovo</span>
+              <span style="display:inline-flex; padding:0.25rem 0.75rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#F3F4F6; color:#374151;">Usado</span>
+              <span style="display:inline-flex; align-items:center; gap:0.3rem; padding:0.25rem 0.75rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#111; color:#fff;">
+                <svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="3" fill="#FF3CAC"></circle></svg>IA
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Tamanhos · sm / md / lg</div>
+            <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap;">
+              <span style="display:inline-flex; padding:0.2rem 0.5rem; border-radius:0.375rem; font-size:0.65rem; font-weight:700; background:#FF3CAC; color:#fff;">sm</span>
+              <span style="display:inline-flex; padding:0.25rem 0.6rem; border-radius:0.375rem; font-size:0.75rem; font-weight:700; background:#FF3CAC; color:#fff;">md (padrão)</span>
+              <span style="display:inline-flex; padding:0.3rem 0.75rem; border-radius:0.375rem; font-size:0.85rem; font-weight:700; background:#FF3CAC; color:#fff;">lg</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ BUTTON ═══════════════════════════════ -->
+    <section id="button" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Button</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">7 variantes × 3 tamanhos. Estados: default, loading (spinner), disabled. Ícones SVG inline.</p>
+        </div>
+
+        <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:1rem; padding:2rem; margin-bottom:1.125rem;">
+          <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Superfície clara · 5 variantes</div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin-bottom:1.75rem;">
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#111; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">primary</button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#FF3CAC; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif; box-shadow:0 4px 16px rgba(255,60,172,.28);">pk</button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#F3F4F6; color:#111; border:none; cursor:pointer; font-family:'Lato',sans-serif;">secondary</button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:transparent; color:#111; border:1.5px solid #111; cursor:pointer; font-family:'Lato',sans-serif;">ghost</button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:transparent; color:#FF3CAC; border:1.5px solid #FF3CAC; cursor:pointer; font-family:'Lato',sans-serif;">ghost-pk</button>
+          </div>
+
+          <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Superfície escura · primary-inv / ghost-inv</div>
+          <div style="background:#111; border-radius:0.875rem; padding:1.25rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center; margin-bottom:1.75rem;">
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#fff; color:#111; border:none; cursor:pointer; font-family:'Lato',sans-serif;">primary-inv</button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,.4); cursor:pointer; font-family:'Lato',sans-serif;">ghost-inv</button>
+          </div>
+
+          <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Tamanhos · sm / md / lg</div>
+          <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; margin-bottom:1.75rem;">
+            <button style="display:inline-flex; align-items:center; padding:0.4rem 0.8rem; border-radius:0.375rem; font-size:0.8rem; font-weight:700; background:#111; color:#fff; border:none; font-family:'Lato',sans-serif;">sm</button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#111; color:#fff; border:none; font-family:'Lato',sans-serif;">md</button>
+            <button style="display:inline-flex; align-items:center; padding:0.75rem 1.25rem; border-radius:0.5rem; font-size:1rem; font-weight:700; background:#111; color:#fff; border:none; font-family:'Lato',sans-serif;">lg</button>
+          </div>
+
+          <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Estados · loading / disabled</div>
+          <div style="display:flex; gap:0.75rem; align-items:center; flex-wrap:wrap; margin-bottom:1.75rem;">
+            <button style="display:inline-flex; align-items:center; gap:0.5rem; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#FF3CAC; color:#fff; border:none; font-family:'Lato',sans-serif; opacity:.8;">
+              <div style="width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:bc-spin .6s linear infinite; flex-shrink:0;"></div>
+              loading
+            </button>
+            <button style="display:inline-flex; align-items:center; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#111; color:#fff; border:none; font-family:'Lato',sans-serif; opacity:.35; cursor:not-allowed;">disabled</button>
+          </div>
+
+          <div style="margin-bottom:0.75rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Com ícones</div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;">
+            <button style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#FF3CAC; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4M12 16h.01"></path></svg>
+              Publicar
+            </button>
+            <button style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.6rem 1.1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#111; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">
+              Continuar
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+            </button>
+            <button style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.6rem 1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:transparent; color:#111; border:1.5px solid #111; cursor:pointer; font-family:'Lato',sans-serif;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+              Buscar
+            </button>
+            <button style="display:inline-flex; align-items:center; justify-content:center; width:2.5rem; height:2.5rem; border-radius:0.5rem; font-size:0.875rem; font-weight:700; background:#F3F4F6; color:#111; border:none; cursor:pointer;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ FILTERBAR ═══════════════════════════════ -->
+    <section id="filterbar" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">FilterBar</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Chips multi-select horizontal. Scroll sem scrollbar. 3 variantes × 2 tamanhos.</p>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+          <div>
+            <div style="margin-bottom:0.4rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">default</div>
+            <div style="background:#F8F5F2; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:0.875rem 1.125rem; overflow-x:auto;">
+              <div style="display:flex; gap:0.5rem; width:max-content;">
+                <span style="display:inline-flex; align-items:center; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#111; color:#fff; cursor:pointer; white-space:nowrap;">Todos</span>
+                <span style="display:inline-flex; align-items:center; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; cursor:pointer; white-space:nowrap;">RN</span>
+                <span style="display:inline-flex; align-items:center; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; cursor:pointer; white-space:nowrap;">P</span>
+                <span style="display:inline-flex; align-items:center; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; cursor:pointer; white-space:nowrap;">M</span>
+                <span style="display:inline-flex; align-items:center; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; cursor:pointer; white-space:nowrap;">G</span>
+                <span style="display:inline-flex; align-items:center; gap:0.4rem; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; cursor:pointer; white-space:nowrap;">1 ano <span style="font-size:0.62rem; background:#E5E7EB; border-radius:99rem; padding:0 0.35rem; color:#6B7280;">23</span></span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="margin-bottom:0.4rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">pk</div>
+            <div style="background:#F8F5F2; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:0.875rem 1.125rem; overflow-x:auto;">
+              <div style="display:flex; gap:0.5rem; width:max-content;">
+                <span style="display:inline-flex; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#FF3CAC; color:#fff; cursor:pointer; white-space:nowrap;">Menina</span>
+                <span style="display:inline-flex; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#FFE8F5; color:#FF3CAC; cursor:pointer; white-space:nowrap;">Menino</span>
+                <span style="display:inline-flex; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#FFE8F5; color:#FF3CAC; cursor:pointer; white-space:nowrap;">Unissex</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="margin-bottom:0.4rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">on-dark</div>
+            <div style="background:#111; border-radius:0.875rem; padding:0.875rem 1.125rem; overflow-x:auto;">
+              <div style="display:flex; gap:0.5rem; width:max-content;">
+                <span style="display:inline-flex; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:#fff; color:#111; cursor:pointer; white-space:nowrap;">Novo</span>
+                <span style="display:inline-flex; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:rgba(255,255,255,.15); color:rgba(255,255,255,.85); cursor:pointer; white-space:nowrap;">Seminovo</span>
+                <span style="display:inline-flex; padding:0.35rem 0.75rem; border-radius:99rem; font-size:0.8rem; font-weight:700; background:rgba(255,255,255,.15); color:rgba(255,255,255,.85); cursor:pointer; white-space:nowrap;">Usado</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ INPUT ═══════════════════════════════ -->
+    <section id="input" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Input</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Label, hint, prefixo, toggle senha, estados de erro e sucesso com transição de 0.15s.</p>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1.125rem;">
+
+          <div>
+            <div style="margin-bottom:0.35rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Default</div>
+            <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1rem;">
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:0.4rem;">Nome completo</label>
+              <input type="text" placeholder="Maria Clara Santos" style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #D1D5DB; border-radius:0.5rem; font-size:0.875rem; font-family:'Lato',sans-serif; color:#374151; outline:none; background:#fff;" />
+              <div style="margin-top:0.35rem; font-size:0.7rem; color:#9CA3AF;">Como aparece no perfil</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.35rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#EF4444;">Error</div>
+            <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1rem;">
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:0.4rem;">CPF</label>
+              <input type="text" value="123.456.789" style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #EF4444; border-radius:0.5rem; font-size:0.875rem; font-family:'Lato',sans-serif; color:#374151; outline:none; background:#fff;" />
+              <div style="margin-top:0.35rem; font-size:0.7rem; color:#EF4444;">CPF inválido — verifique os dígitos</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.35rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#22C55E;">Success</div>
+            <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1rem;">
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:0.4rem;">CNPJ</label>
+              <input type="text" value="12.345.678/0001-90" style="width:100%; padding:0.65rem 0.875rem; border:1.5px solid #22C55E; border-radius:0.5rem; font-size:0.875rem; font-family:'Lato',sans-serif; color:#374151; outline:none; background:#fff;" />
+              <div style="margin-top:0.35rem; font-size:0.7rem; color:#22C55E;">CNPJ válido ✓</div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.35rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Prefixo (R$)</div>
+            <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1rem;">
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:0.4rem;">Preço</label>
+              <div style="display:flex; border:1.5px solid #D1D5DB; border-radius:0.5rem; overflow:hidden;">
+                <span style="padding:0.65rem 0.75rem; background:#F3F4F6; font-size:0.875rem; font-weight:700; color:#374151; border-right:1.5px solid #D1D5DB;">R$</span>
+                <input type="number" placeholder="45,00" style="flex:1; padding:0.65rem 0.875rem; border:none; font-size:0.875rem; font-family:'Lato',sans-serif; color:#374151; outline:none; background:#fff;" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.35rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Password toggle</div>
+            <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:0.875rem; padding:1rem;">
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:#374151; margin-bottom:0.4rem;">Senha</label>
+              <div style="position:relative;">
+                <input type="password" value="minhasenha123" style="width:100%; padding:0.65rem 2.5rem 0.65rem 0.875rem; border:1.5px solid #D1D5DB; border-radius:0.5rem; font-size:0.875rem; font-family:'Lato',sans-serif; color:#374151; outline:none; background:#fff;" />
+                <button style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#9CA3AF; padding:0; display:flex; align-items:center;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ SPINNER ═══════════════════════════════ -->
+    <section id="spinner" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Spinner</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">CSS puro · @keyframes bc-spin · 3 variantes × 3 tamanhos = 9 combinações.</p>
+        </div>
+
+        <div style="background:#F8F5F2; border-radius:1rem; padding:2rem; display:flex; flex-direction:column; gap:2rem;">
+          <div>
+            <div style="margin-bottom:0.875rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">default · sm / md / lg</div>
+            <div style="display:flex; align-items:center; gap:2.5rem;">
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:1rem; height:1rem; border:2px solid #E5E7EB; border-top-color:#111; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#9CA3AF;">sm</span></div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:1.5rem; height:1.5rem; border:2.5px solid #E5E7EB; border-top-color:#111; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#9CA3AF;">md</span></div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:2.25rem; height:2.25rem; border:3px solid #E5E7EB; border-top-color:#111; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#9CA3AF;">lg</span></div>
+            </div>
+          </div>
+          <div>
+            <div style="margin-bottom:0.875rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">pk · topo rosa</div>
+            <div style="display:flex; align-items:center; gap:2.5rem;">
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:1rem; height:1rem; border:2px solid #FFE8F5; border-top-color:#FF3CAC; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#9CA3AF;">sm</span></div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:1.5rem; height:1.5rem; border:2.5px solid #FFE8F5; border-top-color:#FF3CAC; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#9CA3AF;">md</span></div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:2.25rem; height:2.25rem; border:3px solid #FFE8F5; border-top-color:#FF3CAC; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#9CA3AF;">lg</span></div>
+            </div>
+          </div>
+          <div style="background:#111; border-radius:0.875rem; padding:1.25rem;">
+            <div style="margin-bottom:0.875rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#4B5563;">inv · superfície escura</div>
+            <div style="display:flex; align-items:center; gap:2.5rem;">
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:1rem; height:1rem; border:2px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#6B7280;">sm</span></div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:1.5rem; height:1.5rem; border:2.5px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#6B7280;">md</span></div>
+              <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.6rem;"><div style="width:2.25rem; height:2.25rem; border:3px solid rgba(255,255,255,.2); border-top-color:#fff; border-radius:50%; animation:bc-spin .6s linear infinite;"></div><span style="font-size:0.6rem; color:#6B7280;">lg</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ TOAST ═══════════════════════════════ -->
+    <section id="toast" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PRIMITIVO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Toast</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">5 tipos com barra lateral colorida. Entrada com slide-in. @keyframes bc-toast.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.75rem; max-width:420px;">
+          <div style="background:#fff; border-radius:0.875rem; padding:1rem 1rem 1rem 1.25rem; display:flex; align-items:flex-start; gap:0.75rem; box-shadow:0 2px 12px rgba(0,0,0,.07); position:relative; overflow:hidden; animation:bc-toast .2s ease;">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#FF3CAC; border-radius:0.875rem 0 0 0.875rem;"></div>
+            <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Item publicado!</div><div style="font-size:0.75rem; color:#6B7280;">Seu anúncio está ativo no catálogo.</div></div>
+            <button style="background:none; border:none; cursor:pointer; color:#9CA3AF; padding:0; flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+          </div>
+          <div style="background:#fff; border-radius:0.875rem; padding:1rem 1rem 1rem 1.25rem; display:flex; align-items:flex-start; gap:0.75rem; box-shadow:0 2px 12px rgba(0,0,0,.07); position:relative; overflow:hidden;">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#22C55E; border-radius:0.875rem 0 0 0.875rem;"></div>
+            <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Sucesso</div><div style="font-size:0.75rem; color:#6B7280;">Criança cadastrada com sucesso.</div></div>
+          </div>
+          <div style="background:#fff; border-radius:0.875rem; padding:1rem 1rem 1rem 1.25rem; display:flex; align-items:flex-start; gap:0.75rem; box-shadow:0 2px 12px rgba(0,0,0,.07); position:relative; overflow:hidden;">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#3B82F6; border-radius:0.875rem 0 0 0.875rem;"></div>
+            <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Informação</div><div style="font-size:0.75rem; color:#6B7280;">Sincronizando dados com o servidor.</div></div>
+          </div>
+          <div style="background:#fff; border-radius:0.875rem; padding:1rem 1rem 1rem 1.25rem; display:flex; align-items:flex-start; gap:0.75rem; box-shadow:0 2px 12px rgba(0,0,0,.07); position:relative; overflow:hidden;">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#F59E0B; border-radius:0.875rem 0 0 0.875rem;"></div>
+            <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Atenção</div><div style="font-size:0.75rem; color:#6B7280;">Adicione pelo menos uma foto ao anúncio.</div></div>
+          </div>
+          <div style="background:#fff; border-radius:0.875rem; padding:1rem 1rem 1rem 1.25rem; display:flex; align-items:flex-start; gap:0.75rem; box-shadow:0 2px 12px rgba(0,0,0,.07); position:relative; overflow:hidden;">
+            <div style="position:absolute; left:0; top:0; bottom:0; width:4px; background:#EF4444; border-radius:0.875rem 0 0 0.875rem;"></div>
+            <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Erro</div><div style="font-size:0.75rem; color:#6B7280;">Falha ao enviar imagem. Tente novamente.</div></div>
+            <button style="background:none; border:none; cursor:pointer; color:#9CA3AF; padding:0; flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CARD COMPOSITE ═══════════════════════════════ -->
+    <section id="card" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#111;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">COMPOSTO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#fff; line-height:1.1;">Card</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:rgba(255,255,255,.55); line-height:1.65; max-width:460px;">Glassmorphism sobre superfície escura. 4 tamanhos: sm/md/lg/featured. Badge de condição, favoritar, preço com desconto.</p>
+        </div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; align-items:flex-start; margin-bottom:1.5rem;">
+
+          <div style="width:14rem; background:rgba(255,255,255,.1); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); border-radius:1rem; overflow:hidden; flex-shrink:0;">
+            <div style="height:8.5rem; background:linear-gradient(135deg,#FDE68A,#FBCFE8); position:relative;">
+              <span style="position:absolute; top:0.5rem; left:0.5rem; display:inline-flex; padding:0.2rem 0.55rem; border-radius:99rem; font-size:0.65rem; font-weight:700; background:#111; color:#fff;">Novo</span>
+              <button style="position:absolute; top:0.5rem; right:0.5rem; width:1.75rem; height:1.75rem; border-radius:50%; background:rgba(255,255,255,.85); border:none; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+            </div>
+            <div style="padding:0.75rem;">
+              <div style="font-size:0.8rem; font-weight:700; color:#fff; margin-bottom:0.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Body curto manga longa</div>
+              <div style="font-size:0.7rem; color:rgba(255,255,255,.55); margin-bottom:0.4rem;">M · 6-9 meses</div>
+              <div style="font-size:1rem; font-weight:900; color:#FF3CAC;">R$ 28,00</div>
+            </div>
+          </div>
+
+          <div style="width:16rem; background:rgba(255,255,255,.1); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); border-radius:1rem; overflow:hidden; flex-shrink:0;">
+            <div style="height:10rem; background:linear-gradient(135deg,#C7D2FE,#A5F3FC); position:relative;">
+              <span style="position:absolute; top:0.5rem; left:0.5rem; display:inline-flex; padding:0.2rem 0.55rem; border-radius:99rem; font-size:0.65rem; font-weight:700; background:#FFE8F5; color:#FF3CAC;">Seminovo</span>
+              <button style="position:absolute; top:0.5rem; right:0.5rem; width:1.75rem; height:1.75rem; border-radius:50%; background:rgba(255,255,255,.85); border:none; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg width="11" height="11" viewBox="0 0 24 24" fill="#FF3CAC" stroke="#FF3CAC" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+            </div>
+            <div style="padding:0.875rem;">
+              <div style="font-size:0.85rem; font-weight:700; color:#fff; margin-bottom:0.2rem;">Vestido florido verão</div>
+              <div style="font-size:0.72rem; color:rgba(255,255,255,.55); margin-bottom:0.5rem;">P · 3-6 meses</div>
+              <div style="display:flex; align-items:baseline; gap:0.5rem;">
+                <span style="font-size:1.05rem; font-weight:900; color:#FF3CAC;">R$ 42,00</span>
+                <span style="font-size:0.72rem; color:rgba(255,255,255,.35); text-decoration:line-through;">R$ 65,00</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="width:18rem; background:rgba(255,255,255,.1); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.18); border-radius:1rem; overflow:hidden; flex-shrink:0;">
+            <div style="height:12rem; background:linear-gradient(135deg,#BBF7D0,#6EE7B7); position:relative;">
+              <span style="position:absolute; top:0.5rem; left:0.5rem; display:inline-flex; padding:0.2rem 0.55rem; border-radius:99rem; font-size:0.65rem; font-weight:700; background:#F3F4F6; color:#374151;">Usado</span>
+            </div>
+            <div style="padding:1rem;">
+              <div style="font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:0.25rem;">Conjunto pijama inverno</div>
+              <div style="font-size:0.75rem; color:rgba(255,255,255,.55); margin-bottom:0.6rem;">G · 9-12 meses</div>
+              <div style="font-size:1.1rem; font-weight:900; color:#fff;">R$ 35,00</div>
+            </div>
+          </div>
+
+        </div>
+        <div style="padding:0.875rem 1.25rem; background:rgba(255,255,255,.06); border-radius:0.75rem; border:1px solid rgba(255,255,255,.1);">
+          <code style="font-size:0.75rem; color:rgba(255,255,255,.6);">background: var(--color-glass) · backdrop-filter: blur(12px) · border: 1px solid rgba(255,255,255,.18)</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CHATINPUT ═══════════════════════════════ -->
+    <section id="chatinput" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">COMPOSTO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">ChatInput</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Enter envia · Shift+Enter quebra linha · textarea auto-resize · chips de ação rápida · indicador de typing.</p>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:1.125rem; max-width:520px;">
+
+          <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:1rem; padding:1.25rem;">
+            <div style="margin-bottom:0.6rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Default</div>
+            <div style="display:flex; gap:0.5rem; overflow-x:auto; margin-bottom:0.625rem;">
+              <span style="display:inline-flex; padding:0.3rem 0.7rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#FFE8F5; color:#FF3CAC; white-space:nowrap; cursor:pointer; border:1.5px solid #FFD0ED; flex-shrink:0;">Tamanho para bebê</span>
+              <span style="display:inline-flex; padding:0.3rem 0.7rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#F3F4F6; color:#374151; white-space:nowrap; cursor:pointer; border:1.5px solid #E5E7EB; flex-shrink:0;">Ver catálogo</span>
+              <span style="display:inline-flex; padding:0.3rem 0.7rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#F3F4F6; color:#374151; white-space:nowrap; cursor:pointer; border:1.5px solid #E5E7EB; flex-shrink:0;">Previsão</span>
+            </div>
+            <div style="display:flex; gap:0.5rem; align-items:flex-end;">
+              <button style="width:2.25rem; height:2.25rem; border-radius:50%; background:#F3F4F6; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></button>
+              <div style="flex:1; border:1.5px solid #D1D5DB; border-radius:1.25rem; padding:0.65rem 1rem; font-size:0.875rem; font-family:'Lato',sans-serif; color:#9CA3AF; min-height:2.75rem; background:#fff;">Pergunte sobre tamanhos, roupas...</div>
+              <button style="width:2.5rem; height:2.5rem; border-radius:50%; background:#111; border:none; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"></path></svg></button>
+            </div>
+          </div>
+
+          <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:1rem; padding:1.25rem;">
+            <div style="margin-bottom:0.6rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">Loading · typing dots</div>
+            <div style="display:flex; gap:0.5rem; align-items:flex-end;">
+              <button style="width:2.25rem; height:2.25rem; border-radius:50%; background:#F3F4F6; border:none; display:flex; align-items:center; justify-content:center; flex-shrink:0; opacity:.4;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></button>
+              <div style="flex:1; border:1.5px solid #EDE9E4; border-radius:1.25rem; padding:0.875rem 1rem; background:#F8F5F2; display:flex; align-items:center; gap:4px; min-height:2.75rem;">
+                <div style="width:6px; height:6px; background:#FF3CAC; border-radius:50%; animation:bc-bounce .6s ease infinite;"></div>
+                <div style="width:6px; height:6px; background:#FF3CAC; border-radius:50%; animation:bc-bounce .6s ease .1s infinite;"></div>
+                <div style="width:6px; height:6px; background:#FF3CAC; border-radius:50%; animation:bc-bounce .6s ease .2s infinite;"></div>
+              </div>
+              <button style="width:2.5rem; height:2.5rem; border-radius:50%; background:#F3F4F6; border:none; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                <div style="width:14px; height:14px; border:2px solid #E5E7EB; border-top-color:#111; border-radius:50%; animation:bc-spin .6s linear infinite;"></div>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ MODAL ═══════════════════════════════ -->
+    <section id="modal" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">COMPOSTO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Modal</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">3 variantes · fecha no X, backdrop ou Escape · max 36rem × 85vh · fade + slide 0.2s.</p>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.125rem;">
+
+          <div>
+            <div style="margin-bottom:0.4rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">default</div>
+            <div style="background:#fff; border:1.5px solid #EDE9E4; border-radius:1.25rem; padding:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,.11);">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.875rem;">
+                <h3 style="font-size:1rem; font-weight:700; color:#111;">Editar anúncio</h3>
+                <button style="background:none; border:none; cursor:pointer; color:#9CA3AF;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+              </div>
+              <p style="font-size:0.8rem; color:#6B7280; line-height:1.55; margin-bottom:1.25rem;">Atualize as informações antes de publicar novamente.</p>
+              <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                <button style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Cancelar</button>
+                <button style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#111; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Salvar</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.4rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#EF4444;">danger</div>
+            <div style="background:#fff; border:1.5px solid #FEE2E2; border-radius:1.25rem; padding:1.5rem; box-shadow:0 8px 32px rgba(0,0,0,.11);">
+              <div style="display:flex; align-items:flex-start; gap:0.75rem; margin-bottom:0.875rem;">
+                <div style="width:2rem; height:2rem; border-radius:50%; background:#FEE2E2; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg></div>
+                <div><h3 style="font-size:1rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Remover item</h3><p style="font-size:0.78rem; color:#6B7280;">Esta ação não pode ser desfeita.</p></div>
+              </div>
+              <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                <button style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Cancelar</button>
+                <button style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#EF4444; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Remover</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div style="margin-bottom:0.4rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#FF3CAC;">pk</div>
+            <div style="background:#fff; border:1.5px solid #FFD0ED; border-radius:1.25rem; padding:1.5rem; box-shadow:0 8px 32px rgba(255,60,172,.12);">
+              <div style="display:flex; align-items:flex-start; gap:0.75rem; margin-bottom:0.875rem;">
+                <div style="width:2rem; height:2rem; border-radius:50%; background:#FFE8F5; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FF3CAC"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></div>
+                <div><h3 style="font-size:1rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Adicionar criança</h3><p style="font-size:0.78rem; color:#6B7280;">Receba recomendações de tamanho pela IA.</p></div>
+              </div>
+              <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                <button style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#374151; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Agora não</button>
+                <button style="padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#FF3CAC; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Cadastrar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ ITEMCARD PATTERN ═══════════════════════════════ -->
+    <section id="itemcard" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PADRÃO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">ItemCard</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Card completo no catálogo: foto, condição, favoritar, preço BRL, linha do vendedor com avatar+verified, ações contato/compra.</p>
+        </div>
+        <div style="max-width:340px; background:#fff; border:1.5px solid #EDE9E4; border-radius:1.25rem; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.07);">
+          <div style="height:200px; background:linear-gradient(135deg,#FDE68A,#FBCFE8,#C7D2FE); position:relative;">
+            <span style="position:absolute; top:0.75rem; left:0.75rem; display:inline-flex; padding:0.25rem 0.65rem; border-radius:99rem; font-size:0.7rem; font-weight:700; background:#111; color:#fff;">Novo</span>
+            <button style="position:absolute; top:0.75rem; right:0.75rem; width:2rem; height:2rem; border-radius:50%; background:rgba(255,255,255,.9); border:none; display:flex; align-items:center; justify-content:center; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></button>
+          </div>
+          <div style="padding:1rem;">
+            <div style="font-size:1rem; font-weight:700; color:#111; margin-bottom:0.2rem;">Body manga longa listrado</div>
+            <div style="font-size:0.8rem; color:#6B7280; margin-bottom:0.75rem;">Tamanho M · 6-9 meses · Menina</div>
+            <div style="display:flex; align-items:baseline; gap:0.5rem; margin-bottom:1rem;">
+              <span style="font-size:1.25rem; font-weight:900; color:#FF3CAC;">R$ 32,00</span>
+              <span style="font-size:0.8rem; color:#9CA3AF; text-decoration:line-through;">R$ 55,00</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:0.5rem; padding:0.75rem 0; border-top:1px solid #F3F4F6; border-bottom:1px solid #F3F4F6; margin-bottom:0.75rem; cursor:pointer;">
+              <div style="position:relative; width:2rem; height:2rem; flex-shrink:0;">
+                <div style="width:2rem; height:2rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:700; color:#fff;">MJ</div>
+                <div style="position:absolute; bottom:-1px; right:-1px; width:0.7rem; height:0.7rem; background:#FF3CAC; border:1.5px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center;"><svg width="5" height="4" viewBox="0 0 7 5" fill="none"><path d="M1 2.5L2.8 4.2L6 1" stroke="white" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
+              </div>
+              <div style="flex:1;"><div style="font-size:0.8rem; font-weight:700; color:#111;">Maria João</div><div style="font-size:0.7rem; color:#9CA3AF;">12 anúncios</div></div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M9 18l6-6-6-6"></path></svg>
+            </div>
+            <div style="display:flex; gap:0.5rem;">
+              <button style="flex:1; display:flex; align-items:center; justify-content:center; gap:0.4rem; padding:0.65rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#F3F4F6; color:#111; border:none; cursor:pointer; font-family:'Lato',sans-serif;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Contatar</button>
+              <button style="flex:1; display:flex; align-items:center; justify-content:center; gap:0.4rem; padding:0.65rem; border-radius:0.5rem; font-size:0.8rem; font-weight:700; background:#FF3CAC; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif; box-shadow:0 4px 12px rgba(255,60,172,.28);"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 01-8 0"></path></svg>Comprar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ CHATBUBBLE PATTERN ═══════════════════════════════ -->
+    <section id="chatbubble" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#111;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PADRÃO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#fff; line-height:1.1;">ChatBubble</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:rgba(255,255,255,.55); line-height:1.65; max-width:460px;">3 roles: agent (vidro, esquerda) · user (branco, direita) · system (rosa, centralizado).</p>
+        </div>
+        <div style="max-width:420px; display:flex; flex-direction:column; gap:0.75rem;">
+          <div style="display:flex; align-items:flex-end; gap:0.5rem;">
+            <div style="width:1.75rem; height:1.75rem; border-radius:50%; background:#111; border:1px solid rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="9" height="11" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg></div>
+            <div style="max-width:80%; background:rgba(255,255,255,.12); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.15); border-radius:1rem 1rem 1rem 0.25rem; padding:0.75rem 1rem;">
+              <div style="font-size:0.875rem; color:#fff; line-height:1.55;">Olá! Encontrei 3 bodies para bebê no tamanho M. Quer que eu mostre as opções?</div>
+              <div style="font-size:0.62rem; color:rgba(255,255,255,.4); margin-top:0.3rem;">14:32</div>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:flex-end;">
+            <div style="max-width:80%; background:#fff; border-radius:1rem 1rem 0.25rem 1rem; padding:0.75rem 1rem;">
+              <div style="font-size:0.875rem; color:#111; line-height:1.55;">Sim, por favor! Prefiro seminovos.</div>
+              <div style="font-size:0.62rem; color:#9CA3AF; margin-top:0.3rem; text-align:right;">14:33</div>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <span style="display:inline-block; background:rgba(255,232,245,.12); border:1px solid rgba(255,60,172,.3); border-radius:99rem; padding:0.3rem 0.875rem; font-size:0.72rem; color:#FF85CC;">Contexto: Sofia, 8 meses, tamanho M</span>
+          </div>
+          <div style="display:flex; align-items:flex-end; gap:0.5rem;">
+            <div style="width:1.75rem; height:1.75rem; border-radius:50%; background:#111; border:1px solid rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="9" height="11" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg></div>
+            <div style="max-width:80%; background:rgba(255,255,255,.12); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.15); border-radius:1rem 1rem 1rem 0.25rem; padding:0.75rem 1rem;">
+              <div style="font-size:0.875rem; color:#fff; line-height:1.55;">Aqui estão 3 opções seminovas para Sofia no tamanho M!</div>
+              <div style="font-size:0.62rem; color:rgba(255,255,255,.4); margin-top:0.3rem;">14:33</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ GROWTHCHART PATTERN ═══════════════════════════════ -->
+    <section id="growth" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PADRÃO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">GrowthChart</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Previsão IA de próximo tamanho com barra de progresso gradiente e timeline de tamanhos. Alimentado pelo Growth Graph.</p>
+        </div>
+        <div style="max-width:380px; background:rgba(255,255,255,.75); backdrop-filter:blur(12px); border:1.5px solid #EDE9E4; border-radius:1.5rem; padding:1.5rem; box-shadow:0 4px 24px rgba(0,0,0,.07);">
+          <div style="font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.78rem; color:#FF3CAC; margin-bottom:0.4rem;">Previsão de crescimento</div>
+          <div style="font-size:1.1rem; font-weight:700; color:#111; margin-bottom:1.125rem;">Sofia · 8 meses</div>
+          <div style="display:flex; align-items:center; gap:0.875rem; margin-bottom:1.125rem; flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:#9CA3AF; margin-bottom:0.25rem;">Atual</div>
+              <div style="width:3.25rem; height:3.25rem; border-radius:0.75rem; background:#111; display:flex; align-items:center; justify-content:center;"><span style="font-size:1rem; font-weight:900; color:#fff;">M</span></div>
+            </div>
+            <svg width="18" height="14" viewBox="0 0 20 16" fill="none"><path d="M12 2l6 6-6 6M2 8h16" stroke="#FF3CAC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <div style="text-align:center;">
+              <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:#9CA3AF; margin-bottom:0.25rem;">Próximo</div>
+              <div style="width:3.25rem; height:3.25rem; border-radius:0.75rem; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center;"><span style="font-size:1rem; font-weight:900; color:#fff;">G</span></div>
+            </div>
+            <div>
+              <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:0.08em; color:#9CA3AF;">em aprox.</div>
+              <div style="font-size:1.25rem; font-weight:900; color:#111;">42 dias</div>
+            </div>
+          </div>
+          <div style="margin-bottom:1.25rem;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:0.35rem;"><span style="font-size:0.7rem; color:#6B7280;">Progresso no tamanho M</span><span style="font-size:0.7rem; font-weight:700; color:#FF3CAC;">68%</span></div>
+            <div style="height:6px; background:#F3F4F6; border-radius:99rem; overflow:hidden;"><div style="width:68%; height:100%; background:linear-gradient(90deg,#FF3CAC,#B03EFF); border-radius:99rem;"></div></div>
+          </div>
+          <div style="display:flex; align-items:center; margin-bottom:1.25rem;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.2rem; opacity:.3;"><div style="width:0.55rem; height:0.55rem; border-radius:50%; background:#111;"></div><div style="font-size:0.58rem; color:#9CA3AF;">RN</div></div>
+            <div style="flex:1; height:1.5px; background:#D1D5DB; opacity:.4;"></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.2rem; opacity:.3;"><div style="width:0.55rem; height:0.55rem; border-radius:50%; background:#111;"></div><div style="font-size:0.58rem; color:#9CA3AF;">P</div></div>
+            <div style="flex:1; height:1.5px; background:#D1D5DB; opacity:.4;"></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.2rem;"><div style="width:0.7rem; height:0.7rem; border-radius:50%; background:#111; box-shadow:0 0 0 2.5px #fff,0 0 0 4px #111;"></div><div style="font-size:0.62rem; font-weight:700; color:#111;">M</div></div>
+            <div style="flex:1; height:1.5px; background:linear-gradient(90deg,#FF3CAC,#B03EFF);"></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.2rem;"><div style="width:0.7rem; height:0.7rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF);"></div><div style="font-size:0.62rem; font-weight:700; color:#FF3CAC;">G</div></div>
+            <div style="flex:1; height:1.5px; background:#F3F4F6;"></div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:0.2rem; opacity:.3;"><div style="width:0.55rem; height:0.55rem; border-radius:50%; background:#D1D5DB;"></div><div style="font-size:0.58rem; color:#9CA3AF;">GG</div></div>
+          </div>
+          <p style="font-size:0.78rem; color:#6B7280; line-height:1.55; margin-bottom:1rem;">Sofia está crescendo rapidamente! Considere comprar roupas tamanho G agora.</p>
+          <button style="width:100%; padding:0.75rem; border-radius:0.75rem; font-size:0.875rem; font-weight:700; background:linear-gradient(135deg,#FF3CAC,#B03EFF); color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif;">Ver roupas tamanho G</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ NOTIFICATIONS PATTERN ═══════════════════════════════ -->
+    <section id="notifications" style="padding:3rem 3.5rem; border-bottom:1.5px solid #EDE9E4; background:#fff;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">PADRÃO</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">NotificationCard</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">Lida (branco) vs não lida (rosa suave + dot + bold). 4 tipos: growth_prediction, new_match, item_sold, system.</p>
+        </div>
+        <div style="max-width:420px; border:1.5px solid #EDE9E4; border-radius:1.25rem; overflow:hidden;">
+          <div style="background:#FFF9FC; padding:1rem 1.25rem; display:flex; gap:0.75rem; border-bottom:1px solid #F3F4F6; cursor:pointer;">
+            <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:#FFE8F5; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.2rem;"><div style="font-size:0.875rem; font-weight:900; color:#111;">Sofia vai mudar de tamanho!</div><div style="width:0.5rem; height:0.5rem; border-radius:50%; background:#FF3CAC; flex-shrink:0;"></div></div>
+              <div style="font-size:0.75rem; color:#6B7280; line-height:1.5;">Sofia deve precisar do tamanho G em aproximadamente 42 dias.</div>
+              <div style="font-size:0.65rem; color:#9CA3AF; margin-top:0.3rem;">há 2 min</div>
+            </div>
+          </div>
+          <div style="background:#FFF9FC; padding:1rem 1.25rem; display:flex; gap:0.75rem; border-bottom:1px solid #F3F4F6; cursor:pointer;">
+            <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:#FFE8F5; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg></div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.2rem;"><div style="font-size:0.875rem; font-weight:900; color:#111;">Novo item disponível</div><div style="width:0.5rem; height:0.5rem; border-radius:50%; background:#FF3CAC; flex-shrink:0;"></div></div>
+              <div style="font-size:0.75rem; color:#6B7280; line-height:1.5;">Body manga longa tamanho G adicionado ao catálogo.</div>
+              <div style="font-size:0.65rem; color:#9CA3AF; margin-top:0.3rem;">há 15 min</div>
+            </div>
+          </div>
+          <div style="background:#fff; padding:1rem 1.25rem; display:flex; gap:0.75rem; cursor:pointer;">
+            <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:#F3F4F6; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M22 17H2a3 3 0 0 0 3-3V9a7 7 0 0 1 14 0v5a3 3 0 0 0 3 3zm-8.27 4a2 2 0 0 1-3.46 0"></path></svg></div>
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:0.875rem; font-weight:700; color:#374151; margin-bottom:0.2rem;">Bem-vindo ao BabyClothes!</div>
+              <div style="font-size:0.75rem; color:#9CA3AF; line-height:1.5;">Seu cadastro foi confirmado. Explore o catálogo.</div>
+              <div style="font-size:0.65rem; color:#9CA3AF; margin-top:0.3rem;">há 3 dias</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════ NAVIGATION SHELL ═══════════════════════════════ -->
+    <section id="navigation" style="padding:3rem 3.5rem; background:#F8F5F2;">
+      <div style="max-width:940px;">
+        <div style="margin-bottom:2rem;">
+          <div style="font-size:0.6rem; font-weight:700; text-transform:uppercase; letter-spacing:0.14em; color:#FF3CAC; margin-bottom:0.4rem;">SHELL</div>
+          <h2 style="font-family:'Cormorant Garamond',serif; font-size:2.25rem; font-weight:300; color:#111; line-height:1.1;">Navegação</h2>
+          <p style="margin-top:0.55rem; font-size:0.875rem; color:#6B7280; line-height:1.65;">TopBar (desktop, fixed top z-100) e BottomNav (mobile, hidden &gt;76.8rem, fixed bottom). Ambos: vidro líquido + safe-area-inset.</p>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">TopBar · variant: catalog</div>
+        <div style="background:rgba(255,255,255,.88); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.6); border-radius:1rem; padding:0.75rem 1.25rem; display:flex; align-items:center; gap:0.75rem; margin-bottom:1.75rem; box-shadow:0 2px 12px rgba(0,0,0,.06);">
+          <div style="display:flex; align-items:center; gap:0.4rem; flex-shrink:0;">
+            <svg width="12" height="15" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+            <span style="font-family:'Londrina Solid',cursive; font-size:0.82rem; color:#111;">BabyClothes</span>
+          </div>
+          <div style="flex:1; display:flex; align-items:center; gap:0.5rem; background:#F3F4F6; border-radius:99rem; padding:0.35rem 0.875rem;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+            <span style="font-size:0.75rem; color:#9CA3AF;">Buscar roupas...</span>
+          </div>
+          <button style="display:inline-flex; align-items:center; gap:0.35rem; padding:0.4rem 0.75rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:transparent; color:#374151; border:1.5px solid #D1D5DB; cursor:pointer; font-family:'Lato',sans-serif; flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Chat IA</button>
+          <button style="display:inline-flex; align-items:center; padding:0.4rem 0.75rem; border-radius:99rem; font-size:0.75rem; font-weight:700; background:#FF3CAC; color:#fff; border:none; cursor:pointer; font-family:'Lato',sans-serif; flex-shrink:0;">Publicar</button>
+          <div style="width:2rem; height:2rem; border-radius:50%; background:linear-gradient(135deg,#FF3CAC,#B03EFF); display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:700; color:#fff; flex-shrink:0;">MC</div>
+        </div>
+
+        <div style="margin-bottom:0.5rem; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; color:#9CA3AF;">BottomNav · mobile (max-width: 76.8rem)</div>
+        <div style="background:rgba(255,255,255,.88); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.6); border-radius:1rem; padding:0.625rem 0.25rem; display:flex; justify-content:space-around; align-items:center; max-width:380px; box-shadow:0 -2px 12px rgba(0,0,0,.06);">
+          <button style="display:flex; flex-direction:column; align-items:center; gap:0.25rem; background:none; border:none; cursor:pointer; padding:0.35rem 0.75rem; border-radius:0.5rem; flex:1;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            <span style="font-size:0.62rem; font-weight:700; color:#FF3CAC;">Catálogo</span>
+          </button>
+          <button style="display:flex; flex-direction:column; align-items:center; gap:0.25rem; background:none; border:none; cursor:pointer; padding:0.35rem 0.75rem; border-radius:0.5rem; flex:1;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <span style="font-size:0.62rem; font-weight:700; color:#9CA3AF;">Chat</span>
+          </button>
+          <button style="display:flex; flex-direction:column; align-items:center; gap:0.25rem; background:none; border:none; cursor:pointer; padding:0.35rem 0.75rem; border-radius:0.5rem; flex:1;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            <span style="font-size:0.62rem; font-weight:700; color:#9CA3AF;">Crianças</span>
+          </button>
+          <button style="display:flex; flex-direction:column; align-items:center; gap:0.25rem; background:none; border:none; cursor:pointer; padding:0.35rem 0.75rem; border-radius:0.5rem; flex:1;">
+            <div style="width:20px; height:20px; border-radius:50%; background:#111; display:flex; align-items:center; justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div>
+            <span style="font-size:0.62rem; font-weight:700; color:#9CA3AF;">Vender</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div style="padding:2rem 3.5rem; border-top:1.5px solid #EDE9E4; background:#fff; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+      <div style="display:flex; align-items:center; gap:0.55rem;">
+        <svg width="12" height="15" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+        <span style="font-family:'Londrina Solid',cursive; font-size:0.82rem; color:#111;">BabyClothes</span>
+        <span style="font-size:0.72rem; color:#9CA3AF;">Design System v1.0</span>
+      </div>
+      <div style="font-size:0.72rem; color:#9CA3AF;">28 componentes · Svelte 5 · TypeScript · Elixir · 2026-06-26</div>
+    </div>
+
+  </main>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,67 @@
+# Espaçamento
+
+Escala de espaçamento, breakpoints, border radius e sombras.
+
+## Space Scale (base 4px)
+
+| Token | Valor |
+|-------|-------|
+| `--space-1` | 0.25rem (4px) |
+| `--space-2` | 0.5rem (8px) |
+| `--space-3` | 0.75rem (12px) |
+| `--space-4` | 1rem (16px) |
+| `--space-5` | 1.25rem (20px) |
+| `--space-6` | 1.5rem (24px) |
+| `--space-7` | 1.75rem (28px) |
+| `--space-8` | 2rem (32px) |
+| `--space-9` | 2.25rem (36px) |
+| `--space-10` | 2.5rem (40px) |
+| `--space-11` | 2.75rem (44px) |
+| `--space-12` | 3rem (48px) |
+| `--space-13` | 3.25rem (52px) |
+| `--space-14` | 3.5rem (56px) |
+| `--space-15` | 3.75rem (60px) |
+| `--space-16` | 4rem (64px) |
+
+## Breakpoints
+
+| Token | Valor | Dispositivo |
+|-------|-------|-------------|
+| Mobile L | 48rem (768px) | Mobile |
+| Tablet | 64rem (1024px) | Tablet |
+| Desktop | 76.8rem (1228px) | Desktop |
+
+## Border Radius
+
+| Token | Valor |
+|-------|-------|
+| `--radius-sm` | 0.375rem |
+| `--radius-md` | 0.75rem |
+| `--radius-lg` | 1.25rem |
+| `--radius-xl` | 1.8rem |
+| `--radius-pill` | 99rem |
+
+## Sombras
+
+| Token | Valor |
+|-------|-------|
+| `--shadow-sm` | 0 1px 3px rgba(0,0,0,.08) |
+| `--shadow-md` | 0 4px 16px rgba(0,0,0,.10) |
+| `--shadow-lg` | 0 1.2rem 4rem rgba(0,0,0,.12) |
+| `--shadow-pk` | 0 4px 20px rgba(255,60,172,.25) |
+
+## Transições
+
+| Token | Valor |
+|-------|-------|
+| `--transition-fast` | 0.15s ease |
+| `--transition-base` | 0.20s ease |
+
+## Animações
+
+| Keyframe | Descrição |
+|----------|-----------|
+| `bc-spin` | Rotação 0.6s linear infinite |
+| `bc-bounce` | Scale 0.6s ease |
+| `bc-pulse` | Opacidade 1.5s ease-in-out infinite |
+| `bc-toast` | Slide 0.2s ease |

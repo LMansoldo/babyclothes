@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <template id="__bundler_thumbnail" data-bg-color="#F8F5F2">
+    <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+      <rect width="800" height="600" fill="#F8F5F2"/>
+      <!-- 4 phone frames silhouette -->
+      <rect x="30" y="60" width="160" height="280" rx="12" fill="#111"/>
+      <rect x="210" y="60" width="160" height="280" rx="12" fill="#EDE9E4"/>
+      <rect x="390" y="60" width="160" height="280" rx="12" fill="#EDE9E4"/>
+      <rect x="570" y="60" width="160" height="280" rx="12" fill="#EDE9E4"/>
+      <!-- pink droplet logo -->
+      <path d="M400 340 C400 340 370 370 370 388 C370 405 383.4 416 400 416 C416.6 416 430 405 430 388 C430 370 400 340 400 340Z" fill="#FF3CAC"/>
+      <text x="400" y="460" font-family="sans-serif" font-size="22" font-weight="700" fill="#111" text-anchor="middle">BabyClothes Mocks</text>
+      <text x="400" y="488" font-family="sans-serif" font-size="13" fill="#9CA3AF" text-anchor="middle">12 telas · MVP</text>
+    </svg>
+  </template>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Londrina+Solid&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Lato', sans-serif; -webkit-font-smoothing: antialiased; }
+    @keyframes bc-spin { to { transform: rotate(360deg); } }
+    @keyframes bc-pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);} }
+  </style>
+</helmet>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ROW 1 — Auth + Catálogo
+══════════════════════════════════════════════════════════════ -->
+
+<!-- 01 · /login -->
+<div style="position:absolute;left:0;top:0;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">01 — /login</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.2);background:linear-gradient(160deg,#0F0F0F 0%,#1A0814 60%,#0A0A1A 100%);">
+    <div style="position:absolute;top:-60px;right:-40px;width:260px;height:260px;background:radial-gradient(circle,rgba(255,60,172,.22) 0%,transparent 65%);pointer-events:none;"></div>
+    <!-- status bar -->
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:rgba(255,255,255,.6);">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid rgba(255,255,255,.5);border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:rgba(255,255,255,.5);border-radius:1px;"></div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;padding:0 28px 28px;height:calc(100% - 22px);">
+      <div style="display:flex;align-items:center;gap:10px;margin-top:52px;margin-bottom:56px;">
+        <svg width="26" height="32" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+        <span style="font-family:'Londrina Solid',cursive;font-size:1.6rem;color:#fff;letter-spacing:.02em;">BabyClothes</span>
+      </div>
+      <div style="text-align:center;margin-bottom:10px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#fff;line-height:1.1;">Compre e venda</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:#FF3CAC;font-style:italic;line-height:1.1;">roupas inteligentes</div>
+      </div>
+      <div style="font-size:.8rem;color:rgba(255,255,255,.45);margin-bottom:52px;">para bebês e crianças · com IA</div>
+      <button style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;border-radius:10px;background:#fff;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.875rem;font-weight:700;color:#111;margin-bottom:12px;">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"></path><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"></path><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"></path></svg>
+        Continuar com Google
+      </button>
+      <button style="font-size:.75rem;color:rgba(255,255,255,.3);background:none;border:none;cursor:pointer;padding:4px;font-family:'Lato',sans-serif;">Entrar sem autenticação (dev)</button>
+      <div style="flex:1;"></div>
+      <div style="font-size:.62rem;color:rgba(255,255,255,.28);text-align:center;line-height:1.6;">Ao continuar você concorda com os <span style="text-decoration:underline;">Termos de Uso</span><br>e a <span style="text-decoration:underline;">Política de Privacidade</span>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 · /login · Registro PF/PJ -->
+<div style="position:absolute;left:420px;top:0;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">02 — /login · registro</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <div style="padding:16px 20px;height:calc(100% - 22px);display:flex;flex-direction:column;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:28px;">
+        <button style="width:32px;height:32px;border-radius:50%;background:#fff;border:1.5px solid #EDE9E4;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg></button>
+        <span style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:#111;">Criar conta</span>
+      </div>
+      <div style="margin-bottom:6px;font-size:.78rem;color:#6B7280;">Como você vai usar o BabyClothes?</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:#111;margin-bottom:24px;">Escolha o seu perfil</div>
+      <!-- PF card (selected) -->
+      <div style="background:#fff;border:2px solid #FF3CAC;border-radius:14px;padding:16px;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 2px 12px rgba(255,60,172,.12);">
+        <div style="width:40px;height:40px;border-radius:10px;background:#FFE8F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:.9rem;font-weight:700;color:#111;margin-bottom:2px;">Pessoa Física</div>
+          <div style="font-size:.75rem;color:#6B7280;line-height:1.5;">Venda roupas dos seus filhos. Requer CPF para verificação.</div>
+        </div>
+        <div style="width:18px;height:18px;border-radius:50%;background:#FF3CAC;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l2.5 2.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+      </div>
+      <!-- PJ card -->
+      <div style="background:#fff;border:1.5px solid #EDE9E4;border-radius:14px;padding:16px;margin-bottom:32px;display:flex;align-items:flex-start;gap:14px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:.9rem;font-weight:700;color:#111;margin-bottom:2px;">Pessoa Jurídica</div>
+          <div style="font-size:.75rem;color:#6B7280;line-height:1.5;">Loja ou empresa. Requer CNPJ para verificação.</div>
+        </div>
+      </div>
+      <!-- CPF input (step 2) -->
+      <div style="margin-bottom:8px;font-size:.78rem;font-weight:700;color:#374151;">Seu CPF</div>
+      <div style="background:#fff;border:1.5px solid #D1D5DB;border-radius:10px;padding:14px 16px;font-size:.9rem;color:#111;margin-bottom:20px;">000.000.000-00</div>
+      <button style="width:100%;padding:14px;border-radius:10px;background:#FF3CAC;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.9rem;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(255,60,172,.3);">
+        Continuar
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 03 · /catalog -->
+<div style="position:absolute;left:840px;top:0;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">03 — /catalog</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <!-- status -->
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <!-- topbar -->
+    <div style="background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid #F3F4F6;padding:8px 14px;display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;">
+        <svg width="12" height="15" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+        <span style="font-family:'Londrina Solid',cursive;font-size:.8rem;color:#111;">BabyClothes</span>
+      </div>
+      <div style="flex:1;background:#F3F4F6;border-radius:99rem;padding:7px 10px;display:flex;align-items:center;gap:6px;">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+        <span style="font-size:.75rem;color:#9CA3AF;">Buscar roupas...</span>
+      </div>
+      <button style="padding:6px 10px;border-radius:99rem;background:#FF3CAC;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.7rem;font-weight:700;color:#fff;flex-shrink:0;">Publicar</button>
+      <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#FF3CAC,#B03EFF);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;">MC</div>
+    </div>
+    <!-- category tabs -->
+    <div style="background:#fff;border-bottom:1.5px solid #F3F4F6;padding:0 14px;display:flex;gap:0;overflow-x:auto;">
+      <div style="padding:10px 12px;font-size:.75rem;font-weight:700;color:#9CA3AF;white-space:nowrap;cursor:pointer;">Todos</div>
+      <div style="padding:10px 12px;font-size:.75rem;font-weight:700;color:#9CA3AF;white-space:nowrap;cursor:pointer;">Camisetas</div>
+      <div style="padding:10px 12px;font-size:.75rem;font-weight:700;color:#111;white-space:nowrap;cursor:pointer;border-bottom:2.5px solid #FF3CAC;">Bodies</div>
+      <div style="padding:10px 12px;font-size:.75rem;font-weight:700;color:#9CA3AF;white-space:nowrap;cursor:pointer;">Calças</div>
+      <div style="padding:10px 12px;font-size:.75rem;font-weight:700;color:#9CA3AF;white-space:nowrap;cursor:pointer;">Vestidos</div>
+    </div>
+    <!-- filters -->
+    <div style="background:#F8F5F2;padding:8px 14px;display:flex;gap:6px;overflow-x:auto;">
+      <span style="display:inline-flex;padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#111;color:#fff;white-space:nowrap;cursor:pointer;">M</span>
+      <span style="display:inline-flex;padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;white-space:nowrap;cursor:pointer;">P</span>
+      <span style="display:inline-flex;padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;white-space:nowrap;cursor:pointer;">G</span>
+      <span style="display:inline-flex;padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;white-space:nowrap;cursor:pointer;">RN</span>
+      <span style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;white-space:nowrap;cursor:pointer;">Menina</span>
+    </div>
+    <!-- grid content -->
+    <div style="padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;overflow:hidden;">
+      <!-- card 1 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);">
+        <div style="height:130px;background:linear-gradient(135deg,#FDE68A,#FBCFE8);position:relative;">
+          <span style="position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:99rem;font-size:.6rem;font-weight:700;background:#111;color:#fff;">Novo</span>
+          <button style="position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.85);border:none;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></button>
+        </div>
+        <div style="padding:8px 10px;">
+          <div style="font-size:.75rem;font-weight:700;color:#111;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Body manga longa</div>
+          <div style="font-size:.65rem;color:#9CA3AF;margin-bottom:4px;">M · 6-9 meses</div>
+          <div style="font-size:.9rem;font-weight:900;color:#FF3CAC;">R$ 28,00</div>
+        </div>
+      </div>
+      <!-- card 2 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);">
+        <div style="height:130px;background:linear-gradient(135deg,#C7D2FE,#A5F3FC);position:relative;">
+          <span style="position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:99rem;font-size:.6rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;">Seminovo</span>
+          <button style="position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.85);border:none;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="#FF3CAC" stroke="#FF3CAC" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></button>
+        </div>
+        <div style="padding:8px 10px;">
+          <div style="font-size:.75rem;font-weight:700;color:#111;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Vestido florido</div>
+          <div style="font-size:.65rem;color:#9CA3AF;margin-bottom:4px;">P · 3-6 meses</div>
+          <div style="font-size:.9rem;font-weight:900;color:#FF3CAC;">R$ 42,00</div>
+        </div>
+      </div>
+      <!-- card 3 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);">
+        <div style="height:130px;background:linear-gradient(135deg,#BBF7D0,#6EE7B7);position:relative;">
+          <span style="position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:99rem;font-size:.6rem;font-weight:700;background:#F3F4F6;color:#374151;">Usado</span>
+        </div>
+        <div style="padding:8px 10px;">
+          <div style="font-size:.75rem;font-weight:700;color:#111;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Conjunto pijama</div>
+          <div style="font-size:.65rem;color:#9CA3AF;margin-bottom:4px;">M · 6-9 meses</div>
+          <div style="font-size:.9rem;font-weight:900;color:#111;">R$ 35,00</div>
+        </div>
+      </div>
+      <!-- card 4 -->
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);">
+        <div style="height:130px;background:linear-gradient(135deg,#FED7AA,#FCA5A5);position:relative;">
+          <span style="position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:99rem;font-size:.6rem;font-weight:700;background:#111;color:#fff;">Novo</span>
+        </div>
+        <div style="padding:8px 10px;">
+          <div style="font-size:.75rem;font-weight:700;color:#111;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Calça legging</div>
+          <div style="font-size:.65rem;color:#9CA3AF;margin-bottom:4px;">M · 6-9 meses</div>
+          <div style="font-size:.9rem;font-weight:900;color:#FF3CAC;">R$ 22,00</div>
+        </div>
+      </div>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- 04 · /catalog/[id] -->
+<div style="position:absolute;left:1260px;top:0;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">04 — /catalog/[id]</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#fff;background:transparent;position:relative;z-index:1;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid rgba(255,255,255,.8);border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:rgba(255,255,255,.8);border-radius:1px;"></div></div>
+    </div>
+    <!-- large photo -->
+    <div style="height:240px;background:linear-gradient(135deg,#FDE68A,#FBCFE8,#C7D2FE);margin-top:-22px;position:relative;">
+      <div style="position:absolute;top:28px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center;">
+        <button style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg></button>
+        <div style="display:flex;gap:8px;">
+          <button style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#FF3CAC" stroke="#FF3CAC" stroke-width="1"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></button>
+          <button style="width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.85);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg></button>
+        </div>
+      </div>
+      <!-- dots indicator -->
+      <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:4px;">
+        <div style="width:6px;height:6px;border-radius:50%;background:#fff;"></div>
+        <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);"></div>
+        <div style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);"></div>
+      </div>
+    </div>
+    <!-- content -->
+    <div style="background:#fff;border-radius:16px 16px 0 0;margin-top:-16px;padding:18px 18px 80px;position:relative;">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;">
+        <div style="flex:1;">
+          <div style="font-size:1.05rem;font-weight:700;color:#111;margin-bottom:4px;">Body manga longa listrado</div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
+            <span style="padding:2px 8px;border-radius:99rem;font-size:.65rem;font-weight:700;background:#111;color:#fff;">Novo</span>
+            <span style="padding:2px 8px;border-radius:99rem;font-size:.65rem;font-weight:700;background:#F3F4F6;color:#374151;">Tamanho M</span>
+            <span style="padding:2px 8px;border-radius:99rem;font-size:.65rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;">Menina</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:16px;">
+        <span style="font-size:1.4rem;font-weight:900;color:#FF3CAC;">R$ 32,00</span>
+        <span style="font-size:.8rem;color:#9CA3AF;text-decoration:line-through;">R$ 55,00</span>
+      </div>
+      <!-- seller row -->
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 0;border-top:1px solid #F3F4F6;border-bottom:1px solid #F3F4F6;margin-bottom:16px;cursor:pointer;">
+        <div style="position:relative;width:36px;height:36px;flex-shrink:0;">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FF3CAC,#B03EFF);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff;">MJ</div>
+          <div style="position:absolute;bottom:-1px;right:-1px;width:12px;height:12px;background:#FF3CAC;border:2px solid #fff;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="5" height="4" viewBox="0 0 7 5" fill="none"><path d="M1 2.5L2.8 4.2L6 1" stroke="white" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
+        </div>
+        <div style="flex:1;"><div style="font-size:.82rem;font-weight:700;color:#111;">Maria João</div><div style="font-size:.68rem;color:#9CA3AF;">12 anúncios · Verificada</div></div>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M9 18l6-6-6-6"></path></svg>
+      </div>
+      <!-- action buttons -->
+      <div style="display:flex;gap:8px;">
+        <button style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:10px;background:#F3F4F6;color:#111;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.82rem;font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg>Contatar</button>
+        <button style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:10px;background:#FF3CAC;color:#fff;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.82rem;font-weight:700;box-shadow:0 4px 14px rgba(255,60,172,.3);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 01-8 0"></path></svg>Comprar</button>
+      </div>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ROW 2 — Chat + Crianças
+══════════════════════════════════════════════════════════════ -->
+
+<!-- 05 · /chat -->
+<div style="position:absolute;left:0;top:880px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">05 — /chat</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <!-- chat header -->
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;">
+        <svg width="14" height="17" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg>
+        <div style="position:absolute;bottom:0;right:0;width:9px;height:9px;background:#22C55E;border:2px solid #fff;border-radius:50%;animation:bc-pulse 1.5s ease-in-out infinite;"></div>
+      </div>
+      <div style="flex:1;">
+        <div style="font-size:.82rem;font-weight:700;color:#111;">Assistente IA</div>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:#22C55E;animation:bc-pulse 1.5s ease-in-out infinite;"></div>
+          <span style="font-size:.65rem;color:#22C55E;font-weight:700;">SSE Live</span>
+          <span style="font-size:.65rem;color:#9CA3AF;margin-left:4px;">· Sofia: M</span>
+        </div>
+      </div>
+      <button style="width:28px;height:28px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></button>
+    </div>
+    <!-- child selector -->
+    <div style="background:#fff;padding:8px 14px;display:flex;gap:8px;border-bottom:1px solid #F3F4F6;overflow-x:auto;">
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99rem;background:#FFE8F5;border:1.5px solid #FF3CAC;flex-shrink:0;cursor:pointer;">
+        <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#FF3CAC,#B03EFF);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;">S</div>
+        <span style="font-size:.72rem;font-weight:700;color:#FF3CAC;">Sofia</span>
+        <span style="font-size:.62rem;background:#FF3CAC;color:#fff;border-radius:99rem;padding:1px 5px;font-weight:700;">M</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99rem;background:#F3F4F6;border:1.5px solid transparent;flex-shrink:0;cursor:pointer;">
+        <div style="width:20px;height:20px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;">M</div>
+        <span style="font-size:.72rem;font-weight:700;color:#374151;">Mateus</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:#F3F4F6;flex-shrink:0;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div>
+    </div>
+    <!-- messages -->
+    <div style="padding:12px 14px;display:flex;flex-direction:column;gap:10px;flex:1;height:calc(760px - 22px - 56px - 48px - 110px - 60px);overflow:hidden;">
+      <!-- agent -->
+      <div style="display:flex;gap:6px;align-items:flex-end;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="8" height="10" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg></div>
+        <div style="max-width:75%;background:#fff;border-radius:12px 12px 12px 3px;padding:10px 12px;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+          <div style="font-size:.78rem;color:#111;line-height:1.5;">Olá! Encontrei 3 bodies tamanho M para a Sofia. Quer ver as opções?</div>
+          <div style="font-size:.58rem;color:#9CA3AF;margin-top:4px;">14:32</div>
+        </div>
+      </div>
+      <!-- user -->
+      <div style="display:flex;justify-content:flex-end;">
+        <div style="max-width:75%;background:#111;border-radius:12px 12px 3px 12px;padding:10px 12px;">
+          <div style="font-size:.78rem;color:#fff;line-height:1.5;">Sim! Prefiro seminovos.</div>
+          <div style="font-size:.58rem;color:rgba(255,255,255,.45);margin-top:4px;text-align:right;">14:33</div>
+        </div>
+      </div>
+      <!-- system -->
+      <div style="text-align:center;">
+        <span style="display:inline-block;background:#FFE8F5;border-radius:99rem;padding:4px 12px;font-size:.65rem;color:#FF3CAC;">Buscando itens seminovos para Sofia...</span>
+      </div>
+      <!-- agent 2 -->
+      <div style="display:flex;gap:6px;align-items:flex-end;">
+        <div style="width:24px;height:24px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="8" height="10" viewBox="0 0 20 24" fill="none"><path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"></path></svg></div>
+        <div style="max-width:75%;background:#fff;border-radius:12px 12px 12px 3px;padding:10px 12px;box-shadow:0 1px 4px rgba(0,0,0,.06);">
+          <div style="font-size:.78rem;color:#111;line-height:1.5;">Encontrei 2 opções! Veja os cards abaixo 👇</div>
+          <div style="font-size:.58rem;color:#9CA3AF;margin-top:4px;">14:33</div>
+        </div>
+      </div>
+    </div>
+    <!-- chat input -->
+    <div style="position:absolute;bottom:60px;left:0;right:0;background:#fff;border-top:1px solid #F3F4F6;padding:8px 12px;">
+      <div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:6px;">
+        <span style="display:inline-flex;padding:4px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;white-space:nowrap;border:1.5px solid #FFD0ED;flex-shrink:0;cursor:pointer;">Tamanho para bebê</span>
+        <span style="display:inline-flex;padding:4px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#F3F4F6;color:#374151;white-space:nowrap;border:1.5px solid #E5E7EB;flex-shrink:0;cursor:pointer;">Previsão</span>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <div style="flex:1;background:#F3F4F6;border-radius:99rem;padding:8px 14px;font-size:.78rem;color:#9CA3AF;">Pergunte sobre tamanhos...</div>
+        <button style="width:34px;height:34px;border-radius:50%;background:#111;border:none;display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"></path></svg></button>
+      </div>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- 06 · /child -->
+<div style="position:absolute;left:420px;top:880px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">06 — /child</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <!-- header -->
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:#111;">Minhas crianças</span>
+      <button style="display:flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99rem;background:#FF3CAC;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.72rem;font-weight:700;color:#fff;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg>Adicionar</button>
+    </div>
+    <!-- children cards -->
+    <div style="padding:14px;display:flex;flex-direction:column;gap:12px;height:calc(760px - 22px - 54px - 60px);overflow:hidden;">
+      <!-- Sofia -->
+      <div style="background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.06);cursor:pointer;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#FF3CAC,#B03EFF);display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:#fff;flex-shrink:0;">S</div>
+          <div style="flex:1;">
+            <div style="font-size:.9rem;font-weight:700;color:#111;">Sofia</div>
+            <div style="font-size:.7rem;color:#9CA3AF;">8 meses · <em style="color:#FF3CAC;">cresce rápido!</em></div>
+          </div>
+          <span style="padding:4px 10px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;">M</span>
+        </div>
+        <!-- mini progress -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:.65rem;color:#6B7280;">Tamanho M → G</span>
+          <span style="font-size:.65rem;font-weight:700;color:#FF3CAC;">68%</span>
+        </div>
+        <div style="height:5px;background:#F3F4F6;border-radius:99rem;overflow:hidden;"><div style="width:68%;height:100%;background:linear-gradient(90deg,#FF3CAC,#B03EFF);border-radius:99rem;"></div></div>
+      </div>
+      <!-- Mateus -->
+      <div style="background:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 1px 6px rgba(0,0,0,.06);cursor:pointer;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <div style="width:44px;height:44px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:700;color:#fff;flex-shrink:0;">M</div>
+          <div style="flex:1;">
+            <div style="font-size:.9rem;font-weight:700;color:#111;">Mateus</div>
+            <div style="font-size:.7rem;color:#9CA3AF;">18 meses</div>
+          </div>
+          <span style="padding:4px 10px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;">G</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-size:.65rem;color:#6B7280;">Tamanho G → GG</span>
+          <span style="font-size:.65rem;font-weight:700;color:#374151;">32%</span>
+        </div>
+        <div style="height:5px;background:#F3F4F6;border-radius:99rem;overflow:hidden;"><div style="width:32%;height:100%;background:linear-gradient(90deg,#374151,#6B7280);border-radius:99rem;"></div></div>
+      </div>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- 07 · /child/register -->
+<div style="position:absolute;left:840px;top:880px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">07 — /child/register</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <button style="width:30px;height:30px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg></button>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:#111;">Nova criança</span>
+    </div>
+    <div style="padding:16px 18px;display:flex;flex-direction:column;gap:14px;height:calc(760px - 22px - 50px);overflow:hidden;">
+      <!-- form fields -->
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Nome</label>
+        <input type="text" placeholder="Ex: Sofia" style="width:100%;padding:11px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.875rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Data de nascimento</label>
+        <input type="date" style="width:100%;padding:11px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.875rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Peso ao nascer</label>
+          <div style="display:flex;border:1.5px solid #D1D5DB;border-radius:10px;overflow:hidden;">
+            <input type="number" placeholder="3500" style="flex:1;padding:11px 10px;border:none;font-size:.875rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+            <span style="padding:11px 10px;background:#F3F4F6;font-size:.75rem;font-weight:700;color:#374151;border-left:1.5px solid #D1D5DB;">g</span>
+          </div>
+        </div>
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Altura ao nascer</label>
+          <div style="display:flex;border:1.5px solid #D1D5DB;border-radius:10px;overflow:hidden;">
+            <input type="number" placeholder="50" style="flex:1;padding:11px 10px;border:none;font-size:.875rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+            <span style="padding:11px 8px;background:#F3F4F6;font-size:.75rem;font-weight:700;color:#374151;border-left:1.5px solid #D1D5DB;">cm</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Documento <span style="font-weight:400;color:#9CA3AF;">(opcional)</span></label>
+        <input type="text" placeholder="CPF ou número do cartão SUS" style="width:100%;padding:11px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.875rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+      </div>
+      <div style="flex:1;"></div>
+      <button style="width:100%;padding:14px;border-radius:10px;background:#FF3CAC;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.9rem;font-weight:700;color:#fff;box-shadow:0 4px 16px rgba(255,60,172,.28);">Cadastrar criança</button>
+    </div>
+  </div>
+</div>
+
+<!-- 08 · /child/[id] -->
+<div style="position:absolute;left:1260px;top:880px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">08 — /child/[id]</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:10px 16px;display:flex;align-items:center;gap:10px;">
+      <button style="width:30px;height:30px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg></button>
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:#111;">Sofia · 8 meses</span>
+    </div>
+    <div style="padding:14px;height:calc(760px - 22px - 50px - 60px);overflow:hidden;">
+      <!-- growth chart card -->
+      <div style="background:#fff;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(0,0,0,.06);margin-bottom:12px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.72rem;color:#FF3CAC;margin-bottom:4px;">Previsão de crescimento</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <div style="text-align:center;"><div style="font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin-bottom:3px;">Atual</div><div style="width:40px;height:40px;border-radius:8px;background:#111;display:flex;align-items:center;justify-content:center;"><span style="font-size:.9rem;font-weight:900;color:#fff;">M</span></div></div>
+          <svg width="16" height="12" viewBox="0 0 20 16" fill="none"><path d="M12 2l6 6-6 6M2 8h16" stroke="#FF3CAC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <div style="text-align:center;"><div style="font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;margin-bottom:3px;">Próximo</div><div style="width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#FF3CAC,#B03EFF);display:flex;align-items:center;justify-content:center;"><span style="font-size:.9rem;font-weight:900;color:#fff;">G</span></div></div>
+          <div style="flex:1;text-align:right;"><div style="font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:#9CA3AF;">em aprox.</div><div style="font-size:1.1rem;font-weight:900;color:#111;">42 dias</div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:3px;"><span style="font-size:.65rem;color:#6B7280;">Progresso M</span><span style="font-size:.65rem;font-weight:700;color:#FF3CAC;">68%</span></div>
+        <div style="height:5px;background:#F3F4F6;border-radius:99rem;overflow:hidden;margin-bottom:12px;"><div style="width:68%;height:100%;background:linear-gradient(90deg,#FF3CAC,#B03EFF);border-radius:99rem;"></div></div>
+        <button style="width:100%;padding:10px;border-radius:10px;background:linear-gradient(135deg,#FF3CAC,#B03EFF);border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.78rem;font-weight:700;color:#fff;">Ver roupas tamanho G</button>
+      </div>
+      <!-- measurements -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <span style="font-size:.78rem;font-weight:700;color:#111;">Medidas</span>
+        <button style="display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:99rem;background:#FF3CAC;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.68rem;font-weight:700;color:#fff;"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg>Adicionar</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="background:#fff;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.05);">
+          <div><div style="font-size:.78rem;font-weight:700;color:#111;">Jun 2026</div><div style="font-size:.65rem;color:#9CA3AF;">8 meses</div></div>
+          <div style="text-align:right;display:flex;gap:12px;">
+            <div><div style="font-size:.7rem;color:#9CA3AF;">Peso</div><div style="font-size:.8rem;font-weight:700;color:#111;">7.4 kg</div></div>
+            <div><div style="font-size:.7rem;color:#9CA3AF;">Altura</div><div style="font-size:.8rem;font-weight:700;color:#111;">68 cm</div></div>
+            <span style="padding:2px 8px;border-radius:99rem;font-size:.65rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;align-self:center;">M</span>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.05);">
+          <div><div style="font-size:.78rem;font-weight:700;color:#111;">Mai 2026</div><div style="font-size:.65rem;color:#9CA3AF;">7 meses</div></div>
+          <div style="text-align:right;display:flex;gap:12px;">
+            <div><div style="font-size:.7rem;color:#9CA3AF;">Peso</div><div style="font-size:.8rem;font-weight:700;color:#111;">7.0 kg</div></div>
+            <div><div style="font-size:.7rem;color:#9CA3AF;">Altura</div><div style="font-size:.8rem;font-weight:700;color:#111;">65 cm</div></div>
+            <span style="padding:2px 8px;border-radius:99rem;font-size:.65rem;font-weight:700;background:#F3F4F6;color:#374151;align-self:center;">P</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     ROW 3 — Notificações + Vender + Perfil
+══════════════════════════════════════════════════════════════ -->
+
+<!-- 09 · /notifications -->
+<div style="position:absolute;left:0;top:1760px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">09 — /notifications</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:#111;">Notificações</span>
+      <button style="font-size:.7rem;font-weight:700;color:#FF3CAC;background:none;border:none;cursor:pointer;font-family:'Lato',sans-serif;">Marcar todas como lidas</button>
+    </div>
+    <!-- count badge -->
+    <div style="padding:10px 16px;"><span style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:99rem;font-size:.65rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;"><div style="width:6px;height:6px;border-radius:50%;background:#FF3CAC;"></div>2 não lidas</span></div>
+    <!-- list -->
+    <div style="display:flex;flex-direction:column;height:calc(760px - 22px - 50px - 34px - 60px);overflow:hidden;">
+      <!-- unread 1 -->
+      <div style="background:#FFF9FC;padding:14px 16px;display:flex;gap:12px;border-bottom:1px solid #F3F4F6;cursor:pointer;">
+        <div style="width:38px;height:38px;border-radius:50%;background:#FFE8F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg></div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><div style="font-size:.82rem;font-weight:900;color:#111;">Sofia vai mudar de tamanho!</div><div style="width:7px;height:7px;border-radius:50%;background:#FF3CAC;flex-shrink:0;"></div></div>
+          <div style="font-size:.72rem;color:#6B7280;line-height:1.45;">Sofia deve precisar do tamanho G em aprox. 42 dias.</div>
+          <div style="font-size:.62rem;color:#9CA3AF;margin-top:4px;">há 2 min</div>
+        </div>
+      </div>
+      <!-- unread 2 -->
+      <div style="background:#FFF9FC;padding:14px 16px;display:flex;gap:12px;border-bottom:1px solid #F3F4F6;cursor:pointer;">
+        <div style="width:38px;height:38px;border-radius:50%;background:#FFE8F5;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="3"></circle></svg></div>
+        <div style="flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;"><div style="font-size:.82rem;font-weight:900;color:#111;">Novo item disponível</div><div style="width:7px;height:7px;border-radius:50%;background:#FF3CAC;flex-shrink:0;"></div></div>
+          <div style="font-size:.72rem;color:#6B7280;line-height:1.45;">Body manga longa G adicionado ao catálogo.</div>
+          <div style="font-size:.62rem;color:#9CA3AF;margin-top:4px;">há 15 min</div>
+        </div>
+      </div>
+      <!-- read -->
+      <div style="background:#fff;padding:14px 16px;display:flex;gap:12px;border-bottom:1px solid #F3F4F6;cursor:pointer;">
+        <div style="width:38px;height:38px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"></path></svg></div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:.82rem;font-weight:700;color:#374151;margin-bottom:3px;">Bem-vindo ao BabyClothes!</div>
+          <div style="font-size:.72rem;color:#9CA3AF;line-height:1.45;">Seu cadastro foi confirmado.</div>
+          <div style="font-size:.62rem;color:#9CA3AF;margin-top:4px;">há 3 dias</div>
+        </div>
+      </div>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- 10 · /sell (step 1) -->
+<div style="position:absolute;left:420px;top:1760px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">10 — /sell · step 1</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <!-- header -->
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:10px 16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:#111;">Criar anúncio</span>
+        <button style="width:28px;height:28px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+      </div>
+      <!-- progress -->
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <div style="font-size:.62rem;font-weight:700;color:#FF3CAC;">Passo 1 de 2</div>
+        <div style="font-size:.62rem;color:#9CA3AF;">Detalhes</div>
+      </div>
+      <div style="height:4px;background:#F3F4F6;border-radius:99rem;overflow:hidden;"><div style="width:50%;height:100%;background:linear-gradient(90deg,#FF3CAC,#B03EFF);border-radius:99rem;"></div></div>
+    </div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px;height:calc(760px - 22px - 74px - 60px);overflow:hidden;">
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Título</label>
+        <input type="text" placeholder="Ex: Body manga longa listrado" style="width:100%;padding:11px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.85rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:6px;">Categoria</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#111;color:#fff;cursor:pointer;">Bodies</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Camisetas</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Calças</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Vestidos</span>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:6px;">Tamanho</label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">RN</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">P</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#111;color:#fff;cursor:pointer;">M</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">G</span>
+          <span style="padding:5px 12px;border-radius:99rem;font-size:.72rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">GG</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:6px;">Condição</label>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span style="padding:5px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#111;color:#fff;cursor:pointer;">Novo</span>
+            <span style="padding:5px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Seminovo</span>
+            <span style="padding:5px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Usado</span>
+          </div>
+        </div>
+        <div>
+          <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:6px;">Gênero</label>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span style="padding:5px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;cursor:pointer;">Menina</span>
+            <span style="padding:5px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Menino</span>
+            <span style="padding:5px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#F3F4F6;color:#374151;cursor:pointer;">Unissex</span>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;"></div>
+      <button style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:10px;background:#111;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.9rem;font-weight:700;color:#fff;">Continuar<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg></button>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#FF3CAC;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- 11 · /sell (step 2) -->
+<div style="position:absolute;left:840px;top:1760px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">11 — /sell · step 2</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <div style="background:#fff;border-bottom:1px solid #F3F4F6;padding:10px 16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button style="width:28px;height:28px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.5"><path d="M19 12H5M12 5l-7 7 7 7"></path></svg></button>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:#111;">Criar anúncio</span>
+        </div>
+        <button style="width:28px;height:28px;border-radius:50%;background:#F3F4F6;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <div style="font-size:.62rem;font-weight:700;color:#FF3CAC;">Passo 2 de 2</div>
+        <div style="font-size:.62rem;color:#9CA3AF;">Fotos &amp; Preço</div>
+      </div>
+      <div style="height:4px;background:#F3F4F6;border-radius:99rem;overflow:hidden;"><div style="width:100%;height:100%;background:linear-gradient(90deg,#FF3CAC,#B03EFF);border-radius:99rem;"></div></div>
+    </div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px;height:calc(760px - 22px - 74px - 60px);overflow:hidden;">
+      <!-- photos grid -->
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:8px;">Fotos <span style="font-weight:400;color:#9CA3AF;">(arraste para adicionar)</span></label>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          <div style="aspect-ratio:1;background:linear-gradient(135deg,#FDE68A,#FBCFE8);border-radius:10px;position:relative;">
+            <button style="position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:rgba(0,0,0,.5);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><path d="M18 6L6 18M6 6l12 12"></path></svg></button>
+          </div>
+          <div style="aspect-ratio:1;background:linear-gradient(135deg,#C7D2FE,#A5F3FC);border-radius:10px;"></div>
+          <div style="aspect-ratio:1;background:#F3F4F6;border-radius:10px;border:2px dashed #D1D5DB;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"></path><circle cx="12" cy="13" r="4"></circle></svg></div>
+          <div style="aspect-ratio:1;background:#F3F4F6;border-radius:10px;border:2px dashed #D1D5DB;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg></div>
+        </div>
+      </div>
+      <!-- price -->
+      <div>
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Preço</label>
+        <div style="display:flex;border:1.5px solid #D1D5DB;border-radius:10px;overflow:hidden;background:#fff;">
+          <span style="padding:11px 12px;background:#F3F4F6;font-size:.85rem;font-weight:700;color:#374151;border-right:1.5px solid #D1D5DB;">R$</span>
+          <input type="number" placeholder="45,00" style="flex:1;padding:11px 12px;border:none;font-size:.9rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;" />
+        </div>
+      </div>
+      <!-- description -->
+      <div style="flex:1;">
+        <label style="display:block;font-size:.72rem;font-weight:700;color:#374151;margin-bottom:5px;">Descrição <span style="font-weight:400;color:#9CA3AF;">(opcional)</span></label>
+        <textarea placeholder="Descreva o estado, marca, qualquer detalhe..." style="width:100%;height:80px;padding:11px 14px;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.82rem;font-family:'Lato',sans-serif;color:#374151;outline:none;background:#fff;resize:none;line-height:1.5;"></textarea>
+      </div>
+      <button style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:10px;background:linear-gradient(135deg,#FF3CAC,#B03EFF);border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:.9rem;font-weight:700;color:#fff;box-shadow:0 4px 16px rgba(255,60,172,.3);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        Publicar anúncio
+      </button>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#FF3CAC;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#FF3CAC;">Vender</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- 12 · /profile -->
+<div style="position:absolute;left:1260px;top:1760px;width:360px;">
+  <div data-drags-parent="1" style="font-family:'Lato',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#9CA3AF;margin-bottom:8px;">12 — /profile</div>
+  <div style="width:360px;height:760px;border-radius:14px;overflow:hidden;position:relative;box-shadow:0 4px 24px rgba(0,0,0,.12);background:#F8F5F2;">
+    <div style="height:22px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:.6rem;font-weight:700;color:#111;background:#fff;">
+      <span>10:30</span>
+      <div style="width:14px;height:7px;border:1.5px solid #111;border-radius:2px;padding:1px;"><div style="width:80%;height:100%;background:#111;border-radius:1px;"></div></div>
+    </div>
+    <div style="background:#fff;padding:24px 20px 20px;text-align:center;border-bottom:1px solid #F3F4F6;">
+      <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#FF3CAC,#B03EFF);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:700;color:#fff;margin:0 auto 12px;">MC</div>
+      <div style="font-size:1rem;font-weight:700;color:#111;margin-bottom:3px;">Maria Clara Santos</div>
+      <div style="font-size:.78rem;color:#9CA3AF;margin-bottom:10px;">maria.clara@gmail.com</div>
+      <div style="display:flex;gap:6px;justify-content:center;">
+        <span style="padding:3px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#F3F4F6;color:#374151;">PF</span>
+        <span style="padding:3px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#FFE8F5;color:#FF3CAC;">Vendedora</span>
+        <span style="display:flex;align-items:center;gap:3px;padding:3px 10px;border-radius:99rem;font-size:.68rem;font-weight:700;background:#DCFCE7;color:#15803D;"><div style="width:6px;height:6px;border-radius:50%;background:#22C55E;"></div>Online</span>
+      </div>
+    </div>
+    <!-- settings list -->
+    <div style="padding:12px 16px;display:flex;flex-direction:column;gap:2px;height:calc(760px - 22px - 140px - 60px);overflow:hidden;">
+      <div style="padding:12px 14px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:4px;">
+        <div style="display:flex;align-items:center;gap:10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"></path><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"></path></svg><span style="font-size:.85rem;font-weight:700;color:#111;">Meus anúncios</span></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:.68rem;font-weight:700;padding:2px 8px;border-radius:99rem;background:#F3F4F6;color:#374151;">5</span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M9 18l6-6-6-6"></path></svg></div>
+      </div>
+      <div style="padding:12px 14px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:4px;">
+        <div style="display:flex;align-items:center;gap:10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"></path></svg><span style="font-size:.85rem;font-weight:700;color:#111;">Idioma</span></div>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <div style="display:flex;border:1.5px solid #EDE9E4;border-radius:99rem;overflow:hidden;">
+            <span style="padding:3px 10px;font-size:.68rem;font-weight:700;background:#111;color:#fff;cursor:pointer;">PT-BR</span>
+            <span style="padding:3px 10px;font-size:.68rem;font-weight:700;background:transparent;color:#374151;cursor:pointer;">EN</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:12px 14px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:4px;">
+        <div style="display:flex;align-items:center;gap:10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><path d="M22 17H2a3 3 0 003-3V9a7 7 0 0114 0v5a3 3 0 003 3zm-8.27 4a2 2 0 01-3.46 0"></path></svg><span style="font-size:.85rem;font-weight:700;color:#111;">Notificações</span></div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M9 18l6-6-6-6"></path></svg>
+      </div>
+      <div style="padding:12px 14px;background:#fff;border-radius:10px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;gap:10px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span style="font-size:.85rem;font-weight:700;color:#111;">Ajuda</span></div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M9 18l6-6-6-6"></path></svg>
+      </div>
+      <button style="width:100%;padding:12px;border-radius:10px;background:transparent;border:1.5px solid #EDE9E4;cursor:pointer;font-family:'Lato',sans-serif;font-size:.85rem;font-weight:700;color:#EF4444;display:flex;align-items:center;justify-content:center;gap:8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>Sair da conta</button>
+    </div>
+    <!-- bottom nav -->
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:rgba(255,255,255,.95);border-top:1px solid #F3F4F6;display:flex;align-items:center;justify-content:space-around;padding-bottom:4px;">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Catálogo</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Chat</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Crianças</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 10px;"><div style="width:22px;height:22px;border-radius:50%;background:#111;display:flex;align-items:center;justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 5v14M5 12h14"></path></svg></div><span style="font-size:.56rem;font-weight:700;color:#9CA3AF;">Vender</span></button>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

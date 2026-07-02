@@ -62,7 +62,7 @@ services:
       PUBLIC_API_URL: http://localhost:4000
     volumes:
       - ./apps/web:/app/apps/web
-      - ./packages/ui:/app/packages/ui
+      - ./packages/design-system:/app/packages/design-system
     depends_on:
       - api
 
