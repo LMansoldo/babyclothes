@@ -7,12 +7,15 @@
     price,
     oldPrice,
     condition,
+    conditionVariant,
     sizeLabel,
     genderLabel,
     sellerName,
     sellerAvatar,
     sellerListings,
     verified = false,
+    contactLabel = 'Contatar',
+    buyLabel = 'Comprar',
     onContact,
     onBuy,
     onSellerClick,
@@ -23,12 +26,15 @@
     price?: string
     oldPrice?: string
     condition?: string
+    conditionVariant?: 'new' | 'semi' | 'used'
     sizeLabel?: string
     genderLabel?: string
     sellerName?: string
     sellerAvatar?: string
     sellerListings?: string
     verified?: boolean
+    contactLabel?: string
+    buyLabel?: string
     onContact?: () => void
     onBuy?: () => void
     onSellerClick?: () => void
@@ -44,9 +50,9 @@
         {#if condition}
           <span
             class="product-tray__badge"
-            class:product-tray__badge--new={condition === 'Novo'}
-            class:product-tray__badge--semi={condition === 'Seminovo'}
-            class:product-tray__badge--used={condition === 'Usado'}
+            class:product-tray__badge--new={conditionVariant === 'new'}
+            class:product-tray__badge--semi={conditionVariant === 'semi'}
+            class:product-tray__badge--used={conditionVariant === 'used'}
           >
             {condition}
           </span>
@@ -118,7 +124,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
-          Contatar
+          {contactLabel}
         </button>
       {/if}
       {#if onBuy}
@@ -128,7 +134,7 @@
             <line x1="3" y1="6" x2="21" y2="6"/>
             <path d="M16 10a4 4 0 0 1-8 0"/>
           </svg>
-          Comprar
+          {buyLabel}
         </button>
       {/if}
     </div>
@@ -141,7 +147,6 @@
     flex-direction: column;
     background: #fff;
     border-radius: 1.6rem 1.6rem 0 0;
-    margin-top: -1.6rem;
     padding: 1.8rem 1.8rem 8rem;
     position: relative;
     z-index: 1;

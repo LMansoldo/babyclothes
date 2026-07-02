@@ -228,10 +228,6 @@
     "retry": "Retry"
   },
   "product": {
-    "contact": "Contact",
-    "buy": "Buy",
-    "back": "Back",
-    "favorite": "Favorite",
     "share": "Share",
     "listings": "{{count}} listings",
     "verified": "Verified",

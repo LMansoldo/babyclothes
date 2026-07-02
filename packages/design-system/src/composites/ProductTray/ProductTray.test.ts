@@ -25,20 +25,20 @@ describe('ProductTray', () => {
   })
 
   it('renders condition badge with correct variant', () => {
-    render(ProductTray, { props: { title: 'Test', condition: 'Novo' } })
+    render(ProductTray, { props: { title: 'Test', condition: 'Novo', conditionVariant: 'new' } })
     const badge = screen.getByText('Novo')
     expect(badge).toBeInTheDocument()
     expect(badge).toHaveClass('product-tray__badge--new')
   })
 
   it('renders Seminovo badge', () => {
-    render(ProductTray, { props: { title: 'Test', condition: 'Seminovo' } })
+    render(ProductTray, { props: { title: 'Test', condition: 'Seminovo', conditionVariant: 'semi' } })
     const badge = screen.getByText('Seminovo')
     expect(badge).toHaveClass('product-tray__badge--semi')
   })
 
   it('renders Usado badge', () => {
-    render(ProductTray, { props: { title: 'Test', condition: 'Usado' } })
+    render(ProductTray, { props: { title: 'Test', condition: 'Usado', conditionVariant: 'used' } })
     const badge = screen.getByText('Usado')
     expect(badge).toHaveClass('product-tray__badge--used')
   })
@@ -109,6 +109,18 @@ describe('ProductTray', () => {
     render(ProductTray, { props: { title: 'Test', onBuy: () => {} } })
     const button = screen.getByText('Comprar').closest('button')!
     expect(button).toHaveClass('product-tray__button--primary')
+  })
+
+  it('renders custom contactLabel', () => {
+    render(ProductTray, { props: { title: 'Test', onContact: () => {}, contactLabel: 'Contact' } })
+    expect(screen.getByText('Contact')).toBeInTheDocument()
+    expect(screen.queryByText('Contatar')).not.toBeInTheDocument()
+  })
+
+  it('renders custom buyLabel', () => {
+    render(ProductTray, { props: { title: 'Test', onBuy: () => {}, buyLabel: 'Buy' } })
+    expect(screen.getByText('Buy')).toBeInTheDocument()
+    expect(screen.queryByText('Comprar')).not.toBeInTheDocument()
   })
 
   it('calls onContact when contact button is clicked', async () => {
