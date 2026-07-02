@@ -97,7 +97,7 @@
             {/if}
           </span>
           {#if sellerListings}
-            <span class="product-tray__seller-meta">{sellerListings} anuncios</span>
+            <span class="product-tray__seller-meta">{sellerListings}</span>
           {/if}
         </div>
       </div>
