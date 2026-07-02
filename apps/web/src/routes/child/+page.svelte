@@ -8,8 +8,7 @@
   import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
   import { mockChildren as mockChildrenRaw, mockGrowthRecords } from '$lib/mocks/data'
   import type { MockChild } from '$lib/mocks/data'
-  import GrowthChart from '$lib/presentation/components/GrowthChart.svelte'
-  import EmptyState from '$lib/presentation/components/EmptyState.svelte'
+  import { GrowthChart, EmptyState } from '@babyclothes/design-system'
   import ChildSelector from '$lib/presentation/components/ChildSelector.svelte'
 
   const mockMode = PUBLIC_MOCK_DATA === 'true'

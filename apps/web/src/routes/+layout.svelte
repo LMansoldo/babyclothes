@@ -3,16 +3,16 @@
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
   import { page } from '$app/stores'
-  import TopBar from '$lib/presentation/shell/TopBar.svelte'
-  import BottomNav from '$lib/presentation/shell/BottomNav.svelte'
-  import Footer from '$lib/presentation/components/Footer.svelte'
-
+  import { goto } from '$app/navigation'
+  import { t } from '$lib/i18n'
+  import { Home, MessageSquare, Baby, PlusCircle } from 'lucide-svelte'
+  import { TopBar, BottomNav } from '@babyclothes/design-system'
   let { data, children } = $props()
 
   const isLoginRoute = $derived($page.url.pathname === '/login')
   const isChatRoute = $derived($page.url.pathname.startsWith('/chat'))
   const topbarVariant = $derived(isChatRoute ? 'chat' : 'catalog')
-  const showFooter = $derived(!isLoginRoute && !isChatRoute)
+  const currentPath = $derived($page.url.pathname)
 
   // Create a writable store for session so children can react to changes
   const sessionStore = writable(undefined)
@@ -22,20 +22,52 @@
 
   setContext('session', sessionStore)
   setContext('unreadCount', writable(0))
+
+  function handleNavigate(href: string) {
+    goto(href)
+  }
 </script>
+
+{#snippet homeIcon()}
+  <Home size={20} strokeWidth={1.75} />
+{/snippet}
+{#snippet chatNavIcon()}
+  <MessageSquare size={20} strokeWidth={1.75} />
+{/snippet}
+{#snippet childIcon()}
+  <Baby size={20} strokeWidth={1.75} />
+{/snippet}
+{#snippet sellIcon()}
+  <PlusCircle size={20} strokeWidth={1.75} />
+{/snippet}
 
 {#if isLoginRoute}
   {@render children()}
 {:else}
+  {@const tabs = [
+    { href: '/catalog', label: $t('nav.catalog'), icon: homeIcon },
+    { href: '/chat', label: $t('nav.chat'), icon: chatNavIcon },
+    { href: '/child', label: $t('nav.child'), icon: childIcon },
+    { href: '/sell', label: $t('nav.sell'), icon: sellIcon },
+  ]}
   <div class="app-shell" class:app-shell--chat={isChatRoute}>
-    <TopBar variant={topbarVariant} />
+    <TopBar
+      variant={topbarVariant}
+      searchPlaceholder={$t('topbar.search_placeholder')}
+      searchAriaLabel={$t('topbar.search_aria')}
+      publishLabel={$t('topbar.publish')}
+      chatTitle={$t('topbar.nav.chat_ai')}
+      chatStatus={$t('topbar.chat_status')}
+      onNavigate={handleNavigate}
+    />
     <main class="app-main">
       {@render children()}
     </main>
-    {#if showFooter}
-      <Footer />
-    {/if}
-    <BottomNav />
+    <BottomNav
+      {tabs}
+      {currentPath}
+      onNavigate={handleNavigate}
+    />
   </div>
 {/if}
 
@@ -53,7 +85,6 @@
 
   .app-main {
     flex: 1;
-    padding-top: 5.6rem; /* Space for fixed TopBar */
     padding-bottom: 0;
   }
 

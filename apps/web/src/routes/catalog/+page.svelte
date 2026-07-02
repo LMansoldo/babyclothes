@@ -1,13 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { goto } from '$app/navigation'
   import { t, get } from '$lib/i18n'
   import { HttpCatalogRepository } from '$lib/infrastructure/http/HttpCatalogRepository'
   import type { Item } from '$lib/domain/item/entities/Item'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockItems } from '$lib/mocks/data'
-  import { Card } from '@babyclothes/design-system'
-  import CategoryTabNav from '$lib/presentation/components/CategoryTabNav.svelte'
-  import EmptyState from '$lib/presentation/components/EmptyState.svelte'
+  import { Card, CategoryTabNav, EmptyState } from '@babyclothes/design-system'
   import { RefreshCw, AlertCircle } from 'lucide-svelte'
 
   const catalogRepo = new HttpCatalogRepository()
@@ -20,16 +19,16 @@
   ]
 
   const filters = [
-    { label: 'Tam. M', active: true },
-    { label: 'Tam. G', active: false },
-    { label: 'Tam. GG', active: false },
-    { label: 'Menina', active: false },
-    { label: 'Menino', active: false },
-    { label: 'Unissex', active: false },
+    { label: 'M', active: true },
+    { label: 'G', active: false },
+    { label: 'GG', active: false },
+    { label: 'Menina', active: false, gender: true },
+    { label: 'Menino', active: false, gender: true },
+    { label: 'Unissex', active: false, gender: true },
     { label: 'Novo', active: true },
     { label: 'Seminovo', active: false },
-    { label: 'Ate R$50', active: false },
-    { label: 'Ate R$100', active: false },
+    { label: 'Até R$50', active: false },
+    { label: 'Até R$100', active: false },
   ]
 
   const sizes = [
@@ -110,17 +109,16 @@
 
   <!-- Filter Bar -->
   <div class="filter-bar">
-    <span class="filter-lbl">Filtros</span>
     {#each filters as filter, i}
       <button
         class="fchip"
         class:fchip--on={activeFilters[i]}
+        class:fchip--gender={filter.gender}
         onclick={() => toggleFilter(i)}
       >
         {filter.label}
       </button>
     {/each}
-    <button class="filter-clear" onclick={() => activeFilters = filters.map(() => false)}>Limpar</button>
   </div>
 
   <!-- Content -->
@@ -152,7 +150,6 @@
     {:else}
     <!-- Size Row -->
     <div class="size-row">
-      <span class="sz-lbl">Tamanho</span>
       {#each sizes as size, i}
         <button
           class="sz-chip"
@@ -183,7 +180,7 @@
             condition={conditionLabel(item.condition)}
             badge="IA"
             size="lg"
-            onAdd={() => console.log('View item:', item.id)}
+            onClick={() => goto(`/catalog/${item.id}`)}
           />
         {/each}
       </div>
@@ -206,7 +203,7 @@
             condition={conditionLabel(item.condition)}
             size={index === 0 ? 'featured' : 'md'}
             pinkPrice={index === 0}
-            onAdd={() => console.log('View item:', item.id)}
+            onClick={() => goto(`/catalog/${item.id}`)}
           />
         {/each}
       </div>
@@ -227,7 +224,7 @@
             price={formatPrice(item.priceCents)}
             condition={conditionLabel(item.condition)}
             size="sm"
-            onAdd={() => console.log('View item:', item.id)}
+            onClick={() => goto(`/catalog/${item.id}`)}
           />
         {/each}
       </div>
@@ -248,7 +245,7 @@
             price={formatPrice(item.priceCents)}
             condition={conditionLabel(item.condition)}
             size="md"
-            onAdd={() => console.log('View item:', item.id)}
+            onClick={() => goto(`/catalog/${item.id}`)}
           />
         {/each}
       </div>
@@ -269,7 +266,7 @@
             price={formatPrice(item.priceCents)}
             condition={conditionLabel(item.condition)}
             size="sm"
-            onAdd={() => console.log('View item:', item.id)}
+            onClick={() => goto(`/catalog/${item.id}`)}
           />
         {/each}
       </div>
@@ -285,74 +282,51 @@
 
   /* ── Filter Bar ── */
   .filter-bar {
-    padding: 0.85rem 5vw;
+    background: #F8F5F2;
+    padding: 0.4rem 0.7rem;
     display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-    background: rgba(255, 255, 255, 0.32);
-    backdrop-filter: blur(1.6rem);
-    -webkit-backdrop-filter: blur(1.6rem);
-    border-bottom: 0.1rem solid rgba(255, 255, 255, 0.6);
-    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.7);
+    gap: 0.3rem;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
-  .filter-lbl {
-    font-family: var(--ld);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.25);
-    margin-right: 0.2rem;
-    flex-shrink: 0;
+  .filter-bar::-webkit-scrollbar {
+    display: none;
   }
 
   .fchip {
-    background: rgba(255, 255, 255, 0.45);
-    border: 0.1rem solid rgba(255, 255, 255, 0.7);
-    border-radius: var(--r-xs);
-    padding: 0.25rem 0.7rem;
-    font-family: var(--ld);
-    font-size: 0.64rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 99rem;
+    font-family: var(--font-lato);
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
-    color: rgba(0, 0, 0, 0.45);
+    background: #F3F4F6;
+    color: #374151;
+    border: none;
     cursor: pointer;
-    transition: all 0.15s;
     white-space: nowrap;
-    backdrop-filter: blur(1rem);
-    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.8);
+    transition: background 0.15s, color 0.15s;
   }
 
   .fchip:hover {
-    border-color: rgba(0, 0, 0, 0.18);
-    color: var(--bk);
+    background: #E5E7EB;
   }
 
   .fchip--on {
-    background: rgba(255, 214, 238, 0.55);
-    border-color: rgba(255, 110, 199, 0.5);
-    color: var(--pk);
+    background: #111;
+    color: #fff;
   }
 
-  .filter-clear {
-    margin-left: auto;
-    font-family: var(--ld);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.25);
-    cursor: pointer;
-    transition: color 0.15s;
-    flex-shrink: 0;
-    background: none;
-    border: none;
+  .fchip--gender {
+    background: #FFE8F5;
+    color: #FF3CAC;
   }
 
-  .filter-clear:hover {
-    color: var(--pk);
+  .fchip--gender:hover {
+    background: #FFD0ED;
   }
 
   /* ── Content ── */
@@ -364,68 +338,44 @@
   .size-row {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 1.25rem 0 0.5rem;
+    gap: 0.3rem;
+    padding: 0.4rem 0.7rem;
     flex-wrap: wrap;
   }
 
-  .sz-lbl {
-    font-family: var(--ld);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.25);
-    margin-right: 0.15rem;
-  }
-
   .sz-chip {
-    background: rgba(255, 255, 255, 0.5);
-    border: 0.1rem solid rgba(255, 255, 255, 0.75);
-    border-radius: var(--r-xs);
-    padding: 0.28rem 0.62rem;
-    font-family: var(--ld);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 99rem;
+    font-family: var(--font-lato);
     font-size: 0.72rem;
     font-weight: 700;
-    color: rgba(0, 0, 0, 0.42);
+    background: #F3F4F6;
+    color: #374151;
+    border: none;
     cursor: pointer;
-    transition: all 0.15s;
-    backdrop-filter: blur(1rem);
-    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.85);
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
   }
 
   .sz-chip:hover {
-    border-color: rgba(0, 0, 0, 0.2);
-    color: var(--bk);
+    background: #E5E7EB;
   }
 
   .sz-chip--on {
-    background: rgba(10, 10, 10, 0.9);
-    border-color: rgba(10, 10, 10, 0.9);
-    color: var(--wh);
-    box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.15);
+    background: #111;
+    color: #fff;
   }
 
   .sz-chip--predicted {
-    background: rgba(255, 214, 238, 0.55);
-    border-color: rgba(255, 110, 199, 0.5);
-    color: var(--pk);
-    position: relative;
+    background: #FFE8F5;
+    color: #FF3CAC;
   }
 
-  .sz-chip--predicted::after {
-    content: 'IA';
-    position: absolute;
-    top: -0.5rem;
-    right: -0.4rem;
-    background: var(--pk);
-    color: var(--wh);
-    font-size: 0.44rem;
-    font-family: var(--ld);
-    font-weight: 900;
-    border-radius: 0.3rem;
-    padding: 0.03rem 0.22rem;
-    letter-spacing: 0.05em;
+  .sz-chip--predicted:hover {
+    background: #FFD0ED;
   }
 
   /* ── Category Rows ── */

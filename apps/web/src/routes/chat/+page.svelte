@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { goto } from '$app/navigation'
   import { t, get } from '$lib/i18n'
   import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
   import { HttpCatalogRepository } from '$lib/infrastructure/http/HttpCatalogRepository'
@@ -11,10 +12,7 @@
   import type { Item } from '$lib/domain/item/entities/Item'
   import type { Message } from '$lib/domain/chat/entities/Message'
   import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse'
-  import ChatBubble from '$lib/presentation/components/ChatBubble.svelte'
-  import ChatHeader from '$lib/presentation/components/ChatHeader.svelte'
-  import GrowthChart from '$lib/presentation/components/GrowthChart.svelte'
-  import { Card, ChatInput } from '@babyclothes/design-system'
+  import { Card, ChatInput, ChatBubble, ChatHeader, GrowthChart } from '@babyclothes/design-system'
 
   const childRepo = new HttpChildRepository()
   const catalogRepo = new HttpCatalogRepository()
@@ -184,7 +182,7 @@
                         condition={conditionLabel(item.condition)}
                         pinkPrice={true}
                         size="md"
-                        onAdd={() => console.log('View item:', item.id)}
+                        onClick={() => goto(`/catalog/${item.id}`)}
                       />
                     {/each}
                   </div>

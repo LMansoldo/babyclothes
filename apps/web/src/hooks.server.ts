@@ -5,7 +5,25 @@ const JWT_COOKIE = 'babyclothes_token';
 
 const publicRoutes = ['/login'];
 
+const mockSession = {
+  userId: 'mock-user-1',
+  email: 'mock@babyclothes.app',
+  name: 'Dev User',
+  avatarUrl: '',
+  type: 'pf' as const,
+  cpf: undefined,
+  cnpj: undefined,
+  isSeller: true,
+};
+
 export const handle: Handle = async ({ event, resolve }) => {
+  const mockMode = import.meta.env.PUBLIC_MOCK_DATA === 'true';
+
+  if (mockMode) {
+    event.locals.session = mockSession;
+    return resolve(event);
+  }
+
   const token = event.cookies.get(JWT_COOKIE);
 
   if (token) {

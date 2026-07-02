@@ -8,7 +8,7 @@
   import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockChildren, mockGrowthRecords } from '$lib/mocks/data'
-  import GrowthChart from '$lib/presentation/components/GrowthChart.svelte'
+  import { GrowthChart } from '@babyclothes/design-system'
   import { ArrowLeft } from 'lucide-svelte'
 
   const childRepo = new HttpChildRepository()

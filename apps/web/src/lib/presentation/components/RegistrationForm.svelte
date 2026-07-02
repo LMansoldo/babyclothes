@@ -178,7 +178,7 @@
   .registrationform {
     width: 100%;
     max-width: 40rem;
-    padding: 16px 20px;
+    padding: 0.8rem 1rem;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -187,16 +187,16 @@
   .registrationform__header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 28px;
+    gap: 0.4rem;
+    margin-bottom: 1.4rem;
   }
 
   .registrationform__back {
-    width: 32px;
-    height: 32px;
+    width: 1.6rem;
+    height: 1.6rem;
     border-radius: 50%;
     background: #fff;
-    border: 1.5px solid #EDE9E4;
+    border: 0.075rem solid #EDE9E4;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -219,7 +219,7 @@
   .registrationform__lead {
     font-size: 0.78rem;
     color: #6B7280;
-    margin: 0 0 6px;
+    margin: 0 0 0.3rem;
     line-height: 1.4;
   }
 
@@ -228,24 +228,24 @@
     font-size: 1.5rem;
     font-weight: 300;
     color: #111;
-    margin: 0 0 24px;
+    margin: 0 0 1.2rem;
     line-height: 1.3;
   }
 
   .registrationform__options {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 0.6rem;
   }
 
   .registrationform__option {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-    padding: 16px;
+    gap: 0.7rem;
+    padding: 0.8rem;
     background: #fff;
-    border: 1.5px solid #EDE9E4;
-    border-radius: 14px;
+    border: 0.075rem solid #EDE9E4;
+    border-radius: 0.7rem;
     cursor: pointer;
     transition: all 0.15s;
     font-family: inherit;
@@ -258,14 +258,14 @@
   }
 
   .registrationform__option--selected {
-    border: 2px solid var(--pk);
-    box-shadow: 0 2px 12px rgba(255, 60, 172, 0.12);
+    border: 0.1rem solid var(--pk);
+    box-shadow: 0 0.1rem 0.6rem rgba(255, 60, 172, 0.12);
   }
 
   .registrationform__option-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -284,7 +284,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 0.1rem;
   }
 
   .registrationform__option-label {
@@ -302,34 +302,34 @@
   }
 
   .registrationform__checkmark {
-    width: 18px;
-    height: 18px;
+    width: 0.9rem;
+    height: 0.9rem;
     border-radius: 50%;
     background: var(--pk);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: 0.1rem;
   }
 
   .registrationform__doc-label {
     font-size: 0.78rem;
     font-weight: 700;
     color: #374151;
-    margin: 0 0 8px;
+    margin: 0 0 0.4rem;
   }
 
   .registrationform__field {
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
   }
 
   .registrationform__input {
     width: 100%;
-    padding: 14px 16px;
+    padding: 0.7rem 0.8rem;
     background: #fff;
-    border: 1.5px solid #D1D5DB;
-    border-radius: 10px;
+    border: 0.075rem solid #D1D5DB;
+    border-radius: 0.5rem;
     font-family: var(--vd);
     font-size: 0.9rem;
     color: #111;
@@ -352,19 +352,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 0.4rem;
     width: 100%;
-    padding: 14px;
+    padding: 0.7rem;
     background: var(--pk);
     color: var(--wh);
     border: none;
-    border-radius: 10px;
+    border-radius: 0.5rem;
     font-family: var(--vd);
     font-size: 0.9rem;
     font-weight: 700;
     cursor: pointer;
     transition: opacity 0.15s;
-    box-shadow: 0 4px 16px rgba(255, 60, 172, 0.3);
+    box-shadow: 0 0.2rem 0.8rem rgba(255, 60, 172, 0.3);
   }
 
   .registrationform__submit:hover {
