@@ -20,26 +20,76 @@ defmodule Api.Auth do
     end
   end
 
+  @access_ttl 3_600
+  @refresh_ttl 2_592_000
+
   @doc """
-  Verify an internal HS256 token (used for agent→API calls).
+  Generate a short-lived access token (1h) for a user.
   """
-  def verify_internal_token(token) do
+  def generate_access_token(%User{} = user) do
+    now = System.system_time(:second)
+
+    sign(%{
+      "sub" => to_string(user.id),
+      "email" => user.email,
+      "name" => user.name,
+      "typ" => "access",
+      "iat" => now,
+      "exp" => now + @access_ttl
+    })
+  end
+
+  @doc """
+  Generate a long-lived refresh token (30d) for a user.
+  """
+  def generate_refresh_token(%User{} = user) do
+    now = System.system_time(:second)
+
+    sign(%{
+      "sub" => to_string(user.id),
+      "typ" => "refresh",
+      "iat" => now,
+      "exp" => now + @refresh_ttl
+    })
+  end
+
+  @doc """
+  Verify an HS256 token, checking signature, expiration and the `typ` claim.
+  """
+  @spec verify_token(String.t(), String.t()) ::
+          {:ok, map()} | {:error, :invalid_token | :token_expired | :wrong_type}
+  def verify_token(token, expected_typ) do
     secret = Application.get_env(:api, :internal_jwt_secret)
     jwk = JOSE.JWK.from_oct(secret)
 
     case JOSE.JWT.verify_strict(jwk, ["HS256"], token) do
-      {true, jwt, _} -> {:ok, JOSE.JWT.to_map(jwt) |> elem(1)}
-      _ -> {:error, :invalid_token}
+      {true, jwt, _} ->
+        claims = JOSE.JWT.to_map(jwt) |> elem(1)
+        now = System.system_time(:second)
+
+        cond do
+          is_integer(claims["exp"]) and claims["exp"] < now -> {:error, :token_expired}
+          claims["typ"] != expected_typ -> {:error, :wrong_type}
+          true -> {:ok, claims}
+        end
+
+      _ ->
+        {:error, :invalid_token}
     end
   end
 
   @doc """
-  Generate an internal HS256 token for a user.
+  Compat wrapper — issues an access token. Kept for existing callers.
   """
-  def generate_internal_token(%User{} = user) do
-    secret = Application.get_env(:api, :internal_jwt_secret)
-    claims = %{"sub" => to_string(user.id), "email" => user.email, "name" => user.name}
+  def generate_internal_token(%User{} = user), do: generate_access_token(user)
 
+  @doc """
+  Compat wrapper — verifies an access token. Kept for existing callers.
+  """
+  def verify_internal_token(token), do: verify_token(token, "access")
+
+  defp sign(claims) do
+    secret = Application.get_env(:api, :internal_jwt_secret)
     jwk = JOSE.JWK.from_oct(secret)
     jwt = JOSE.JWT.from_map(claims)
     jws = JOSE.JWS.from_map(%{"alg" => "HS256"})
