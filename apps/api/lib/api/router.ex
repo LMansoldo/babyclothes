@@ -27,6 +27,14 @@ defmodule Api.Router do
     Api.Controllers.AuthController.update_me(conn)
   end
 
+  post "/auth/refresh" do
+    Api.Controllers.AuthController.refresh(conn)
+  end
+
+  post "/auth/logout" do
+    Api.Controllers.AuthController.logout(conn)
+  end
+
   # Feature Flags
   get "/feature-flags" do
     Api.Controllers.FeatureFlagsController.index(conn)

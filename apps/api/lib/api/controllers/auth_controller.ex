@@ -62,22 +62,12 @@ defmodule Api.Controllers.AuthController do
       %{"token" => google_token} when is_binary(google_token) ->
         case Api.Auth.verify_google_token(google_token) do
           {:ok, user} ->
-            internal_token = Api.Auth.generate_internal_token(user)
-
             conn
             |> put_resp_content_type("application/json")
             |> send_resp(200, Jason.encode!(%{
-              token: internal_token,
-              user: %{
-                id: user.id,
-                email: user.email,
-                name: user.name,
-                avatar_url: user.avatar_url,
-                type: user.type,
-                cpf: user.cpf,
-                cnpj: user.cnpj,
-                is_seller: user.is_seller
-              }
+              token: Api.Auth.generate_access_token(user),
+              refresh_token: Api.Auth.generate_refresh_token(user),
+              user: user_json(user)
             }))
 
           {:error, :invalid_audience} ->
@@ -101,6 +91,39 @@ defmodule Api.Controllers.AuthController do
         |> put_resp_content_type("application/json")
         |> send_resp(400, Jason.encode!(%{error: "missing_token"}))
     end
+  end
+
+  @doc """
+  POST /auth/refresh
+  Exchanges a valid refresh token for a fresh access + refresh token pair.
+  """
+  def refresh(conn) do
+    with %{"refresh_token" => refresh_token} when is_binary(refresh_token) <- conn.body_params,
+         {:ok, claims} <- Api.Auth.verify_token(refresh_token, "refresh"),
+         %User{} = user <- Repo.get(User, claims["sub"]) do
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(200, Jason.encode!(%{
+        token: Api.Auth.generate_access_token(user),
+        refresh_token: Api.Auth.generate_refresh_token(user),
+        user: user_json(user)
+      }))
+    else
+      _ ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(401, Jason.encode!(%{error: "invalid_refresh_token"}))
+    end
+  end
+
+  @doc """
+  POST /auth/logout
+  Stateless logout — the client discards its cookies. Returns 200.
+  """
+  def logout(conn) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, Jason.encode!(%{ok: true}))
   end
 
   @doc """
@@ -161,5 +184,18 @@ defmodule Api.Controllers.AuthController do
     user
     |> User.changeset(params)
     |> Repo.update()
+  end
+
+  defp user_json(user) do
+    %{
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      avatar_url: user.avatar_url,
+      type: user.type,
+      cpf: user.cpf,
+      cnpj: user.cnpj,
+      is_seller: user.is_seller
+    }
   end
 end
