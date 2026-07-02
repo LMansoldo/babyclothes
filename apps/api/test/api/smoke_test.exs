@@ -34,10 +34,10 @@ defmodule Api.SmokeTest do
           "name" => "Sofia",
           "birth_date" => "2023-01-15",
           "birth_weight_g" => 3200,
-          "birth_height_cm" => 50,
-          "user_id" => user.id
+          "birth_height_cm" => 50
         })
         |> put_req_header("content-type", "application/json")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 201
@@ -52,6 +52,7 @@ defmodule Api.SmokeTest do
           "recorded_at" => DateTime.to_iso8601(DateTime.utc_now())
         })
         |> put_req_header("content-type", "application/json")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 201
@@ -88,6 +89,7 @@ defmodule Api.SmokeTest do
       # Step 8: GET /users/:user_id/notifications
       conn =
         conn(:get, "/users/#{user.id}/notifications")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 200
@@ -114,6 +116,7 @@ defmodule Api.SmokeTest do
       # Step 11: PATCH /notifications/:id/read
       conn =
         conn(:patch, "/notifications/#{notification_id}/read")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 200
@@ -121,6 +124,7 @@ defmodule Api.SmokeTest do
       # Step 12: DELETE /items/:id
       conn =
         conn(:delete, "/items/#{item_id}")
+        |> put_req_header("authorization", "Bearer #{token}")
         |> Api.Router.call([])
 
       assert conn.status == 204
