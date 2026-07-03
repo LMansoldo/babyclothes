@@ -12,11 +12,14 @@ export const mockSession: Session = {
   email: 'ana@example.com',
   name: 'Ana Silva',
   avatarUrl: '',
+  type: 'pf',
+  isSeller: false,
 };
 
 // ── Children ──
 export type MockChild = {
   id: string;
+  userId: string;
   name: string;
   birthDate: string;
   gender: 'male' | 'female';
@@ -28,6 +31,7 @@ export type MockChild = {
 export const mockChildren: MockChild[] = [
   {
     id: 'child-1',
+    userId: 'user-1',
     name: 'Sofia',
     birthDate: '2024-03-15',
     gender: 'female',
@@ -37,6 +41,7 @@ export const mockChildren: MockChild[] = [
   },
   {
     id: 'child-2',
+    userId: 'user-1',
     name: 'Miguel',
     birthDate: '2023-08-22',
     gender: 'male',
@@ -46,6 +51,7 @@ export const mockChildren: MockChild[] = [
   },
   {
     id: 'child-3',
+    userId: 'user-1',
     name: 'Laura',
     birthDate: '2025-01-10',
     gender: 'female',
@@ -181,6 +187,7 @@ export type MockSeller = {
   name: string;
   avatarUrl: string;
   verified: boolean;
+  listingsCount?: number;
 };
 
 export const mockSellers: Record<string, MockSeller> = {
