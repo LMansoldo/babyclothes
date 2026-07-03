@@ -201,7 +201,7 @@
                 <span class="chat-page__chunk-tag">component:ItemList</span>
                 <ChatBubble
                   role="agent"
-                  content={component.label ?? $t('chat.filter_result', { count: component.items.length })}
+                  content={component.label ?? $t('chat.filter_result', { count: component.items?.length ?? 0 })}
                 />
                 <div class="chat-page__list">
                   <div class="chat-page__list-label">{$t('chat.items_new_label')}</div>

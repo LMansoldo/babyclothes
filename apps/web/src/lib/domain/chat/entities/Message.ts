@@ -11,7 +11,7 @@ export type ComponentPayload = {
   progress?: number;
   eyebrow?: string;
   description?: string;
-  sizes?: { label: string; status: string }[];
+  sizes?: { label: string; status: 'past' | 'current' | 'next' | 'future' }[];
   primaryAction?: { label: string; onclick: () => void };
   secondaryAction?: { label: string; onclick: () => void };
 };
