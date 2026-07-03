@@ -201,7 +201,7 @@
             price={formatPrice(item.priceCents)}
             oldPrice={index === 0 ? formatPrice(item.priceCents + 6000) : undefined}
             condition={conditionLabel(item.condition)}
-            size={index === 0 ? 'featured' : 'md'}
+            size={index === 0 ? 'lg' : 'md'}
             pinkPrice={index === 0}
             onClick={() => goto(`/catalog/${item.id}`)}
           />
