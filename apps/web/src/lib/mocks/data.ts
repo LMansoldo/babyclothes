@@ -25,7 +25,7 @@ export type MockChild = {
   gender: 'male' | 'female';
   birthWeightG: number;
   birthHeightCm: number;
-  document?: string;
+  document: string | undefined;
 };
 
 export const mockChildren: MockChild[] = [
