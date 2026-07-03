@@ -9,6 +9,8 @@ describe('LoginWithGoogle', () => {
     email: 'sofia@example.com',
     name: 'Sofia',
     avatarUrl: 'https://example.com/avatar.jpg',
+    type: 'pf',
+    isSeller: false,
   };
 
   it('delegates to auth repository and returns session', async () => {
@@ -16,6 +18,7 @@ describe('LoginWithGoogle', () => {
       loginWithGoogle: vi.fn().mockResolvedValue(mockSession),
       logout: vi.fn(),
       getSession: vi.fn(),
+      updateProfile: vi.fn(),
     };
 
     const useCase = new LoginWithGoogle(auth);
@@ -30,6 +33,7 @@ describe('LoginWithGoogle', () => {
       loginWithGoogle: vi.fn().mockRejectedValue(new Error('Invalid code')),
       logout: vi.fn(),
       getSession: vi.fn(),
+      updateProfile: vi.fn(),
     };
 
     const useCase = new LoginWithGoogle(auth);

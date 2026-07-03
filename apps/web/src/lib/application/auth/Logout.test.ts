@@ -8,6 +8,7 @@ describe('Logout', () => {
       loginWithGoogle: vi.fn(),
       logout: vi.fn().mockResolvedValue(undefined),
       getSession: vi.fn(),
+      updateProfile: vi.fn(),
     };
 
     const useCase = new Logout(auth);
