@@ -2,6 +2,7 @@
   import '../app.postcss'
   import { setContext } from 'svelte'
   import { writable } from 'svelte/store'
+  import type { Session } from '$lib/domain/auth/entities/Session'
   import { page } from '$app/stores'
   import { goto } from '$app/navigation'
   import { t } from '$lib/i18n'
@@ -15,7 +16,7 @@
   const currentPath = $derived($page.url.pathname)
 
   // Create a writable store for session so children can react to changes
-  const sessionStore = writable(undefined)
+  const sessionStore = writable<Session | null>(null)
   $effect(() => {
     sessionStore.set(data.session)
   })
