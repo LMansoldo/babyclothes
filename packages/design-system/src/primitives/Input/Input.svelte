@@ -37,7 +37,7 @@
     type === 'password' ? (showPassword ? 'text' : 'password') : type
   )
 
-  const state = $derived(error ? 'error' : success ? 'success' : 'default')
+  const inputState = $derived(error ? 'error' : success ? 'success' : 'default')
 </script>
 
 <div class="input-field">
@@ -45,7 +45,7 @@
     <label class="input-label" for={id}>{label}</label>
   {/if}
 
-  <div class="input-wrapper input-wrapper--{state}" class:input-wrapper--has-prefix={!!prefix} class:input-wrapper--has-suffix={!!suffixLabel || type === 'password'}>
+  <div class="input-wrapper input-wrapper--{inputState}" class:input-wrapper--has-prefix={!!prefix} class:input-wrapper--has-suffix={!!suffixLabel || type === 'password'}>
     {#if prefix}
       <span class="input-prefix">{prefix}</span>
     {/if}
