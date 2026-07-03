@@ -1,13 +1,17 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, getContext } from 'svelte'
+  import { get as getStore } from 'svelte/store'
+  import type { Writable } from 'svelte/store'
   import { t } from '$lib/i18n'
   import { HttpNotificationRepository } from '$lib/infrastructure/http/HttpNotificationRepository'
   import type { Notification } from '$lib/domain/notification/entities/Notification'
+  import type { Session } from '$lib/domain/auth/entities/Session'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockNotifications } from '$lib/mocks/data'
   import { Bell, Check } from 'lucide-svelte'
 
   const notifRepo = new HttpNotificationRepository()
+  const session = getContext<Writable<Session | undefined>>('session')
 
   const mockMode = PUBLIC_MOCK_DATA === 'true'
 
@@ -19,7 +23,9 @@
       if (mockMode) {
         notifications = [...mockNotifications]
       } else {
-        notifications = await notifRepo.findAll()
+        const userId = getStore(session)?.userId
+        if (!userId) throw new Error('Not authenticated')
+        notifications = await notifRepo.findAll(userId)
       }
     } catch (e) {
       console.error('Failed to load notifications:', e)

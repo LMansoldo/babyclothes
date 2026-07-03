@@ -1,11 +1,14 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, getContext } from 'svelte'
+  import { get as getStore } from 'svelte/store'
+  import type { Writable } from 'svelte/store'
   import { goto } from '$app/navigation'
   import { t, get } from '$lib/i18n'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
   import type { Child } from '$lib/domain/child/entities/Child'
   import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
+  import type { Session } from '$lib/domain/auth/entities/Session'
   import { mockChildren as mockChildrenRaw, mockGrowthRecords } from '$lib/mocks/data'
   import type { MockChild } from '$lib/mocks/data'
   import { GrowthChart, EmptyState } from '@babyclothes/design-system'
@@ -14,6 +17,7 @@
   const mockMode = PUBLIC_MOCK_DATA === 'true'
 
   const childRepo = new HttpChildRepository()
+  const session = getContext<Writable<Session | undefined>>('session')
 
   let children = $state<Child[]>([])
   let measurements = $state<Record<string, GrowthRecord[]>>({})
@@ -63,7 +67,9 @@
           activeChildId = loaded[0].id
         }
       } else {
-        const loadedChildren = await childRepo.findAll()
+        const userId = getStore(session)?.userId
+        if (!userId) throw new Error('Not authenticated')
+        const loadedChildren = await childRepo.findAll(userId)
         children = loadedChildren
         if (loadedChildren.length > 0) {
           activeChildId = loadedChildren[0].id
