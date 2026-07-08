@@ -110,7 +110,7 @@
 <style>
   .profile-page {
     min-height: 100vh;
-    background: var(--of2);
+    background: var(--color-bg);
     padding-bottom: 5rem;
   }
 

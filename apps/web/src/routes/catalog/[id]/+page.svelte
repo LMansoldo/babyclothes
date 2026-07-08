@@ -72,7 +72,7 @@
 <style>
   .item-detail-page {
     min-height: 100vh;
-    background: var(--of2);
+    background: var(--color-bg);
   }
 
   .item-detail-page__gallery {

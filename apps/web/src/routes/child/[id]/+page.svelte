@@ -147,7 +147,7 @@
 <style>
   .child-detail-page {
     min-height: 100vh;
-    background: var(--of2);
+    background: var(--color-bg);
   }
 
   .child-detail-page__loading,
