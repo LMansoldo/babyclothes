@@ -72,6 +72,7 @@
     "view_category": "Ver categoria",
     "empty_title": "Nenhum item encontrado",
     "empty_description": "Tente ajustar os filtros ou volte mais tarde para novas peças.",
+    "loading": "Carregando catálogo...",
     "error_title": "Algo deu errado",
     "error_description": "Não foi possível carregar o catálogo. Tente novamente.",
     "error_retry": "Tentar novamente"

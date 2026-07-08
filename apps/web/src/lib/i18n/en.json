@@ -71,6 +71,7 @@
     "view_category": "View category",
     "empty_title": "No items found",
     "empty_description": "Try adjusting your filters or check back later for new listings.",
+    "loading": "Loading catalog...",
     "error_title": "Something went wrong",
     "error_description": "We couldn't load the catalog. Please try again.",
     "error_retry": "Try again"
