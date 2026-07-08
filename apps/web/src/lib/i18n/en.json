@@ -160,6 +160,10 @@
     "favorite": "Favorite",
     "verified": "Verified"
   },
+  "sell": {
+    "publishing": "Publishing...",
+    "error_publish": "Could not publish your listing. Please try again."
+  },
   "item_form": {
     "new_listing": "New Listing",
     "step_info": "Item Info",

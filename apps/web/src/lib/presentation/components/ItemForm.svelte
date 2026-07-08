@@ -16,6 +16,7 @@
   let {
     currentStep = 1,
     totalSteps = 2,
+    submitting = false,
     formData = {
       title: '',
       category: '',
@@ -31,29 +32,30 @@
   }: {
     currentStep?: 1 | 2
     totalSteps?: number
+    submitting?: boolean
     formData?: FormData
     onSubmit?: (data: FormData) => void
     onBack?: () => void
   } = $props()
 
   const categories = $derived([
-    $t('item_form.category_romper'),
-    $t('item_form.category_bodysuit'),
-    $t('item_form.category_dress'),
-    $t('item_form.category_coat'),
-    $t('item_form.category_set'),
-    $t('item_form.category_accessory'),
+    { value: 'romper', label: $t('item_form.category_romper') },
+    { value: 'bodysuit', label: $t('item_form.category_bodysuit') },
+    { value: 'dress', label: $t('item_form.category_dress') },
+    { value: 'coat', label: $t('item_form.category_coat') },
+    { value: 'set', label: $t('item_form.category_set') },
+    { value: 'accessory', label: $t('item_form.category_accessory') },
   ])
   const sizes = ['RN', 'P', 'M', 'G', 'GG', '1', '2']
   const conditions = $derived([
-    $t('item_form.condition_new'),
-    $t('item_form.condition_like_new'),
-    $t('item_form.condition_used'),
+    { value: 'new', label: $t('item_form.condition_new') },
+    { value: 'like_new', label: $t('item_form.condition_like_new') },
+    { value: 'used', label: $t('item_form.condition_used') },
   ])
   const genders = $derived([
-    $t('item_form.gender_girl'),
-    $t('item_form.gender_boy'),
-    $t('item_form.gender_unisex'),
+    { value: 'female', label: $t('item_form.gender_girl') },
+    { value: 'male', label: $t('item_form.gender_boy') },
+    { value: 'unisex', label: $t('item_form.gender_unisex') },
   ])
 
   // svelte-ignore state_referenced_locally
@@ -159,14 +161,14 @@
       <div class="itemform__field">
         <span class="itemform__label">{$t('item_form.category_label')}</span>
         <div class="itemform__chipgroup">
-          {#each categories as cat (cat)}
+          {#each categories as cat (cat.value)}
             <button
               type="button"
               class="itemform__chip"
-              class:itemform__chip--on={category === cat}
-              onclick={() => (category = category === cat ? '' : cat)}
+              class:itemform__chip--on={category === cat.value}
+              onclick={() => (category = category === cat.value ? '' : cat.value)}
             >
-              {cat}
+              {cat.label}
             </button>
           {/each}
         </div>
@@ -191,14 +193,14 @@
       <div class="itemform__field">
         <span class="itemform__label">{$t('item_form.condition_label')}</span>
         <div class="itemform__chipgroup">
-          {#each conditions as cond (cond)}
+          {#each conditions as cond (cond.value)}
             <button
               type="button"
               class="itemform__chip"
-              class:itemform__chip--pkon={condition === cond}
-              onclick={() => (condition = condition === cond ? '' : cond)}
+              class:itemform__chip--pkon={condition === cond.value}
+              onclick={() => (condition = condition === cond.value ? '' : cond.value)}
             >
-              {cond}
+              {cond.label}
             </button>
           {/each}
         </div>
@@ -207,14 +209,14 @@
       <div class="itemform__field">
         <span class="itemform__label">{$t('item_form.gender_label')}</span>
         <div class="itemform__chipgroup">
-          {#each genders as g (g)}
+          {#each genders as g (g.value)}
             <button
               type="button"
               class="itemform__chip"
-              class:itemform__chip--on={gender === g}
-              onclick={() => (gender = gender === g ? '' : g)}
+              class:itemform__chip--on={gender === g.value}
+              onclick={() => (gender = gender === g.value ? '' : g.value)}
             >
-              {g}
+              {g.label}
             </button>
           {/each}
         </div>
@@ -320,11 +322,11 @@
       {/if}
 
       {#if isLastStep}
-        <button type="button" class="itemform__btn itemform__btn--primary" onclick={handleContinue}>
-          {$t('item_form.publish')}
+        <button type="button" class="itemform__btn itemform__btn--primary" disabled={submitting} onclick={handleContinue}>
+          {submitting ? $t('sell.publishing') : $t('item_form.publish')}
         </button>
       {:else}
-        <button type="button" class="itemform__btn itemform__btn--dark" onclick={handleContinue}>
+        <button type="button" class="itemform__btn itemform__btn--dark" disabled={submitting} onclick={handleContinue}>
           {$t('common.continue')}
           <ArrowRight size={14} strokeWidth={2.5} />
         </button>

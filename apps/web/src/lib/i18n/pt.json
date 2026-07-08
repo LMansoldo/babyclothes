@@ -161,6 +161,10 @@
     "favorite": "Favoritar",
     "verified": "Verificado"
   },
+  "sell": {
+    "publishing": "Publicando...",
+    "error_publish": "Não foi possível publicar o anúncio. Tente novamente."
+  },
   "item_form": {
     "new_listing": "Nova Peça",
     "step_info": "Informações",
