@@ -5,7 +5,9 @@
   let { data } = $props()
 
   const conditionLabel = $derived(get(t)(`item_card.condition_${data.item.condition}`))
-  const conditionVariant = $derived<'new' | 'semi' | 'used'>(data.item.condition as 'new' | 'semi' | 'used')
+  const conditionVariant = $derived<'new' | 'semi' | 'used'>(
+    data.item.condition === 'like_new' ? 'semi' : data.item.condition === 'new' ? 'new' : 'used',
+  )
   const formattedPrice = $derived(`R$ ${(data.item.priceCents / 100).toFixed(2).replace('.', ',')}`)
 
   function handleBack() {
@@ -57,7 +59,6 @@
       genderLabel={data.item.gender ? $t(`item_card.gender_${data.item.gender}`) : undefined}
       sellerName={data.seller?.name}
       sellerAvatar={data.seller?.avatarUrl}
-      sellerListings={data.seller?.listingsCount ? $t('product.listings', { count: data.seller.listingsCount }) : undefined}
       verified={data.seller?.verified}
       contactLabel={$t('item_card.contact')}
       buyLabel={$t('item_card.buy')}
