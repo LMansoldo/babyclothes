@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
+  import { page } from '$app/stores'
   import { t, get } from '$lib/i18n'
   import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
   import { HttpCatalogRepository } from '$lib/infrastructure/http/HttpCatalogRepository'
@@ -11,13 +12,14 @@
   import type { Item } from '$lib/domain/item/entities/Item'
   import type { Message } from '$lib/domain/chat/entities/Message'
   import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse'
-  import { Card, ChatInput, ChatBubble, ChatHeader, GrowthChart } from '@babyclothes/design-system'
+  import { Card, ChatInput, ChatBubble, ChatHeader, GrowthChart, EmptyState } from '@babyclothes/design-system'
 
   const childRepo = new HttpChildRepository()
   const catalogRepo = new HttpCatalogRepository()
   const chatRepo = new SseChatRepository()
 
   const mockMode = PUBLIC_MOCK_DATA === 'true'
+  const session = $derived($page.data.session)
 
   let children = $state<Child[]>([])
   let items = $state<Item[]>([])
@@ -43,10 +45,10 @@
         items = [...mockItems]
         messages = [...mockMessages]
       } else {
-        // TODO: Get userId from page data session and pass to findAll(userId)
-        // For now, this will fail without auth — needs a +page.server.ts to provide session
+        const userId = session?.userId
+        if (!userId) throw new Error('Not authenticated')
         const [loadedChildren, loadedItems] = await Promise.all([
-          childRepo.findAll('TODO'),
+          childRepo.findAll(userId),
           catalogRepo.fetch({}),
         ])
         children = loadedChildren
@@ -83,9 +85,7 @@
   }
 
   async function handleSend(msg: string) {
-    // Get userId from session (populated by hooks.server.ts)
-    const userId = mockMode ? 'mock-user-1' : undefined
-    // TODO: Get userId from page data session when available
+    const userId = mockMode ? 'mock-user-1' : session?.userId
     if (!userId || !activeChild) return
 
     // Add user message to UI
@@ -123,7 +123,11 @@
     messages = [...messages, agentMsg]
 
     try {
-      for await (const chunk of chatRepo.sendMessage(userId, activeChild.id, msg)) {
+      const context = {
+        name: activeChild.name,
+        birth_date: activeChild.birthDate.toISOString().slice(0, 10),
+      }
+      for await (const chunk of chatRepo.sendMessage(userId, activeChild.id, msg, context)) {
         if (chunk.type === 'text') {
           agentContent += chunk.content
           messages = messages.map((m) =>
@@ -161,6 +165,16 @@
   <div class="chat-page__messages">
     <!-- Date divider -->
     <div class="chat-page__date-div">hoje · 17 jun 2026</div>
+
+    {#if !loading && !mockMode && children.length === 0}
+      <EmptyState
+        variant="centered"
+        title={$t('chat.no_children_title')}
+        description={$t('chat.no_children_description')}
+        accent="pink"
+        action={{ label: $t('chat.no_children_action'), variant: 'pk', onclick: () => goto('/child/register') }}
+      />
+    {/if}
 
     {#each messages as message (message.id)}
       <!-- Dynamic components rendered inline when agent sends them -->

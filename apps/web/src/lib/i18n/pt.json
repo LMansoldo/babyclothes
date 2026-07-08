@@ -91,7 +91,10 @@
     "quick_ask_agent": "Perguntar ao agente",
     "filter_result": "Filtrei por Novo · G · até R$100 — encontrei {{count}} peças:",
     "items_new_label": "itens novos · tam. G · até R$100",
-    "item_detail_condition_size": "{{condition}} · Tam. {{size}} · {{category}}"
+    "item_detail_condition_size": "{{condition}} · Tam. {{size}} · {{category}}",
+    "no_children_title": "Cadastre uma criança para conversar",
+    "no_children_description": "O assistente usa o perfil da criança para recomendar tamanhos e roupas.",
+    "no_children_action": "Cadastrar criança"
   },
   "chat_header": {
     "seller_online_verified": "online agora · vendedora verificada",

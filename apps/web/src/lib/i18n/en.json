@@ -90,7 +90,10 @@
     "quick_ask_agent": "Ask the agent",
     "filter_result": "Filtered by New · G · up to R$100 — found {{count}} items:",
     "items_new_label": "new items · size G · up to R$100",
-    "item_detail_condition_size": "{{condition}} · Size {{size}} · {{category}}"
+    "item_detail_condition_size": "{{condition}} · Size {{size}} · {{category}}",
+    "no_children_title": "Register a child to chat",
+    "no_children_description": "The assistant uses your child's profile to recommend sizes and clothes.",
+    "no_children_action": "Register child"
   },
   "chat_header": {
     "seller_online_verified": "online now · verified seller",

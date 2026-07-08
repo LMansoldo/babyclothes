@@ -1,4 +1,4 @@
-import type { IChatRepository } from '$lib/domain/chat/repositories/IChatRepository';
+import type { IChatRepository, ChatContext } from '$lib/domain/chat/repositories/IChatRepository';
 import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse';
 
 export class SseChatRepository implements IChatRepository {
@@ -12,13 +12,14 @@ export class SseChatRepository implements IChatRepository {
     userId: string,
     childId: string,
     message: string,
+    context?: ChatContext,
   ): AsyncIterable<AgentResponse> {
     const res = await fetch(`${this.baseUrl}/agent/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ user_id: userId, child_id: childId, message }),
+      body: JSON.stringify({ user_id: userId, child_id: childId, message, context }),
     });
 
     if (!res.ok) {

@@ -57,4 +57,28 @@ defmodule Api.Controllers.AgentControllerTest do
       assert body["error"] == "missing_authorization"
     end
   end
+
+  describe "agents_payload/1" do
+    test "forwards only message, child_id and context" do
+      payload =
+        Api.Controllers.AgentController.agents_payload(%{
+          "message" => "oi",
+          "child_id" => "5",
+          "context" => %{"name" => "Sofia"},
+          "authorization" => "should-be-dropped"
+        })
+
+      assert Jason.decode!(payload) == %{
+               "message" => "oi",
+               "child_id" => "5",
+               "context" => %{"name" => "Sofia"}
+             }
+    end
+
+    test "omits keys that are absent" do
+      payload = Api.Controllers.AgentController.agents_payload(%{"message" => "oi"})
+
+      assert Jason.decode!(payload) == %{"message" => "oi"}
+    end
+  end
 end

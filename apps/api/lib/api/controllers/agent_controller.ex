@@ -11,9 +11,9 @@ defmodule Api.Controllers.AgentController do
   Validates the request, then proxies it to the agents service via SSE streaming.
   """
   def chat(conn) do
-    with {:ok, message} <- extract_message(conn),
+    with {:ok, _message} <- extract_message(conn),
          {:ok, token} <- extract_bearer_token(conn) do
-      stream_to_agents(conn, message, token)
+      stream_to_agents(conn, token)
     else
       {:error, :missing_message} ->
         conn
@@ -30,6 +30,18 @@ defmodule Api.Controllers.AgentController do
         |> put_resp_content_type("application/json")
         |> send_resp(401, Jason.encode!(%{error: "missing_authorization"}))
     end
+  end
+
+  @doc """
+  Builds the JSON payload forwarded to the agents service.
+
+  Only whitelisted keys are forwarded: message, child_id, context.
+  """
+  @spec agents_payload(map()) :: String.t()
+  def agents_payload(body_params) do
+    body_params
+    |> Map.take(["message", "child_id", "context"])
+    |> Jason.encode!()
   end
 
   defp extract_message(conn) do
@@ -55,10 +67,10 @@ defmodule Api.Controllers.AgentController do
     end
   end
 
-  defp stream_to_agents(conn, message, token) do
+  defp stream_to_agents(conn, token) do
     agents_endpoint = "#{agents_url()}/chat"
 
-    body = Jason.encode!(%{message: message})
+    body = agents_payload(conn.body_params)
 
     headers = [
       {"Content-Type", "application/json"},
