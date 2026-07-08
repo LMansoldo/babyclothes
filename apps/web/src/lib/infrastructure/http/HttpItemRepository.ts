@@ -3,43 +3,44 @@ import type {
   CreateItemInput,
 } from '$lib/domain/item/repositories/IItemRepository';
 import type { Item } from '$lib/domain/item/entities/Item';
+import { mapApiItem, type ApiItemDTO, type ApiPhotoDTO } from './apiItemMapper';
+
+type PhotoUploadResponse = {
+  upload_url: string;
+  photo: ApiPhotoDTO;
+};
 
 export class HttpItemRepository implements IItemRepository {
-  private readonly baseUrl: string;
-
-  constructor() {
-    this.baseUrl = '/api';
-  }
-
-  private authHeaders(): Record<string, string> {
-    return { 'Content-Type': 'application/json' };
-  }
+  private readonly baseUrl = '/api';
 
   async create(data: CreateItemInput): Promise<Item> {
-    const form = new FormData();
-    form.append('title', data.title);
-    form.append('description', data.description ?? '');
-    form.append('category', data.category);
-    form.append('gender', data.gender);
-    form.append('clothing_size', data.clothingSize);
-    form.append('condition', data.condition);
-    form.append('price_cents', String(data.priceCents));
-    for (const photo of data.photos) {
-      form.append('photos[]', photo);
-    }
-
     const res = await fetch(`${this.baseUrl}/items`, {
       method: 'POST',
-      body: form,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: data.title,
+        description: data.description,
+        category: data.category,
+        gender: data.gender,
+        clothing_size: data.clothingSize,
+        condition: data.condition,
+        price_cents: data.priceCents,
+      }),
     });
 
     if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error((err as { error?: string }).error ?? `Create item failed: ${res.status}`);
+      const err = (await res.json().catch(() => ({}))) as { error?: string };
+      throw new Error(err.error ?? `Create item failed: ${res.status}`);
     }
 
-    const { item } = (await res.json()) as { item: ApiItemDTO };
-    return mapItem(item);
+    const dto = (await res.json()) as ApiItemDTO;
+
+    const photoUrls: string[] = [];
+    for (const photo of data.photos) {
+      photoUrls.push(await this.uploadPhoto(dto.id, photo));
+    }
+
+    return { ...mapApiItem(dto), photoUrls };
   }
 
   async findById(id: string): Promise<Item> {
@@ -49,47 +50,42 @@ export class HttpItemRepository implements IItemRepository {
       throw new Error(`Item ${id} not found: ${res.status}`);
     }
 
-    const { item } = (await res.json()) as { item: ApiItemDTO };
-    return mapItem(item);
+    const dto = (await res.json()) as ApiItemDTO;
+    return mapApiItem(dto);
   }
 
   async delete(id: string): Promise<void> {
-    const res = await fetch(`${this.baseUrl}/items/${id}`, {
-      method: 'DELETE',
-    });
+    const res = await fetch(`${this.baseUrl}/items/${id}`, { method: 'DELETE' });
 
     if (!res.ok) {
       throw new Error(`Delete item ${id} failed: ${res.status}`);
     }
   }
-}
 
-type ApiItemDTO = {
-  id: string;
-  seller_id: string;
-  title: string;
-  description: string;
-  category: string;
-  gender: 'male' | 'female' | 'unisex';
-  clothing_size: string;
-  condition: 'new' | 'like_new' | 'used';
-  price_cents: number;
-  status: 'active' | 'sold' | 'paused';
-  photo_urls: string[];
-};
+  private async uploadPhoto(itemId: number | string, file: File): Promise<string> {
+    const res = await fetch(`${this.baseUrl}/items/${itemId}/photos`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{}',
+    });
 
-function mapItem(dto: ApiItemDTO): Item {
-  return {
-    id: dto.id,
-    sellerId: dto.seller_id,
-    title: dto.title,
-    description: dto.description,
-    category: dto.category,
-    gender: dto.gender,
-    clothingSize: dto.clothing_size,
-    condition: dto.condition,
-    priceCents: dto.price_cents,
-    status: dto.status,
-    photoUrls: dto.photo_urls,
-  };
+    if (!res.ok) {
+      throw new Error(`Photo registration failed: ${res.status}`);
+    }
+
+    const { upload_url, photo } = (await res.json()) as PhotoUploadResponse;
+
+    // PUT direto no bucket (presigned) — nao passa pelo proxy /api
+    const put = await fetch(upload_url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'image/jpeg' },
+      body: file,
+    });
+
+    if (!put.ok) {
+      throw new Error(`Photo upload failed: ${put.status}`);
+    }
+
+    return photo.url;
+  }
 }
