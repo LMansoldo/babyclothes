@@ -62,10 +62,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0.8rem 5vw;
-    background: rgba(255, 255, 255, 0.38);
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur);
-    border-bottom: 0.1rem solid var(--glass-brd);
+    background: var(--wh);
+    border-bottom: 0.1rem solid rgba(10, 10, 10, 0.06);
     box-shadow: inset 0 0.1rem 0 rgba(255, 255, 255, 0.7);
     flex-shrink: 0;
   }

@@ -13,6 +13,7 @@
   import type { Message } from '$lib/domain/chat/entities/Message'
   import type { AgentResponse } from '$lib/domain/chat/value-objects/AgentResponse'
   import { Card, ChatInput, ChatBubble, ChatHeader, GrowthChart, EmptyState } from '@babyclothes/design-system'
+  import { Droplets } from 'lucide-svelte'
 
   const childRepo = new HttpChildRepository()
   const catalogRepo = new HttpCatalogRepository()
@@ -183,7 +184,7 @@
           {#if component.type === 'carousel'}
             <div class="chat-page__row" style="max-width: 100%">
               <div class="chat-page__av">
-                <div class="chat-page__av-dot"></div>
+                <Droplets size={13} color="var(--pk)" />
               </div>
               <div class="chat-page__bwrap">
                 <span class="chat-page__chunk-tag">component:Carousel</span>
@@ -209,7 +210,7 @@
           {:else if component.type === 'itemList'}
             <div class="chat-page__row" style="max-width: 100%">
               <div class="chat-page__av">
-                <div class="chat-page__av-dot"></div>
+                <Droplets size={13} color="var(--pk)" />
               </div>
               <div class="chat-page__bwrap">
                 <span class="chat-page__chunk-tag">component:ItemList</span>
@@ -236,7 +237,7 @@
           {:else if component.type === 'growthAlert'}
             <div class="chat-page__row" style="max-width: 100%">
               <div class="chat-page__av">
-                <div class="chat-page__av-dot"></div>
+                <Droplets size={13} color="var(--pk)" />
               </div>
               <div class="chat-page__bwrap">
                 <span class="chat-page__chunk-tag">component:GrowthAlert</span>
@@ -263,7 +264,7 @@
       {#if message.role === 'agent'}
         <div class="chat-page__row">
           <div class="chat-page__av">
-            <div class="chat-page__av-dot"></div>
+            <Droplets size={13} color="var(--pk)" />
           </div>
           <div class="chat-page__bwrap">
             <ChatBubble
@@ -295,7 +296,7 @@
     {#if isTyping}
       <div class="chat-page__row">
         <div class="chat-page__av">
-          <div class="chat-page__av-dot"></div>
+          <Droplets size={13} color="var(--pk)" />
         </div>
         <div class="chat-page__typing">
           <span class="chat-page__typing-dot"></span>
@@ -386,13 +387,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .chat-page__av-dot {
-    width: 0.8rem;
-    height: 0.8rem;
-    border-radius: 0.2rem;
-    background: var(--pk);
   }
 
   .chat-page__bwrap {
