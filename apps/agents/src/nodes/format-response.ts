@@ -23,7 +23,7 @@ Generate a helpful response. If showing items, include a Carousel or ItemList co
 Respond in the same language as the user's message.`;
 
 const model = new ChatAnthropic({
-  modelName: 'claude-sonnet-4-20250514',
+  modelName: 'claude-sonnet-5',
   temperature: 0.7,
   maxTokens: 500,
 });

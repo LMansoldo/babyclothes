@@ -24,7 +24,7 @@ Respond with ONLY the intent name, nothing else.
 User message: {message}`;
 
 const model = new ChatAnthropic({
-  modelName: 'claude-sonnet-4-20250514',
+  modelName: 'claude-haiku-4-5-20251001',
   temperature: 0,
   maxTokens: 20,
 });

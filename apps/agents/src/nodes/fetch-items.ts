@@ -14,7 +14,7 @@ import type { ChatState } from '../types.js';
 const EXTRACT_PARAMS_PROMPT = `Extract search parameters from the user message.
 Child context: {child_context}
 
-Available categories: body, macacao, vestido, calca, blusa, saia, short, pijama, agasalho, acessorio
+Available categories: romper, bodysuit, dress, coat, set, accessory
 Available sizes: RN, P, M, G, GG, 1, 2, 3, 4, 5, 6
 Available genders: male, female, unisex
 
@@ -24,7 +24,7 @@ Respond with JSON only:
 {{"category": "string|null", "size": "string|null", "gender": "string|null", "keywords": ["string"]}}`;
 
 const model = new ChatAnthropic({
-  modelName: 'claude-sonnet-4-20250514',
+  modelName: 'claude-haiku-4-5-20251001',
   temperature: 0,
   maxTokens: 100,
 });
