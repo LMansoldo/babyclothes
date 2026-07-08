@@ -2,12 +2,26 @@ import type { ICatalogRepository } from '$lib/domain/catalog/repositories/ICatal
 import type { Filter } from '$lib/domain/catalog/value-objects/Filter';
 import type { Item } from '$lib/domain/item/entities/Item';
 
-export class HttpCatalogRepository implements ICatalogRepository {
-  private readonly baseUrl: string;
+type CatalogItemDTO = {
+  id: number | string;
+  title: string;
+  category: string;
+  gender: 'male' | 'female' | 'unisex';
+  clothing_size: string;
+  condition: 'new' | 'like_new' | 'used';
+  price_cents: number;
+  photo_url: string | null;
+  seller: { id: number | string; name: string; avatar_url: string } | null;
+  inserted_at?: string;
+};
 
-  constructor() {
-    this.baseUrl = '/api';
-  }
+type CatalogResponse = {
+  items: CatalogItemDTO[];
+  pagination: { page: number; per_page: number; total: number };
+};
+
+export class HttpCatalogRepository implements ICatalogRepository {
+  private readonly baseUrl = '/api';
 
   async fetch(filter: Filter): Promise<Item[]> {
     const params = new URLSearchParams();
@@ -23,53 +37,22 @@ export class HttpCatalogRepository implements ICatalogRepository {
     }
 
     const body = (await res.json()) as CatalogResponse;
-    // API returns { sections: { trending: [...], newborn: [...], ... } }
-    // Flatten all sections into a single items array, deduplicating by id
-    const seen = new Set<string>();
-    const items: Item[] = [];
-    for (const section of Object.values(body.sections)) {
-      for (const dto of section) {
-        if (!seen.has(String(dto.id))) {
-          seen.add(String(dto.id));
-          items.push(mapItem(dto));
-        }
-      }
-    }
-    return items;
+    return body.items.map(mapCatalogItem);
   }
 }
 
-type CatalogResponse = {
-  sections: Record<string, ApiItemDTO[]>;
-};
-
-type ApiItemDTO = {
-  id: number | string;
-  seller_id: string | number;
-  title: string;
-  description: string;
-  category: string;
-  gender: 'male' | 'female' | 'unisex';
-  clothing_size: string;
-  condition: 'new' | 'like_new' | 'used';
-  price_cents: number;
-  status: 'active' | 'sold' | 'paused';
-  photo_urls?: string[];
-  inserted_at?: string;
-};
-
-function mapItem(dto: ApiItemDTO): Item {
+function mapCatalogItem(dto: CatalogItemDTO): Item {
   return {
     id: String(dto.id),
-    sellerId: String(dto.seller_id),
+    sellerId: dto.seller ? String(dto.seller.id) : '',
     title: dto.title,
-    description: dto.description,
+    description: '',
     category: dto.category,
     gender: dto.gender,
     clothingSize: dto.clothing_size,
     condition: dto.condition,
     priceCents: dto.price_cents,
-    status: dto.status,
-    photoUrls: dto.photo_urls ?? [],
+    status: 'active',
+    photoUrls: dto.photo_url ? [dto.photo_url] : [],
   };
 }
