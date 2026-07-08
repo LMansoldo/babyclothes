@@ -4,59 +4,79 @@
   import { t, get } from '$lib/i18n'
   import { HttpCatalogRepository } from '$lib/infrastructure/http/HttpCatalogRepository'
   import type { Item } from '$lib/domain/item/entities/Item'
+  import type { Filter } from '$lib/domain/catalog/value-objects/Filter'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
   import { mockItems } from '$lib/mocks/data'
   import { Card, CategoryTabNav, EmptyState } from '@babyclothes/design-system'
   import { RefreshCw, AlertCircle } from 'lucide-svelte'
 
   const catalogRepo = new HttpCatalogRepository()
-
   const mockMode = PUBLIC_MOCK_DATA === 'true'
 
-  const categories = [
-    'Destaques', 'Recem-nascido', 'Macacoes', 'Bodies',
-    'Casacos', 'Calcas', 'Conjuntos', 'Acessorios', 'Enxoval', 'Seminovos', 'Sugerido pela IA',
-  ]
+  type Option = { value: string; label: string }
 
-  const filters = [
-    { label: 'M', active: true },
-    { label: 'G', active: false },
-    { label: 'GG', active: false },
-    { label: 'Menina', active: false, gender: true },
-    { label: 'Menino', active: false, gender: true },
-    { label: 'Unissex', active: false, gender: true },
-    { label: 'Novo', active: true },
-    { label: 'Seminovo', active: false },
-    { label: 'Até R$50', active: false },
-    { label: 'Até R$100', active: false },
-  ]
+  const categoryOptions = $derived<Option[]>([
+    { value: '', label: $t('catalog.all') },
+    { value: 'romper', label: $t('item_form.category_romper') },
+    { value: 'bodysuit', label: $t('item_form.category_bodysuit') },
+    { value: 'dress', label: $t('item_form.category_dress') },
+    { value: 'coat', label: $t('item_form.category_coat') },
+    { value: 'set', label: $t('item_form.category_set') },
+    { value: 'accessory', label: $t('item_form.category_accessory') },
+  ])
 
-  const sizes = [
-    { label: 'RN', active: false },
-    { label: 'P', active: false },
-    { label: 'M · Sofia atual', active: true },
-    { label: 'G proximo', active: false, predicted: true },
-    { label: 'GG', active: false },
-    { label: '1', active: false },
-    { label: '2', active: false },
-    { label: '3', active: false },
-  ]
+  const sizeOptions = ['RN', 'P', 'M', 'G', 'GG', '1', '2', '3']
 
-  let allItems = $state<Item[]>([])
+  const genderOptions = $derived<Option[]>([
+    { value: 'female', label: $t('item_card.gender_girl') },
+    { value: 'male', label: $t('item_card.gender_boy') },
+    { value: 'unisex', label: $t('item_card.gender_unisex') },
+  ])
+
+  const conditionOptions = $derived<Option[]>([
+    { value: 'new', label: $t('item_card.condition_new') },
+    { value: 'like_new', label: $t('item_card.condition_like_new') },
+    { value: 'used', label: $t('item_card.condition_used') },
+  ])
+
+  let selectedCategory = $state('')
+  let selectedSize = $state('')
+  let selectedGender = $state('')
+  let selectedCondition = $state('')
+
+  let items = $state<Item[]>([])
   let loading = $state(true)
   let error = $state<string | null>(null)
 
-  const aiItems = $derived(allItems.filter((item) => item.clothingSize === 'G').slice(0, 5))
-  const trendingItems = $derived(allItems.slice(0, 5))
-  const newbornItems = $derived(allItems.filter((item) => item.clothingSize === 'RN' || item.clothingSize === 'P').slice(0, 6))
-  const romperItems = $derived(allItems.filter((item) => item.category === 'romper').slice(0, 5))
-  const budgetItems = $derived(allItems.filter((item) => item.priceCents < 5000).slice(0, 6))
+  const activeCategoryLabel = $derived(
+    categoryOptions.find((option) => option.value === selectedCategory)?.label ??
+      categoryOptions[0].label,
+  )
+
+  function currentFilter(): Filter {
+    return {
+      category: selectedCategory || undefined,
+      size: selectedSize || undefined,
+      gender: selectedGender || undefined,
+      condition: selectedCondition || undefined,
+    }
+  }
+
+  function applyFilterToMocks(): Item[] {
+    return mockItems.filter(
+      (item) =>
+        (!selectedCategory || item.category === selectedCategory) &&
+        (!selectedSize || item.clothingSize === selectedSize) &&
+        (!selectedGender || item.gender === selectedGender) &&
+        (!selectedCondition || item.condition === selectedCondition),
+    )
+  }
 
   async function fetchCatalog() {
     loading = true
     error = null
     try {
-      allItems = mockMode ? [...mockItems] : await catalogRepo.fetch({})
+      items = mockMode ? applyFilterToMocks() : await catalogRepo.fetch(currentFilter())
     } catch (e) {
       error = e instanceof Error ? e.message : 'Failed to load catalog'
     } finally {
@@ -66,80 +86,108 @@
 
   onMount(fetchCatalog)
 
-  function conditionLabel(c: string) {
+  function selectCategory(label: string) {
+    const option = categoryOptions.find((candidate) => candidate.label === label)
+    selectedCategory = option?.value ?? ''
+    fetchCatalog()
+  }
+
+  function toggleSize(size: string) {
+    selectedSize = selectedSize === size ? '' : size
+    fetchCatalog()
+  }
+
+  function toggleGender(value: string) {
+    selectedGender = selectedGender === value ? '' : value
+    fetchCatalog()
+  }
+
+  function toggleCondition(value: string) {
+    selectedCondition = selectedCondition === value ? '' : value
+    fetchCatalog()
+  }
+
+  function conditionLabel(condition: string) {
     const translate = get(t)
-    if (c === 'new') return translate('item_card.condition_new')
-    if (c === 'like_new') return translate('item_card.condition_like_new')
+    if (condition === 'new') return translate('item_card.condition_new')
+    if (condition === 'like_new') return translate('item_card.condition_like_new')
     return translate('item_card.condition_used')
   }
 
-  function conditionClass(c: string) {
-    if (c === 'new') return 'new'
-    if (c === 'like_new') return 'semi'
-    return 'used'
+  function genderLabel(gender: string) {
+    const translate = get(t)
+    if (gender === 'female') return translate('item_card.gender_girl')
+    if (gender === 'male') return translate('item_card.gender_boy')
+    return translate('item_card.gender_unisex')
   }
 
   function formatPrice(cents: number) {
     return `R$ ${(cents / 100).toFixed(0)}`
   }
-
-  let activeFilters = $state(filters.map((filter) => filter.active))
-  let activeSizes = $state(sizes.map((size) => size.active))
-
-  function toggleFilter(index: number) {
-    activeFilters[index] = !activeFilters[index]
-  }
-
-  function toggleSize(index: number) {
-    activeSizes[index] = !activeSizes[index]
-  }
 </script>
 
 <svelte:head>
-  <title>Catalogo | BabyClothes</title>
+  <title>{$t('catalog.title')} | BabyClothes</title>
 </svelte:head>
 
 <div class="catalog-page">
-  <!-- Category Nav -->
   <CategoryTabNav
-    categories={categories}
-    active={categories[0]}
-    onSelect={() => {}}
+    categories={categoryOptions.map((option) => option.label)}
+    active={activeCategoryLabel}
+    onSelect={selectCategory}
   />
 
-  <!-- Filter Bar -->
-  <div class="filter-bar">
-    {#each filters as filter, i}
+  <div class="catalog-page__filters">
+    {#each genderOptions as option (option.value)}
       <button
-        class="fchip"
-        class:fchip--on={activeFilters[i]}
-        class:fchip--gender={filter.gender}
-        onclick={() => toggleFilter(i)}
+        class="catalog-page__pill catalog-page__pill--gender"
+        class:catalog-page__pill--on={selectedGender === option.value}
+        onclick={() => toggleGender(option.value)}
       >
-        {filter.label}
+        {option.label}
+      </button>
+    {/each}
+    {#each conditionOptions as option (option.value)}
+      <button
+        class="catalog-page__pill"
+        class:catalog-page__pill--on={selectedCondition === option.value}
+        onclick={() => toggleCondition(option.value)}
+      >
+        {option.label}
       </button>
     {/each}
   </div>
 
-  <!-- Content -->
-  <div class="content">
+  <div class="catalog-page__sizes">
+    {#each sizeOptions as size (size)}
+      <button
+        class="catalog-page__pill"
+        class:catalog-page__pill--on={selectedSize === size}
+        onclick={() => toggleSize(size)}
+      >
+        {size}
+      </button>
+    {/each}
+  </div>
+
+  <div class="catalog-page__content">
     {#if loading}
-      <div class="catalog-loading">
+      <div class="catalog-page__status">
         <p>{$t('catalog.loading') ?? 'Loading catalog...'}</p>
       </div>
     {:else if error}
-      <div class="catalog-status catalog-status--error">
-        <div class="catalog-status__icon">
+      <div class="catalog-page__status catalog-page__status--error">
+        <div class="catalog-page__status-icon">
           <AlertCircle size={32} />
         </div>
-        <h2 class="catalog-status__title">{$t('catalog.error_title')}</h2>
-        <p class="catalog-status__desc">{$t('catalog.error_description')}</p>
-        <button class="catalog-status__btn" onclick={fetchCatalog}>
+        <h2 class="catalog-page__status-title">{$t('catalog.error_title')}</h2>
+        <p class="catalog-page__status-desc">{$t('catalog.error_description')}</p>
+        <button class="catalog-page__status-btn" onclick={fetchCatalog}>
           <RefreshCw size={14} />
           {$t('catalog.error_retry')}
         </button>
       </div>
-    {:else if allItems.length === 0}
+    {:else if items.length === 0}
       <EmptyState
         variant="centered"
         title={$t('catalog.empty_title')}
@@ -148,366 +196,133 @@
         action={{ label: $t('catalog.error_retry'), variant: 'pk', onclick: fetchCatalog }}
       />
     {:else}
-    <!-- Size Row -->
-    <div class="size-row">
-      {#each sizes as size, i}
-        <button
-          class="sz-chip"
-          class:sz-chip--on={activeSizes[i]}
-          class:sz-chip--predicted={size.predicted}
-          onclick={() => toggleSize(i)}
-        >
-          {size.label}
-        </button>
-      {/each}
-    </div>
-
-    <!-- Row 1: AI Suggested -->
-    <div class="cat-row">
-      <div class="cat-row-hdr">
-        <div class="cat-row-title">
-          <span class="eyebrow">{$t('catalog.section_ai_eyebrow')}</span> — {$t('catalog.section_ai_detail')}
-        </div>
-        <a href="/chat" class="cat-row-see">{$t('catalog.ask_agent')}</a>
-      </div>
-      <div class="row-track">
-        {#each aiItems as item (item.id)}
-          <Card
-            image={item.photoUrls[0] ?? ''}
-            title={item.title}
-            detail={`Tam. ${item.clothingSize} · ${item.gender === 'female' ? $t('item_card.gender_girl') : item.gender === 'male' ? $t('item_card.gender_boy') : $t('item_card.gender_unisex')}`}
-            price={formatPrice(item.priceCents)}
-            condition={conditionLabel(item.condition)}
-            badge="IA"
-            size="lg"
-            onClick={() => goto(`/catalog/${item.id}`)}
-          />
+      <div class="catalog-page__grid">
+        {#each items as item (item.id)}
+          <div class="catalog-page__cell">
+            <Card
+              image={item.photoUrls[0] ?? ''}
+              title={item.title}
+              detail={`Tam. ${item.clothingSize} · ${genderLabel(item.gender)}`}
+              price={formatPrice(item.priceCents)}
+              condition={conditionLabel(item.condition)}
+              pinkPrice={true}
+              size="md"
+              onClick={() => goto(`/catalog/${item.id}`)}
+            />
+          </div>
         {/each}
       </div>
-    </div>
-
-    <!-- Row 2: Trending -->
-    <div class="cat-row">
-      <div class="cat-row-hdr">
-        <div class="cat-row-title">{$t('catalog.section_trending')}</div>
-        <a href="#" class="cat-row-see">{$t('catalog.view_all')}</a>
-      </div>
-      <div class="row-track">
-        {#each trendingItems as item, index (item.id)}
-          <Card
-            image={item.photoUrls[0] ?? ''}
-            title={item.title}
-            detail={`Tam. ${item.clothingSize} · ${item.category}`}
-            price={formatPrice(item.priceCents)}
-            oldPrice={index === 0 ? formatPrice(item.priceCents + 6000) : undefined}
-            condition={conditionLabel(item.condition)}
-            size={index === 0 ? 'lg' : 'md'}
-            pinkPrice={index === 0}
-            onClick={() => goto(`/catalog/${item.id}`)}
-          />
-        {/each}
-      </div>
-    </div>
-
-    <!-- Row 3: Newborn -->
-    <div class="cat-row">
-      <div class="cat-row-hdr">
-        <div class="cat-row-title">{$t('catalog.section_newborn')}</div>
-        <a href="#" class="cat-row-see">{$t('catalog.view_category')}</a>
-      </div>
-      <div class="row-track">
-        {#each newbornItems as item (item.id)}
-          <Card
-            image={item.photoUrls[0] ?? ''}
-            title={item.title}
-            detail={`${item.clothingSize} · ${item.gender === 'female' ? $t('item_card.gender_girl') : item.gender === 'male' ? $t('item_card.gender_boy') : $t('item_card.gender_unisex')}`}
-            price={formatPrice(item.priceCents)}
-            condition={conditionLabel(item.condition)}
-            size="sm"
-            onClick={() => goto(`/catalog/${item.id}`)}
-          />
-        {/each}
-      </div>
-    </div>
-
-    <!-- Row 4: Rompers -->
-    <div class="cat-row">
-      <div class="cat-row-hdr">
-        <div class="cat-row-title">{$t('catalog.section_rompers')}</div>
-        <a href="#" class="cat-row-see">{$t('catalog.view_category')}</a>
-      </div>
-      <div class="row-track">
-        {#each romperItems as item (item.id)}
-          <Card
-            image={item.photoUrls[0] ?? ''}
-            title={item.title}
-            detail={`Tam. ${item.clothingSize} · ${item.gender === 'female' ? $t('item_card.gender_girl') : item.gender === 'male' ? $t('item_card.gender_boy') : $t('item_card.gender_unisex')}`}
-            price={formatPrice(item.priceCents)}
-            condition={conditionLabel(item.condition)}
-            size="md"
-            onClick={() => goto(`/catalog/${item.id}`)}
-          />
-        {/each}
-      </div>
-    </div>
-
-    <!-- Row 5: Budget -->
-    <div class="cat-row">
-      <div class="cat-row-hdr">
-        <div class="cat-row-title">{$t('catalog.section_budget')}</div>
-        <a href="#" class="cat-row-see">{$t('catalog.view_all')}</a>
-      </div>
-      <div class="row-track">
-        {#each budgetItems as item (item.id)}
-          <Card
-            image={item.photoUrls[0] ?? ''}
-            title={item.title}
-            detail={`Tam. ${item.clothingSize}`}
-            price={formatPrice(item.priceCents)}
-            condition={conditionLabel(item.condition)}
-            size="sm"
-            onClick={() => goto(`/catalog/${item.id}`)}
-          />
-        {/each}
-      </div>
-    </div>
     {/if}
   </div>
 </div>
 
 <style>
   .catalog-page {
+    min-height: 100vh;
+    background: var(--color-bg);
+  }
+
+  /* Pills solidas (spec DS: sem glassmorphism) */
+  .catalog-page__filters,
+  .catalog-page__sizes {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    padding: 0.6rem 0.7rem 0;
+  }
+
+  .catalog-page__sizes {
+    padding-bottom: 0.2rem;
+  }
+
+  .catalog-page__pill {
+    background: #F3F4F6;
+    border: none;
+    border-radius: 99rem;
+    padding: 0.35rem 0.75rem;
+    font-family: var(--ld);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #374151;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .catalog-page__pill--on {
+    background: #111;
+    color: #fff;
+  }
+
+  .catalog-page__pill--gender {
+    background: #FFE8F5;
+    color: #FF3CAC;
+  }
+
+  .catalog-page__pill--gender.catalog-page__pill--on {
+    background: #FF3CAC;
+    color: #fff;
+  }
+
+  .catalog-page__content {
     padding-bottom: 2rem;
   }
 
-  /* ── Filter Bar ── */
-  .filter-bar {
-    background: #F8F5F2;
-    padding: 0.4rem 0.7rem;
+  /* Grid de 2 colunas (spec do mock) */
+  .catalog-page__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1.2rem 1.4rem;
+  }
+
+  @media (min-width: 76.8rem) {
+    .catalog-page__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .catalog-page__cell {
+    min-width: 0;
     display: flex;
-    gap: 0.3rem;
-    overflow-x: auto;
-    scrollbar-width: none;
   }
 
-  .filter-bar::-webkit-scrollbar {
-    display: none;
-  }
-
-  .fchip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 99rem;
-    font-family: var(--font-lato);
-    font-size: 0.72rem;
-    font-weight: 700;
-    background: #F3F4F6;
-    color: #374151;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .fchip:hover {
-    background: #E5E7EB;
-  }
-
-  .fchip--on {
-    background: #111;
-    color: #fff;
-  }
-
-  .fchip--gender {
-    background: #FFE8F5;
-    color: #FF3CAC;
-  }
-
-  .fchip--gender:hover {
-    background: #FFD0ED;
-  }
-
-  /* ── Content ── */
-  .content {
-    padding: 0 5vw 2.5rem;
-  }
-
-  /* ── Size Row ── */
-  .size-row {
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-    padding: 0.4rem 0.7rem;
-    flex-wrap: wrap;
-  }
-
-  .sz-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.2rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 99rem;
-    font-family: var(--font-lato);
-    font-size: 0.72rem;
-    font-weight: 700;
-    background: #F3F4F6;
-    color: #374151;
-    border: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background 0.15s, color 0.15s;
-  }
-
-  .sz-chip:hover {
-    background: #E5E7EB;
-  }
-
-  .sz-chip--on {
-    background: #111;
-    color: #fff;
-  }
-
-  .sz-chip--predicted {
-    background: #FFE8F5;
-    color: #FF3CAC;
-  }
-
-  .sz-chip--predicted:hover {
-    background: #FFD0ED;
-  }
-
-  /* ── Category Rows ── */
-  .cat-row {
-    padding: 2rem 0 0.5rem;
-  }
-
-  .cat-row-hdr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
-
-  .cat-row-title {
-    font-family: var(--ld);
-    font-size: 0.9rem;
-    font-weight: 900;
-    color: var(--bk);
-    letter-spacing: -0.02em;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .eyebrow {
-    font-family: var(--sr);
-    font-style: italic;
-    font-size: 0.8rem;
-    color: var(--pk);
-    font-weight: 400;
-    margin-right: 0.1rem;
-  }
-
-  .cat-row-see {
-    font-family: var(--ld);
-    font-size: 0.64rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(0, 0, 0, 0.32);
-    cursor: pointer;
-    text-decoration: none;
-    transition: color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .cat-row-see::after {
-    content: '\2192';
-    transition: transform 0.2s;
-  }
-
-  .cat-row-see:hover {
-    color: var(--pk);
-  }
-
-  .cat-row-see:hover::after {
-    transform: translateX(0.4rem);
-  }
-
-  .row-track {
-    display: flex;
-    gap: 0.75rem;
-    overflow-x: auto;
-    padding: 0.15rem 0 0.75rem;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.08) transparent;
-  }
-
-  .row-track::-webkit-scrollbar {
-    height: 0.3rem;
-  }
-
-  .row-track::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 0.2rem;
-  }
-
-  /* ── Status States (error) ── */
-  .catalog-status {
+  .catalog-page__status {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    gap: 0.6rem;
+    padding: 3rem 1.4rem;
     text-align: center;
-    padding: 4rem 2rem;
-    gap: 0.5rem;
   }
 
-  .catalog-status__icon {
-    color: var(--pk);
-    margin-bottom: 0.5rem;
-    opacity: 0.7;
+  .catalog-page__status-icon {
+    color: var(--color-error);
   }
 
-  .catalog-status__title {
+  .catalog-page__status-title {
     font-family: var(--ld);
-    font-size: 1.1rem;
-    font-weight: 900;
-    color: var(--bk);
+    font-size: 1rem;
     margin: 0;
   }
 
-  .catalog-status__desc {
-    font-family: var(--sr);
-    font-size: 0.82rem;
+  .catalog-page__status-desc {
+    font-size: 0.8rem;
     color: var(--gr);
     margin: 0;
-    max-width: 20rem;
   }
 
-  .catalog-status__btn {
+  .catalog-page__status-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-    background: var(--pk);
+    gap: 0.35rem;
+    background: var(--bk);
     color: var(--wh);
     border: none;
-    border-radius: var(--r-xs);
-    padding: 0.55rem 1.4rem;
+    border-radius: 99rem;
+    padding: 0.45rem 1rem;
     font-family: var(--ld);
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
     cursor: pointer;
-    transition: opacity 0.15s;
-  }
-
-  .catalog-status__btn:hover {
-    opacity: 0.85;
   }
 </style>
