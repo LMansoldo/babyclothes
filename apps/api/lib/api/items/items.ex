@@ -49,13 +49,13 @@ defmodule Api.Items do
   end
 
   @doc """
-  Get a single item by ID, preloading photos.
+  Get a single item by ID, preloading photos and seller.
   """
   @spec get_item(integer()) :: {:ok, Item.t()} | {:error, :not_found}
   def get_item(id) do
     case Repo.get(Item, id) do
       nil -> {:error, :not_found}
-      item -> {:ok, Repo.preload(item, :photos)}
+      item -> {:ok, Repo.preload(item, [:photos, :seller])}
     end
   end
 

@@ -47,6 +47,19 @@ defmodule Api.Controllers.ItemsControllerTest do
       assert length(body["photos"]) == 1
     end
 
+    test "returns item with seller info" do
+      seller = insert(:user, name: "Maria Vendedora", is_seller: true)
+      item = insert(:item, seller: seller)
+
+      conn = conn(:get, "/items/#{item.id}") |> Api.Router.call([])
+
+      assert conn.status == 200
+      body = Jason.decode!(conn.resp_body)
+      assert body["seller"]["name"] == "Maria Vendedora"
+      assert body["seller"]["verified"] == true
+      assert body["seller"]["avatar_url"] == seller.avatar_url
+    end
+
     test "returns 404 for nonexistent item" do
       conn = conn(:get, "/items/999999") |> Api.Router.call([])
       assert conn.status == 404

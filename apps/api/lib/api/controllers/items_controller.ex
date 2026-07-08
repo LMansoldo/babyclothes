@@ -198,7 +198,7 @@ defmodule Api.Controllers.ItemsController do
   end
 
   defp item_json(item) do
-    base = %{
+    %{
       id: item.id,
       title: item.title,
       description: item.description,
@@ -212,13 +212,26 @@ defmodule Api.Controllers.ItemsController do
       inserted_at: item.inserted_at,
       updated_at: item.updated_at
     }
-
-    if Ecto.assoc_loaded?(item.photos) do
-      Map.put(base, :photos, Enum.map(item.photos, &photo_json/1))
-    else
-      base
-    end
+    |> put_photos(item)
+    |> put_seller(item)
   end
+
+  defp put_photos(json, %{photos: photos}) when is_list(photos) do
+    Map.put(json, :photos, Enum.map(photos, &photo_json/1))
+  end
+
+  defp put_photos(json, _item), do: json
+
+  defp put_seller(json, %{seller: %User{} = seller}) do
+    Map.put(json, :seller, %{
+      id: seller.id,
+      name: seller.name,
+      avatar_url: seller.avatar_url,
+      verified: seller.is_seller
+    })
+  end
+
+  defp put_seller(json, _item), do: json
 
   defp photo_json(photo) do
     %{
