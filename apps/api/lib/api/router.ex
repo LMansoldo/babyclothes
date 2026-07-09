@@ -31,6 +31,10 @@ defmodule Api.Router do
     Api.Controllers.AuthController.refresh(conn)
   end
 
+  post "/auth/dev-login" do
+    Api.Controllers.AuthController.dev_login(conn)
+  end
+
   post "/auth/logout" do
     Api.Controllers.AuthController.logout(conn)
   end

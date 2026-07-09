@@ -109,12 +109,15 @@
         ></div>
       </div>
 
-      <button
-        class="authscreen__dev-link"
-        onclick={() => onDevLogin?.()}
-      >
-        {$t('auth.dev_login')}
-      </button>
+      {#if onDevLogin}
+        <button
+          class="authscreen__dev-link"
+          onclick={() => onDevLogin?.()}
+          disabled={loading}
+        >
+          {$t('auth.dev_login')}
+        </button>
+      {/if}
     </div>
 
     <div class="authscreen__spacer"></div>

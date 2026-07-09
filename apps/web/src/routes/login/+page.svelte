@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import { enhance } from '$app/forms'
+  import { dev } from '$app/environment'
   import AuthScreen from '$lib/presentation/components/AuthScreen.svelte'
   import RegistrationForm from '$lib/presentation/components/RegistrationForm.svelte'
 
@@ -12,6 +13,7 @@
 
   let loginForm = $state<HTMLFormElement | undefined>(undefined)
   let credentialInput = $state<HTMLInputElement | undefined>(undefined)
+  let devLoginForm = $state<HTMLFormElement | undefined>(undefined)
   let registerForm = $state<HTMLFormElement | undefined>(undefined)
   let registerType = $state<'pf' | 'pj'>('pf')
   let registerDocument = $state('')
@@ -79,6 +81,28 @@
     <input type="hidden" name="credential" bind:this={credentialInput} />
   </form>
 
+  <!-- Hidden dev-login form (dev only) -->
+  {#if dev}
+    <form
+      method="POST"
+      action="?/devLogin"
+      bind:this={devLoginForm}
+      use:enhance={() => {
+        loading = true
+        error = ''
+        return async ({ result }) => {
+          if (result.type === 'success') {
+            onLoginResult(result.data?.session as { type: string | null } | undefined)
+          } else {
+            loading = false
+            error = 'login_failed'
+          }
+        }
+      }}
+      hidden
+    ></form>
+  {/if}
+
   <!-- Hidden register form -->
   <form
     method="POST"
@@ -104,7 +128,11 @@
   </form>
 
   {#if step === 'login'}
-    <AuthScreen onGoogleLogin={() => {}} onDevLogin={() => {}} {loading} />
+    <AuthScreen
+      onGoogleLogin={() => {}}
+      onDevLogin={dev ? () => devLoginForm?.requestSubmit() : undefined}
+      {loading}
+    />
   {:else if step === 'register'}
     <RegistrationForm onComplete={handleRegistrationComplete} {loading} />
   {:else if step === 'redirecting'}

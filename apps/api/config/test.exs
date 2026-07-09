@@ -25,4 +25,6 @@ config :api,
 
 config :api, port: 4002
 
+config :api, dev_login_enabled: true
+
 config :logger, level: :warning

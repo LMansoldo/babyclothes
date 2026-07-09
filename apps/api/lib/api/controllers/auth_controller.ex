@@ -93,6 +93,66 @@ defmodule Api.Controllers.AuthController do
     end
   end
 
+  @dev_user_email "dev@babyclothes.app"
+
+  @doc """
+  POST /auth/dev-login
+  Development-only login: issues tokens for a local dev user without Google.
+
+  Returns 404 unless `config :api, dev_login_enabled: true` (dev/test only).
+  """
+  def dev_login(conn) do
+    case Application.get_env(:api, :dev_login_enabled, false) do
+      true -> do_dev_login(conn)
+      _ -> respond_dev_login_disabled(conn)
+    end
+  end
+
+  defp do_dev_login(conn) do
+    case fetch_or_create_dev_user() do
+      {:ok, user} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, Jason.encode!(%{
+          token: Api.Auth.generate_access_token(user),
+          refresh_token: Api.Auth.generate_refresh_token(user),
+          user: user_json(user)
+        }))
+
+      {:error, _changeset} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(500, Jason.encode!(%{error: "dev_login_failed"}))
+    end
+  end
+
+  defp respond_dev_login_disabled(conn) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(404, Jason.encode!(%{error: "not found"}))
+  end
+
+  defp fetch_or_create_dev_user do
+    case Repo.get_by(User, email: @dev_user_email) do
+      %User{} = user -> {:ok, user}
+      nil -> create_dev_user()
+    end
+  end
+
+  defp create_dev_user do
+    %User{}
+    |> User.changeset(%{
+      email: @dev_user_email,
+      name: "Dev User",
+      avatar_url: "",
+      google_id: "dev-login-local",
+      type: "pf",
+      cpf: "00000000191",
+      is_seller: true
+    })
+    |> Repo.insert()
+  end
+
   @doc """
   POST /auth/refresh
   Exchanges a valid refresh token for a fresh access + refresh token pair.

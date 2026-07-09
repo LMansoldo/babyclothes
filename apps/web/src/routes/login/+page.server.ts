@@ -95,6 +95,25 @@ export const actions: Actions = {
     return { session: mapUser(user) };
   },
 
+  devLogin: async ({ cookies, fetch }) => {
+    const res = await fetch(`${PUBLIC_API_URL}/auth/dev-login`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    });
+
+    if (!res.ok) return fail(401, { error: 'dev_login_failed' });
+
+    const { token, refresh_token, user } = (await res.json()) as {
+      token: string;
+      refresh_token: string;
+      user: ApiUser;
+    };
+
+    setAuthCookies(cookies, token, refresh_token);
+    return { session: mapUser(user) };
+  },
+
   logout: async ({ cookies }) => {
     cookies.delete(ACCESS_COOKIE, { path: '/' });
     cookies.delete(REFRESH_COOKIE, { path: '/' });
