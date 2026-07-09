@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PUBLIC_GOOGLE_CLIENT_ID } from '$lib/env'
   import { t } from '$lib/i18n'
-  import { onMount, tick } from 'svelte'
+  import { onMount } from 'svelte'
 
   let {
     onGoogleLogin,
@@ -27,11 +27,11 @@
     checkGSI()
   })
 
-  async function initializeGSI() {
+  function initializeGSI() {
     const google = (window as unknown as Record<string, { accounts: { id: { initialize: (config: Record<string, unknown>) => void; renderButton: (el: HTMLElement, options: Record<string, unknown>) => void; prompt: () => void } } }>).google
     const clientId = PUBLIC_GOOGLE_CLIENT_ID
 
-    // Sem client ID configurado, o GSI nao renderiza nada — mantem o botao fallback visivel
+    // Sem client ID configurado, o GSI nao renderiza nada — o botao estilizado continua visivel
     if (!clientId) {
       console.warn('PUBLIC_GOOGLE_CLIENT_ID is not set — Google sign-in button disabled')
       return
@@ -47,10 +47,6 @@
       },
     })
 
-    // O container so entra no DOM depois de gsiLoaded=true; aguarda o mount antes de renderizar
-    gsiLoaded = true
-    await tick()
-
     if (gsiContainer) {
       google.accounts.id.renderButton(gsiContainer, {
         type: 'standard',
@@ -58,6 +54,7 @@
         size: 'large',
         width: gsiContainer.offsetWidth || 320,
       })
+      gsiLoaded = true
     }
   }
 </script>
@@ -78,13 +75,14 @@
     <p class="authscreen__subtitle">{$t('auth.subtitle')}</p>
 
     <div class="authscreen__actions">
-      {#if !gsiLoaded}
+      <div class="authscreen__google-wrap">
         <button
           class="authscreen__google-btn"
           onclick={() => {
             onGoogleLogin?.()
           }}
           disabled={loading}
+          tabindex={gsiLoaded ? -1 : 0}
         >
           {#if loading}
             <span class="authscreen__spinner"></span>
@@ -99,9 +97,13 @@
             {$t('auth.continue_google')}
           {/if}
         </button>
-      {:else}
-        <div bind:this={gsiContainer} class="authscreen__gsi-container"></div>
-      {/if}
+        <!-- Botao oficial do GSI invisivel por cima: o visual e o do DS, o clique vai para o Google -->
+        <div
+          bind:this={gsiContainer}
+          class="authscreen__gsi-overlay"
+          class:authscreen__gsi-overlay--ready={gsiLoaded && !loading}
+        ></div>
+      </div>
 
       <button
         class="authscreen__dev-link"
@@ -264,13 +266,28 @@
     color: rgba(255, 255, 255, 0.6);
   }
 
-  .authscreen__gsi-container {
-    display: flex;
-    justify-content: center;
+  .authscreen__google-wrap {
+    position: relative;
     width: 100%;
   }
 
-  .authscreen__gsi-container :global(iframe) {
+  /* Iframe do Google invisivel sobre o botao estilizado — captura o clique real */
+  .authscreen__gsi-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.001;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .authscreen__gsi-overlay--ready {
+    pointer-events: auto;
+  }
+
+  .authscreen__gsi-overlay :global(iframe) {
     max-width: 100%;
   }
 
