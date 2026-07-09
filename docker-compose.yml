@@ -59,7 +59,9 @@ services:
       - "5173:5173"
     env_file: .env
     environment:
-      PUBLIC_API_URL: http://localhost:4000
+      # Usada apenas em codigo server-side (hooks, proxy /api, actions do login);
+      # dentro da rede Docker a API responde em api:4000, nao em localhost
+      PUBLIC_API_URL: http://api:4000
     volumes:
       - ./apps/web:/app/apps/web
       - ./packages/design-system:/app/packages/design-system
