@@ -1,7 +1,7 @@
 <script lang="ts">
   import { PUBLIC_GOOGLE_CLIENT_ID } from '$lib/env'
   import { t } from '$lib/i18n'
-  import { onMount } from 'svelte'
+  import { onMount, tick } from 'svelte'
 
   let {
     onGoogleLogin,
@@ -27,9 +27,15 @@
     checkGSI()
   })
 
-  function initializeGSI() {
+  async function initializeGSI() {
     const google = (window as unknown as Record<string, { accounts: { id: { initialize: (config: Record<string, unknown>) => void; renderButton: (el: HTMLElement, options: Record<string, unknown>) => void; prompt: () => void } } }>).google
     const clientId = PUBLIC_GOOGLE_CLIENT_ID
+
+    // Sem client ID configurado, o GSI nao renderiza nada — mantem o botao fallback visivel
+    if (!clientId) {
+      console.warn('PUBLIC_GOOGLE_CLIENT_ID is not set — Google sign-in button disabled')
+      return
+    }
 
     google.accounts.id.initialize({
       client_id: clientId,
@@ -41,6 +47,10 @@
       },
     })
 
+    // O container so entra no DOM depois de gsiLoaded=true; aguarda o mount antes de renderizar
+    gsiLoaded = true
+    await tick()
+
     if (gsiContainer) {
       google.accounts.id.renderButton(gsiContainer, {
         type: 'standard',
@@ -49,8 +59,6 @@
         width: gsiContainer.offsetWidth || 320,
       })
     }
-
-    gsiLoaded = true
   }
 </script>
 
