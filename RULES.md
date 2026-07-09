@@ -12,7 +12,7 @@ yarn dev
 
 # Build
 yarn build           # all workspaces
-yarn build:ui        # just ui
+yarn build:ds        # just design-system
 yarn build:web       # just web
 
 # Preview
@@ -21,14 +21,14 @@ yarn preview
 # Test
 yarn test            # all
 yarn test:web        # just web
-yarn test:ui         # just ui
+yarn test:ds         # just design-system
 yarn test:agents     # just agents
-yarn test:api        # just api (mix test)
+yarn test:api        # just api (mix test, forces MIX_ENV=test)
 
 # Type check
 yarn check           # all
 yarn check:web       # just web
-yarn check:ui        # just ui
+yarn check:ds        # just design-system
 
 # API
 yarn api:migrate     # mix ecto.migrate
@@ -37,7 +37,7 @@ yarn api:credo       # mix credo
 
 # Lint
 yarn lint            # all workspaces
-yarn lint:ui         # just ui
+yarn lint:ds         # just design-system
 yarn lint:web        # just web
 yarn lint:fix        # auto-fix all
 
@@ -46,7 +46,7 @@ yarn format          # prettier --write all workspaces
 
 # Stylelint
 yarn stylelint       # all workspaces
-yarn stylelint:ui    # just ui
+yarn stylelint:ds    # just design-system
 yarn stylelint:web   # just web
 
 # Logs
@@ -58,7 +58,7 @@ yarn logs:agents     # just agents
 
 **Exception:** Storybook runs locally (not in containers):
 ```bash
-yarn storybook:ui
+yarn storybook:ds
 yarn storybook:web
 ```
 
