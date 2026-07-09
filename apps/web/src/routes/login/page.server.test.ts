@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-
-const API = 'http://localhost:4000';
+// A action resolve PUBLIC_API_URL no load do modulo; assertar contra a mesma
+// fonte evita depender do valor do ambiente (host vs container)
+import { PUBLIC_API_URL as API } from '$lib/env';
 
 function makeCookies() {
   const store = new Map<string, string>();
@@ -31,11 +32,11 @@ describe('login action', () => {
       ),
     );
     const cookies = makeCookies();
-    const body = new URLSearchParams({ credential: 'google-jwt' });
+    // Body como string: o Request do undici rejeita URLSearchParams criado no realm do jsdom
     const request = new Request('http://x', {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      body,
+      body: new URLSearchParams({ credential: 'google-jwt' }).toString(),
     });
 
     const result = await actions.login({ request, cookies, fetch } as never);
@@ -54,11 +55,10 @@ describe('login action', () => {
 
     const fetch = vi.fn().mockResolvedValue(new Response('{}', { status: 401 }));
     const cookies = makeCookies();
-    const body = new URLSearchParams({ credential: 'bad' });
     const request = new Request('http://x', {
       method: 'POST',
       headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      body,
+      body: new URLSearchParams({ credential: 'bad' }).toString(),
     });
 
     const result = await actions.login({ request, cookies, fetch } as never);

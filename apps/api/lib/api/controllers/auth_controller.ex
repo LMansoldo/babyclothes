@@ -147,7 +147,8 @@ defmodule Api.Controllers.AuthController do
       avatar_url: "",
       google_id: "dev-login-local",
       type: "pf",
-      cpf: "00000000191",
+      # Fora do espaco da sequence da factory (que gera contadores baixos com pad de zeros)
+      cpf: "99999999999",
       is_seller: true
     })
     |> Repo.insert()

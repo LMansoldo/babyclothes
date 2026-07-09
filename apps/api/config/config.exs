@@ -2,8 +2,9 @@ import Config
 
 config :api, ecto_repos: [Api.Repo]
 
+# A URL do banco e resolvida em runtime.exs (env DATABASE_URL, exceto em :test);
+# ler env aqui e compile-time e vazaria o banco dev para a suite de testes
 config :api, Api.Repo,
-  url: System.get_env("DATABASE_URL", "postgres://babyclothes:babyclothes@localhost:5432/babyclothes"),
   pool_size: 10
 
 config :api, Oban,

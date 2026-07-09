@@ -1,8 +1,14 @@
 import Config
 
-if System.get_env("DATABASE_URL") do
+# Em :test o banco vem de config/test.exs (babyclothes_test + sandbox);
+# aplicar DATABASE_URL aqui faria a suite rodar sobre o banco de dev
+if config_env() != :test do
   config :api, Api.Repo,
-    url: System.fetch_env!("DATABASE_URL"),
+    url:
+      System.get_env(
+        "DATABASE_URL",
+        "postgres://babyclothes:babyclothes@localhost:5432/babyclothes"
+      ),
     pool_size: String.to_integer(System.get_env("POOL_SIZE", "10"))
 end
 

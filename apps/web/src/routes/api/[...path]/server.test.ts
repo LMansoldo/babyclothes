@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { GET, POST } from './+server';
+// O proxy resolve PUBLIC_API_URL no load do modulo; o teste asserta contra a
+// mesma fonte para nao depender do valor do ambiente (host vs container)
+import { PUBLIC_API_URL } from '$lib/env';
 
 beforeEach(() => {
   vi.restoreAllMocks();
-  vi.stubEnv('PUBLIC_API_URL', 'http://localhost:4000');
 });
 
 it('forwards GET with the Bearer token from the cookie', async () => {
@@ -14,7 +16,7 @@ it('forwards GET with the Bearer token from the cookie', async () => {
   await GET({ params: { path: 'children' }, url: new URL('http://localhost/api/children?x=1'), request, cookies, fetch } as never);
 
   expect(fetch).toHaveBeenCalledWith(
-    'http://localhost:4000/children?x=1',
+    `${PUBLIC_API_URL}/children?x=1`,
     expect.objectContaining({
       method: 'GET',
       headers: expect.objectContaining({ authorization: 'Bearer tok-123' }),

@@ -26,6 +26,8 @@ services:
     env_file: .env
     environment:
       DATABASE_URL: postgres://babyclothes:babyclothes@postgres:5432/babyclothes
+      # Usado pela config de teste (mix test roda contra babyclothes_test)
+      DB_HOST: postgres
       GRPC_AGENT_URL: agents:50051
       AGENTS_HTTP_URL: http://agents:50052
       MIX_ENV: dev
