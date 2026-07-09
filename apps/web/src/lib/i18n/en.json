@@ -241,5 +241,18 @@
     "verified": "Verified",
     "no_images": "No photos available",
     "photo": "Photo {{current}} of {{total}}"
+  },
+  "footer": {
+    "terms": "Terms of use",
+    "privacy": "Privacy policy",
+    "copyright": "© 2026 BabyClothes"
+  },
+  "terms": {
+    "title": "Terms of use",
+    "body": "BabyClothes is a marketplace for buying and selling baby clothes between families. By using the platform you agree to list only items you own, describe them accurately, and treat other members with respect. Transactions are agreed directly between buyer and seller. This is a pre-release version: features and terms may change."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "body": "We store only the data needed to run your account: your Google profile (name, email, avatar), the children profiles and measurements you register, and your listings. We never sell your data. Chat messages with the AI assistant are processed to generate recommendations. You can request deletion of your account and data at any time."
   }
 }

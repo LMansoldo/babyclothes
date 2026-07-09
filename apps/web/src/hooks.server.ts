@@ -4,7 +4,7 @@ import { dev } from '$app/environment';
 
 const ACCESS_COOKIE = 'babyclothes_token';
 const REFRESH_COOKIE = 'babyclothes_refresh';
-const publicRoutes = ['/login'];
+const publicRoutes = ['/login', '/terms', '/privacy'];
 
 const mockSession = {
   userId: 'mock-user-1',

@@ -242,5 +242,18 @@
     "verified": "Verificado",
     "no_images": "Nenhuma foto disponível",
     "photo": "Foto {{current}} de {{total}}"
+  },
+  "footer": {
+    "terms": "Termos de uso",
+    "privacy": "Política de privacidade",
+    "copyright": "© 2026 BabyClothes"
+  },
+  "terms": {
+    "title": "Termos de uso",
+    "body": "O BabyClothes é um marketplace de compra e venda de roupas de bebê entre famílias. Ao usar a plataforma você concorda em anunciar apenas itens seus, descrevê-los com precisão e tratar os demais membros com respeito. As transações são combinadas diretamente entre comprador e vendedor. Esta é uma versão de pré-lançamento: recursos e termos podem mudar."
+  },
+  "privacy": {
+    "title": "Política de privacidade",
+    "body": "Armazenamos apenas os dados necessários para a sua conta: seu perfil Google (nome, e-mail, avatar), os perfis e medidas das crianças que você cadastra e seus anúncios. Nunca vendemos seus dados. As mensagens de chat com o assistente de IA são processadas para gerar recomendações. Você pode solicitar a exclusão da sua conta e dados a qualquer momento."
   }
 }

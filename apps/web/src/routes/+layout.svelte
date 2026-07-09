@@ -7,13 +7,18 @@
   import { goto } from '$app/navigation'
   import { t } from '$lib/i18n'
   import { Home, MessageSquare, Baby, PlusCircle } from 'lucide-svelte'
-  import { TopBar, BottomNav } from '@babyclothes/design-system'
+  import { TopBar, BottomNav, Footer } from '@babyclothes/design-system'
   let { data, children } = $props()
 
   const isLoginRoute = $derived($page.url.pathname === '/login')
   const isChatRoute = $derived($page.url.pathname.startsWith('/chat'))
   const topbarVariant = $derived(isChatRoute ? 'chat' : 'catalog')
   const currentPath = $derived($page.url.pathname)
+
+  const footerLinks = $derived([
+    { href: '/terms', label: $t('footer.terms') },
+    { href: '/privacy', label: $t('footer.privacy') },
+  ])
 
   // Create a writable store for session so children can react to changes
   const sessionStore = writable<Session | null>(null)
@@ -64,6 +69,9 @@
     <main class="app-main">
       {@render children()}
     </main>
+    {#if !isChatRoute}
+      <Footer links={footerLinks} copyright={$t('footer.copyright')} />
+    {/if}
     <BottomNav
       {tabs}
       {currentPath}
