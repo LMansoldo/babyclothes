@@ -68,4 +68,22 @@ describe('Input', () => {
     render(Input, { props: { id: 'search', suffixLabel: 'Buscar' } });
     expect(screen.getByRole('button', { name: 'Buscar' })).toBeInTheDocument();
   });
+
+  it('applies inputmode, maxlength and name to the native input', () => {
+    const { container } = render(Input, {
+      props: { id: 'doc', inputmode: 'numeric' as const, maxlength: 14, name: 'document' },
+    });
+    const input = container.querySelector('input');
+    expect(input).toHaveAttribute('inputmode', 'numeric');
+    expect(input).toHaveAttribute('maxlength', '14');
+    expect(input).toHaveAttribute('name', 'document');
+  });
+
+  it('omits inputmode, maxlength and name when not provided', () => {
+    const { container } = render(Input, { props: { id: 'plain' } });
+    const input = container.querySelector('input');
+    expect(input).not.toHaveAttribute('inputmode');
+    expect(input).not.toHaveAttribute('maxlength');
+    expect(input).not.toHaveAttribute('name');
+  });
 });

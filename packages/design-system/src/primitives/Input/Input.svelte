@@ -15,6 +15,9 @@
     onsuffixclick,
     oninput,
     disabled = false,
+    inputmode,
+    maxlength,
+    name,
   }: {
     id: string
     type?: InputType
@@ -29,6 +32,9 @@
     onsuffixclick?: () => void
     oninput?: (e: Event) => void
     disabled?: boolean
+    inputmode?: 'text' | 'numeric' | 'decimal' | 'email' | 'tel'
+    maxlength?: number
+    name?: string
   } = $props()
 
   let showPassword = $state(false)
@@ -52,11 +58,14 @@
 
     <input
       {id}
+      {name}
       type={inputType}
       {placeholder}
       bind:value
       {disabled}
       {oninput}
+      {inputmode}
+      {maxlength}
       class="input-el"
     />
 
