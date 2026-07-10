@@ -32,6 +32,8 @@ export { PhotoUploader } from './composites/PhotoUploader/index.js';
 export { ProductTray } from './composites/ProductTray/index.js';
 export { SearchBar } from './composites/SearchBar/index.js';
 export { SelectionCard } from './composites/SelectionCard/index.js';
+export { SelectionCardGroup } from './composites/SelectionCardGroup/index.js';
+export type { SelectionOption } from './composites/SelectionCardGroup/index.js';
 export { SellerRow } from './composites/SellerRow/index.js';
 
 // Patterns (domain-specific)
