@@ -17,6 +17,7 @@ defmodule Api.Factory do
       name: sequence(:name, &"User #{&1}"),
       avatar_url: "https://example.com/avatar.png",
       google_id: sequence(:google_id, &"google_#{&1}"),
+      type: "pf",
       cpf: sequence(:cpf, &String.pad_leading("#{&1}", 11, "0"))
     }
   end

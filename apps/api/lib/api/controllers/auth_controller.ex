@@ -140,18 +140,19 @@ defmodule Api.Controllers.AuthController do
   end
 
   defp create_dev_user do
-    %User{}
-    |> User.changeset(%{
+    base_attrs = %{
       email: @dev_user_email,
       name: "Dev User",
       avatar_url: "",
       google_id: "dev-login-local",
-      type: "pf",
-      # Fora do espaco da sequence da factory (que gera contadores baixos com pad de zeros)
-      cpf: "99999999999",
       is_seller: true
-    })
-    |> Repo.insert()
+    }
+
+    with {:ok, base} <- %User{} |> User.changeset(base_attrs) |> Repo.insert(),
+         {:ok, user} <-
+           base |> User.registration_changeset(%{type: "pf", cpf: "39053344705"}) |> Repo.update() do
+      {:ok, user}
+    end
   end
 
   @doc """

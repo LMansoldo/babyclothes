@@ -21,19 +21,24 @@ IO.puts("")
 IO.puts("── Users ──────────────────────────────────────────────")
 
 users_data = [
-  %{email: "ana@example.com", name: "Ana Silva", avatar_url: "", google_id: "google-ana", type: "pf", cpf: "12345678901", is_seller: false},
-  %{email: "maria@example.com", name: "Maria Souza", avatar_url: "", google_id: "google-maria", type: "pf", cpf: "23456789012", is_seller: true},
-  %{email: "juliana@example.com", name: "Juliana Costa", avatar_url: "", google_id: "google-juliana", type: "pj", cnpj: "12345678000190", is_seller: true},
-  %{email: "carla@example.com", name: "Carla Santos", avatar_url: "", google_id: "google-carla", type: "pf", cpf: "34567890123", is_seller: true},
-  %{email: "fernanda@example.com", name: "Fernanda Lima", avatar_url: "", google_id: "google-fernanda", type: "pj", cnpj: "23456789000101", is_seller: true},
+  %{email: "ana@example.com", name: "Ana Silva", avatar_url: "", google_id: "google-ana", type: "pf", cpf: "52998224725", is_seller: false},
+  %{email: "maria@example.com", name: "Maria Souza", avatar_url: "", google_id: "google-maria", type: "pf", cpf: "11144477735", is_seller: true},
+  %{email: "juliana@example.com", name: "Juliana Costa", avatar_url: "", google_id: "google-juliana", type: "pj", cnpj: "11222333000181", is_seller: true},
+  %{email: "carla@example.com", name: "Carla Santos", avatar_url: "", google_id: "google-carla", type: "pf", cpf: "76523910083", is_seller: true},
+  %{email: "fernanda@example.com", name: "Fernanda Lima", avatar_url: "", google_id: "google-fernanda", type: "pj", cnpj: "45399755000149", is_seller: true},
 ]
 
 users =
   Enum.map(users_data, fn attrs ->
-    {:ok, user} =
+    {:ok, base} =
       %Api.Users.User{}
       |> Api.Users.User.changeset(attrs)
       |> Repo.insert()
+
+    {:ok, user} =
+      base
+      |> Api.Users.User.registration_changeset(attrs)
+      |> Repo.update()
 
     IO.puts("  ✓ #{user.name} (#{user.email}) → id=#{user.id}")
     {attrs.email, user}
