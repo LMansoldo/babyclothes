@@ -69,32 +69,6 @@ export const actions: Actions = {
     return { session: mapUser(user) };
   },
 
-  register: async ({ request, cookies, fetch }) => {
-    const form = await request.formData();
-    const type = form.get('type');
-    const document = form.get('document');
-    const token = cookies.get(ACCESS_COOKIE);
-
-    if (!token) return fail(401, { error: 'not_authenticated' });
-    if (type !== 'pf' && type !== 'pj') return fail(400, { error: 'invalid_type' });
-
-    const body =
-      type === 'pf'
-        ? { type, cpf: String(document ?? '') }
-        : { type, cnpj: String(document ?? '') };
-
-    const res = await fetch(`${PUBLIC_API_URL}/auth/me`, {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-      body: JSON.stringify(body),
-    });
-
-    if (!res.ok) return fail(422, { error: 'update_failed' });
-
-    const { user } = (await res.json()) as { user: ApiUser };
-    return { session: mapUser(user) };
-  },
-
   devLogin: async ({ cookies, fetch }) => {
     const res = await fetch(`${PUBLIC_API_URL}/auth/dev-login`, {
       method: 'POST',

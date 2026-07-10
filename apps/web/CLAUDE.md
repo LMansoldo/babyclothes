@@ -46,6 +46,7 @@ src/lib/
 | Route | File | Description |
 |-------|------|-------------|
 | `/login` | `routes/login/+page.svelte` | Google OAuth sign-in |
+| `/register` | `routes/register/+page.svelte` | PF/PJ registration (post-login) |
 | `/catalog` | `routes/catalog/+page.svelte` | Product listing with filters |
 | `/catalog/[id]` | `routes/catalog/[id]/+page.svelte` | Item detail |
 | `/chat` | `routes/chat/+page.svelte` | AI assistant (SSE streaming) |

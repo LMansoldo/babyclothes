@@ -81,6 +81,12 @@ export const handle: Handle = async ({ event, resolve }) => {
     throw redirect(303, '/login');
   }
 
+  const needsRegistration = event.locals.session && !event.locals.session.type;
+  const isRegisterRoute = event.url.pathname.startsWith('/register');
+  if (needsRegistration && !isRegisterRoute && !isPublicRoute) {
+    throw redirect(303, '/register');
+  }
+
   return resolve(event);
 };
 

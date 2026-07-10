@@ -51,4 +51,39 @@ describe('handle', () => {
     expect(event.cookies.set).toHaveBeenCalledWith('babyclothes_token', 'new-a', expect.any(Object));
     expect((event.locals as { session?: { userId: string } }).session?.userId).toBe('1');
   });
+
+  it('redirects an unregistered session to /register', async () => {
+    const unregisteredPayload = {
+      user: { id: '1', email: 'a@b.com', name: 'Ana', avatar_url: '', type: null, is_seller: false },
+    };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(unregisteredPayload), { status: 200 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({ babyclothes_token: 'good' }, '/catalog');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await expect(handle({ event, resolve } as never)).rejects.toMatchObject({ status: 303, location: '/register' });
+  });
+
+  it('lets an unregistered session access /register', async () => {
+    const unregisteredPayload = {
+      user: { id: '1', email: 'a@b.com', name: 'Ana', avatar_url: '', type: null, is_seller: false },
+    };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(unregisteredPayload), { status: 200 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({ babyclothes_token: 'good' }, '/register');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await handle({ event, resolve } as never);
+    expect(resolve).toHaveBeenCalled();
+  });
+
+  it('does not redirect a registered session to /register', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(userPayload), { status: 200 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({ babyclothes_token: 'good' }, '/catalog');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await handle({ event, resolve } as never);
+    expect(resolve).toHaveBeenCalled();
+  });
 });
