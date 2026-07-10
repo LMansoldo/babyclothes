@@ -23,8 +23,8 @@ defmodule Api.Router do
     Api.Controllers.AuthController.google_login(conn)
   end
 
-  patch "/auth/me" do
-    Api.Controllers.AuthController.update_me(conn)
+  post "/auth/register" do
+    Api.Controllers.AuthController.register(conn)
   end
 
   post "/auth/refresh" do

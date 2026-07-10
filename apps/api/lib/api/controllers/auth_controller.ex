@@ -5,6 +5,7 @@ defmodule Api.Controllers.AuthController do
 
   import Plug.Conn
   alias Api.Repo
+  alias Api.Users
   alias Api.Users.User
   alias Api.Auth
 
@@ -189,43 +190,34 @@ defmodule Api.Controllers.AuthController do
   end
 
   @doc """
-  PATCH /auth/me
-  Updates the authenticated user's PF/PJ profile (type, cpf, cnpj).
+  POST /auth/register
+  Completes the one-time PF/PJ registration for the authenticated user.
   """
-  def update_me(conn) do
+  def register(conn) do
     with {:ok, claims} <- authenticate(conn),
          {:ok, user} <- get_user(claims["sub"]),
-         {:ok, updated_user} <- update_user(user, conn.body_params) do
+         {:ok, registered} <- Users.register_account(user, conn.body_params) do
       conn
       |> put_resp_content_type("application/json")
-      |> send_resp(200, Jason.encode!(%{
-        user: %{
-          id: updated_user.id,
-          email: updated_user.email,
-          name: updated_user.name,
-          avatar_url: updated_user.avatar_url,
-          type: updated_user.type,
-          cpf: updated_user.cpf,
-          cnpj: updated_user.cnpj,
-          is_seller: updated_user.is_seller
-        }
-      }))
+      |> send_resp(200, Jason.encode!(%{user: user_json(registered)}))
     else
-      {:error, :unauthorized} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(401, Jason.encode!(%{error: "invalid_token"}))
-
-      {:error, :not_found} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(404, Jason.encode!(%{error: "user_not_found"}))
-
-      {:error, changeset} ->
-        conn
-        |> put_resp_content_type("application/json")
-        |> send_resp(422, Jason.encode!(%{error: "validation_failed", details: changeset.errors}))
+      {:error, :unauthorized} -> register_error(conn, 401, %{error: "invalid_token"})
+      {:error, :not_found} -> register_error(conn, 404, %{error: "user_not_found"})
+      {:error, :already_registered} -> register_error(conn, 409, %{error: "already_registered"})
+      {:error, %Ecto.Changeset{} = changeset} ->
+        register_error(conn, 422, %{error: "validation_failed", details: changeset_errors(changeset)})
+      {:error, _} -> register_error(conn, 401, %{error: "invalid_token"})
     end
+  end
+
+  defp register_error(conn, status, payload) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(status, Jason.encode!(payload))
+  end
+
+  defp changeset_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {message, _opts} -> message end)
   end
 
   defp authenticate(conn) do
@@ -235,18 +227,7 @@ defmodule Api.Controllers.AuthController do
     end
   end
 
-  defp get_user(id) do
-    case Repo.get(User, id) do
-      %User{} = user -> {:ok, user}
-      nil -> {:error, :not_found}
-    end
-  end
-
-  defp update_user(user, params) do
-    user
-    |> User.changeset(params)
-    |> Repo.update()
-  end
+  defp get_user(id), do: Users.get_user(id)
 
   defp user_json(user) do
     %{

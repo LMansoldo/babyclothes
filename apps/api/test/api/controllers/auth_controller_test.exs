@@ -145,4 +145,69 @@ defmodule Api.Controllers.AuthControllerTest do
       assert conn.status == 404
     end
   end
+
+  describe "POST /auth/register" do
+    defp insert_unregistered_user do
+      {:ok, user} =
+        %Api.Users.User{type: nil}
+        |> Api.Users.User.changeset(%{
+          "email" => "pending@example.com",
+          "name" => "Pending",
+          "google_id" => "google-pending"
+        })
+        |> Api.Repo.insert()
+
+      user
+    end
+
+    defp register_conn(token, body) do
+      conn(:post, "/auth/register", body)
+      |> put_req_header("content-type", "application/json")
+      |> put_req_header("authorization", "Bearer #{token}")
+      |> Api.Router.call([])
+    end
+
+    test "registers a PF user and returns the updated user" do
+      user = insert_unregistered_user()
+      token = Api.Auth.generate_access_token(user)
+
+      conn = register_conn(token, %{"type" => "pf", "cpf" => "52998224725"})
+
+      assert conn.status == 200
+      body = Jason.decode!(conn.resp_body)
+      assert body["user"]["type"] == "pf"
+      assert body["user"]["cpf"] == "52998224725"
+    end
+
+    test "returns 409 when the user is already registered" do
+      user = insert(:user, type: "pf", cpf: "11144477735")
+      token = Api.Auth.generate_access_token(user)
+
+      conn = register_conn(token, %{"type" => "pj", "cnpj" => "11222333000181"})
+
+      assert conn.status == 409
+      assert Jason.decode!(conn.resp_body)["error"] == "already_registered"
+    end
+
+    test "returns 422 for an invalid document" do
+      user = insert_unregistered_user()
+      token = Api.Auth.generate_access_token(user)
+
+      conn = register_conn(token, %{"type" => "pf", "cpf" => "12345678900"})
+
+      assert conn.status == 422
+      body = Jason.decode!(conn.resp_body)
+      assert body["error"] == "validation_failed"
+      assert Map.has_key?(body["details"], "cpf")
+    end
+
+    test "returns 401 without a valid token" do
+      conn =
+        conn(:post, "/auth/register", %{"type" => "pf", "cpf" => "52998224725"})
+        |> put_req_header("content-type", "application/json")
+        |> Api.Router.call([])
+
+      assert conn.status == 401
+    end
+  end
 end
