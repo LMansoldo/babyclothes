@@ -54,7 +54,12 @@
       "cpf_placeholder": "000.000.000-00",
       "cnpj_placeholder": "00.000.000/0000-00",
       "submit": "Continuar",
-      "skip": "Pular por agora"
+      "skip": "Pular por agora",
+      "create_account": "Criar conta",
+      "back": "Voltar",
+      "error_invalid_document": "Documento inválido. Confira os dígitos.",
+      "error_document_taken": "Este documento já está cadastrado.",
+      "error_generic": "Não foi possível concluir o cadastro. Tente novamente."
     }
   },
   "catalog": {
