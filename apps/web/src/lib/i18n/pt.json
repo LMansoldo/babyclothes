@@ -324,17 +324,17 @@
   },
   "onboarding": {
     "skip": "Pular",
-    "title": "Bem-vindo ao",
-    "title_accent": "BabyClothes",
-    "title_rest": "!",
-    "description": "O marketplace que cresce com o seu bebê. Compre, venda e acompanhe o crescimento com inteligência artificial.",
+    "title": "Um agente que",
+    "title_accent": "garimpa",
+    "title_rest": "o brechó por você",
+    "description": "A IA procura roupas e itens ideais combinando tamanho, idade, peso e a sua localização.",
     "features": {
-      "buy_sell": "Compre e venda roupas de qualidade",
-      "growth": "Acompanhe o crescimento do seu filho",
-      "ai": "Recomendações inteligentes de tamanho",
-      "community": "Compartilhe com outras famílias"
+      "size": "Tamanho",
+      "age": "Idade",
+      "weight": "Peso",
+      "location": "Localização"
     },
-    "cta": "Começar"
+    "cta": "Conversar com o agente"
   },
   "agent": {
     "topbar": {
@@ -345,42 +345,41 @@
       "menu_aria": "Menu do agente"
     },
     "intake": {
-      "title": "Vamos conhecer seu filho",
-      "lead": "Precisamos de algumas informações para começar",
-      "name_label": "Nome da criança",
-      "name_placeholder": "Nome do seu filho",
-      "birthdate_label": "Data de nascimento",
-      "birthdate_placeholder": "DD/MM/AAAA",
-      "gender_label": "Gênero",
-      "gender_placeholder": "Selecione",
-      "weight_label": "Peso (kg)",
-      "weight_placeholder": "Ex: 8.5",
-      "height_label": "Altura (cm)",
-      "height_placeholder": "Ex: 72",
-      "submit": "Continuar",
-      "skip": "Pular por agora"
+      "greeting": "Oi, {{name}}! Sou o assistente do BabyClothes. Vou te ajudar a encontrar roupinhas ideais em brechós.",
+      "has_children": "Pra começar: você tem filhos?",
+      "yes": "Sim",
+      "no": "Não",
+      "expecting": "Bebê a caminho",
+      "how_many": "Que bom! Quantos filhos você tem?",
+      "count_3plus": "3+",
+      "child_form_intro": "Perfeito! Me conta sobre ela(e) — preencha os dados abaixo:",
+      "child_form_title": "Cadastro da criança",
+      "child_saved": "{{name}} cadastrada! Já sei o tamanho ideal.",
+      "due_date_intro": "Que alegria! Qual é a previsão de nascimento? Assim já preparo o enxoval no tamanho certo.",
+      "due_date_title": "Previsão de nascimento",
+      "due_date_confirm": "Confirmar",
+      "due_date_saved": "Anotado! Vou sugerir itens RN e P — os tamanhos que recém-nascidos mais usam nos primeiros meses.",
+      "explain": "A plataforma funciona assim: eu procuro em brechós roupas e itens ideais combinando tamanho, idade, peso e a sua localização.",
+      "search_intent": "Tudo pronto! Agora me conta: o que você quer encontrar? Posso buscar por tipo de peça, ocasião ou estação.",
+      "suggestions_heading": "Sugestões",
+      "input_placeholder": "Pergunte sobre roupas, tamanhos...",
+      "choice_placeholder": "Ou responda por aqui..."
     },
     "suggestions": {
-      "title": "Sugestões para você",
-      "subtitle": "Baseado no perfil do seu filho",
-      "size_prediction": "Previsão de tamanho",
-      "growth_tracking": "Acompanhar crescimento",
-      "catalog_browse": "Ver catálogo",
-      "no_suggestions": "Nenhuma sugestão disponível ainda"
+      "bodies_m": "Bodies tamanho M",
+      "winter": "Roupas de inverno",
+      "party": "Look para festa",
+      "pajamas": "Pijamas confortáveis",
+      "next_size": "Próximo tamanho (G)"
     },
     "form": {
-      "title": "Atualizar medidas",
-      "lead": "Mantenha as medidas atualizadas para melhores recomendações",
-      "weight_label": "Peso atual (kg)",
-      "weight_placeholder": "Ex: 9.2",
-      "height_label": "Altura atual (cm)",
-      "height_placeholder": "Ex: 75",
-      "head_label": "Perímetro cefálico (cm)",
-      "head_placeholder": "Ex: 45",
-      "submit": "Salvar medidas",
-      "cancel": "Cancelar",
-      "success": "Medidas atualizadas com sucesso!",
-      "error": "Não foi possível atualizar as medidas. Tente novamente."
+      "name": "Nome",
+      "age": "Idade",
+      "height": "Altura",
+      "weight": "Peso",
+      "birth_height": "Altura ao nascer",
+      "birth_weight": "Peso ao nascer",
+      "submit": "Salvar criança"
     }
   }
 }

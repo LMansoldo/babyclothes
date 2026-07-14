@@ -324,17 +324,17 @@
   },
   "onboarding": {
     "skip": "Skip",
-    "title": "Welcome to",
-    "title_accent": "BabyClothes",
-    "title_rest": "!",
-    "description": "The marketplace that grows with your baby. Buy, sell, and track growth with artificial intelligence.",
+    "title": "An agent that",
+    "title_accent": "finds",
+    "title_rest": "thrift deals for you",
+    "description": "AI searches for ideal clothes and items combining size, age, weight and your location.",
     "features": {
-      "buy_sell": "Buy and sell quality clothes",
-      "growth": "Track your child's growth",
-      "ai": "Smart size recommendations",
-      "community": "Share with other families"
+      "size": "Size",
+      "age": "Age",
+      "weight": "Weight",
+      "location": "Location"
     },
-    "cta": "Get Started"
+    "cta": "Chat with the agent"
   },
   "agent": {
     "topbar": {
@@ -345,42 +345,41 @@
       "menu_aria": "Agent menu"
     },
     "intake": {
-      "title": "Let's get to know your child",
-      "lead": "We need some information to get started",
-      "name_label": "Child's name",
-      "name_placeholder": "Your child's name",
-      "birthdate_label": "Date of birth",
-      "birthdate_placeholder": "MM/DD/YYYY",
-      "gender_label": "Gender",
-      "gender_placeholder": "Select",
-      "weight_label": "Weight (kg)",
-      "weight_placeholder": "Ex: 8.5",
-      "height_label": "Height (cm)",
-      "height_placeholder": "Ex: 72",
-      "submit": "Continue",
-      "skip": "Skip for now"
+      "greeting": "Hi, {{name}}! I'm the BabyClothes assistant. I'll help you find the perfect clothes from thrift stores.",
+      "has_children": "First things first: do you have children?",
+      "yes": "Yes",
+      "no": "No",
+      "expecting": "Baby on the way",
+      "how_many": "How wonderful! How many children do you have?",
+      "count_3plus": "3+",
+      "child_form_intro": "Perfect! Tell me about them — fill in the details below:",
+      "child_form_title": "Child registration",
+      "child_saved": "{{name}} registered! I already know the ideal size.",
+      "due_date_intro": "How exciting! When is the expected due date? That way I can prepare newborn essentials in the right size.",
+      "due_date_title": "Expected due date",
+      "due_date_confirm": "Confirm",
+      "due_date_saved": "Noted! I'll suggest NB and S sizes — the sizes newborns use most in the first months.",
+      "explain": "Here's how the platform works: I search thrift stores for ideal clothes and items matching size, age, weight, and your location.",
+      "search_intent": "All set! Now tell me: what are you looking for? I can search by clothing type, occasion, or season.",
+      "suggestions_heading": "Suggestions",
+      "input_placeholder": "Ask about clothes, sizes...",
+      "choice_placeholder": "Or answer here..."
     },
     "suggestions": {
-      "title": "Suggestions for you",
-      "subtitle": "Based on your child's profile",
-      "size_prediction": "Size prediction",
-      "growth_tracking": "Track growth",
-      "catalog_browse": "Browse catalog",
-      "no_suggestions": "No suggestions available yet"
+      "bodies_m": "Bodysuits size M",
+      "winter": "Winter clothes",
+      "party": "Party outfit",
+      "pajamas": "Comfy pajamas",
+      "next_size": "Next size (L)"
     },
     "form": {
-      "title": "Update measurements",
-      "lead": "Keep measurements updated for better recommendations",
-      "weight_label": "Current weight (kg)",
-      "weight_placeholder": "Ex: 9.2",
-      "height_label": "Current height (cm)",
-      "height_placeholder": "Ex: 75",
-      "head_label": "Head circumference (cm)",
-      "head_placeholder": "Ex: 45",
-      "submit": "Save measurements",
-      "cancel": "Cancel",
-      "success": "Measurements updated successfully!",
-      "error": "Could not update measurements. Try again."
+      "name": "Name",
+      "age": "Age",
+      "height": "Height",
+      "weight": "Weight",
+      "birth_height": "Birth height",
+      "birth_weight": "Birth weight",
+      "submit": "Save child"
     }
   }
 }
