@@ -22,7 +22,7 @@ describe('Select', () => {
 
   it('renders all options', () => {
     render(Select, { props: { id: 'uf', options } });
-    const selectEl = screen.getByRole('combobox');
+    const selectEl = screen.getByRole('combobox') as HTMLSelectElement;
     expect(selectEl.options.length).toBe(3);
     expect(selectEl.options[0].textContent).toBe('Sao Paulo');
     expect(selectEl.options[1].textContent).toBe('Rio de Janeiro');

@@ -1,6 +1,7 @@
 import type { Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { dev } from '$app/environment';
+import { PUBLIC_API_URL, PUBLIC_MOCK_DATA } from '$lib/env';
 import { flags, MARKETPLACE_ROUTES, HOME_ROUTE } from '$lib/feature-flags';
 
 const ACCESS_COOKIE = 'babyclothes_token';
@@ -47,12 +48,12 @@ function cookieOpts(maxAge: number) {
 }
 
 export const handle: Handle = async ({ event, resolve }) => {
-  if (import.meta.env.PUBLIC_MOCK_DATA === 'true') {
+  if (PUBLIC_MOCK_DATA === 'true') {
     event.locals.session = mockSession;
     return resolve(event);
   }
 
-  const apiUrl = import.meta.env.PUBLIC_API_URL ?? '';
+  const apiUrl = PUBLIC_API_URL;
   const accessToken = event.cookies.get(ACCESS_COOKIE);
 
   event.locals.session = undefined;
