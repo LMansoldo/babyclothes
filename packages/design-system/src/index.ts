@@ -19,17 +19,23 @@ export { Toggle } from './primitives/Toggle/index.js';
 
 // Composites
 export { ActionBar } from './composites/ActionBar/index.js';
+export { AgentFormCard } from './composites/AgentFormCard/index.js';
+export type { AgentFormCardProps } from './composites/AgentFormCard/index.js';
 export { Card } from './composites/Card/index.js';
 export { Carousel } from './composites/Carousel/index.js';
 export { ChatInput } from './composites/ChatInput/index.js';
 export { ChildMiniCard } from './composites/ChildMiniCard/index.js';
 export { ChildSelectorChips } from './composites/ChildSelectorChips/index.js';
+export { ChoiceChipGroup } from './composites/ChoiceChipGroup/index.js';
+export type { ChoiceChipOption, ChoiceChipGroupProps } from './composites/ChoiceChipGroup/index.js';
 export { FilterChipGroup } from './composites/FilterChipGroup/index.js';
 export { FormField } from './composites/FormField/index.js';
 export { ImageGallery } from './composites/ImageGallery/index.js';
 export { ItemList } from './composites/ItemList/index.js';
 export { LanguageToggle } from './composites/LanguageToggle/index.js';
 export { Modal } from './composites/Modal/index.js';
+export { MonthPicker } from './composites/MonthPicker/index.js';
+export type { MonthOption, MonthPickerProps } from './composites/MonthPicker/index.js';
 export { PhotoUploader } from './composites/PhotoUploader/index.js';
 export { ProductTray } from './composites/ProductTray/index.js';
 export { SearchBar } from './composites/SearchBar/index.js';
