@@ -20,3 +20,4 @@ function get(key: string, fallback = ''): string {
 export const PUBLIC_API_URL = get('PUBLIC_API_URL', 'http://localhost:4000')
 export const PUBLIC_MOCK_DATA = get('PUBLIC_MOCK_DATA', 'false')
 export const PUBLIC_GOOGLE_CLIENT_ID = get('PUBLIC_GOOGLE_CLIENT_ID', '')
+export const PUBLIC_APP_MODE = get('PUBLIC_APP_MODE', 'full')
