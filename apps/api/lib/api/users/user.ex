@@ -1,7 +1,8 @@
 defmodule Api.Users.User do
   @moduledoc """
   User schema. `changeset/2` handles the Google profile fields;
-  `registration_changeset/2` handles the one-time PF/PJ registration.
+  `registration_changeset/2` handles the one-time PF/PJ registration;
+  `signup_changeset/2` handles email/password signup with profile fields.
   """
 
   use Ecto.Schema
@@ -14,6 +15,10 @@ defmodule Api.Users.User do
 
   @type t :: %__MODULE__{}
 
+  @ufs ~w(AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RO RR RS SC SE SP TO)
+
+  @profile_fields [:phone, :nationality, :cep, :address_line, :city, :state]
+
   schema "users" do
     field :email, :string
     field :name, :string
@@ -23,6 +28,15 @@ defmodule Api.Users.User do
     field :cpf, :string
     field :cnpj, :string
     field :is_seller, :boolean, default: false
+
+    field :password, :string, virtual: true, redact: true
+    field :password_hash, :string, redact: true
+    field :phone, :string
+    field :nationality, :string
+    field :cep, :string
+    field :address_line, :string
+    field :city, :string
+    field :state, :string
 
     has_many :children, Child
     has_many :items, Item, foreign_key: :seller_id
@@ -44,10 +58,48 @@ defmodule Api.Users.User do
   @doc "Changeset for the one-time PF/PJ registration (type + document)."
   def registration_changeset(user, attrs) do
     user
-    |> cast(attrs, [:type, :cpf, :cnpj])
+    |> cast(attrs, [:type, :cpf, :cnpj] ++ @profile_fields)
     |> validate_required([:type])
     |> validate_inclusion(:type, ["pf", "pj"])
     |> validate_document_for_type()
+    |> validate_profile()
+  end
+
+  @doc "Changeset for email/password signup with profile fields."
+  def signup_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:email, :name, :password, :cpf] ++ @profile_fields)
+    |> validate_required([:email, :name, :password, :cpf])
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
+    |> validate_length(:password, min: 8, max: 72)
+    |> put_change(:type, "pf")
+    |> validate_change(:cpf, &cpf_checksum/2)
+    |> validate_profile()
+    |> unique_constraint(:email)
+    |> unique_constraint(:cpf)
+    |> hash_password()
+  end
+
+  defp validate_profile(changeset) do
+    changeset
+    |> validate_format(:phone, ~r/^\d{10,11}$/, message: "must be 10 or 11 digits", allow_nil: true)
+    |> validate_format(:cep, ~r/^\d{8}$/, message: "must be 8 digits", allow_nil: true)
+    |> validate_inclusion(:state, @ufs, message: "must be a valid Brazilian state", allow_nil: true)
+    |> validate_length(:nationality, max: 100, allow_nil: true)
+    |> validate_length(:address_line, max: 255, allow_nil: true)
+    |> validate_length(:city, max: 100, allow_nil: true)
+  end
+
+  defp hash_password(changeset) do
+    case get_change(changeset, :password) do
+      nil ->
+        changeset
+
+      password ->
+        changeset
+        |> put_change(:password_hash, Bcrypt.hash_pwd_salt(password))
+        |> delete_change(:password)
+    end
   end
 
   defp validate_document_for_type(changeset) do

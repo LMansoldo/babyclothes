@@ -92,4 +92,173 @@ defmodule Api.Users.UserTest do
       assert %{cpf: _} = errors_on(changeset)
     end
   end
+
+  describe "signup_changeset/2" do
+    @valid_signup_attrs %{
+      "email" => "newuser@example.com",
+      "name" => "New User",
+      "password" => "securepassword123",
+      "cpf" => "52998224725"
+    }
+
+    test "creates a valid changeset with required fields" do
+      changeset = User.signup_changeset(%User{}, @valid_signup_attrs)
+      assert changeset.valid?
+      assert changeset.changes.type == "pf"
+      assert changeset.changes.password_hash != nil
+      refute Map.has_key?(changeset.changes, :password)
+    end
+
+    test "creates a valid changeset with profile fields" do
+      attrs =
+        Map.merge(@valid_signup_attrs, %{
+          "phone" => "11999998888",
+          "nationality" => "Brasileira",
+          "cep" => "01310100",
+          "address_line" => "Av. Paulista, 1000",
+          "city" => "Sao Paulo",
+          "state" => "SP"
+        })
+
+      changeset = User.signup_changeset(%User{}, attrs)
+      assert changeset.valid?
+      assert changeset.changes.phone == "11999998888"
+      assert changeset.changes.state == "SP"
+    end
+
+    test "requires email" do
+      attrs = Map.delete(@valid_signup_attrs, "email")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{email: _} = errors_on(changeset)
+    end
+
+    test "requires name" do
+      attrs = Map.delete(@valid_signup_attrs, "name")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{name: _} = errors_on(changeset)
+    end
+
+    test "requires password" do
+      attrs = Map.delete(@valid_signup_attrs, "password")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{password: _} = errors_on(changeset)
+    end
+
+    test "requires cpf" do
+      attrs = Map.delete(@valid_signup_attrs, "cpf")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{cpf: _} = errors_on(changeset)
+    end
+
+    test "rejects invalid email format" do
+      attrs = Map.put(@valid_signup_attrs, "email", "invalid-email")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{email: _} = errors_on(changeset)
+    end
+
+    test "rejects email with spaces" do
+      attrs = Map.put(@valid_signup_attrs, "email", "user @example.com")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{email: _} = errors_on(changeset)
+    end
+
+    test "rejects password shorter than 8 characters" do
+      attrs = Map.put(@valid_signup_attrs, "password", "short")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{password: _} = errors_on(changeset)
+    end
+
+    test "rejects password longer than 72 characters" do
+      long_password = String.duplicate("a", 73)
+      attrs = Map.put(@valid_signup_attrs, "password", long_password)
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{password: _} = errors_on(changeset)
+    end
+
+    test "rejects invalid CPF checksum" do
+      attrs = Map.put(@valid_signup_attrs, "cpf", "12345678900")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{cpf: _} = errors_on(changeset)
+    end
+
+    test "rejects invalid phone format" do
+      attrs = Map.put(@valid_signup_attrs, "phone", "123")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{phone: _} = errors_on(changeset)
+    end
+
+    test "rejects invalid cep format" do
+      attrs = Map.put(@valid_signup_attrs, "cep", "123")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{cep: _} = errors_on(changeset)
+    end
+
+    test "rejects invalid state" do
+      attrs = Map.put(@valid_signup_attrs, "state", "XX")
+      changeset = User.signup_changeset(%User{}, attrs)
+      refute changeset.valid?
+      assert %{state: _} = errors_on(changeset)
+    end
+
+    test "accepts valid 10-digit phone" do
+      attrs = Map.put(@valid_signup_attrs, "phone", "1199998888")
+      changeset = User.signup_changeset(%User{}, attrs)
+      assert changeset.valid?
+    end
+
+    test "accepts valid 11-digit phone" do
+      attrs = Map.put(@valid_signup_attrs, "phone", "11999998888")
+      changeset = User.signup_changeset(%User{}, attrs)
+      assert changeset.valid?
+    end
+
+    test "allows nil profile fields" do
+      changeset = User.signup_changeset(%User{}, @valid_signup_attrs)
+      assert changeset.valid?
+    end
+
+    test "rejects duplicated email" do
+      insert(:user, email: "taken@example.com")
+      attrs = Map.put(@valid_signup_attrs, "email", "taken@example.com")
+
+      {:error, changeset} =
+        %User{}
+        |> User.signup_changeset(attrs)
+        |> Repo.insert()
+
+      assert %{email: _} = errors_on(changeset)
+    end
+
+    test "rejects duplicated cpf" do
+      insert(:user, cpf: "11144477735")
+      attrs = Map.put(@valid_signup_attrs, "cpf", "11144477735")
+
+      {:error, changeset} =
+        %User{}
+        |> User.signup_changeset(attrs)
+        |> Repo.insert()
+
+      assert %{cpf: _} = errors_on(changeset)
+    end
+
+    test "hashes the password with bcrypt" do
+      changeset = User.signup_changeset(%User{}, @valid_signup_attrs)
+      hash = changeset.changes.password_hash
+
+      assert is_binary(hash)
+      assert Bcrypt.verify_pass("securepassword123", hash)
+      refute Bcrypt.verify_pass("wrongpassword", hash)
+    end
+  end
 end

@@ -22,18 +22,7 @@ defmodule Api.Controllers.AuthController do
               %User{} = user ->
                 conn
                 |> put_resp_content_type("application/json")
-                |> send_resp(200, Jason.encode!(%{
-                  user: %{
-                    id: user.id,
-                    email: user.email,
-                    name: user.name,
-                    avatar_url: user.avatar_url,
-                    type: user.type,
-                    cpf: user.cpf,
-                    cnpj: user.cnpj,
-                    is_seller: user.is_seller
-                  }
-                }))
+                |> send_resp(200, Jason.encode!(%{user: user_json(user)}))
 
               nil ->
                 conn
@@ -51,6 +40,64 @@ defmodule Api.Controllers.AuthController do
         conn
         |> put_resp_content_type("application/json")
         |> send_resp(401, Jason.encode!(%{error: "missing_authorization"}))
+    end
+  end
+
+  @doc """
+  POST /auth/signup
+  Creates a new user with email/password and profile fields.
+  Returns 201 with tokens and user on success, 422 with validation details on failure.
+  """
+  def signup(conn) do
+    case Users.signup(conn.body_params) do
+      {:ok, user} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(201, Jason.encode!(%{
+          token: Api.Auth.generate_access_token(user),
+          refresh_token: Api.Auth.generate_refresh_token(user),
+          user: user_json(user)
+        }))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(422, Jason.encode!(%{
+          error: "validation_failed",
+          details: changeset_errors(changeset)
+        }))
+    end
+  end
+
+  @doc """
+  POST /auth/login
+  Authenticates a user with email and password.
+  Returns 200 with tokens and user on success, 401 on invalid credentials, 400 on missing fields.
+  """
+  def login(conn) do
+    case conn.body_params do
+      %{"email" => email, "password" => password}
+      when is_binary(email) and is_binary(password) ->
+        case Users.authenticate(email, password) do
+          {:ok, user} ->
+            conn
+            |> put_resp_content_type("application/json")
+            |> send_resp(200, Jason.encode!(%{
+              token: Api.Auth.generate_access_token(user),
+              refresh_token: Api.Auth.generate_refresh_token(user),
+              user: user_json(user)
+            }))
+
+          {:error, :invalid_credentials} ->
+            conn
+            |> put_resp_content_type("application/json")
+            |> send_resp(401, Jason.encode!(%{error: "invalid_credentials"}))
+        end
+
+      _ ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(400, Jason.encode!(%{error: "missing_email_or_password"}))
     end
   end
 
@@ -238,7 +285,13 @@ defmodule Api.Controllers.AuthController do
       type: user.type,
       cpf: user.cpf,
       cnpj: user.cnpj,
-      is_seller: user.is_seller
+      is_seller: user.is_seller,
+      phone: user.phone,
+      nationality: user.nationality,
+      cep: user.cep,
+      address_line: user.address_line,
+      city: user.city,
+      state: user.state
     }
   end
 end

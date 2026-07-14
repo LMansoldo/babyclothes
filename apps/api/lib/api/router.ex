@@ -19,6 +19,14 @@ defmodule Api.Router do
     Api.Controllers.AuthController.session(conn)
   end
 
+  post "/auth/signup" do
+    Api.Controllers.AuthController.signup(conn)
+  end
+
+  post "/auth/login" do
+    Api.Controllers.AuthController.login(conn)
+  end
+
   post "/auth/google" do
     Api.Controllers.AuthController.google_login(conn)
   end
