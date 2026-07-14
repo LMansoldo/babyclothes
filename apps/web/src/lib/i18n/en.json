@@ -60,6 +60,54 @@
       "error_document_taken": "This document is already registered.",
       "error_generic": "Could not complete the registration. Try again."
     },
+    "register_pf": {
+      "back": "Back",
+      "create_account": "Create account",
+      "lead": "How will you use BabyClothes?",
+      "title": "Choose your profile",
+      "title_accent": "Individual",
+      "google": "Continue with Google",
+      "divider": "or",
+      "name_label": "Full name",
+      "name_placeholder": "Your full name",
+      "email_label": "Email",
+      "email_placeholder": "your@email.com",
+      "password_label": "Password",
+      "password_placeholder": "At least 8 characters",
+      "city_label": "City",
+      "city_placeholder": "Your city",
+      "city_hint": "For local meetups and deliveries",
+      "cpf_label": "CPF",
+      "cpf_placeholder": "000.000.000-00",
+      "submit": "Continue",
+      "step_indicator": "Step {{current}} of {{total}}",
+      "continue": "Continue",
+      "step2_title": "Personal information",
+      "step2_lead": "We need some details to complete your registration",
+      "phone_label": "Phone",
+      "phone_placeholder": "(00) 00000-0000",
+      "nationality_label": "Nationality",
+      "nationality_placeholder": "Select your nationality",
+      "cep_label": "ZIP code",
+      "cep_placeholder": "00000-000",
+      "address_label": "Address",
+      "address_placeholder": "Street, number, complement",
+      "state_label": "State",
+      "state_placeholder": "Select state",
+      "error_email_taken": "This email is already registered.",
+      "error_pj_disabled": "Business registration is temporarily disabled.",
+      "error_generic": "Could not complete the registration. Try again."
+    },
+    "login_email": {
+      "divider": "or",
+      "email_label": "Email",
+      "email_placeholder": "your@email.com",
+      "password_label": "Password",
+      "password_placeholder": "Your password",
+      "submit": "Sign in",
+      "error_invalid_credentials": "Incorrect email or password.",
+      "error_generic": "Could not sign in. Try again."
+    },
     "dev_login": "Sign in without authentication (dev)"
   },
   "catalog": {
@@ -260,5 +308,79 @@
   "privacy": {
     "title": "Privacy policy",
     "body": "We store only the data needed to run your account: your Google profile (name, email, avatar), the children profiles and measurements you register, and your listings. We never sell your data. Chat messages with the AI assistant are processed to generate recommendations. You can request deletion of your account and data at any time."
+  },
+  "validation": {
+    "name_required": "Name is required.",
+    "email_invalid": "Invalid email.",
+    "password_min": "Password must be at least 8 characters.",
+    "password_required": "Password is required.",
+    "city_required": "City is required.",
+    "cpf_invalid": "Invalid CPF. Check the digits.",
+    "phone_invalid": "Invalid phone number.",
+    "nationality_required": "Nationality is required.",
+    "cep_invalid": "Invalid ZIP code.",
+    "address_required": "Address is required.",
+    "state_required": "State is required."
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "title": "Welcome to",
+    "title_accent": "BabyClothes",
+    "title_rest": "!",
+    "description": "The marketplace that grows with your baby. Buy, sell, and track growth with artificial intelligence.",
+    "features": {
+      "buy_sell": "Buy and sell quality clothes",
+      "growth": "Track your child's growth",
+      "ai": "Smart size recommendations",
+      "community": "Share with other families"
+    },
+    "cta": "Get Started"
+  },
+  "agent": {
+    "topbar": {
+      "title": "Growth Agent",
+      "subtitle": "AI Assistant",
+      "status_online": "Online",
+      "status_offline": "Offline",
+      "menu_aria": "Agent menu"
+    },
+    "intake": {
+      "title": "Let's get to know your child",
+      "lead": "We need some information to get started",
+      "name_label": "Child's name",
+      "name_placeholder": "Your child's name",
+      "birthdate_label": "Date of birth",
+      "birthdate_placeholder": "MM/DD/YYYY",
+      "gender_label": "Gender",
+      "gender_placeholder": "Select",
+      "weight_label": "Weight (kg)",
+      "weight_placeholder": "Ex: 8.5",
+      "height_label": "Height (cm)",
+      "height_placeholder": "Ex: 72",
+      "submit": "Continue",
+      "skip": "Skip for now"
+    },
+    "suggestions": {
+      "title": "Suggestions for you",
+      "subtitle": "Based on your child's profile",
+      "size_prediction": "Size prediction",
+      "growth_tracking": "Track growth",
+      "catalog_browse": "Browse catalog",
+      "no_suggestions": "No suggestions available yet"
+    },
+    "form": {
+      "title": "Update measurements",
+      "lead": "Keep measurements updated for better recommendations",
+      "weight_label": "Current weight (kg)",
+      "weight_placeholder": "Ex: 9.2",
+      "height_label": "Current height (cm)",
+      "height_placeholder": "Ex: 75",
+      "head_label": "Head circumference (cm)",
+      "head_placeholder": "Ex: 45",
+      "submit": "Save measurements",
+      "cancel": "Cancel",
+      "success": "Measurements updated successfully!",
+      "error": "Could not update measurements. Try again."
+    }
   }
 }

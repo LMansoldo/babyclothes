@@ -8,6 +8,8 @@ export { DotIndicator } from './primitives/DotIndicator/index.js';
 export { FilterBar } from './primitives/FilterBar/index.js';
 export { IconButton } from './primitives/IconButton/index.js';
 export { Input } from './primitives/Input/index.js';
+export { Select } from './primitives/Select/index.js';
+export type { SelectOption } from './primitives/Select/index.js';
 export { PriceDisplay } from './primitives/PriceDisplay/index.js';
 export { ProfileBadge } from './primitives/ProfileBadge/index.js';
 export { ProgressBar } from './primitives/ProgressBar/index.js';
