@@ -3,16 +3,25 @@
   import { enhance } from '$app/forms'
   import { dev } from '$app/environment'
   import AuthScreen from '$lib/presentation/components/AuthScreen.svelte'
+  import EmailLoginForm from '$lib/presentation/components/EmailLoginForm.svelte'
+  import { flags } from '$lib/feature-flags'
+  import { t } from '$lib/i18n'
+  import type { LoginInput } from '$lib/domain/user/schemas'
 
   type Step = 'login' | 'redirecting'
 
   let step = $state<Step>('login')
   let loading = $state(false)
   let error = $state('')
+  let emailLoading = $state(false)
+  let emailError = $state('')
 
   let loginForm = $state<HTMLFormElement | undefined>(undefined)
   let credentialInput = $state<HTMLInputElement | undefined>(undefined)
   let devLoginForm = $state<HTMLFormElement | undefined>(undefined)
+  let emailLoginForm = $state<HTMLFormElement | undefined>(undefined)
+  let emailInput = $state<HTMLInputElement | undefined>(undefined)
+  let passwordInput = $state<HTMLInputElement | undefined>(undefined)
 
   // Called by Google GSI (via window bridge). Fills the hidden field and submits the login action.
   function handleGoogleCredential(response: { credential: string }) {
@@ -34,6 +43,14 @@
     }
     step = 'redirecting'
     goto(session.type ? '/catalog' : '/register')
+  }
+
+  function handleEmailLogin(data: LoginInput) {
+    if (emailInput && passwordInput && emailLoginForm) {
+      emailInput.value = data.email
+      passwordInput.value = data.password
+      emailLoginForm.requestSubmit()
+    }
   }
 </script>
 
@@ -89,12 +106,47 @@
     ></form>
   {/if}
 
+  <!-- Hidden email login form -->
+  <form
+    method="POST"
+    action="?/email"
+    bind:this={emailLoginForm}
+    use:enhance={() => {
+      emailLoading = true
+      emailError = ''
+      return async ({ result }) => {
+        emailLoading = false
+        if (result.type === 'redirect') {
+          step = 'redirecting'
+        } else if (result.type === 'failure') {
+          const err = (result.data as { error?: string } | undefined)?.error
+          if (err === 'invalid_credentials') {
+            emailError = $t('auth.login_email.error_invalid_credentials')
+          } else {
+            emailError = $t('auth.login_email.error_generic')
+          }
+        } else {
+          emailError = $t('auth.login_email.error_generic')
+        }
+      }
+    }}
+    hidden
+  >
+    <input type="hidden" name="email" bind:this={emailInput} />
+    <input type="hidden" name="password" bind:this={passwordInput} />
+  </form>
+
   {#if step === 'login'}
     <AuthScreen
       onGoogleLogin={() => {}}
       onDevLogin={dev ? () => devLoginForm?.requestSubmit() : undefined}
       {loading}
     />
+
+    {#if flags.emailLogin}
+      <div class="login__divider">{$t('auth.login_email.divider')}</div>
+      <EmailLoginForm onSubmit={handleEmailLogin} loading={emailLoading} error={emailError} />
+    {/if}
   {:else if step === 'redirecting'}
     <div class="login-page__redirecting">
       <span class="login-page__spinner"></span>
@@ -149,6 +201,14 @@
     font-size: 0.8rem;
     color: #e74c3c;
     margin-top: 1rem;
+    text-align: center;
+  }
+
+  .login__divider {
+    font-family: var(--sr);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+    margin: 1.5rem 0;
     text-align: center;
   }
 </style>

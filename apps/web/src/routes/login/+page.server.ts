@@ -1,11 +1,9 @@
 import { fail, redirect } from '@sveltejs/kit';
-import type { Cookies } from '@sveltejs/kit';
-import { dev } from '$app/environment';
 import { PUBLIC_API_URL } from '$lib/env';
+import { flags, HOME_ROUTE } from '$lib/feature-flags';
+import { LoginInputSchema } from '$lib/domain/user/schemas';
+import { setAuthCookies, ACCESS_COOKIE, REFRESH_COOKIE } from '$lib/server/auth-cookies';
 import type { Actions } from './$types';
-
-const ACCESS_COOKIE = 'babyclothes_token';
-const REFRESH_COOKIE = 'babyclothes_refresh';
 
 type ApiUser = {
   id: string;
@@ -17,15 +15,6 @@ type ApiUser = {
   cnpj?: string;
   is_seller: boolean;
 };
-
-function cookieOpts(maxAge: number) {
-  return { path: '/', httpOnly: true, secure: !dev, sameSite: 'lax' as const, maxAge };
-}
-
-function setAuthCookies(cookies: Cookies, accessToken: string, refreshToken: string) {
-  cookies.set(ACCESS_COOKIE, accessToken, cookieOpts(60 * 60)); // 1h
-  cookies.set(REFRESH_COOKIE, refreshToken, cookieOpts(60 * 60 * 24 * 30)); // 30d
-}
 
 function mapUser(user: ApiUser) {
   return {
@@ -86,6 +75,43 @@ export const actions: Actions = {
 
     setAuthCookies(cookies, token, refresh_token);
     return { session: mapUser(user) };
+  },
+
+  email: async ({ request, cookies, fetch }) => {
+    if (!flags.emailLogin) {
+      return fail(404, { error: 'not_found' });
+    }
+
+    const form = await request.formData();
+    const email = form.get('email');
+    const password = form.get('password');
+
+    const parsed = LoginInputSchema.safeParse({ email, password });
+    if (!parsed.success) {
+      return fail(422, { error: 'invalid_fields' });
+    }
+
+    const res = await fetch(`${PUBLIC_API_URL}/auth/login`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: parsed.data.email, password: parsed.data.password }),
+    });
+
+    if (res.status === 401) {
+      return fail(401, { error: 'invalid_credentials' });
+    }
+
+    if (!res.ok) {
+      return fail(502, { error: 'login_failed' });
+    }
+
+    const { token, refresh_token } = (await res.json()) as {
+      token: string;
+      refresh_token: string;
+    };
+
+    setAuthCookies(cookies, token, refresh_token);
+    throw redirect(303, HOME_ROUTE);
   },
 
   logout: async ({ cookies }) => {
