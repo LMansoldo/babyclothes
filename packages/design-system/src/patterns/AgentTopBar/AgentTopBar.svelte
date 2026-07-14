@@ -1,7 +1,7 @@
 <script lang="ts">
   export interface AgentTopBarProps {
     agentName: string
-    status: 'online' | 'offline' | 'busy'
+    status: 'online' | 'typing' | 'offline' | 'busy'
     statusLabel: string
     statusDetail?: string
     unreadCount?: number
@@ -20,62 +20,39 @@
     onNotifications,
     onProfile,
   }: AgentTopBarProps = $props()
+
+  const displayCount = $derived(unreadCount > 99 ? '99+' : String(unreadCount))
+  const statusColor = $derived(status === 'offline' ? '#9CA3AF' : '#22C55E')
 </script>
 
 <nav class="agenttopbar" aria-label="Agent navigation">
-  <div class="agenttopbar__agent">
+  <div class="agenttopbar__left">
     <div class="agenttopbar__avatar">
-      <svg width="14" height="17" viewBox="0 0 20 24" fill="none" aria-hidden="true">
-        <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
+      <svg viewBox="0 0 20 24" width="16" height="20" fill="none">
+        <path
+          d="M10 0C4.48 0 0 4.48 0 10c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0110 4.84c.85.004 1.71.12 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0020 10c0-5.52-4.48-10-10-10z"
+          fill="#FF3CAC"
+        />
       </svg>
-      <span
-        class="agenttopbar__status-dot"
-        class:agenttopbar__status-dot--online={status === 'online'}
-        class:agenttopbar__status-dot--busy={status === 'busy'}
-        class:agenttopbar__status-dot--offline={status === 'offline'}
-        aria-hidden="true"
-      ></span>
+      <span class="agenttopbar__status-dot agenttopbar__status-dot--{status}"></span>
     </div>
-
     <div class="agenttopbar__info">
       <span class="agenttopbar__name">{agentName}</span>
-      <span class="agenttopbar__status">
-        <span
-          class="agenttopbar__status-indicator"
-          class:agenttopbar__status-indicator--online={status === 'online'}
-          class:agenttopbar__status-indicator--busy={status === 'busy'}
-          class:agenttopbar__status-indicator--offline={status === 'offline'}
-        ></span>
-        <span class="agenttopbar__status-label">{statusLabel}</span>
-        {#if statusDetail}
-          <span class="agenttopbar__status-detail">&middot; {statusDetail}</span>
-        {/if}
+      <span class="agenttopbar__status-indicator agenttopbar__status-indicator--{status}" style:color={statusColor}>
+        {statusLabel}{#if statusDetail} <span class="agenttopbar__detail">{statusDetail}</span>{/if}
       </span>
     </div>
   </div>
-
-  <div class="agenttopbar__actions">
-    <button
-      class="agenttopbar__action"
-      aria-label="Notifications"
-      onclick={() => onNotifications?.()}
-    >
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+  <div class="agenttopbar__right">
+    <button class="agenttopbar__btn" onclick={onNotifications} aria-label="Notifications">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" />
       </svg>
       {#if unreadCount > 0}
-        <span class="agenttopbar__badge" aria-label={`${unreadCount} unread`}>
-          {unreadCount > 99 ? '99+' : unreadCount}
-        </span>
+        <span class="agenttopbar__badge">{displayCount}</span>
       {/if}
     </button>
-
-    <button
-      class="agenttopbar__user"
-      aria-label="Profile"
-      onclick={() => onProfile?.()}
-    >
+    <button class="agenttopbar__avatar-btn" onclick={onProfile} aria-label="Profile">
       {userInitials}
     </button>
   </div>
@@ -86,49 +63,51 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(1.2rem);
+    border-bottom: 1px solid #F3F4F6;
+    padding: 0.9rem 1.4rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0 0.7rem;
-    height: 4rem;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(0.6rem);
-    -webkit-backdrop-filter: blur(0.6rem);
-    border-bottom: 0.05rem solid #F3F4F6;
+    gap: 1rem;
   }
 
-  .agenttopbar__agent {
+  .agenttopbar__left {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    min-width: 0;
+    gap: 0.8rem;
   }
 
   .agenttopbar__avatar {
-    width: 1.8rem;
-    height: 1.8rem;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    background: #111;
+    background: var(--bk, #111111);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    position: relative;
   }
 
   .agenttopbar__status-dot {
     position: absolute;
-    bottom: -0.05rem;
-    right: -0.05rem;
+    bottom: -0.1rem;
+    right: -0.1rem;
     width: 0.5rem;
     height: 0.5rem;
-    border: 0.1rem solid #fff;
     border-radius: 50%;
+    border: 2px solid #fff;
   }
 
   .agenttopbar__status-dot--online {
     background: #22C55E;
+    animation: pulse 2s infinite;
+  }
+
+  .agenttopbar__status-dot--typing {
+    background: #22C55E;
+    animation: pulse 2s infinite;
   }
 
   .agenttopbar__status-dot--busy {
@@ -139,134 +118,71 @@
     background: #9CA3AF;
   }
 
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
   .agenttopbar__info {
     display: flex;
     flex-direction: column;
-    min-width: 0;
   }
 
   .agenttopbar__name {
-    font-family: var(--font-lato);
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: #111;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .agenttopbar__status {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
+    font: 0.8rem 700 var(--font-lato, 'Lato', sans-serif);
+    color: var(--bk, #111111);
   }
 
   .agenttopbar__status-indicator {
-    width: 0.3rem;
-    height: 0.3rem;
-    border-radius: 50%;
+    font: 0.62rem 700 var(--font-lato, 'Lato', sans-serif);
   }
 
-  .agenttopbar__status-indicator--online {
-    background: #22C55E;
-  }
-
-  .agenttopbar__status-indicator--busy {
-    background: #F59E0B;
-  }
-
-  .agenttopbar__status-indicator--offline {
-    background: #9CA3AF;
-  }
-
-  .agenttopbar__status-label {
-    font-family: var(--font-lato);
-    font-size: 0.65rem;
-    font-weight: 700;
-  }
-
-  .agenttopbar__status-indicator--online + .agenttopbar__status-label {
-    color: #22C55E;
-  }
-
-  .agenttopbar__status-indicator--busy + .agenttopbar__status-label {
-    color: #F59E0B;
-  }
-
-  .agenttopbar__status-indicator--offline + .agenttopbar__status-label {
+  .agenttopbar__detail {
     color: #9CA3AF;
   }
 
-  .agenttopbar__status-detail {
-    font-family: var(--font-lato);
-    font-size: 0.65rem;
-    color: #9CA3AF;
-  }
-
-  .agenttopbar__actions {
+  .agenttopbar__right {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    flex-shrink: 0;
+    gap: 0.8rem;
   }
 
-  .agenttopbar__action {
+  .agenttopbar__btn {
     position: relative;
-    width: 1.8rem;
-    height: 1.8rem;
-    border-radius: 50%;
-    background: #F3F4F6;
+    background: none;
     border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     cursor: pointer;
-    color: #374151;
-    transition: background var(--transition-fast);
-  }
-
-  .agenttopbar__action:hover {
-    background: #E5E7EB;
+    color: var(--bk, #111111);
+    padding: 0.4rem;
   }
 
   .agenttopbar__badge {
     position: absolute;
     top: -0.2rem;
     right: -0.2rem;
-    min-width: 0.8rem;
-    height: 0.8rem;
-    padding: 0 0.25rem;
+    background: var(--color-pk, #FF3CAC);
+    color: #fff;
+    font: 0.5rem 700 var(--font-lato, 'Lato', sans-serif);
+    min-width: 1rem;
+    height: 1rem;
     border-radius: 99rem;
-    background: var(--color-pink);
-    color: #fff;
-    font-family: var(--font-lato);
-    font-size: 0.55rem;
-    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 1;
+    padding: 0 0.3rem;
   }
 
-  .agenttopbar__user {
-    width: 1.6rem;
-    height: 1.6rem;
+  .agenttopbar__avatar-btn {
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF3CAC, #B03EFF);
+    background: var(--color-pk, #FF3CAC);
+    color: #fff;
     border: none;
+    cursor: pointer;
+    font: 0.6rem 700 var(--font-lato, 'Lato', sans-serif);
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-family: var(--font-lato);
-    font-size: 0.55rem;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-    transition: transform var(--transition-fast);
-  }
-
-  .agenttopbar__user:hover {
-    transform: scale(1.05);
   }
 </style>

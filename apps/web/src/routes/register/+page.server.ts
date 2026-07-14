@@ -1,12 +1,13 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { PUBLIC_API_URL } from '$lib/env';
+import { HOME_ROUTE } from '$lib/feature-flags';
 import type { Actions, PageServerLoad } from './$types';
 
 const ACCESS_COOKIE = 'babyclothes_token';
 
 export const load: PageServerLoad = async ({ locals }) => {
   if (!locals.session) throw redirect(303, '/login');
-  if (locals.session.type) throw redirect(303, '/catalog');
+  if (locals.session.type) throw redirect(303, HOME_ROUTE);
   return {};
 };
 
@@ -29,10 +30,10 @@ export const actions: Actions = {
       body: JSON.stringify(body),
     });
 
-    if (res.status === 409) throw redirect(303, '/catalog');
+    if (res.status === 409) throw redirect(303, HOME_ROUTE);
     if (res.status === 422) return fail(422, { error: 'invalid_document' });
     if (!res.ok) return fail(res.status === 401 ? 401 : 500, { error: 'register_failed' });
 
-    throw redirect(303, '/catalog');
+    throw redirect(303, HOME_ROUTE);
   },
 };

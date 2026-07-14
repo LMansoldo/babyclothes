@@ -86,4 +86,47 @@ describe('handle', () => {
     await handle({ event, resolve } as never);
     expect(resolve).toHaveBeenCalled();
   });
+
+  it('redirects /catalog to /agent when marketplace flag is off', async () => {
+    vi.doMock('$lib/feature-flags', () => ({
+      flags: { marketplace: false, pjRegistration: false, marketplaceNav: false, agentOnboarding: true, emailLogin: true },
+      MARKETPLACE_ROUTES: ['/catalog', '/sell'],
+      HOME_ROUTE: '/agent',
+    }));
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(userPayload), { status: 200 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({ babyclothes_token: 'good' }, '/catalog');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await expect(handle({ event, resolve } as never)).rejects.toMatchObject({ status: 303, location: '/agent' });
+  });
+
+  it('redirects /sell to /agent when marketplace flag is off', async () => {
+    vi.doMock('$lib/feature-flags', () => ({
+      flags: { marketplace: false, pjRegistration: false, marketplaceNav: false, agentOnboarding: true, emailLogin: true },
+      MARKETPLACE_ROUTES: ['/catalog', '/sell'],
+      HOME_ROUTE: '/agent',
+    }));
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(userPayload), { status: 200 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({ babyclothes_token: 'good' }, '/sell');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await expect(handle({ event, resolve } as never)).rejects.toMatchObject({ status: 303, location: '/agent' });
+  });
+
+  it('does not redirect /catalog when marketplace flag is on', async () => {
+    vi.doMock('$lib/feature-flags', () => ({
+      flags: { marketplace: true, pjRegistration: true, marketplaceNav: true, agentOnboarding: false, emailLogin: false },
+      MARKETPLACE_ROUTES: ['/catalog', '/sell'],
+      HOME_ROUTE: '/catalog',
+    }));
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(userPayload), { status: 200 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({ babyclothes_token: 'good' }, '/catalog');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await handle({ event, resolve } as never);
+    expect(resolve).toHaveBeenCalled();
+  });
 });

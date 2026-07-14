@@ -1,6 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { PUBLIC_API_URL as API } from '$lib/env';
 
+vi.mock('$lib/feature-flags', () => ({
+  flags: { marketplace: true, pjRegistration: true, marketplaceNav: true, agentOnboarding: false, emailLogin: false },
+  MARKETPLACE_ROUTES: ['/catalog', '/sell'],
+  HOME_ROUTE: '/catalog',
+}));
+
 function makeCookies(initial: Record<string, string> = {}) {
   const store = new Map<string, string>(Object.entries(initial));
   return {

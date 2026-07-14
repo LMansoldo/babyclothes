@@ -7,11 +7,13 @@
   import { goto } from '$app/navigation'
   import { t } from '$lib/i18n'
   import { Home, MessageSquare, Baby, PlusCircle } from 'lucide-svelte'
-  import { TopBar, BottomNav, Footer } from '@babyclothes/design-system'
+  import { TopBar, BottomNav, Footer, AgentTopBar } from '@babyclothes/design-system'
+  import { flags } from '$lib/feature-flags'
   let { data, children } = $props()
 
-  const isLoginRoute = $derived($page.url.pathname === '/login')
-  const isChatRoute = $derived($page.url.pathname.startsWith('/chat'))
+  const bareRoutes = ['/login', '/register', '/onboarding']
+  const isBareRoute = $derived(bareRoutes.some((r) => $page.url.pathname.startsWith(r)))
+  const isChatRoute = $derived($page.url.pathname.startsWith('/chat') || $page.url.pathname.startsWith('/agent'))
   const topbarVariant = $derived(isChatRoute ? 'chat' : 'catalog')
   const currentPath = $derived($page.url.pathname)
 
@@ -28,6 +30,10 @@
 
   setContext('session', sessionStore)
   setContext('unreadCount', writable(0))
+
+  function initials(name: string): string {
+    return name.split(' ').filter(Boolean).slice(0, 2).map(p => p[0]!.toUpperCase()).join('')
+  }
 
   function handleNavigate(href: string) {
     goto(href)
@@ -47,7 +53,7 @@
   <PlusCircle size={20} strokeWidth={1.75} />
 {/snippet}
 
-{#if isLoginRoute}
+{#if isBareRoute}
   {@render children()}
 {:else}
   {@const tabs = [
@@ -57,26 +63,40 @@
     { href: '/sell', label: $t('nav.sell'), icon: sellIcon },
   ]}
   <div class="app-shell" class:app-shell--chat={isChatRoute}>
-    <TopBar
-      variant={topbarVariant}
-      searchPlaceholder={$t('topbar.search_placeholder')}
-      searchAriaLabel={$t('topbar.search_aria')}
-      publishLabel={$t('topbar.publish')}
-      chatTitle={$t('topbar.nav.chat_ai')}
-      chatStatus={$t('topbar.chat_status')}
-      onNavigate={handleNavigate}
-    />
-    <main class="app-main">
+    {#if flags.marketplace}
+      <TopBar
+        variant={topbarVariant}
+        searchPlaceholder={$t('topbar.search_placeholder')}
+        searchAriaLabel={$t('topbar.search_aria')}
+        publishLabel={$t('topbar.publish')}
+        chatTitle={$t('topbar.nav.chat_ai')}
+        chatStatus={$t('topbar.chat_status')}
+        onNavigate={handleNavigate}
+      />
+    {:else}
+      <AgentTopBar
+        agentName={$t('agent.topbar.name')}
+        status="online"
+        statusLabel={$t('agent.topbar.online')}
+        unreadCount={0}
+        userInitials={initials(data.session?.name ?? '')}
+        onNotifications={() => goto('/notifications')}
+        onProfile={() => goto('/profile')}
+      />
+    {/if}
+    <main class="app-main" class:app-main--with-nav={flags.marketplaceNav}>
       {@render children()}
     </main>
-    {#if !isChatRoute}
+    {#if flags.marketplace && !isChatRoute}
       <Footer links={footerLinks} copyright={$t('footer.copyright')} />
     {/if}
-    <BottomNav
-      {tabs}
-      {currentPath}
-      onNavigate={handleNavigate}
-    />
+    {#if flags.marketplaceNav}
+      <BottomNav
+        {tabs}
+        {currentPath}
+        onNavigate={handleNavigate}
+      />
+    {/if}
   </div>
 {/if}
 
@@ -99,7 +119,7 @@
 
   /* Mobile: add space for BottomNav */
   @media (max-width: 76.8rem) {
-    .app-main {
+    .app-main--with-nav {
       padding-bottom: 6.4rem;
     }
   }

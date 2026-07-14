@@ -1,6 +1,7 @@
 import type { Handle } from '@sveltejs/kit';
 import { redirect } from '@sveltejs/kit';
 import { dev } from '$app/environment';
+import { flags, MARKETPLACE_ROUTES, HOME_ROUTE } from '$lib/feature-flags';
 
 const ACCESS_COOKIE = 'babyclothes_token';
 const REFRESH_COOKIE = 'babyclothes_refresh';
@@ -85,6 +86,11 @@ export const handle: Handle = async ({ event, resolve }) => {
   const isRegisterRoute = event.url.pathname.startsWith('/register');
   if (needsRegistration && !isRegisterRoute && !isPublicRoute) {
     throw redirect(303, '/register');
+  }
+
+  const { pathname } = event.url;
+  if (!flags.marketplace && MARKETPLACE_ROUTES.some((r) => pathname.startsWith(r))) {
+    throw redirect(303, HOME_ROUTE);
   }
 
   return resolve(event);
