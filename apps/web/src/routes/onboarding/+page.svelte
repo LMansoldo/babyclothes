@@ -1,8 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
-  import { Button } from '@babyclothes/design-system'
-  import { OnboardingHero } from '@babyclothes/design-system'
+  import { Button, OnboardingHero } from '@babyclothes/design-system'
   import { ArrowRight } from 'lucide-svelte'
   import { t } from '$lib/i18n'
 
