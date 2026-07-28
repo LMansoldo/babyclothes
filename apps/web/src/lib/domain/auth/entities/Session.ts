@@ -7,4 +7,5 @@ export type Session = {
   cpf?: string;
   cnpj?: string;
   isSeller: boolean;
+  city?: string;
 };

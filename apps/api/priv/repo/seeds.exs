@@ -137,7 +137,19 @@ Enum.each(items_data, fn attrs ->
     |> Api.Items.Item.changeset(attrs)
     |> Repo.insert()
 
-  IO.puts("  ✓ #{item.title} — R$#{Float.round(item.price_cents / 100, 2)} → id=#{item.id}")
+  # Two photos per item so cards and the detail gallery have images.
+  Enum.each(0..1, fn pos ->
+    {:ok, _photo} =
+      %Api.Items.Photo{}
+      |> Api.Items.Photo.changeset(%{
+        item_id: item.id,
+        position: pos,
+        url: "https://picsum.photos/seed/item-#{item.id}-#{pos}/600/600"
+      })
+      |> Repo.insert()
+  end)
+
+  IO.puts("  ✓ #{item.title} — R$#{Float.round(item.price_cents / 100, 2)} → id=#{item.id} (+2 photos)")
 end)
 
 IO.puts("")

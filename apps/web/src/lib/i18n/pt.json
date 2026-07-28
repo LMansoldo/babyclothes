@@ -64,50 +64,72 @@
     "register_pf": {
       "back": "Voltar",
       "create_account": "Criar conta",
-      "lead": "Como você vai usar o BabyClothes?",
-      "title": "Escolha o seu perfil",
-      "title_accent": "Pessoa Física",
-      "google": "Continuar com Google",
-      "divider": "ou",
+      "lead": "Leva menos de um minuto",
+      "title": "Comece a conversar",
+      "title_accent": "com o agente",
+      "google": "Registrar com Google",
+      "divider": "ou com e-mail",
       "name_label": "Nome completo",
-      "name_placeholder": "Seu nome completo",
+      "name_placeholder": "Maria Clara Santos",
       "email_label": "E-mail",
-      "email_placeholder": "seu@email.com",
+      "email_placeholder": "voce@email.com",
       "password_label": "Senha",
       "password_placeholder": "Mínimo 8 caracteres",
       "city_label": "Cidade",
-      "city_placeholder": "Sua cidade",
-      "city_hint": "Para encontros locais e entregas",
+      "city_placeholder": "São Paulo, SP",
+      "city_hint": "Usada para encontrar itens perto de você",
       "cpf_label": "CPF",
       "cpf_placeholder": "000.000.000-00",
-      "submit": "Continuar",
-      "step_indicator": "Passo {{current}} de {{total}}",
+      "submit": "Criar conta",
+      "step_indicator": "Passo {{step}} de 2",
       "continue": "Continuar",
-      "step2_title": "Informações pessoais",
-      "step2_lead": "Precisamos de alguns dados para completar seu cadastro",
+      "step2_title": "Contato e endereço",
+      "step2_lead": "Para entregas e itens perto de você",
       "phone_label": "Telefone",
-      "phone_placeholder": "(00) 00000-0000",
+      "phone_placeholder": "(11) 98765-4321",
       "nationality_label": "Nacionalidade",
-      "nationality_placeholder": "Selecione sua nacionalidade",
+      "nationality_placeholder": "Brasileira",
       "cep_label": "CEP",
       "cep_placeholder": "00000-000",
       "address_label": "Endereço",
-      "address_placeholder": "Rua, número, complemento",
+      "address_placeholder": "Rua, número e complemento",
       "state_label": "Estado",
-      "state_placeholder": "Selecione o estado",
+      "state_placeholder": "UF",
       "error_email_taken": "Este e-mail já está cadastrado.",
-      "error_pj_disabled": "Cadastro de Pessoa Jurídica está temporariamente desabilitado.",
-      "error_generic": "Não foi possível concluir o cadastro. Tente novamente."
+      "error_cpf_taken": "Este CPF já está cadastrado.",
+      "error_pj_disabled": "Cadastro de empresas indisponível no momento.",
+      "error_generic": "Não foi possível criar a conta. Tente novamente."
     },
     "login_email": {
-      "divider": "ou",
+      "divider": "ou entre com e-mail",
       "email_label": "E-mail",
-      "email_placeholder": "seu@email.com",
+      "email_placeholder": "voce@email.com",
       "password_label": "Senha",
       "password_placeholder": "Sua senha",
       "submit": "Entrar",
       "error_invalid_credentials": "E-mail ou senha incorretos.",
-      "error_generic": "Não foi possível fazer login. Tente novamente."
+      "error_generic": "Não foi possível entrar. Tente novamente."
+    },
+    "login_agent": {
+      "title": "Roupas de bebê,",
+      "title_accent": "encontradas por IA",
+      "subtitle": "converse com o agente e receba achados ideais",
+      "google": "Continuar com Google",
+      "divider": "ou entre com e-mail",
+      "email_label": "E-mail",
+      "email_placeholder": "voce@email.com",
+      "password_label": "Senha",
+      "password_placeholder": "••••••••",
+      "forgot_password": "Esqueci minha senha",
+      "submit": "Entrar",
+      "no_account": "Não tem conta?",
+      "create_account": "Criar conta",
+      "terms_prefix": "Ao continuar você concorda com os",
+      "terms_of_use": "Termos de Uso",
+      "or": "e a",
+      "privacy_policy": "Política de Privacidade",
+      "error_invalid_credentials": "E-mail ou senha incorretos.",
+      "error_generic": "Não foi possível entrar. Tente novamente."
     }
   },
   "catalog": {
@@ -167,6 +189,7 @@
     "head": "Perímetro Cefálico",
     "document": "CPF (opcional)",
     "register": "Cadastrar Filho",
+    "register_error": "Não foi possível cadastrar. Confira os dados e tente novamente.",
     "no_children": "Nenhum filho cadastrado ainda",
     "add_first": "Adicione seu primeiro filho para acompanhar o crescimento",
     "detail_title": "Detalhes do Filho",
@@ -277,7 +300,16 @@
     "favorites": "Favoritos",
     "purchases": "Compras",
     "language_portuguese": "Português",
-    "language_english": "English"
+    "language_english": "English",
+    "account_title": "Minha conta",
+    "my_children": "Minhas crianças",
+    "chat_history": "Histórico de conversas",
+    "location": "Localização",
+    "notifications": "Notificações",
+    "help": "Ajuda",
+    "logout_account": "Sair da conta",
+    "badge_children": "{{count}} crianças",
+    "status_online": "Online"
   },
   "common": {
     "loading": "Carregando...",
@@ -322,6 +354,12 @@
     "address_required": "Endereço é obrigatório.",
     "state_required": "Estado é obrigatório."
   },
+  "errors": {
+    "network": "Problema de conexão. Verifique sua internet e tente novamente.",
+    "server": "Algo deu errado do nosso lado. Tente novamente.",
+    "generic": "Não foi possível completar a ação. Tente novamente.",
+    "timeout": "A requisição demorou demais. Tente novamente."
+  },
   "onboarding": {
     "skip": "Pular",
     "title": "Um agente que",
@@ -338,6 +376,10 @@
   },
   "agent": {
     "topbar": {
+      "name": "Assistente IA",
+      "online": "online",
+      "offline": "offline",
+      "typing": "digitando...",
       "title": "Agente de Crescimento",
       "subtitle": "Assistente IA",
       "status_online": "Online",
@@ -365,6 +407,11 @@
       "input_placeholder": "Pergunte sobre roupas, tamanhos...",
       "choice_placeholder": "Ou responda por aqui..."
     },
+    "system": {
+      "today": "Hoje",
+      "child_saved": "{{name}} · {{age}} meses · tamanho {{size}}",
+      "searching": "Buscando {{query}} em brechós perto de {{city}}..."
+    },
     "suggestions": {
       "bodies_m": "Bodies tamanho M",
       "winter": "Roupas de inverno",
@@ -379,7 +426,13 @@
       "weight": "Peso",
       "birth_height": "Altura ao nascer",
       "birth_weight": "Peso ao nascer",
-      "submit": "Salvar criança"
+      "submit": "Salvar criança",
+      "save_error": "Não foi possível salvar a criança. Tente novamente."
+    },
+    "results": {
+      "heading": "Opções para você",
+      "modal_title": "Detalhes do item",
+      "load_error": "Não foi possível carregar este item."
     }
   }
 }

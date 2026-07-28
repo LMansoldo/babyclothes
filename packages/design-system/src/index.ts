@@ -43,6 +43,7 @@ export { SelectionCard } from './composites/SelectionCard/index.js';
 export { SelectionCardGroup } from './composites/SelectionCardGroup/index.js';
 export type { SelectionOption } from './composites/SelectionCardGroup/index.js';
 export { SellerRow } from './composites/SellerRow/index.js';
+export { SettingsRow } from './composites/SettingsRow/index.js';
 
 // Patterns (domain-specific)
 export * from './patterns/index.js';

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import { goto } from '$app/navigation'
   import { Button, OnboardingHero } from '@babyclothes/design-system'
   import { ArrowRight } from 'lucide-svelte'
@@ -20,32 +19,20 @@
     } catch {}
     goto('/agent')
   }
-
-  onMount(() => {
-    try {
-      if (localStorage.getItem(STORAGE_KEY) === '1') {
-        goto('/agent', { replaceState: true })
-      }
-    } catch {}
-  })
 </script>
 
-<div class="onboarding">
-  <div class="onboarding__container">
-    <a
-      href="/agent"
-      class="onboarding__skip"
-      onclick={(event) => {
-        event.preventDefault()
-        finish()
-      }}
-    >
-      {$t('onboarding.skip')}
-    </a>
+<svelte:head>
+  <title>{$t('onboarding.title')} {$t('onboarding.title_accent')} | BabyClothes</title>
+</svelte:head>
 
+<div class="onboarding" data-theme="dark">
+  <div class="onboarding__glow" aria-hidden="true"></div>
+
+  <div class="onboarding__container">
     <OnboardingHero
-      title={$t('onboarding.title') + ' ' + $t('onboarding.title_rest')}
+      title={$t('onboarding.title')}
       titleAccent={$t('onboarding.title_accent')}
+      titleRest={$t('onboarding.title_rest')}
       description={$t('onboarding.description')}
       {features}
     />
@@ -61,40 +48,39 @@
 
 <style>
   .onboarding {
+    position: relative;
+    overflow: hidden;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(160deg, #0f0f0f 0%, #1a0814 60%, #0a0a1a 100%);
+    background: var(--surface-base);
     padding: 1.6rem;
   }
 
+  .onboarding__glow {
+    position: absolute;
+    top: -4.5rem;
+    left: -3rem;
+    width: 18rem;
+    height: 18rem;
+    background: radial-gradient(circle, rgba(176, 62, 255, 0.18) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
   .onboarding__container {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 40rem;
+    max-width: 24rem;
     width: 100%;
-    gap: 2rem;
-  }
-
-  .onboarding__skip {
-    align-self: flex-end;
-    font-family: var(--font-lato);
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.4);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .onboarding__skip:hover {
-    color: rgba(255, 255, 255, 0.7);
+    gap: 1.4rem;
   }
 
   .onboarding__footer {
     width: 100%;
-    max-width: 28rem;
+    max-width: 24rem;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;

@@ -6,7 +6,7 @@ import { flags, MARKETPLACE_ROUTES, HOME_ROUTE } from '$lib/feature-flags';
 
 const ACCESS_COOKIE = 'babyclothes_token';
 const REFRESH_COOKIE = 'babyclothes_refresh';
-const publicRoutes = ['/login', '/terms', '/privacy'];
+const publicRoutes = ['/login', '/register', '/terms', '/privacy'];
 
 const mockSession = {
   userId: 'mock-user-1',
@@ -17,6 +17,7 @@ const mockSession = {
   cpf: undefined,
   cnpj: undefined,
   isSeller: true,
+  city: 'São Paulo, SP',
 };
 
 type ApiUser = {
@@ -28,6 +29,7 @@ type ApiUser = {
   cpf?: string;
   cnpj?: string;
   is_seller: boolean;
+  city?: string;
 };
 
 function mapUser(user: ApiUser) {
@@ -40,6 +42,7 @@ function mapUser(user: ApiUser) {
     cpf: user.cpf,
     cnpj: user.cnpj,
     isSeller: user.is_seller,
+    city: user.city,
   };
 }
 

@@ -9,7 +9,7 @@
  * - unknown: Can't determine
  */
 
-import { ChatAnthropic } from '@langchain/anthropic';
+import { createModel } from '../llm.js';
 import type { ChatState } from '../types.js';
 
 const INTENT_PROMPT = `Classify the user message into one of these intents:
@@ -23,11 +23,7 @@ Respond with ONLY the intent name, nothing else.
 
 User message: {message}`;
 
-const model = new ChatAnthropic({
-  modelName: 'claude-haiku-4-5-20251001',
-  temperature: 0,
-  maxTokens: 20,
-});
+const model = createModel({ temperature: 0, maxOutputTokens: 500 });
 
 export async function interpretIntent(state: ChatState): Promise<Partial<ChatState>> {
   try {

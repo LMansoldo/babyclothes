@@ -1,6 +1,7 @@
 import type { ICatalogRepository } from '$lib/domain/catalog/repositories/ICatalogRepository';
 import type { Filter } from '$lib/domain/catalog/value-objects/Filter';
 import type { Item } from '$lib/domain/item/entities/Item';
+import { httpClient } from './httpClient';
 
 type CatalogItemDTO = {
   id: number | string;
@@ -21,8 +22,6 @@ type CatalogResponse = {
 };
 
 export class HttpCatalogRepository implements ICatalogRepository {
-  private readonly baseUrl = '/api';
-
   async fetch(filter: Filter): Promise<Item[]> {
     const params = new URLSearchParams();
     if (filter.size) params.set('size', filter.size);
@@ -30,13 +29,7 @@ export class HttpCatalogRepository implements ICatalogRepository {
     if (filter.gender) params.set('gender', filter.gender);
     if (filter.condition) params.set('condition', filter.condition);
 
-    const res = await fetch(`${this.baseUrl}/catalog?${params.toString()}`);
-
-    if (!res.ok) {
-      throw new Error(`Catalog fetch failed: ${res.status}`);
-    }
-
-    const body = (await res.json()) as CatalogResponse;
+    const body = await httpClient.get<CatalogResponse>(`/catalog?${params.toString()}`);
     return body.items.map(mapCatalogItem);
   }
 }

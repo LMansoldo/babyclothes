@@ -21,7 +21,13 @@ defmodule Api.UsersTest do
     "email" => "newuser@example.com",
     "name" => "New User",
     "password" => "securepassword123",
-    "cpf" => "52998224725"
+    "cpf" => "52998224725",
+    "phone" => "11999998888",
+    "nationality" => "Brasileira",
+    "cep" => "01310100",
+    "address_line" => "Av. Paulista, 1000",
+    "city" => "Sao Paulo",
+    "state" => "SP"
   }
 
   describe "get_user/1" do
@@ -73,22 +79,14 @@ defmodule Api.UsersTest do
       assert user.type == "pf"
       assert user.cpf == "52998224725"
       assert user.password_hash != nil
-    end
-
-    test "creates a user with profile fields" do
-      attrs =
-        Map.merge(@valid_signup_attrs, %{
-          "phone" => "11999998888",
-          "nationality" => "Brasileira",
-          "cep" => "01310100",
-          "address_line" => "Av. Paulista, 1000",
-          "city" => "Sao Paulo",
-          "state" => "SP"
-        })
-
-      assert {:ok, %User{} = user} = Users.signup(attrs)
       assert user.phone == "11999998888"
       assert user.state == "SP"
+    end
+
+    test "returns error changeset when profile fields are missing" do
+      attrs = Map.drop(@valid_signup_attrs, ~w(phone nationality cep address_line city state))
+      assert {:error, %Ecto.Changeset{} = changeset} = Users.signup(attrs)
+      assert %{phone: ["can't be blank"], state: ["can't be blank"]} = errors_on(changeset)
     end
 
     test "returns error changeset for invalid attributes" do

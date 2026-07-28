@@ -32,4 +32,16 @@ describe('ChatBubble', () => {
     const { container } = render(ChatBubble, { props: { role: 'user', content: 'Msg' } });
     expect(container.querySelector('.chat-bubble__time')).toBeNull();
   });
+
+  it('defaults to dark surface', () => {
+    const { container } = render(ChatBubble, { props: { role: 'agent', content: 'Msg' } });
+    expect(container.querySelector('.chat-bubble--dark')).not.toBeNull();
+    expect(container.querySelector('.chat-bubble--light')).toBeNull();
+  });
+
+  it('applies light surface class', () => {
+    const { container } = render(ChatBubble, { props: { role: 'agent', content: 'Msg', surface: 'light' } });
+    expect(container.querySelector('.chat-bubble--light')).not.toBeNull();
+    expect(container.querySelector('.chat-bubble--dark')).toBeNull();
+  });
 });

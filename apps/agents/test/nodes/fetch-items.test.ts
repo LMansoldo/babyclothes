@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('@langchain/anthropic', () => ({
-  ChatAnthropic: vi.fn().mockImplementation(() => ({
+vi.mock('@langchain/google-genai', () => ({
+  ChatGoogleGenerativeAI: vi.fn().mockImplementation(() => ({
     invoke: vi.fn().mockResolvedValue({
       content: JSON.stringify({
         category: 'body',

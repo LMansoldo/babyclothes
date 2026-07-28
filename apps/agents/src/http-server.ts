@@ -5,6 +5,7 @@
 
 import http from 'node:http';
 import { chatGraph } from './graphs/chat.js';
+import { buildChatEvents } from './chat-events.js';
 import type { ChildContext } from './types.js';
 
 function parseBody(req: http.IncomingMessage): Promise<Record<string, unknown>> {
@@ -64,22 +65,8 @@ function handleChat(req: http.IncomingMessage, res: http.ServerResponse) {
           child_context: childContext,
         });
 
-        // Send text response
-        if (state.response) {
-          const chunk = JSON.stringify({ type: 'text', content: state.response });
-          res.write(`data: ${chunk}\n\n`);
-        }
-
-        // Send component references
-        if (state.components) {
-          for (const component of state.components) {
-            const chunk = JSON.stringify({
-              type: 'component',
-              component: component.component,
-              props: component.props,
-            });
-            res.write(`data: ${chunk}\n\n`);
-          }
+        for (const event of buildChatEvents(state)) {
+          res.write(`data: ${JSON.stringify(event)}\n\n`);
         }
       } catch (error) {
         console.error('[HTTP Chat] Error:', error);

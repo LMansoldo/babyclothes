@@ -1,20 +1,8 @@
 import type { Child } from '../entities/Child';
 import type { GrowthRecord } from '../entities/GrowthRecord';
+import type { CreateChildInput, MeasurementInput } from '../schemas';
 
-export type CreateChildInput = {
-  name: string;
-  birthDate: string; // ISO 8601 date string (YYYY-MM-DD)
-  birthWeightG: number;
-  birthHeightCm: number;
-  document?: string;
-};
-
-export type MeasurementInput = {
-  weightG: number;
-  heightCm: number;
-  clothingSize: string;
-  recordedAt?: string; // ISO 8601, optional — default: now
-};
+export type { CreateChildInput, MeasurementInput };
 
 export interface IChildRepository {
   create(data: CreateChildInput): Promise<Child>;

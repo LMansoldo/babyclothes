@@ -5,6 +5,13 @@ const meta = {
   title: 'Patterns/OnboardingHero',
   component: OnboardingHero,
   tags: ['autodocs'],
+  parameters: { backgrounds: { default: 'dark' } },
+  decorators: [
+    () => ({
+      template:
+        '<div style="background:#140a12;padding:2rem;max-width:360px;"><story/></div>',
+    }),
+  ],
   render: (args: Record<string, unknown>) => ({
     Component: OnboardingHero,
     props: args,
@@ -16,14 +23,16 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    title: 'Welcome to',
-    titleAccent: 'BabyClothes',
-    description: 'Buy and sell baby clothes with AI-powered growth predictions. Find the perfect fit for your little one.',
+    title: 'Um agente que',
+    titleAccent: 'garimpa',
+    titleRest: 'o brechó por você',
+    description:
+      'A IA procura roupas e itens ideais combinando tamanho, idade, peso e a sua localização.',
     features: [
-      { icon: '0-3', label: 'Age prediction' },
-      { icon: 'AB', label: 'Smart sizing' },
-      { icon: 'CD', label: 'Quality check' },
-      { icon: 'EF', label: 'Fast delivery' },
+      { icon: 'size', label: 'Tamanho' },
+      { icon: 'age', label: 'Idade' },
+      { icon: 'weight', label: 'Peso' },
+      { icon: 'location', label: 'Localização' },
     ],
   },
 }
@@ -31,24 +40,27 @@ export const Default: Story = {
 export const WithoutAccent: Story = {
   args: {
     title: 'Getting started with BabyClothes',
-    description: 'Set up your profile and start browsing quality baby clothes from trusted sellers.',
+    description:
+      'Set up your profile and start browsing quality baby clothes from trusted sellers.',
     features: [
-      { icon: 'GH', label: 'Create profile' },
-      { icon: 'IJ', label: 'Add children' },
-      { icon: 'KL', label: 'Browse items' },
-      { icon: 'MN', label: 'Start selling' },
+      { icon: 'size', label: 'Size' },
+      { icon: 'age', label: 'Age' },
+      { icon: 'weight', label: 'Weight' },
+      { icon: 'location', label: 'Location' },
     ],
   },
 }
 
 export const FewerFeatures: Story = {
   args: {
-    title: 'Grow with',
-    titleAccent: 'confidence',
-    description: 'Our AI predicts your child growth to help you buy the right sizes at the right time.',
+    title: 'An agent that',
+    titleAccent: 'finds',
+    titleRest: 'deals for you',
+    description:
+      'Our AI predicts your child growth to help you buy the right sizes at the right time.',
     features: [
-      { icon: 'OP', label: 'AI predictions' },
-      { icon: 'QR', label: 'Size tracking' },
+      { icon: 'size', label: 'Size' },
+      { icon: 'age', label: 'Age' },
     ],
   },
 }

@@ -5,7 +5,13 @@ defmodule Api.Controllers.AuthControllerTest do
     "email" => "signup@example.com",
     "name" => "Signup User",
     "password" => "securepassword123",
-    "cpf" => "52998224725"
+    "cpf" => "52998224725",
+    "phone" => "11999998888",
+    "nationality" => "Brasileira",
+    "cep" => "01310100",
+    "address_line" => "Av. Paulista, 1000",
+    "city" => "Sao Paulo",
+    "state" => "SP"
   }
 
   describe "POST /auth/google" do
@@ -272,6 +278,23 @@ defmodule Api.Controllers.AuthControllerTest do
       assert Map.has_key?(body["details"], "name")
       assert Map.has_key?(body["details"], "password")
       assert Map.has_key?(body["details"], "cpf")
+    end
+
+    test "returns 422 when profile fields are missing" do
+      attrs = Map.drop(@valid_signup_attrs, ~w(phone nationality cep address_line city state))
+
+      conn =
+        conn(:post, "/auth/signup", attrs)
+        |> put_req_header("content-type", "application/json")
+        |> Api.Router.call([])
+
+      assert conn.status == 422
+      body = Jason.decode!(conn.resp_body)
+      assert body["error"] == "validation_failed"
+
+      for field <- ~w(phone nationality cep address_line city state) do
+        assert Map.has_key?(body["details"], field)
+      end
     end
 
     test "returns 422 for invalid CPF" do

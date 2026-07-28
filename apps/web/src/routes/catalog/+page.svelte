@@ -275,7 +275,7 @@
     padding: 1.2rem 1.4rem;
   }
 
-  @media (min-width: 76.8rem) {
+  @media (min-width: 64rem) {
     .catalog-page__grid {
       grid-template-columns: repeat(4, 1fr);
     }

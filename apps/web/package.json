@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
+    "dev:agent": "dotenv -e .env.agent -- vite dev",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
@@ -30,6 +31,7 @@
     "@typescript-eslint/parser": "^8.58.0",
     "@vitest/coverage-v8": "^4.1.8",
     "autoprefixer": "^10.4.0",
+    "dotenv-cli": "^7.4.0",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-svelte": "^2.46.0",

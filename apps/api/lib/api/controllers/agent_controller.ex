@@ -79,39 +79,42 @@ defmodule Api.Controllers.AgentController do
 
     request = Finch.build(:post, agents_endpoint, headers, body)
 
-    conn =
-      conn
-      |> put_resp_content_type("text/event-stream")
-      |> put_resp_header("cache-control", "no-cache")
-      |> put_resp_header("connection", "keep-alive")
-
-    case send_chunked(conn, 200) do
-      {:ok, conn} ->
-        stream_with_finch(conn, request)
-
-      {:error, reason} ->
-        # If we can't open the chunked response, send a JSON error
-        # (conn is already sent at this point, so this is a best-effort fallback)
-        _ = reason
-        conn
-    end
+    # send_chunked/2 returns the conn directly (raising on failure), not an
+    # {:ok, conn}/{:error, reason} tuple — do not wrap it in a case.
+    conn
+    |> put_resp_content_type("text/event-stream")
+    |> put_resp_header("cache-control", "no-cache")
+    |> put_resp_header("connection", "keep-alive")
+    |> send_chunked(200)
+    |> stream_with_finch(request)
   end
+
+  # The agents graph runs an LLM call and can take well over Finch's default
+  # 15s receive_timeout before emitting its (buffered) SSE response, which
+  # surfaced as intermittent "agents_unavailable" events. Give it ample room.
+  @agents_receive_timeout 120_000
 
   defp stream_with_finch(conn, request) do
     result =
-      Finch.stream(request, Api.Finch, conn, fn
-        {:status, _status}, conn ->
-          conn
+      Finch.stream(
+        request,
+        Api.Finch,
+        conn,
+        fn
+          {:status, _status}, conn ->
+            conn
 
-        {:headers, _headers}, conn ->
-          conn
+          {:headers, _headers}, conn ->
+            conn
 
-        {:data, chunk}, conn ->
-          case chunk(conn, chunk) do
-            {:ok, conn} -> conn
-            {:error, :closed} -> conn
-          end
-      end)
+          {:data, chunk}, conn ->
+            case chunk(conn, chunk) do
+              {:ok, conn} -> conn
+              {:error, :closed} -> conn
+            end
+        end,
+        receive_timeout: @agents_receive_timeout
+      )
 
     case result do
       {:ok, conn} ->

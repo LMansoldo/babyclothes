@@ -10,11 +10,10 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.30.0",
     "@grpc/grpc-js": "^1.11.0",
     "@grpc/proto-loader": "^0.7.0",
-    "@langchain/anthropic": "^0.3.0",
     "@langchain/core": "^0.3.0",
+    "@langchain/google-genai": "^0.1.0",
     "@langchain/langgraph": "^0.2.0",
     "zod": "^3.23.0"
   },

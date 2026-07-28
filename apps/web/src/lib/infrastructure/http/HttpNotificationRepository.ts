@@ -1,40 +1,18 @@
 import type { INotificationRepository } from '$lib/domain/notification/repositories/INotificationRepository';
 import type { Notification } from '$lib/domain/notification/entities/Notification';
 import { createNotification } from '$lib/domain/notification/entities/Notification';
+import { httpClient, httpRequest } from './httpClient';
 
 export class HttpNotificationRepository implements INotificationRepository {
-  private readonly baseUrl: string;
-
-  constructor() {
-    this.baseUrl = '/api';
-  }
-
-  private authHeaders(): Record<string, string> {
-    return { 'Content-Type': 'application/json' };
-  }
-
   async findAll(userId: string): Promise<Notification[]> {
-    const res = await fetch(`${this.baseUrl}/users/${userId}/notifications`, {
-      headers: this.authHeaders(),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Fetch notifications failed: ${res.status}`);
-    }
-
-    const { notifications } = (await res.json()) as { notifications: ApiNotificationDTO[] };
+    const { notifications } = await httpClient.get<{ notifications: ApiNotificationDTO[] }>(
+      `/users/${userId}/notifications`
+    );
     return notifications.map(mapNotification);
   }
 
   async markAsRead(id: string): Promise<void> {
-    const res = await fetch(`${this.baseUrl}/notifications/${id}/read`, {
-      method: 'PATCH',
-      headers: this.authHeaders(),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Mark notification read failed: ${res.status}`);
-    }
+    await httpRequest(`/notifications/${id}/read`, { method: 'PATCH' });
   }
 
   // subscribe() is implemented by SseNotificationRepository — this method

@@ -14,6 +14,7 @@
     suffixLabel,
     onsuffixclick,
     oninput,
+    onblur,
     disabled = false,
     inputmode,
     maxlength,
@@ -31,6 +32,7 @@
     suffixLabel?: string
     onsuffixclick?: () => void
     oninput?: (e: Event) => void
+    onblur?: (e: FocusEvent) => void
     disabled?: boolean
     inputmode?: 'text' | 'numeric' | 'decimal' | 'email' | 'tel'
     maxlength?: number
@@ -64,6 +66,7 @@
       bind:value
       {disabled}
       {oninput}
+      {onblur}
       {inputmode}
       {maxlength}
       class="input-el"

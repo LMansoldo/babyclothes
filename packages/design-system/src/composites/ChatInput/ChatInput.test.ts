@@ -19,9 +19,14 @@ describe('ChatInput', () => {
     expect(screen.getByLabelText('Enviar')).toBeInTheDocument();
   });
 
-  it('renders add button', () => {
-    render(ChatInput);
+  it('renders add button when onadd is provided', () => {
+    render(ChatInput, { props: { onadd: vi.fn() } });
     expect(screen.getByLabelText('Adicionar')).toBeInTheDocument();
+  });
+
+  it('does not render add button when onadd is omitted', () => {
+    render(ChatInput);
+    expect(screen.queryByLabelText('Adicionar')).not.toBeInTheDocument();
   });
 
   it('send button is disabled when textarea is empty', () => {

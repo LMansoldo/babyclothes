@@ -7,8 +7,8 @@
 import { describe, it, expect, vi, beforeAll, afterAll } from 'vitest';
 
 // Mock external dependencies before imports
-vi.mock('@langchain/anthropic', () => ({
-  ChatAnthropic: vi.fn().mockImplementation(() => ({
+vi.mock('@langchain/google-genai', () => ({
+  ChatGoogleGenerativeAI: vi.fn().mockImplementation(() => ({
     invoke: vi.fn().mockResolvedValue({
       content: JSON.stringify({
         category: 'body',
@@ -50,16 +50,10 @@ vi.mock('../src/api-client.js', () => ({
   },
 }));
 
-// Override format-response mock to return components
+// Override format-response mock to return text only (no components)
 vi.mock('../src/nodes/format-response.js', () => ({
   formatResponse: vi.fn().mockResolvedValue({
     response: 'Encontrei um body rosa para Sofia!',
-    components: [
-      {
-        type: 'carousel',
-        data: { items: [{ id: '1', title: 'Body Rosa', price_cents: 3500 }] },
-      },
-    ],
   }),
 }));
 
@@ -142,19 +136,13 @@ describe('Agents gRPC Server', () => {
       });
     });
 
-    // Should have text response + component (stream ends by EOF)
-    expect(chunks.length).toBeGreaterThanOrEqual(2);
+    // Should have text response (stream ends by EOF)
+    expect(chunks.length).toBeGreaterThanOrEqual(1);
 
     // Find text chunk
     const textChunk = chunks.find((c: any) => c.type === 'text');
     expect(textChunk).toBeDefined();
     expect(textChunk.content).toContain('body rosa');
-
-    // Find component chunk
-    const componentChunk = chunks.find((c: any) => c.type === 'component');
-    expect(componentChunk).toBeDefined();
-    const componentData = JSON.parse(componentChunk.content);
-    expect(componentData.type).toBe('carousel');
   });
 
   it('handles PredictGrowth RPC', async () => {

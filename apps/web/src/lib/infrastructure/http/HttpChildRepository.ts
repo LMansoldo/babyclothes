@@ -5,97 +5,54 @@ import type {
 } from '$lib/domain/child/repositories/IChildRepository';
 import type { Child } from '$lib/domain/child/entities/Child';
 import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord';
+import { httpClient } from './httpClient';
 
 export class HttpChildRepository implements IChildRepository {
-  private readonly baseUrl: string;
-
-  constructor() {
-    this.baseUrl = '/api';
-  }
-
-  private authHeaders(): Record<string, string> {
-    return { 'Content-Type': 'application/json' };
-  }
-
   async create(data: CreateChildInput): Promise<Child> {
-    const res = await fetch(`${this.baseUrl}/children`, {
-      method: 'POST',
-      headers: this.authHeaders(),
-      body: JSON.stringify({
-        name: data.name,
-        birth_date: data.birthDate,
-        birth_weight_g: data.birthWeightG,
-        birth_height_cm: data.birthHeightCm,
-        document: data.document,
-      }),
-    });
+    const body: Record<string, unknown> = {
+      name: data.name,
+      birth_weight_g: data.birthWeightG,
+      birth_height_cm: data.birthHeightCm,
+      document: data.document,
+    };
+    if (data.birthDate) body.birth_date = data.birthDate;
+    if (data.ageMonths !== undefined) body.age_months = data.ageMonths;
+    if (data.currentWeightG !== undefined) body.current_weight_g = data.currentWeightG;
+    if (data.currentHeightCm !== undefined) body.current_height_cm = data.currentHeightCm;
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error((err as { error?: string }).error ?? `Create child failed: ${res.status}`);
-    }
-
-    const { child } = (await res.json()) as { child: ApiChildDTO };
+    const { child } = await httpClient.post<{ child: ApiChildDTO }>('/children', body);
     return mapChild(child);
   }
 
   async findAll(userId: string): Promise<Child[]> {
-    const res = await fetch(`${this.baseUrl}/users/${userId}/children`, {
-      headers: this.authHeaders(),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Fetch children failed: ${res.status}`);
-    }
-
-    const { children } = (await res.json()) as { children: ApiChildDTO[] };
+    const { children } = await httpClient.get<{ children: ApiChildDTO[] }>(
+      `/users/${userId}/children`
+    );
     return children.map(mapChild);
   }
 
   async findById(id: string): Promise<Child> {
-    const res = await fetch(`${this.baseUrl}/children/${id}`, {
-      headers: this.authHeaders(),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Child ${id} not found: ${res.status}`);
-    }
-
-    const { child } = (await res.json()) as { child: ApiChildDTO };
+    const { child } = await httpClient.get<{ child: ApiChildDTO }>(`/children/${id}`);
     return mapChild(child);
   }
 
   async getMeasurements(childId: string): Promise<GrowthRecord[]> {
-    const res = await fetch(`${this.baseUrl}/children/${childId}/measurements`, {
-      headers: this.authHeaders(),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Fetch measurements for child ${childId} failed: ${res.status}`);
-    }
-
-    const { measurements } = (await res.json()) as { measurements: ApiMeasurementDTO[] };
+    const { measurements } = await httpClient.get<{ measurements: ApiMeasurementDTO[] }>(
+      `/children/${childId}/measurements`
+    );
     return measurements.map(mapMeasurement);
   }
 
   async addMeasurement(childId: string, data: MeasurementInput): Promise<GrowthRecord> {
-    const res = await fetch(`${this.baseUrl}/children/${childId}/measurements`, {
-      method: 'POST',
-      headers: this.authHeaders(),
-      body: JSON.stringify({
+    const { measurement } = await httpClient.post<{ measurement: ApiMeasurementDTO }>(
+      `/children/${childId}/measurements`,
+      {
         weight_g: data.weightG,
         height_cm: data.heightCm,
         clothing_size: data.clothingSize,
         recorded_at: data.recordedAt,
-      }),
-    });
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error((err as { error?: string }).error ?? `Add measurement failed: ${res.status}`);
-    }
-
-    const { measurement } = (await res.json()) as { measurement: ApiMeasurementDTO };
+      }
+    );
     return mapMeasurement(measurement);
   }
 }

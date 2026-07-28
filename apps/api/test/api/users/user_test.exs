@@ -98,32 +98,32 @@ defmodule Api.Users.UserTest do
       "email" => "newuser@example.com",
       "name" => "New User",
       "password" => "securepassword123",
-      "cpf" => "52998224725"
+      "cpf" => "52998224725",
+      "phone" => "11999998888",
+      "nationality" => "Brasileira",
+      "cep" => "01310100",
+      "address_line" => "Av. Paulista, 1000",
+      "city" => "Sao Paulo",
+      "state" => "SP"
     }
 
-    test "creates a valid changeset with required fields" do
+    test "creates a valid changeset with all fields" do
       changeset = User.signup_changeset(%User{}, @valid_signup_attrs)
       assert changeset.valid?
       assert changeset.changes.type == "pf"
       assert changeset.changes.password_hash != nil
       refute Map.has_key?(changeset.changes, :password)
-    end
-
-    test "creates a valid changeset with profile fields" do
-      attrs =
-        Map.merge(@valid_signup_attrs, %{
-          "phone" => "11999998888",
-          "nationality" => "Brasileira",
-          "cep" => "01310100",
-          "address_line" => "Av. Paulista, 1000",
-          "city" => "Sao Paulo",
-          "state" => "SP"
-        })
-
-      changeset = User.signup_changeset(%User{}, attrs)
-      assert changeset.valid?
       assert changeset.changes.phone == "11999998888"
       assert changeset.changes.state == "SP"
+    end
+
+    for field <- ~w(phone nationality cep address_line city state) do
+      test "requires #{field}" do
+        attrs = Map.delete(@valid_signup_attrs, unquote(field))
+        changeset = User.signup_changeset(%User{}, attrs)
+        refute changeset.valid?
+        assert %{unquote(String.to_atom(field)) => ["can't be blank"]} = errors_on(changeset)
+      end
     end
 
     test "requires email" do

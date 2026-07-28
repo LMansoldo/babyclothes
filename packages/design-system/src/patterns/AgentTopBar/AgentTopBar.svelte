@@ -28,9 +28,9 @@
 <nav class="agenttopbar" aria-label="Agent navigation">
   <div class="agenttopbar__left">
     <div class="agenttopbar__avatar">
-      <svg viewBox="0 0 20 24" width="16" height="20" fill="none">
+      <svg viewBox="0 0 20 24" width="12" height="15" fill="none">
         <path
-          d="M10 0C4.48 0 0 4.48 0 10c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0110 4.84c.85.004 1.71.12 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10.01 10.01 0 0020 10c0-5.52-4.48-10-10-10z"
+          d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z"
           fill="#FF3CAC"
         />
       </svg>
@@ -129,12 +129,16 @@
   }
 
   .agenttopbar__name {
-    font: 0.8rem 700 var(--font-lato, 'Lato', sans-serif);
+    font-family: var(--font-lato, 'Lato', sans-serif);
+    font-size: 0.8rem;
+    font-weight: 700;
     color: var(--bk, #111111);
   }
 
   .agenttopbar__status-indicator {
-    font: 0.62rem 700 var(--font-lato, 'Lato', sans-serif);
+    font-family: var(--font-lato, 'Lato', sans-serif);
+    font-size: 0.62rem;
+    font-weight: 700;
   }
 
   .agenttopbar__detail {
@@ -162,7 +166,9 @@
     right: -0.2rem;
     background: var(--color-pk, #FF3CAC);
     color: #fff;
-    font: 0.5rem 700 var(--font-lato, 'Lato', sans-serif);
+    font-family: var(--font-lato, 'Lato', sans-serif);
+    font-size: 0.5rem;
+    font-weight: 700;
     min-width: 1rem;
     height: 1rem;
     border-radius: 99rem;
@@ -180,7 +186,9 @@
     color: #fff;
     border: none;
     cursor: pointer;
-    font: 0.6rem 700 var(--font-lato, 'Lato', sans-serif);
+    font-family: var(--font-lato, 'Lato', sans-serif);
+    font-size: 0.6rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;

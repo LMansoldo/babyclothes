@@ -63,48 +63,70 @@
     "register_pf": {
       "back": "Back",
       "create_account": "Create account",
-      "lead": "How will you use BabyClothes?",
-      "title": "Choose your profile",
-      "title_accent": "Individual",
-      "google": "Continue with Google",
-      "divider": "or",
+      "lead": "Takes less than a minute",
+      "title": "Start chatting",
+      "title_accent": "with the agent",
+      "google": "Sign up with Google",
+      "divider": "or with email",
       "name_label": "Full name",
-      "name_placeholder": "Your full name",
+      "name_placeholder": "Maria Clara Santos",
       "email_label": "Email",
       "email_placeholder": "your@email.com",
       "password_label": "Password",
       "password_placeholder": "At least 8 characters",
       "city_label": "City",
-      "city_placeholder": "Your city",
-      "city_hint": "For local meetups and deliveries",
+      "city_placeholder": "São Paulo, SP",
+      "city_hint": "Used to find items near you",
       "cpf_label": "CPF",
       "cpf_placeholder": "000.000.000-00",
-      "submit": "Continue",
-      "step_indicator": "Step {{current}} of {{total}}",
+      "submit": "Create account",
+      "step_indicator": "Step {{step}} of 2",
       "continue": "Continue",
-      "step2_title": "Personal information",
-      "step2_lead": "We need some details to complete your registration",
+      "step2_title": "Contact and address",
+      "step2_lead": "For deliveries and items near you",
       "phone_label": "Phone",
-      "phone_placeholder": "(00) 00000-0000",
+      "phone_placeholder": "(11) 98765-4321",
       "nationality_label": "Nationality",
-      "nationality_placeholder": "Select your nationality",
+      "nationality_placeholder": "Brazilian",
       "cep_label": "ZIP code",
       "cep_placeholder": "00000-000",
       "address_label": "Address",
       "address_placeholder": "Street, number, complement",
       "state_label": "State",
-      "state_placeholder": "Select state",
+      "state_placeholder": "UF",
       "error_email_taken": "This email is already registered.",
-      "error_pj_disabled": "Business registration is temporarily disabled.",
-      "error_generic": "Could not complete the registration. Try again."
+      "error_cpf_taken": "This CPF is already registered.",
+      "error_pj_disabled": "Business registration is currently unavailable.",
+      "error_generic": "Could not create account. Try again."
     },
     "login_email": {
-      "divider": "or",
+      "divider": "or sign in with email",
       "email_label": "Email",
       "email_placeholder": "your@email.com",
       "password_label": "Password",
       "password_placeholder": "Your password",
       "submit": "Sign in",
+      "error_invalid_credentials": "Incorrect email or password.",
+      "error_generic": "Could not sign in. Try again."
+    },
+    "login_agent": {
+      "title": "Baby clothes,",
+      "title_accent": "found by AI",
+      "subtitle": "chat with the agent and get ideal finds",
+      "google": "Continue with Google",
+      "divider": "or sign in with email",
+      "email_label": "Email",
+      "email_placeholder": "your@email.com",
+      "password_label": "Password",
+      "password_placeholder": "••••••••",
+      "forgot_password": "Forgot password",
+      "submit": "Sign in",
+      "no_account": "Don't have an account?",
+      "create_account": "Create account",
+      "terms_prefix": "By continuing you agree to the",
+      "terms_of_use": "Terms of Use",
+      "or": "and",
+      "privacy_policy": "Privacy Policy",
       "error_invalid_credentials": "Incorrect email or password.",
       "error_generic": "Could not sign in. Try again."
     },
@@ -167,6 +189,7 @@
     "head": "Head Circumference",
     "document": "CPF (optional)",
     "register": "Register Child",
+    "register_error": "Could not register. Check the details and try again.",
     "no_children": "No children registered yet",
     "add_first": "Add your first child to track growth",
     "detail_title": "Child Details",
@@ -277,7 +300,16 @@
     "favorites": "Favorites",
     "purchases": "Purchases",
     "language_portuguese": "Português",
-    "language_english": "English"
+    "language_english": "English",
+    "account_title": "My account",
+    "my_children": "My children",
+    "chat_history": "Chat history",
+    "location": "Location",
+    "notifications": "Notifications",
+    "help": "Help",
+    "logout_account": "Sign out",
+    "badge_children": "{{count}} children",
+    "status_online": "Online"
   },
   "common": {
     "loading": "Loading...",
@@ -322,6 +354,12 @@
     "address_required": "Address is required.",
     "state_required": "State is required."
   },
+  "errors": {
+    "network": "Connection problem. Check your internet and try again.",
+    "server": "Something went wrong on our side. Please try again.",
+    "generic": "Could not complete the action. Please try again.",
+    "timeout": "The request took too long. Please try again."
+  },
   "onboarding": {
     "skip": "Skip",
     "title": "An agent that",
@@ -338,6 +376,10 @@
   },
   "agent": {
     "topbar": {
+      "name": "AI Assistant",
+      "online": "online",
+      "offline": "offline",
+      "typing": "typing...",
       "title": "Growth Agent",
       "subtitle": "AI Assistant",
       "status_online": "Online",
@@ -365,6 +407,11 @@
       "input_placeholder": "Ask about clothes, sizes...",
       "choice_placeholder": "Or answer here..."
     },
+    "system": {
+      "today": "Today",
+      "child_saved": "{{name}} · {{age}} months · size {{size}}",
+      "searching": "Searching {{query}} in thrift stores near {{city}}..."
+    },
     "suggestions": {
       "bodies_m": "Bodysuits size M",
       "winter": "Winter clothes",
@@ -379,7 +426,13 @@
       "weight": "Weight",
       "birth_height": "Birth height",
       "birth_weight": "Birth weight",
-      "submit": "Save child"
+      "submit": "Save child",
+      "save_error": "Could not save the child. Please try again."
+    },
+    "results": {
+      "heading": "Options for you",
+      "modal_title": "Item details",
+      "load_error": "Could not load this item."
     }
   }
 }

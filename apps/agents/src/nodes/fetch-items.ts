@@ -7,7 +7,7 @@
  * - Child's gender
  */
 
-import { ChatAnthropic } from '@langchain/anthropic';
+import { createModel } from '../llm.js';
 import { apiClient } from '../api-client.js';
 import type { ChatState } from '../types.js';
 
@@ -23,11 +23,14 @@ User message: {message}
 Respond with JSON only:
 {{"category": "string|null", "size": "string|null", "gender": "string|null", "keywords": ["string"]}}`;
 
-const model = new ChatAnthropic({
-  modelName: 'claude-haiku-4-5-20251001',
-  temperature: 0,
-  maxTokens: 100,
-});
+const model = createModel({ temperature: 0, maxOutputTokens: 1500 });
+
+function extractJson(text: string): string {
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+  if (fenced) return fenced[1].trim();
+  const start = text.indexOf('{');
+  return start === -1 ? text.trim() : text.slice(start).trim();
+}
 
 export async function fetchItems(state: ChatState): Promise<Partial<ChatState>> {
   try {
@@ -38,7 +41,7 @@ export async function fetchItems(state: ChatState): Promise<Partial<ChatState>> 
         .replace('{message}', state.message)
     );
 
-    const params = JSON.parse(response.content.toString());
+    const params = JSON.parse(extractJson(response.content.toString()));
 
     // Use child's current size if no size specified
     const currentSize =

@@ -7,6 +7,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     role: { control: 'select', options: ['user', 'agent', 'system'] },
+    surface: { control: 'select', options: ['light', 'dark'] },
   },
   render: (args: Record<string, unknown>) => ({
     Component: ChatBubble,
@@ -17,40 +18,50 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Agent: Story = {
+export const AgentDark: Story = {
   args: {
     role: 'agent',
-    content: 'Olá! Encontrei vários bodies no tamanho 6M que podem interessar. Temos opções a partir de R$ 29,90.',
+    content: 'Olá! Encontrei vários bodies no tamanho 6M que podem interessar.',
     timestamp: '14:32',
+    surface: 'dark',
   },
 }
 
-export const User: Story = {
+export const AgentLight: Story = {
+  args: {
+    role: 'agent',
+    content: 'Olá! Encontrei vários bodies no tamanho 6M que podem interessar.',
+    timestamp: '14:32',
+    surface: 'light',
+  },
+  parameters: { backgrounds: { default: 'light' } },
+}
+
+export const UserLight: Story = {
   args: {
     role: 'user',
     content: 'Quero ver opções de vestido para bebê, tamanho 12M.',
     timestamp: '14:33',
+    surface: 'light',
   },
+  parameters: { backgrounds: { default: 'light' } },
 }
 
-export const System: Story = {
+export const SystemLight: Story = {
   args: {
     role: 'system',
-    content: 'Maria agora está online e pode responder suas perguntas.',
+    content: 'Hoje · 14:30',
+    surface: 'light',
   },
+  parameters: { backgrounds: { default: 'light' } },
 }
 
 export const LongMessage: Story = {
   args: {
     role: 'agent',
-    content: 'Claro! Encontrei 12 vestidos no tamanho 12M disponíveis na sua região. Os preços variam de R$ 39,90 a R$ 89,90. Posso filtrar por cor ou material se preferir. Temos opções em algodão orgânico, malha e soft. Qual seria sua preferência?',
+    content: 'Claro! Encontrei 12 vestidos no tamanho 12M disponíveis na sua região. Os preços variam de R$ 39,90 a R$ 89,90.',
     timestamp: '14:35',
+    surface: 'light',
   },
-}
-
-export const WithoutTimestamp: Story = {
-  args: {
-    role: 'user',
-    content: 'Qual o menor preço para body listrado?',
-  },
+  parameters: { backgrounds: { default: 'light' } },
 }

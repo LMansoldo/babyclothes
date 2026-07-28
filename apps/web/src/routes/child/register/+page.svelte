@@ -1,17 +1,37 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import { t } from '$lib/i18n'
+  import { t, get } from '$lib/i18n'
   import { ArrowLeft } from 'lucide-svelte'
+  import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
+  import { RegisterChild } from '$lib/application/child/RegisterChild'
+  import { mapChildRegisterFormToCreateChildInput } from '$lib/application/child/mapChildRegisterFormToCreateChildInput'
+  import { toast } from '$lib/stores/toast'
+
+  const registerChild = new RegisterChild(new HttpChildRepository())
 
   let name = $state('')
   let document = $state('')
   let birthDate = $state('')
   let weight = $state('')
   let height = $state('')
+  let submitting = $state(false)
+  let error = $state('')
 
-  function handleSubmit() {
-    console.log('Register child:', { name, document, birthDate, weight, height })
-    goto('/child')
+  async function handleSubmit() {
+    if (submitting) return
+    error = ''
+    submitting = true
+    try {
+      const input = mapChildRegisterFormToCreateChildInput({ name, document, birthDate, weight, height })
+      await registerChild.execute(input)
+      goto('/child')
+    } catch (e) {
+      console.error('Failed to register child:', e)
+      error = get(t)('child.register_error')
+      toast.error(get(t)('child.register_error'))
+    } finally {
+      submitting = false
+    }
   }
 
   function handleBack() {
@@ -81,6 +101,7 @@
         <input
           id="height"
           type="number"
+          step="0.1"
           class="register-page__input"
           bind:value={height}
           placeholder="49"
@@ -88,8 +109,12 @@
       </div>
     </div>
 
-    <button type="submit" class="register-page__submit">
-      {$t('child.register')}
+    {#if error}
+      <p class="register-page__error" role="alert">{error}</p>
+    {/if}
+
+    <button type="submit" class="register-page__submit" disabled={submitting}>
+      {submitting ? $t('common.loading') : $t('child.register')}
     </button>
   </form>
 </div>
@@ -181,6 +206,14 @@
     background: var(--wh);
   }
 
+  .register-page__error {
+    font-family: var(--ld);
+    font-size: 0.78rem;
+    color: var(--color-error);
+    margin: 0.5rem 0 0;
+    text-align: center;
+  }
+
   .register-page__submit {
     background: var(--pk);
     color: var(--wh);
@@ -193,6 +226,11 @@
     cursor: pointer;
     transition: opacity 0.15s;
     margin-top: 0.5rem;
+  }
+
+  .register-page__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .register-page__submit:hover {

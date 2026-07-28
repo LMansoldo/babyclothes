@@ -69,7 +69,7 @@ defmodule Api.Users.User do
   def signup_changeset(user, attrs) do
     user
     |> cast(attrs, [:email, :name, :password, :cpf] ++ @profile_fields)
-    |> validate_required([:email, :name, :password, :cpf])
+    |> validate_required([:email, :name, :password, :cpf] ++ @profile_fields)
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:password, min: 8, max: 72)
     |> put_change(:type, "pf")

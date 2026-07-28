@@ -7,8 +7,8 @@ const { mockInvoke } = vi.hoisted(() => {
   return { mockInvoke };
 });
 
-vi.mock('@langchain/anthropic', () => ({
-  ChatAnthropic: vi.fn().mockImplementation(() => ({
+vi.mock('@langchain/google-genai', () => ({
+  ChatGoogleGenerativeAI: vi.fn().mockImplementation(() => ({
     invoke: mockInvoke,
   })),
 }));

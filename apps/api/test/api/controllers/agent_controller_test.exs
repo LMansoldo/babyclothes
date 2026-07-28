@@ -56,6 +56,21 @@ defmodule Api.Controllers.AgentControllerTest do
       body = Jason.decode!(conn.resp_body)
       assert body["error"] == "missing_authorization"
     end
+
+    test "opens a chunked SSE response when message and auth are valid" do
+      # Regression: send_chunked/2 returns a bare %Plug.Conn{}, not an
+      # {:ok, conn}/{:error, reason} tuple. Pattern-matching it as a tuple
+      # raised CaseClauseError *after* the 200 headers were flushed, aborting
+      # the stream and surfacing as ERR_EMPTY_RESPONSE in the browser.
+      conn =
+        conn(:post, "/agent/chat", %{"message" => "oi", "child_id" => "c1"})
+        |> put_req_header("content-type", "application/json")
+        |> put_auth_header("valid-token")
+        |> Api.Router.call([])
+
+      assert conn.status == 200
+      assert conn.state == :chunked
+    end
   end
 
   describe "agents_payload/1" do

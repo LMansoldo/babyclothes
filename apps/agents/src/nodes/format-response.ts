@@ -1,59 +1,22 @@
 /**
- * formatResponse — Generates the final chat response with component references.
+ * formatResponse — Generates the natural-language chat reply.
  *
- * Uses Anthropic Claude with the Component Manifest to:
- * 1. Generate natural language response
- * 2. Include appropriate component references (Carousel, ItemList)
- * 3. Format in the user's language
+ * Text only. Item cards are attached deterministically downstream from
+ * state.items (see chat-events.ts), NOT parsed out of the LLM output.
  */
+import { createModel } from '../llm.js';
+import type { ChatState } from '../types.js';
 
-import { ChatAnthropic } from '@langchain/anthropic';
-import { COMPONENT_MANIFEST } from '../manifest.js';
-import type { ChatState, ComponentReference } from '../types.js';
-
-const RESPONSE_PROMPT = `${COMPONENT_MANIFEST}
-
-## Current Context
+const RESPONSE_PROMPT = `You are BabyClothes AI, a friendly assistant for a baby clothes marketplace.
 
 Child: {child_name} (size: {current_size})
 User message: {message}
-Available items: {items}
+Number of matching items found: {item_count}
 
-Generate a helpful response. If showing items, include a Carousel or ItemList component reference as JSON.
-Respond in the same language as the user's message.`;
-
-const model = new ChatAnthropic({
-  modelName: 'claude-sonnet-5',
-  temperature: 0.7,
-  maxTokens: 500,
-});
-
-function extractComponents(response: string): ComponentReference[] {
-  const components: ComponentReference[] = [];
-  const jsonRegex = /```json\s*({[\s\S]*?})\s*```/g;
-  let match;
-
-  while ((match = jsonRegex.exec(response)) !== null) {
-    try {
-      const parsed = JSON.parse(match[1]);
-      if (parsed.type && parsed.data) {
-        components.push(parsed as ComponentReference);
-      }
-    } catch {
-      // Skip invalid JSON
-    }
-  }
-
-  return components;
-}
-
-function cleanResponse(response: string): string {
-  // Remove JSON code blocks from the response text
-  return response
-    .replace(/```json\s*{[\s\S]*?}\s*```/g, '')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
+Write a short, warm reply in the SAME language as the user's message.
+If items were found, tell the user you selected some options below for them.
+If no items were found, say you could not find matches right now and suggest adjusting the search.
+Do NOT list the items in text and do NOT output JSON or code blocks.`;
 
 export async function formatResponse(state: ChatState): Promise<Partial<ChatState>> {
   try {
@@ -63,27 +26,17 @@ export async function formatResponse(state: ChatState): Promise<Partial<ChatStat
             .clothing_size
         : 'unknown';
 
+    const model = createModel({ temperature: 0.7, maxOutputTokens: 500 });
     const response = await model.invoke(
-      RESPONSE_PROMPT
-        .replace('{child_name}', state.child_context.name)
+      RESPONSE_PROMPT.replace('{child_name}', state.child_context.name || '')
         .replace('{current_size}', currentSize)
         .replace('{message}', state.message)
-        .replace('{items}', JSON.stringify(state.items || []))
+        .replace('{item_count}', String(state.items?.length ?? 0)),
     );
 
-    const rawResponse = response.content.toString();
-    const components = extractComponents(rawResponse);
-    const cleanText = cleanResponse(rawResponse);
-
-    return {
-      response: cleanText,
-      components,
-    };
+    return { response: response.content.toString().trim() };
   } catch (error) {
     console.error('formatResponse error:', error);
-    return {
-      response: 'Desculpe, tive um problema. Pode tentar novamente?',
-      components: [],
-    };
+    return { response: 'Desculpe, tive um problema. Pode tentar novamente?' };
   }
 }

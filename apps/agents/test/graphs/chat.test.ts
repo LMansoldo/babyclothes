@@ -20,7 +20,6 @@ vi.mock('../../src/nodes/rank-items.js', () => ({
 vi.mock('../../src/nodes/format-response.js', () => ({
   formatResponse: vi.fn().mockResolvedValue({
     response: 'Encontrei um body rosa!',
-    components: [{ type: 'carousel', data: { items: [] } }],
   }),
 }));
 
@@ -42,6 +41,5 @@ describe('chatGraph', () => {
     expect(result.intent).toBe('search_items');
     expect(result.items).toHaveLength(1);
     expect(result.response).toContain('body rosa');
-    expect(result.components).toHaveLength(1);
   });
 });

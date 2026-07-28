@@ -22,6 +22,8 @@ describe('handle', () => {
     vi.resetModules();
     vi.stubEnv('PUBLIC_MOCK_DATA', 'false');
     vi.stubEnv('PUBLIC_API_URL', 'http://localhost:4000');
+    // Fixa o modo full para os testes serem herméticos — o modo agent é coberto via vi.doMock de $lib/feature-flags
+    vi.stubEnv('PUBLIC_APP_MODE', 'full');
   });
 
   it('populates session when access token is valid', async () => {
@@ -71,6 +73,16 @@ describe('handle', () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(unregisteredPayload), { status: 200 })));
     const { handle } = await import('./hooks.server');
     const event = makeEvent({ babyclothes_token: 'good' }, '/register');
+    const resolve = vi.fn().mockResolvedValue(new Response('ok'));
+
+    await handle({ event, resolve } as never);
+    expect(resolve).toHaveBeenCalled();
+  });
+
+  it('lets an anonymous visitor access /register', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('{}', { status: 401 })));
+    const { handle } = await import('./hooks.server');
+    const event = makeEvent({}, '/register');
     const resolve = vi.fn().mockResolvedValue(new Response('ok'));
 
     await handle({ event, resolve } as never);

@@ -32,10 +32,11 @@
 <style>
   .agentformcard {
     background: #fff;
-    border: 0.075rem solid #FFD0ED;
-    border-radius: 1.4rem;
-    padding: 1.4rem;
+    border: 0.1rem solid #FFD0ED;
+    border-radius: 0.875rem;
+    padding: 0.875rem;
     width: 100%;
+    box-shadow: 0 2px 12px rgba(255, 60, 172, 0.1);
   }
 
   .agentformcard__header {
@@ -65,7 +66,7 @@
 
   .agentformcard__title {
     font-family: var(--font-lato);
-    font-size: 0.95rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--bk);
     margin: 0;

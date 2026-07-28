@@ -95,14 +95,15 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.45rem 0.9rem;
-    border: 0.1rem solid #EDE9E4;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    border: 0.09rem solid #EDE9E4;
     border-radius: 99rem;
-    background: transparent;
+    background: #fff;
     color: #374151;
     font-family: var(--font-lato);
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.78rem;
+    font-weight: 700;
     cursor: pointer;
     transition: background var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
     white-space: nowrap;
@@ -126,6 +127,7 @@
   .choicechipgroup__chip--primary {
     border-color: var(--color-pink);
     color: var(--color-pink);
+    box-shadow: 0 2px 8px rgba(255, 60, 172, 0.12);
   }
 
   .choicechipgroup__chip--primary:hover:not(:disabled) {
@@ -141,6 +143,7 @@
     background: var(--color-pink);
     border-color: var(--color-pink);
     color: #fff;
+    box-shadow: 0 2px 8px rgba(255, 60, 172, 0.25);
   }
 
   .choicechipgroup__chip--selected:hover:not(:disabled) {

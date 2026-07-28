@@ -65,17 +65,19 @@
   {/if}
 
   <div class="chat-input__row">
-    <button
-      class="chat-input__add-btn"
-      type="button"
-      onclick={onadd}
-      aria-label="Adicionar"
-    >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-    </button>
+    {#if onadd}
+      <button
+        class="chat-input__add-btn"
+        type="button"
+        onclick={onadd}
+        aria-label="Adicionar"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    {/if}
 
     <textarea
       bind:this={textareaEl}
@@ -114,9 +116,10 @@
     flex-direction: column;
     gap: 0.8rem;
     background: var(--color-white);
-    border: 0.15rem solid #EDE9E4;
-    border-radius: 1rem;
-    padding: 1rem 1.2rem;
+    border: none;
+    border-top: 0.06rem solid #F3F4F6;
+    border-radius: 0;
+    padding: 0.65rem 0.75rem 1rem;
   }
 
   /* ── Quick action chips ───────────────────────── */
@@ -164,13 +167,13 @@
 
   .chat-input__textarea {
     flex: 1;
-    border: 0.075rem solid #D1D5DB;
-    border-radius: 1.25rem;
+    border: none;
+    border-radius: 99rem;
     outline: none;
-    background: transparent;
+    background: #F3F4F6;
     padding: 0.65rem 1rem;
     font-family: var(--font-lato);
-    font-size: 0.875rem;
+    font-size: 0.78rem;
     color: var(--bk);
     resize: none;
     min-height: 2.75rem;
@@ -179,7 +182,7 @@
   }
 
   .chat-input__textarea::placeholder {
-    color: var(--gr);
+    color: #9CA3AF;
   }
 
   /* ── Add button ───────────────────────────────── */
@@ -206,12 +209,12 @@
 
   /* ── Send button ──────────────────────────────── */
   .chat-input__send {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.25rem;
+    height: 2.25rem;
     border-radius: 50%;
     border: none;
-    background: var(--pk);
-    color: var(--wh);
+    background: #111;
+    color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,7 +226,7 @@
 
   .chat-input__send:hover:not(:disabled) {
     transform: scale(1.05);
-    box-shadow: 0 0.2rem 0.6rem rgba(255, 60, 172, 0.25);
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.2);
   }
 
   .chat-input__send:disabled {

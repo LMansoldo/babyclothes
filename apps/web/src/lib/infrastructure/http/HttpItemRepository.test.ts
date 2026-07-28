@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { HttpItemRepository } from './HttpItemRepository';
+import { HttpError } from './httpClient';
 
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status });
@@ -54,7 +55,7 @@ describe('HttpItemRepository', () => {
     const file = new File(['fake'], 'foto.jpg', { type: 'image/jpeg' });
     const item = await repo.create({ ...validInput, photos: [file] });
 
-    // 1a chamada: POST /api/items com JSON (nunca multipart)
+    // 1st call: POST /api/items with JSON
     const [createUrl, createInit] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(createUrl).toBe('/api/items');
     expect((createInit.headers as Record<string, string>)['Content-Type']).toBe(
@@ -66,10 +67,10 @@ describe('HttpItemRepository', () => {
       price_cents: 4500,
     });
 
-    // 2a chamada: registra a foto e recebe a presigned URL
+    // 2nd call: register photo and get presigned URL
     expect(fetchMock.mock.calls[1][0]).toBe('/api/items/42/photos');
 
-    // 3a chamada: PUT direto na presigned URL (fora do proxy /api)
+    // 3rd call: PUT directly to presigned URL (outside /api proxy)
     const [putUrl, putInit] = fetchMock.mock.calls[2] as [string, RequestInit];
     expect(putUrl).toBe('https://bucket.example.com/put');
     expect(putInit.method).toBe('PUT');

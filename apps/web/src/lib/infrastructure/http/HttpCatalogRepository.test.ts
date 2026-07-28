@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { HttpCatalogRepository } from './HttpCatalogRepository';
+import { HttpError } from './httpClient';
 
 const apiResponse = {
   items: [
@@ -33,7 +34,7 @@ describe('HttpCatalogRepository', () => {
     const repo = new HttpCatalogRepository();
     const items = await repo.fetch({ size: 'P', gender: 'female' });
 
-    expect(fetchMock).toHaveBeenCalledWith('/api/catalog?size=P&gender=female');
+    expect(fetchMock).toHaveBeenCalledWith('/api/catalog?size=P&gender=female', expect.anything());
     expect(items).toHaveLength(1);
     expect(items[0]).toEqual({
       id: '7',
@@ -67,12 +68,12 @@ describe('HttpCatalogRepository', () => {
     expect(items[0].sellerId).toBe('');
   });
 
-  it('throws on non-2xx response', async () => {
+  it('throws HttpError on non-2xx response', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn().mockResolvedValue(new Response('{}', { status: 500 })),
     );
     const repo = new HttpCatalogRepository();
-    await expect(repo.fetch({})).rejects.toThrow('Catalog fetch failed: 500');
+    await expect(repo.fetch({})).rejects.toThrow(HttpError);
   });
 });

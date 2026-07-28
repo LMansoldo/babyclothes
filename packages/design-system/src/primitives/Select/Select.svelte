@@ -15,6 +15,7 @@
     disabled = false,
     name,
     onchange,
+    onblur,
   }: {
     id: string;
     options: SelectOption[];
@@ -26,6 +27,7 @@
     disabled?: boolean;
     name?: string;
     onchange?: (value: string) => void;
+    onblur?: (e: FocusEvent) => void;
   } = $props();
 
   const selectState = $derived(error ? 'error' : 'default');
@@ -49,6 +51,7 @@
       {disabled}
       bind:value
       onchange={handleChange}
+      {onblur}
       class="select__el"
       class:select__el--placeholder={!value}
     >

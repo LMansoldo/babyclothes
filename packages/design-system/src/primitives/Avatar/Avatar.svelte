@@ -1,5 +1,5 @@
 <script lang="ts">
-  type Size = 'sm' | 'md' | 'lg' | 'xl'
+  type Size = 'sm' | 'md' | 'lg' | 'xl' | 'xxl'
   type Fill = 'pk' | 'bk' | 'of'
 
   let {
@@ -60,6 +60,7 @@
   .avatar--md { width: 2.5rem;   height: 2.5rem; }
   .avatar--lg { width: 3rem; height: 3rem; }
   .avatar--xl { width: 4rem; height: 4rem; }
+  .avatar--xxl { width: 7.2rem; height: 7.2rem; }
 
   .avatar__img {
     width: 100%;
@@ -86,6 +87,7 @@
   .avatar--md .avatar__initials { font-size: .82rem; }
   .avatar--lg .avatar__initials { font-size: 1.1rem; }
   .avatar--xl .avatar__initials { font-size: 1.4rem; }
+  .avatar--xxl .avatar__initials { font-size: 1.5rem; }
 
   .avatar--pk .avatar__initials {
     background: linear-gradient(135deg, var(--color-pink) 0%, #B03EFF 100%);

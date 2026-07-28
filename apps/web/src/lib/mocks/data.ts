@@ -14,6 +14,7 @@ export const mockSession: Session = {
   avatarUrl: '',
   type: 'pf',
   isSeller: false,
+  city: 'São Paulo',
 };
 
 // ── Children ──

@@ -215,8 +215,8 @@
     display: flex;
     align-items: center;
     background: var(--color-white);
-    border: 0.075rem solid #D1D5DB;
-    border-radius: 0.5rem;
+    border: 0.1rem solid #D1D5DB;
+    border-radius: 0.625rem;
     overflow: hidden;
     transition: border-color var(--transition-base), box-shadow var(--transition-base);
   }

@@ -2,15 +2,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import type { ChatState } from '../../src/types.js';
 
 const { mockInvoke } = vi.hoisted(() => {
-  const mockInvoke = vi.fn().mockResolvedValue({
-    content:
-      'Encontrei alguns bodies para a Sofia!\n\n```json\n{"type":"carousel","data":{"items":[{"id":"1","title":"Body Rosa"}]}}\n```\n\nGostou de algum?',
-  });
+  const mockInvoke = vi
+    .fn()
+    .mockResolvedValue({ content: 'Encontrei alguns bodies para a Sofia! Gostou de algum?' });
   return { mockInvoke };
 });
 
-vi.mock('@langchain/anthropic', () => ({
-  ChatAnthropic: vi.fn().mockImplementation(() => ({
+vi.mock('@langchain/google-genai', () => ({
+  ChatGoogleGenerativeAI: vi.fn().mockImplementation(() => ({
     invoke: mockInvoke,
   })),
 }));
@@ -25,19 +24,14 @@ const baseState: ChatState = {
     birth_date: '2023-01-15',
     gender: 'female',
     measurements: [
-      {
-        recorded_at: '2024-01-15',
-        weight_g: 5000,
-        height_cm: 60,
-        clothing_size: 'P',
-      },
+      { recorded_at: '2024-01-15', weight_g: 5000, height_cm: 60, clothing_size: 'P' },
     ],
   },
   items: [
     {
       id: '1',
       title: 'Body Rosa',
-      category: 'body',
+      category: 'bodysuit',
       clothing_size: 'P',
       condition: 'like_new',
       price_cents: 3500,
@@ -49,43 +43,23 @@ describe('formatResponse', () => {
   beforeEach(() => {
     mockInvoke.mockReset();
     mockInvoke.mockResolvedValue({
-      content:
-        'Encontrei alguns bodies para a Sofia!\n\n```json\n{"type":"carousel","data":{"items":[{"id":"1","title":"Body Rosa"}]}}\n```\n\nGostou de algum?',
+      content: 'Encontrei alguns bodies para a Sofia! Gostou de algum?',
     });
   });
 
-  it('generates response with component references', async () => {
+  it('returns the LLM text as response', async () => {
     const result = await formatResponse(baseState);
-
     expect(result.response).toContain('Sofia');
-    expect(result.components).toHaveLength(1);
-    expect(result.components![0].type).toBe('carousel');
   });
 
-  it('cleans JSON blocks from response text', async () => {
+  it('does not return components', async () => {
     const result = await formatResponse(baseState);
-
-    // Response text should not contain the raw JSON block
-    expect(result.response).not.toContain('```json');
-    expect(result.response).not.toContain('"type":"carousel"');
+    expect(result.components).toBeUndefined();
   });
 
-  it('handles errors gracefully', async () => {
+  it('returns a friendly fallback on error', async () => {
     mockInvoke.mockRejectedValueOnce(new Error('API error'));
-
-    const state: ChatState = {
-      message: 'test',
-      child_context: {
-        child_id: '1',
-        name: 'Sofia',
-        birth_date: '2023-01-15',
-        gender: 'female',
-        measurements: [],
-      },
-    };
-
-    const result = await formatResponse(state);
+    const result = await formatResponse(baseState);
     expect(result.response).toContain('problema');
-    expect(result.components).toEqual([]);
   });
 });

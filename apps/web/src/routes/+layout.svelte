@@ -9,6 +9,7 @@
   import { Home, MessageSquare, Baby, PlusCircle } from 'lucide-svelte'
   import { TopBar, BottomNav, Footer, AgentTopBar } from '@babyclothes/design-system'
   import { flags } from '$lib/feature-flags'
+  import ToastContainer from '$lib/presentation/components/ToastContainer.svelte'
   let { data, children } = $props()
 
   const bareRoutes = ['/login', '/register', '/onboarding']
@@ -29,7 +30,8 @@
   })
 
   setContext('session', sessionStore)
-  setContext('unreadCount', writable(0))
+  const unreadCountStore = writable(0)
+  setContext('unreadCount', unreadCountStore)
 
   function initials(name: string): string {
     return name.split(' ').filter(Boolean).slice(0, 2).map(p => p[0]!.toUpperCase()).join('')
@@ -78,7 +80,7 @@
         agentName={$t('agent.topbar.name')}
         status="online"
         statusLabel={$t('agent.topbar.online')}
-        unreadCount={0}
+        unreadCount={$unreadCountStore}
         userInitials={initials(data.session?.name ?? '')}
         onNotifications={() => goto('/notifications')}
         onProfile={() => goto('/profile')}
@@ -100,6 +102,8 @@
   </div>
 {/if}
 
+<ToastContainer />
+
 <style>
   .app-shell {
     display: flex;
@@ -114,11 +118,17 @@
 
   .app-main {
     flex: 1;
+    min-height: 0;
     padding-bottom: 0;
   }
 
+  .app-shell--chat .app-main {
+    display: flex;
+    flex-direction: column;
+  }
+
   /* Mobile: add space for BottomNav */
-  @media (max-width: 76.8rem) {
+  @media (max-width: 64rem) {
     .app-main--with-nav {
       padding-bottom: 6.4rem;
     }
