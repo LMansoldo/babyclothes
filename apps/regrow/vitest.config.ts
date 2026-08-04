@@ -9,6 +9,7 @@ export default defineConfig({
     alias: {
       $lib: resolve(__dirname, './src/lib'),
       '$app/stores': resolve(__dirname, './src/mocks/stores.ts'),
+      '$app/forms': resolve(__dirname, './src/mocks/forms.ts'),
     },
   },
   test: {
