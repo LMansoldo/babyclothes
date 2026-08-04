@@ -68,17 +68,19 @@
 </section>
 
 <style>
-  .reveal {
-    opacity: 0;
-    transform: translateY(1rem);
-    transition:
-      opacity 0.5s ease-out,
-      transform 0.5s ease-out;
-  }
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(1rem);
+      transition:
+        opacity 0.5s ease-out,
+        transform 0.5s ease-out;
+    }
 
-  :global(.reveal--visible) {
-    opacity: 1;
-    transform: translateY(0);
+    :global(.reveal--visible) {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .waitlist {
