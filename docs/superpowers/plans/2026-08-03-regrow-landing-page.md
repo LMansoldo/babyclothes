@@ -1786,6 +1786,18 @@ describe('Hero', () => {
     expect(img).toHaveAttribute('width');
     expect(img).toHaveAttribute('height');
   });
+
+  it('renders all 3 trust chips from the mock', () => {
+    render(Hero);
+    expect(screen.getByText('Lista de espera aberta')).toBeInTheDocument();
+    expect(screen.getByText('100% grátis')).toBeInTheDocument();
+    expect(screen.getByText('IA conversacional')).toBeInTheDocument();
+  });
+
+  it('renders the floating card badge', () => {
+    render(Hero);
+    expect(screen.getByText('Seminovo')).toBeInTheDocument();
+  });
 });
 ```
 
@@ -1798,11 +1810,17 @@ Expected: FAIL — module not found.
 
 The pt headline `"Achadinhos com o match perfeito"` and the en headline `"The perfect match for every little outfit"` don't share a common split point, so the headline can't be broken into two `<span>`/`<em>` lines by slicing the single `hero.headline` string in JS. Add two new keys to **both** locale files from Task 6 instead (keep the existing `hero.headline` key too — it's still used for the image `alt` text below).
 
+Also add 4 more keys the mock's hero section needs that aren't in the base catalogue: the 3 trust chips (mock lines 58-63 of `BabyClothes Landing.dc.html` — "Lista de espera aberta" / "100% grátis" / "IA conversacional", each a distinct string, not a reuse of `hero.cta`) and the floating card's "Seminovo" badge (mock line 84). Skipping these was a defect caught in this task's review the first time this plan was executed — don't repeat it.
+
 In `src/lib/i18n/locales/pt.json`, inside the `"hero"` object, add:
 
 ```json
 "headline_line1": "Achadinhos com o",
 "headline_line2": "match perfeito",
+"trust_chip_open": "Lista de espera aberta",
+"trust_chip_free": "100% grátis",
+"trust_chip_ai": "IA conversacional",
+"floating_card_badge": "Seminovo"
 ```
 
 In `src/lib/i18n/locales/en.json`, inside the `"hero"` object, add:
@@ -1810,10 +1828,14 @@ In `src/lib/i18n/locales/en.json`, inside the `"hero"` object, add:
 ```json
 "headline_line1": "The perfect match",
 "headline_line2": "for every little outfit",
+"trust_chip_open": "Waitlist open",
+"trust_chip_free": "100% free",
+"trust_chip_ai": "Conversational AI",
+"floating_card_badge": "Pre-loved"
 ```
 
 Run: `npm test -- locales.test.ts`
-Expected: PASS — key parity still holds since both files got the same two new keys.
+Expected: PASS — key parity still holds since both files got the same six new keys.
 
 - [ ] **Step 4: Implement `Hero.svelte`**
 
@@ -1847,8 +1869,10 @@ Expected: PASS — key parity still holds since both files got the same two new 
       <div class="hero__chips">
         <span class="hero__chip hero__chip--live">
           <span class="hero__chip-dot"></span>
-          {$t('hero.cta')}
+          {$t('hero.trust_chip_open')}
         </span>
+        <span class="hero__chip">{$t('hero.trust_chip_free')}</span>
+        <span class="hero__chip">{$t('hero.trust_chip_ai')}</span>
       </div>
 
       <h1 class="hero__headline">
@@ -1863,7 +1887,16 @@ Expected: PASS — key parity still holds since both files got the same two new 
   </div>
 
   <div class="hero__floating-card">
-    <div class="hero__floating-card-image"></div>
+    <div class="hero__floating-card-image">
+      <span class="hero__floating-card-badge">{$t('hero.floating_card_badge')}</span>
+      <span class="hero__floating-card-favorite" aria-hidden="true">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2.2">
+          <path
+            d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"
+          />
+        </svg>
+      </span>
+    </div>
     <p class="hero__floating-card-title">Body inverno manga longa</p>
     <p class="hero__floating-card-meta">M · 6-9 meses · Menina</p>
     <div class="hero__floating-card-price-row">
@@ -1946,11 +1979,17 @@ Expected: PASS — key parity still holds since both files got the same two new 
     gap: 0.35rem;
     padding: 0.25rem 0.65rem;
     font-size: 0.625rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-secondary);
     background: rgba(255, 255, 255, 0.88);
-    border: 0.05rem solid rgba(255, 60, 172, 0.22);
+    border: 0.05rem solid var(--border-default);
     border-radius: var(--radius-pill);
+  }
+
+  .hero__chip--live {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border-color: rgba(255, 60, 172, 0.22);
   }
 
   .hero__chip-dot {
@@ -2001,6 +2040,32 @@ Expected: PASS — key parity still holds since both files got the same two new 
     border-radius: 0.65rem;
     background: linear-gradient(135deg, #c3d6ff 0%, #aeeef0 100%);
     margin-bottom: 0.65rem;
+  }
+
+  .hero__floating-card-badge {
+    position: absolute;
+    top: 0.45rem;
+    left: 0.45rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--pk);
+    background: var(--brand-subtle);
+    border-radius: var(--radius-pill);
+  }
+
+  .hero__floating-card-favorite {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-raised);
+    border-radius: 50%;
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
   }
 
   .hero__floating-card-title {
