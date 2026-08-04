@@ -27,8 +27,10 @@
       <div class="hero__chips">
         <span class="hero__chip hero__chip--live">
           <span class="hero__chip-dot"></span>
-          {$t('hero.cta')}
+          {$t('hero.trust_chip_open')}
         </span>
+        <span class="hero__chip">{$t('hero.trust_chip_free')}</span>
+        <span class="hero__chip">{$t('hero.trust_chip_ai')}</span>
       </div>
 
       <h1 class="hero__headline">
@@ -43,7 +45,16 @@
   </div>
 
   <div class="hero__floating-card">
-    <div class="hero__floating-card-image"></div>
+    <div class="hero__floating-card-image">
+      <span class="hero__floating-card-badge">{$t('hero.floating_card_badge')}</span>
+      <span class="hero__floating-card-favorite" aria-hidden="true">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2.2">
+          <path
+            d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"
+          />
+        </svg>
+      </span>
+    </div>
     <p class="hero__floating-card-title">Body inverno manga longa</p>
     <p class="hero__floating-card-meta">M · 6-9 meses · Menina</p>
     <div class="hero__floating-card-price-row">
@@ -126,11 +137,17 @@
     gap: 0.35rem;
     padding: 0.25rem 0.65rem;
     font-size: 0.625rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--text-secondary);
     background: rgba(255, 255, 255, 0.88);
-    border: 0.05rem solid rgba(255, 60, 172, 0.22);
+    border: 0.05rem solid var(--border-default);
     border-radius: var(--radius-pill);
+  }
+
+  .hero__chip--live {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border-color: rgba(255, 60, 172, 0.22);
   }
 
   .hero__chip-dot {
@@ -181,6 +198,32 @@
     border-radius: 0.65rem;
     background: linear-gradient(135deg, #c3d6ff 0%, #aeeef0 100%);
     margin-bottom: 0.65rem;
+  }
+
+  .hero__floating-card-badge {
+    position: absolute;
+    top: 0.45rem;
+    left: 0.45rem;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--pk);
+    background: var(--brand-subtle);
+    border-radius: var(--radius-pill);
+  }
+
+  .hero__floating-card-favorite {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.4rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-raised);
+    border-radius: 50%;
+    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
   }
 
   .hero__floating-card-title {

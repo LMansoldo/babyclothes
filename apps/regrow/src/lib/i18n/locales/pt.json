@@ -4,7 +4,11 @@
     "headline_line1": "Achadinhos com o",
     "headline_line2": "match perfeito",
     "subheadline": "O assistente gratuito que encontra roupinhas e acessórios acompanhando todo o crescimento dos nossos pequenos",
-    "cta": "Quero entrar na lista"
+    "cta": "Quero entrar na lista",
+    "trust_chip_open": "Lista de espera aberta",
+    "trust_chip_free": "100% grátis",
+    "trust_chip_ai": "IA conversacional",
+    "floating_card_badge": "Seminovo"
   },
   "how": {
     "title": "Como funciona",

@@ -37,4 +37,16 @@ describe('Hero', () => {
     expect(img).toHaveAttribute('width');
     expect(img).toHaveAttribute('height');
   });
+
+  it('renders all 3 trust chips from the mock', () => {
+    render(Hero);
+    expect(screen.getByText('Lista de espera aberta')).toBeInTheDocument();
+    expect(screen.getByText('100% grátis')).toBeInTheDocument();
+    expect(screen.getByText('IA conversacional')).toBeInTheDocument();
+  });
+
+  it('renders the floating card badge', () => {
+    render(Hero);
+    expect(screen.getByText('Seminovo')).toBeInTheDocument();
+  });
 });
