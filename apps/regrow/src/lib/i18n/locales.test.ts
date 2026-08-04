@@ -19,11 +19,9 @@ describe('i18n locale catalogues', () => {
 
   it('neither catalogue contains an emoji in any string value', () => {
     const emojiPattern = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u;
-    const allValues = [...collectKeys(pt), ...collectKeys(en)].map((key) => {
-      const source = key in flatten(pt) ? flatten(pt) : flatten(en);
-      return source[key];
-    });
-    for (const value of allValues) {
+    const ptValues = Object.values(flatten(pt));
+    const enValues = Object.values(flatten(en));
+    for (const value of [...ptValues, ...enValues]) {
       expect(emojiPattern.test(String(value))).toBe(false);
     }
   });
