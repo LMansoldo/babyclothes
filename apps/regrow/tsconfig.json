@@ -3,6 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom"]
   }
 }

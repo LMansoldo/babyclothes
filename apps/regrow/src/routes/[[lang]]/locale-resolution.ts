@@ -6,6 +6,6 @@ export function isSupportedLocale(value: string): value is SupportedLocale {
 }
 
 export function preferredLocaleFromHeader(acceptLanguage: string): SupportedLocale {
-  // Default to Portuguese (pt) as the primary market language
-  return acceptLanguage.toLowerCase().startsWith('en') ? 'en' : 'pt';
+  // Return Portuguese if explicitly requested, otherwise default to English
+  return acceptLanguage.toLowerCase().startsWith('pt') ? 'pt' : 'en';
 }

@@ -14,6 +14,7 @@
   // $t() calls run — SvelteKit does not guarantee the <html> child is
   // evaluated before <title> within <svelte:head>, so an $effect or a
   // $derived alone is not reliably early enough for SSR.
+  // eslint-disable-next-line svelte/valid-compile
   initI18n(data.lang)
 
   // Re-run whenever data.lang changes so client-side locale switches
@@ -36,6 +37,7 @@
   const ogLocale = $derived(htmlLang.replace('-', '_'))
   const canonicalBase = 'https://regrow.com.br'
   const canonicalUrl = $derived(`${canonicalBase}/${data.lang}`)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const jsonLd = $derived(
     JSON.stringify({
       '@context': 'https://schema.org',
@@ -79,7 +81,7 @@
 
   <meta name="robots" content="index, follow" />
 
-  {@html `<script type="application/ld+json">${jsonLd}</script>`}
+  <script type="application/ld+json">{jsonLd}</script>
 </svelte:head>
 
 <LandingTopbar />

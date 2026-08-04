@@ -31,6 +31,7 @@ export const actions = {
       if (hasPrismaErrorCode(error, 'P2002')) {
         return fail(409, { errorKey: 'form.error_duplicate', values });
       }
+      // eslint-disable-next-line no-console
       console.error(error);
       return fail(500, { errorKey: 'form.error_server' });
     }
