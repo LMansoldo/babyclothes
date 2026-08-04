@@ -1,0 +1,53 @@
+/* ── Dark Theme ─────────────────────────────────────────────────── */
+/* Re-declares all semantic tokens for [data-theme="dark"] scope.   */
+/* Usage: <html data-theme="dark"> for global, or                   */
+/*        <section data-theme="dark"> for scoped dark islands.       */
+
+[data-theme="dark"] {
+  /* ── Surfaces ─────────────────────────────────────────────────── */
+  --surface-base:    #140A12;
+  --surface-raised:  rgba(255, 255, 255, .08);
+  --surface-sunken:  rgba(255, 255, 255, .04);
+  --surface-inverse: #FFFFFF;
+  --surface-overlay: rgba(0, 0, 0, .6);
+
+  /* ── Text ─────────────────────────────────────────────────────── */
+  --text-primary:   #FFFFFF;
+  --text-secondary: rgba(255, 255, 255, .7);
+  --text-tertiary:  rgba(255, 255, 255, .4);
+  --text-on-brand:  #FFFFFF;
+  --text-inverse:   #111111;
+  --text-disabled:  rgba(255, 255, 255, .3);
+
+  /* ── Borders ──────────────────────────────────────────────────── */
+  --border-subtle:  rgba(255, 255, 255, .08);
+  --border-default: rgba(255, 255, 255, .12);
+  --border-strong:  rgba(255, 255, 255, .2);
+  --border-focus:   var(--color-pink);
+
+  /* ── Brand / interactive (constant across themes) ─────────────── */
+  --brand:        #FF3CAC;
+  --brand-hover:  #FF6EC7;
+  --brand-subtle: rgba(255, 60, 172, .14);
+  --on-brand:     #FFFFFF;
+
+  /* ── Feedback (success) ───────────────────────────────────────── */
+  --feedback-success-solid: #22C55E;
+  --feedback-success-subtle: rgba(34, 197, 94, .15);
+  --feedback-success-text: #86EFAC;
+
+  /* ── Feedback (warning) ───────────────────────────────────────── */
+  --feedback-warning-solid: #F59E0B;
+  --feedback-warning-subtle: rgba(245, 158, 11, .15);
+  --feedback-warning-text: #FCD34D;
+
+  /* ── Feedback (error) ─────────────────────────────────────────── */
+  --feedback-error-solid: #EF4444;
+  --feedback-error-subtle: rgba(239, 68, 68, .15);
+  --feedback-error-text: #FCA5A5;
+
+  /* ── Feedback (info) ──────────────────────────────────────────── */
+  --feedback-info-solid: #3B82F6;
+  --feedback-info-subtle: rgba(59, 130, 246, .15);
+  --feedback-info-text: #93C5FD;
+}

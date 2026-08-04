@@ -1,0 +1,69 @@
+/* ── Layout: Breakpoints, Container & Grid ──────────────────────── */
+/* NOTE: Inside @media, rem = 16px (browser default), NOT 20px.    */
+/* Breakpoints use literal rem values because CSS custom properties */
+/* cannot be used inside @media conditions.                         */
+
+:root {
+  /* ── Breakpoint reference tokens (for JS/container-query only) ── */
+  --bp-medium: 40rem;  /* 640px  */
+  --bp-large:  64rem;  /* 1024px */
+  --bp-ultra:  90rem;  /* 1440px */
+
+  /* ── Container max-widths (code context → rem = 20px) ─────────── */
+  --container-medium: 36rem; /* 720px  */
+  --container-large:  48rem; /* 960px  */
+  --container-ultra:  60rem; /* 1200px */
+
+  /* ── Gutters ──────────────────────────────────────────────────── */
+  --gutter-mobile: 1rem;   /* 20px */
+  --gutter-medium: 1.5rem; /* 30px */
+  --gutter-large:  2rem;   /* 40px */
+}
+
+/* ── Container utility ──────────────────────────────────────────── */
+.container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--gutter-mobile);
+}
+
+@media (min-width: 40rem) {
+  .container {
+    max-width: var(--container-medium);
+    padding-inline: var(--gutter-medium);
+  }
+}
+
+@media (min-width: 64rem) {
+  .container {
+    max-width: var(--container-large);
+    padding-inline: var(--gutter-large);
+  }
+}
+
+@media (min-width: 90rem) {
+  .container {
+    max-width: var(--container-ultra);
+  }
+}
+
+/* ── Grid utility ───────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-4);
+}
+
+@media (min-width: 40rem) {
+  .grid {
+    grid-template-columns: repeat(8, 1fr);
+    gap: var(--space-5);
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--space-6);
+  }
+}
