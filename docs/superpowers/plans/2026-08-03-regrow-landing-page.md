@@ -157,21 +157,26 @@ export default defineConfig({
 
 - [ ] **Step 5: Create `vitest.config.ts`**
 
+**Correction (discovered during Task 8 execution):** this must include the `@sveltejs/vite-plugin-svelte` plugin and `resolve.conditions: ['browser']` — without them, Vite has no loader for `.svelte` files at all, and any test that imports a `.svelte` component fails with a generic `vite:import-analysis` "invalid JS syntax" error (Vite tries to parse the file's HTML-like markup as plain JavaScript). `apps/web`'s vitest config (which this step was originally copied from) never hit this because none of its tests import a `.svelte` file directly — `packages/design-system`'s vitest config is the correct reference to follow instead, since it does test `.svelte` components:
+
 ```ts
 import { defineConfig } from 'vitest/config';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { resolve } from 'node:path';
 
 export default defineConfig({
+  plugins: [svelte({ hot: !process.env.VITEST })],
+  resolve: {
+    conditions: ['browser'],
+    alias: {
+      $lib: resolve(__dirname, './src/lib'),
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test-setup.ts'],
     globals: true,
     include: ['src/**/*.test.ts'],
-  },
-  resolve: {
-    alias: {
-      $lib: resolve(__dirname, './src/lib'),
-    },
   },
 });
 ```
