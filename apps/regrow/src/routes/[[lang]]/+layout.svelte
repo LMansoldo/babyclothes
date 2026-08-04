@@ -7,6 +7,8 @@
 
   let { data, children }: { data: LayoutData; children: import('svelte').Snippet } = $props()
 
+  const htmlLang = $derived(data.lang === 'pt' ? 'pt-BR' : 'en')
+
   // Initialize synchronously on every component instantiation so SSR (a
   // fresh instance per request) has a locale set before <svelte:head>'s
   // $t() calls run — SvelteKit does not guarantee the <html> child is
@@ -19,11 +21,18 @@
   // This layout instance is reused across /pt <-> /en navigation — a
   // param-only navigation does not remount the component, so without this
   // effect the line above only ever runs once, with the first-load locale.
+  //
+  // svelte-i18n has an internal side effect that sets
+  // document.documentElement.lang to whatever locale code was passed to
+  // initI18n() — i.e. the bare 'pt', not the BCP-47 'pt-BR' this app uses
+  // everywhere else (hreflang, og:locale). That side effect fires
+  // synchronously inside initI18n(), so re-asserting the correct value
+  // right after it — inside the same effect, not a separate one — always
+  // runs last and wins.
   $effect(() => {
     initI18n(data.lang)
+    document.documentElement.lang = htmlLang
   })
-
-  const htmlLang = $derived(data.lang === 'pt' ? 'pt-BR' : 'en')
   const ogLocale = $derived(htmlLang.replace('-', '_'))
   const canonicalBase = 'https://regrow.com.br'
   const canonicalUrl = $derived(`${canonicalBase}/${data.lang}`)
