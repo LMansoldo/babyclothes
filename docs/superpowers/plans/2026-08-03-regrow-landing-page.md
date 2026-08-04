@@ -3199,7 +3199,38 @@ git commit -m "feat(regrow): add WaitlistForm component and waitlist form action
 - Consumes: `Hero` (Task 12), `HowItWorks` (Task 13), `AppPreview` (Task 14), `WaitlistForm` (Task 16), `t` from `$lib/i18n`, `ActionData` from `./$types`.
 - Produces: the composed page. This is the terminal consumer — nothing depends on it.
 
-- [ ] **Step 1: Implement `+page.svelte`**
+- [ ] **Step 1: Add the waitlist section's eyebrow and stats-strip keys to both locale files**
+
+The mock hardcodes the waitlist section's eyebrow ("Acesso antecipado") and its 3-stat strip (mock lines 158, 168-179 of `BabyClothes Landing.dc.html`) directly in Portuguese — none of these are in the base catalogue from Task 6. Same class of defect as Tasks 12/13 (hardcoded pt-only copy that would leak onto the English page) — add locale keys instead. Add to **both** `pt.json` and `en.json`, inside the `"form"` object:
+
+In `src/lib/i18n/locales/pt.json`:
+
+```json
+"eyebrow": "Acesso antecipado",
+"stat_free_value": "Grátis",
+"stat_free_label": "pra sempre",
+"stat_ai_value": "IA",
+"stat_ai_label": "conversacional",
+"stat_spam_value": "0",
+"stat_spam_label": "spam"
+```
+
+In `src/lib/i18n/locales/en.json`:
+
+```json
+"eyebrow": "Early access",
+"stat_free_value": "Free",
+"stat_free_label": "forever",
+"stat_ai_value": "AI",
+"stat_ai_label": "conversational",
+"stat_spam_value": "0",
+"stat_spam_label": "spam"
+```
+
+Run: `npm test -- locales.test.ts`
+Expected: PASS — key parity still holds since both files got the same 7 new keys.
+
+- [ ] **Step 2: Implement `+page.svelte`**
 
 ```svelte
 <script lang="ts">
@@ -3242,25 +3273,25 @@ git commit -m "feat(regrow): add WaitlistForm component and waitlist form action
 <section id="waitlist" class="waitlist reveal">
   <div class="waitlist__inner">
     <div class="waitlist__header">
-      <p class="waitlist__eyebrow">Acesso antecipado</p>
+      <p class="waitlist__eyebrow">{$t('form.eyebrow')}</p>
       <h2 class="waitlist__title">{$t('form.title')}</h2>
     </div>
 
     <div class="waitlist__card">
       <div class="waitlist__stats">
         <div class="waitlist__stat">
-          <p class="waitlist__stat-value">Grátis</p>
-          <p class="waitlist__stat-label">pra sempre</p>
+          <p class="waitlist__stat-value">{$t('form.stat_free_value')}</p>
+          <p class="waitlist__stat-label">{$t('form.stat_free_label')}</p>
         </div>
         <div class="waitlist__stat-divider"></div>
         <div class="waitlist__stat">
-          <p class="waitlist__stat-value">IA</p>
-          <p class="waitlist__stat-label">conversacional</p>
+          <p class="waitlist__stat-value">{$t('form.stat_ai_value')}</p>
+          <p class="waitlist__stat-label">{$t('form.stat_ai_label')}</p>
         </div>
         <div class="waitlist__stat-divider"></div>
         <div class="waitlist__stat">
-          <p class="waitlist__stat-value">0</p>
-          <p class="waitlist__stat-label">spam</p>
+          <p class="waitlist__stat-value">{$t('form.stat_spam_value')}</p>
+          <p class="waitlist__stat-label">{$t('form.stat_spam_label')}</p>
         </div>
       </div>
 
@@ -3360,22 +3391,22 @@ git commit -m "feat(regrow): add WaitlistForm component and waitlist form action
 </style>
 ```
 
-- [ ] **Step 2: Run the Svelte MCP autofixer** on this file, fix all issues.
+- [ ] **Step 3: Run the Svelte MCP autofixer** on this file, fix all issues.
 
-- [ ] **Step 3: Manual smoke check**
+- [ ] **Step 4: Manual smoke check**
 
 Run: `docker compose up -d` (from `apps/regrow`), then visit `http://localhost:5180/pt`.
 Expected: full page renders top-to-bottom (Hero → How It Works → App Preview → Waitlist form → Footer), submitting the waitlist form with valid data shows the success confirmation, resubmitting the same email shows the duplicate-email error.
 
-- [ ] **Step 4: Run the full test suite**
+- [ ] **Step 5: Run the full test suite**
 
 Run: `npm test`
-Expected: all tests from Tasks 6–16 PASS.
+Expected: all tests from Tasks 6–16 PASS, including the locale parity test with the 7 new `form.*` keys from Step 1.
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 6: Commit**
 
 ```bash
-git add src/routes/\[\[lang\]\]/+page.svelte
+git add src/routes/\[\[lang\]\]/+page.svelte src/lib/i18n/locales/pt.json src/lib/i18n/locales/en.json
 git commit -m "feat(regrow): compose landing page sections with reveal-on-scroll"
 ```
 
