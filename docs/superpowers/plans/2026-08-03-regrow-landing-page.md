@@ -2728,7 +2728,7 @@ git commit -m "feat(regrow): add waitlist form validation helpers"
 - Create: `apps/regrow/src/lib/components/WaitlistForm.svelte`
 - Create: `apps/regrow/src/routes/[[lang]]/+page.server.ts`
 - Test: `apps/regrow/src/lib/components/WaitlistForm.test.ts`
-- Test: `apps/regrow/src/routes/[[lang]]/+page.server.test.ts`
+- Test: `apps/regrow/src/routes/[[lang]]/page.server.test.ts` (note: **not** `+page.server.test.ts` — SvelteKit reserves any `+`-prefixed filename inside `src/routes/` for its own route-file conventions; a `+`-prefixed test file breaks `svelte-kit sync` and `vite build` outright. Its own import of the real route file, `./+page.server`, is unaffected — only the test file's own name needed the `+` dropped.)
 
 **Interfaces:**
 - Consumes: `readFormValues`, `isCompleteWaitlistForm`, `EMAIL_REGEX`, `hasPrismaErrorCode` from Task 15; `prisma` from Task 5's `$lib/server/db`; `WaitlistCta` from Task 8; `t` from `$lib/i18n`.
@@ -2858,7 +2858,7 @@ describe('waitlist action', () => {
 
 - [ ] **Step 2: Run it to confirm it fails**
 
-Run: `npm test -- +page.server.test.ts`
+Run: `npm test -- page.server.test.ts`
 Expected: FAIL — module not found.
 
 - [ ] **Step 3: Implement `+page.server.ts`**
@@ -2906,7 +2906,7 @@ export const actions = {
 
 - [ ] **Step 4: Run the `+page.server.ts` test**
 
-Run: `npm test -- +page.server.test.ts`
+Run: `npm test -- page.server.test.ts`
 Expected: PASS, 6 tests passing.
 
 - [ ] **Step 5: Write the failing test for `WaitlistForm.svelte`**
@@ -3184,7 +3184,7 @@ Expected: PASS, 5 tests passing.
 - [ ] **Step 10: Commit**
 
 ```bash
-git add src/lib/components/WaitlistForm.svelte src/lib/components/WaitlistForm.test.ts src/routes/\[\[lang\]\]/+page.server.ts src/routes/\[\[lang\]\]/+page.server.test.ts
+git add src/lib/components/WaitlistForm.svelte src/lib/components/WaitlistForm.test.ts src/routes/\[\[lang\]\]/+page.server.ts src/routes/\[\[lang\]\]/page.server.test.ts
 git commit -m "feat(regrow): add WaitlistForm component and waitlist form action"
 ```
 
