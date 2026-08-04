@@ -7,8 +7,21 @@
 
   let { data, children }: { data: LayoutData; children: import('svelte').Snippet } = $props()
 
-  // Initialize i18n without awaiting - the library handles loading
-  void initI18n(data.lang)
+  // Initialize synchronously on every component instantiation so SSR (a
+  // fresh instance per request) has a locale set before <svelte:head>'s
+  // $t() calls run — SvelteKit does not guarantee the <html> child is
+  // evaluated before <title> within <svelte:head>, so an $effect or a
+  // $derived alone is not reliably early enough for SSR.
+  initI18n(data.lang)
+
+  // Re-run whenever data.lang changes so client-side locale switches
+  // (e.g. via the LanguageToggle's <a href>) actually update $t() output.
+  // This layout instance is reused across /pt <-> /en navigation — a
+  // param-only navigation does not remount the component, so without this
+  // effect the line above only ever runs once, with the first-load locale.
+  $effect(() => {
+    initI18n(data.lang)
+  })
 
   const htmlLang = $derived(data.lang === 'pt' ? 'pt-BR' : 'en')
   const ogLocale = $derived(htmlLang.replace('-', '_'))
