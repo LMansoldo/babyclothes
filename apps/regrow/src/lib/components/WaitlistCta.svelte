@@ -1,15 +1,20 @@
 <script lang="ts">
-  export let label: string
-  export let href: string | undefined = undefined
-  export let type: 'button' | 'submit' = 'button'
-  export let onclick: (() => void) | undefined = undefined
-  export let variant: 'hero' | 'form' | 'topbar' = 'hero'
+  let {
+    label,
+    href,
+    type = 'button',
+    onclick,
+    variant = 'hero',
+  }: {
+    label: string
+    href?: string
+    type?: 'button' | 'submit'
+    onclick?: () => void
+    variant?: 'hero' | 'form' | 'topbar'
+  } = $props()
 
-  let hasShimmer = variant !== 'topbar'
-  let hasIcon = variant === 'hero'
-
-  $: hasShimmer = variant !== 'topbar'
-  $: hasIcon = variant === 'hero'
+  const hasShimmer = $derived(variant !== 'topbar')
+  const hasIcon = $derived(variant === 'hero')
 </script>
 
 {#if href}
