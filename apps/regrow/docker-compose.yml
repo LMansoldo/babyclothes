@@ -1,0 +1,38 @@
+name: regrow
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: regrow
+      POSTGRES_PASSWORD: regrow
+      POSTGRES_DB: regrow_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - regrow_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U regrow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5180:5180"
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://regrow:regrow@postgres:5432/regrow_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./static:/app/static
+      - ./prisma:/app/prisma
+
+volumes:
+  regrow_postgres_data:
