@@ -30,6 +30,13 @@
   },
   "form": {
     "title": "Join the waitlist",
+    "eyebrow": "Early access",
+    "stat_free_value": "Free",
+    "stat_free_label": "forever",
+    "stat_ai_value": "AI",
+    "stat_ai_label": "conversational",
+    "stat_spam_value": "0",
+    "stat_spam_label": "spam",
     "name": "Full name",
     "phone": "Phone number",
     "email": "Email",

@@ -30,6 +30,13 @@
   },
   "form": {
     "title": "Entre na lista de espera",
+    "eyebrow": "Acesso antecipado",
+    "stat_free_value": "Grátis",
+    "stat_free_label": "pra sempre",
+    "stat_ai_value": "IA",
+    "stat_ai_label": "conversacional",
+    "stat_spam_value": "0",
+    "stat_spam_label": "spam",
     "name": "Nome completo",
     "phone": "Telefone",
     "email": "E-mail",
