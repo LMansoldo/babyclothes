@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "headline": "Achadinhos com o match perfeito",
+    "subheadline": "O assistente gratuito que encontra roupinhas e acessórios acompanhando todo o crescimento dos nossos pequenos",
+    "cta": "Quero entrar na lista"
+  },
+  "how": {
+    "title": "Como funciona",
+    "step1_title": "Conta o que precisa",
+    "step1_desc": "Fala com o assistente em linguagem natural",
+    "step2_title": "Recebe sugestões",
+    "step2_desc": "Cards com fotos, preços e onde comprar",
+    "step3_title": "Salva e volta quando quiser",
+    "step3_desc": "O app lembra de você e do seu filho"
+  },
+  "preview": {
+    "title": "Veja o app em ação",
+    "caption": "Cards de produto renderizados direto na conversa"
+  },
+  "form": {
+    "title": "Entre na lista de espera",
+    "name": "Nome completo",
+    "phone": "Telefone",
+    "email": "E-mail",
+    "interest_label": "O que você mais busca?",
+    "interest_placeholder": "Selecione uma opção",
+    "interest_clothes": "Encontrar roupas infantis",
+    "interest_accessories": "Acessórios para bebê",
+    "interest_growth": "Acompanhar o crescimento do meu filho",
+    "interest_all": "Tudo isso",
+    "submit": "Quero entrar na lista de espera",
+    "submitting": "Entrando na lista...",
+    "success_title": "Você está na lista!",
+    "success_body": "Avisaremos assim que abrirmos o acesso.",
+    "error_required": "Preencha todos os campos obrigatórios.",
+    "error_email": "E-mail inválido.",
+    "error_duplicate": "Esse e-mail já está na lista.",
+    "error_server": "Algo deu errado. Tenta de novo?"
+  },
+  "footer": {
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Uso",
+    "contact": "contato@regrow.com.br",
+    "instagram": "Instagram",
+    "lang_toggle": "EN"
+  },
+  "meta": {
+    "title": "ReGrow — Achadinhos com o match perfeito",
+    "description": "O assistente gratuito que encontra roupinhas e acessórios acompanhando todo o crescimento dos nossos pequenos. Entre na lista de espera."
+  }
+}

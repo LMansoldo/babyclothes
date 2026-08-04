@@ -1,0 +1,51 @@
+{
+  "hero": {
+    "headline": "The perfect match for every little outfit",
+    "subheadline": "The free assistant that finds clothes and accessories as your little one grows",
+    "cta": "Join the waitlist"
+  },
+  "how": {
+    "title": "How it works",
+    "step1_title": "Tell us what you need",
+    "step1_desc": "Chat with the assistant in plain language",
+    "step2_title": "Get suggestions",
+    "step2_desc": "Cards with photos, prices and where to buy",
+    "step3_title": "Save and come back anytime",
+    "step3_desc": "The app remembers you and your child"
+  },
+  "preview": {
+    "title": "See the app in action",
+    "caption": "Product cards rendered right inside the conversation"
+  },
+  "form": {
+    "title": "Join the waitlist",
+    "name": "Full name",
+    "phone": "Phone number",
+    "email": "Email",
+    "interest_label": "What are you looking for?",
+    "interest_placeholder": "Select an option",
+    "interest_clothes": "Find baby clothes",
+    "interest_accessories": "Baby accessories",
+    "interest_growth": "Track my child's growth",
+    "interest_all": "All of the above",
+    "submit": "Join the waitlist",
+    "submitting": "Joining the list...",
+    "success_title": "You're on the list!",
+    "success_body": "We'll let you know as soon as we open access.",
+    "error_required": "Please fill in all required fields.",
+    "error_email": "Invalid email address.",
+    "error_duplicate": "This email is already on the list.",
+    "error_server": "Something went wrong. Want to try again?"
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "contact": "contato@regrow.com.br",
+    "instagram": "Instagram",
+    "lang_toggle": "PT"
+  },
+  "meta": {
+    "title": "ReGrow — The perfect match for every little outfit",
+    "description": "The free assistant that finds clothes and accessories as your little one grows. Join the waitlist."
+  }
+}
