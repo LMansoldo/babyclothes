@@ -574,9 +574,11 @@ a {
 
 - [ ] **Step 4: Create `src/app.html`**
 
+**Correction (discovered during Task 17 execution):** the source spec's own example code sets `<html lang>` per-locale by rendering `<svelte:head><html lang={htmlLang}></html></svelte:head>` inside `+layout.svelte`. That is **not** a supported Svelte/SvelteKit pattern — it caused a hydration crash (`setAttribute is not a function`) in every real browser that wiped the entire document body, including the waitlist form, the first time the full page tree was rendered end-to-end (Task 17). The correct, documented approach is a `%lang%` placeholder in `app.html` filled in per-request by `src/hooks.server.ts`'s `transformPageChunk` — do not use the `<html>`-inside-`<svelte:head>` pattern anywhere in this project.
+
 ```html
 <!doctype html>
-<html lang="pt-BR">
+<html lang="%lang%">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%sveltekit.assets%/favicon.png" />
@@ -591,9 +593,23 @@ a {
 </html>
 ```
 
-(The `<html lang>` attribute here is a static fallback; Task 11's `+layout.svelte` overrides it per-locale via `<svelte:head>`, matching the pasted spec's §6.8 pattern exactly.)
+- [ ] **Step 5: Create `src/hooks.server.ts`**
 
-- [ ] **Step 5: Add a placeholder favicon**
+```ts
+import type { Handle } from '@sveltejs/kit';
+
+export const handle: Handle = async ({ event, resolve }) => {
+  const lang = event.params.lang === 'en' ? 'en' : 'pt-BR';
+
+  return resolve(event, {
+    transformPageChunk: ({ html }) => html.replace('%lang%', lang),
+  });
+};
+```
+
+Task 11's `+layout.svelte` does **not** need to (and must not) set `<html lang>` itself — this hook is the only place that does. Task 11's `htmlLang`/`ogLocale` derived values are still needed there for `og:locale` and the hreflang links, just not for an `<html>` element inside `<svelte:head>`.
+
+- [ ] **Step 6: Add a placeholder favicon**
 
 ```bash
 mkdir -p apps/regrow/static
@@ -602,10 +618,10 @@ cp /Users/lucasmansoldo/Projects/babyclothes/apps/web/static/favicon.png apps/re
 
 If that source file doesn't exist, skip this sub-step and leave a note in the commit message — a missing favicon is not a blocker for this task.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/lib/tokens src/app.postcss src/app.html static/favicon.png
+git add src/lib/tokens src/app.postcss src/app.html src/hooks.server.ts static/favicon.png
 git commit -m "feat(regrow): copy design-system tokens, add global CSS and app.html"
 ```
 
@@ -873,11 +889,15 @@ git commit -m "feat(regrow): add Prisma Lead model and PrismaClient singleton"
 
 - [ ] **Step 3: Create `src/lib/i18n/index.ts`**
 
-```ts
-import { init, register } from 'svelte-i18n';
+**Correction (discovered during Task 17 execution):** `register()`'s loader is inherently async — even wrapping an already-imported object in `Promise.resolve()` doesn't resolve until the next microtask. Task 11's `+layout.svelte` calls `initI18n()` synchronously and unawaited, and `<svelte:head>`'s `$t()` calls run in the same tick, so a `register()`-based dictionary wasn't guaranteed to be populated yet — this caused an intermittent 500 ("Cannot format a message without first setting the initial locale") on a server's very first request after boot. Both locale files are small and always needed (this is a fully bilingual site, nothing lazy-loads per visitor), so populate the dictionary synchronously with `addMessages()` instead:
 
-register('pt', () => import('./locales/pt.json'));
-register('en', () => import('./locales/en.json'));
+```ts
+import { init, addMessages } from 'svelte-i18n';
+import pt from './locales/pt.json';
+import en from './locales/en.json';
+
+addMessages('pt', pt);
+addMessages('en', en);
 
 export function initI18n(initialLocale: 'pt' | 'en') {
   return init({
@@ -1678,8 +1698,6 @@ git commit -m "feat(regrow): add Footer and LanguageToggle (spec §5.5 — conta
 </script>
 
 <svelte:head>
-  <html lang={htmlLang} />
-
   <title>{$t('meta.title')}</title>
   <meta name="description" content={$t('meta.description')} />
 
@@ -3303,17 +3321,27 @@ Expected: PASS — key parity still holds since both files got the same 7 new ke
 </section>
 
 <style>
-  .reveal {
-    opacity: 0;
-    transform: translateY(1rem);
-    transition:
-      opacity 0.5s ease-out,
-      transform 0.5s ease-out;
-  }
+  /* Correction (discovered during Task 17 execution): the reveal-on-scroll
+     opacity:0 base style must not apply unconditionally — the
+     prefers-reduced-motion early-return in onMount below skips creating
+     the IntersectionObserver, so .reveal--visible would never get added,
+     leaving AppPreview and the whole waitlist section invisible forever
+     for a reduced-motion user. Gate the hide/reveal rules to the
+     no-preference case so the default (no JS, or reduced motion) is
+     fully visible. */
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      opacity: 0;
+      transform: translateY(1rem);
+      transition:
+        opacity 0.5s ease-out,
+        transform 0.5s ease-out;
+    }
 
-  :global(.reveal--visible) {
-    opacity: 1;
-    transform: translateY(0);
+    :global(.reveal--visible) {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .waitlist {
