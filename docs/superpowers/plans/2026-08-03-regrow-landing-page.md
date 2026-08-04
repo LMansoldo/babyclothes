@@ -2159,13 +2159,22 @@ describe('HowItWorks', () => {
     expect(screen.getByText('O app lembra de você e do seu filho')).toBeInTheDocument();
   });
 
-  it('renders 3 step images, each lazy-loaded', () => {
+  it('renders 3 step images, each lazy-loaded, with translated alt text', () => {
     render(HowItWorks);
     const images = screen.getAllByRole('img');
     expect(images).toHaveLength(3);
     for (const img of images) {
       expect(img).toHaveAttribute('loading', 'lazy');
     }
+    expect(screen.getByAltText('Pedindo bodies de inverno para a Sofia')).toBeInTheDocument();
+    expect(screen.getByAltText('Sugestões de roupas de festa')).toBeInTheDocument();
+    expect(screen.getByAltText('Sugestões por tamanho e fase')).toBeInTheDocument();
+  });
+
+  it('renders the translated two-line subtitle', () => {
+    render(HowItWorks);
+    expect(screen.getByText('Simples como conversar')).toBeInTheDocument();
+    expect(screen.getByText('com uma amiga')).toBeInTheDocument();
   });
 });
 ```
@@ -2175,7 +2184,34 @@ describe('HowItWorks', () => {
 Run: `npm test -- HowItWorks.test.ts`
 Expected: FAIL — module not found.
 
-- [ ] **Step 3: Implement `HowItWorks.svelte`**
+- [ ] **Step 3: Add the section subtitle and step image alt-text keys to both locale files**
+
+The mock hardcodes the section's h2 ("Simples como conversar<br />com uma amiga") and each step image's `alt` text directly in Portuguese — neither is in the base catalogue from Task 6. Per Global Constraint #1 (copy is verbatim, always via `$t()`) and the a11y requirement that every `<img>` `alt` must be translated, both need locale keys. Add to **both** `pt.json` and `en.json`, inside the `"how"` object:
+
+In `src/lib/i18n/locales/pt.json`:
+
+```json
+"subtitle_line1": "Simples como conversar",
+"subtitle_line2": "com uma amiga",
+"step1_alt": "Pedindo bodies de inverno para a Sofia",
+"step2_alt": "Sugestões de roupas de festa",
+"step3_alt": "Sugestões por tamanho e fase"
+```
+
+In `src/lib/i18n/locales/en.json`:
+
+```json
+"subtitle_line1": "As simple as chatting",
+"subtitle_line2": "with a friend",
+"step1_alt": "Asking for winter bodysuits for Sofia",
+"step2_alt": "Party outfit suggestions",
+"step3_alt": "Suggestions by size and stage"
+```
+
+Run: `npm test -- locales.test.ts`
+Expected: PASS — key parity still holds since both files got the same 5 new keys.
+
+- [ ] **Step 4: Implement `HowItWorks.svelte`**
 
 ```svelte
 <script lang="ts">
@@ -2186,24 +2222,24 @@ Expected: FAIL — module not found.
       number: '01',
       titleKey: 'how.step1_title',
       descKey: 'how.step1_desc',
+      altKey: 'how.step1_alt',
       image: 'screen-winter',
-      alt: 'Pedindo bodies de inverno para a Sofia',
       reversed: false,
     },
     {
       number: '02',
       titleKey: 'how.step2_title',
       descKey: 'how.step2_desc',
+      altKey: 'how.step2_alt',
       image: 'screen-party',
-      alt: 'Sugestões de roupas de festa',
       reversed: true,
     },
     {
       number: '03',
       titleKey: 'how.step3_title',
       descKey: 'how.step3_desc',
+      altKey: 'how.step3_alt',
       image: 'screen-size',
-      alt: 'Sugestões por tamanho e fase',
       reversed: false,
     },
   ] as const
@@ -2218,7 +2254,7 @@ Expected: FAIL — module not found.
   <div class="how__inner">
     <div class="how__header">
       <p class="how__eyebrow">{$t('how.title')}</p>
-      <h2 class="how__title">Simples como conversar<br />com uma amiga</h2>
+      <h2 class="how__title">{$t('how.subtitle_line1')}<br />{$t('how.subtitle_line2')}</h2>
     </div>
 
     {#each steps as step (step.number)}
@@ -2231,7 +2267,7 @@ Expected: FAIL — module not found.
         <div class="how__phone">
           <img
             src="/images/{step.image}.png"
-            alt={step.alt}
+            alt={$t(step.altKey)}
             loading="lazy"
             decoding="async"
             width="340"
@@ -2387,17 +2423,17 @@ Expected: FAIL — module not found.
 </style>
 ```
 
-- [ ] **Step 4: Run the Svelte MCP autofixer** on the component, fix all issues.
+- [ ] **Step 5: Run the Svelte MCP autofixer** on the component, fix all issues.
 
-- [ ] **Step 5: Run the test**
+- [ ] **Step 6: Run the test**
 
-Run: `npm test -- HowItWorks.test.ts`
-Expected: PASS, 3 tests passing.
+Run: `npm test -- HowItWorks.test.ts locales.test.ts`
+Expected: PASS, 4 tests in HowItWorks.test.ts + 2 in locales.test.ts, all passing.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
-git add src/lib/components/HowItWorks.svelte src/lib/components/HowItWorks.test.ts
+git add src/lib/components/HowItWorks.svelte src/lib/components/HowItWorks.test.ts src/lib/i18n/locales/pt.json src/lib/i18n/locales/en.json
 git commit -m "feat(regrow): add HowItWorks section with 3 alternating editorial rows"
 ```
 
