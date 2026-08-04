@@ -12,12 +12,17 @@
   },
   "how": {
     "title": "How it works",
+    "subtitle_line1": "As simple as chatting",
+    "subtitle_line2": "with a friend",
     "step1_title": "Tell us what you need",
     "step1_desc": "Chat with the assistant in plain language",
+    "step1_alt": "Asking for winter bodysuits for Sofia",
     "step2_title": "Get suggestions",
     "step2_desc": "Cards with photos, prices and where to buy",
+    "step2_alt": "Party outfit suggestions",
     "step3_title": "Save and come back anytime",
-    "step3_desc": "The app remembers you and your child"
+    "step3_desc": "The app remembers you and your child",
+    "step3_alt": "Suggestions by size and stage"
   },
   "preview": {
     "title": "See the app in action",

@@ -12,12 +12,17 @@
   },
   "how": {
     "title": "Como funciona",
+    "subtitle_line1": "Simples como conversar",
+    "subtitle_line2": "com uma amiga",
     "step1_title": "Conta o que precisa",
     "step1_desc": "Fala com o assistente em linguagem natural",
+    "step1_alt": "Pedindo bodies de inverno para a Sofia",
     "step2_title": "Recebe sugestões",
     "step2_desc": "Cards com fotos, preços e onde comprar",
+    "step2_alt": "Sugestões de roupas de festa",
     "step3_title": "Salva e volta quando quiser",
-    "step3_desc": "O app lembra de você e do seu filho"
+    "step3_desc": "O app lembra de você e do seu filho",
+    "step3_alt": "Sugestões por tamanho e fase"
   },
   "preview": {
     "title": "Veja o app em ação",
