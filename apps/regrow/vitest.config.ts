@@ -8,6 +8,7 @@ export default defineConfig({
     conditions: ['browser'],
     alias: {
       $lib: resolve(__dirname, './src/lib'),
+      '$app/stores': resolve(__dirname, './src/mocks/stores.ts'),
     },
   },
   test: {
