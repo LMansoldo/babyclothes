@@ -9,6 +9,16 @@ Build a standalone landing page for **ReGrow** (rebrand of the original `[NAME]`
 
 This is **not** a new Yarn workspace inside the `babyclothes` monorepo. It's a separate project living under `apps/` for convenience of colocated source control, but with its own `package.json`, lockfile, Docker Compose stack, and Postgres instance — fully decoupled from the existing Elixir API / `apps/web` / `apps/agents` stack.
 
+## 1.1 Fidelity principle (governs every section below)
+
+This build is a **faithful port**, not a reinterpretation. Two source-of-truth documents govern content and design, and neither is up for creative revision during implementation:
+
+- **Copy**: every string (headline, sub-headline, CTA labels, step titles/descriptions, form labels, option values, feedback messages, footer links) comes verbatim from the pt-BR/en tables in the pasted product spec (§5 of that spec), with only the brand token `[NOME]`/`[NAME]` substituted for **ReGrow**. No paraphrasing, no "improving" the copy, no added/removed sections.
+- **Design**: every visual decision (layout structure, spacing rhythm, colors, font, button treatment, animations, section order) comes from `LP melhorada com novas specs/BabyClothes Landing.dc.html`. Where that HTML gives an exact value (a hex color, a `px`/`clamp()` size, an animation keyframe, a border-radius), the implementation plan must carry that exact value through (converted to `rem` per `RULES.md`, `10px = 1rem`) — not an approximation or a "close enough" token substitution.
+- Only the two deviations already agreed in this doc are allowed: (1) `BabyClothes` → `ReGrow` brand rename everywhere, including the topbar/footer wordmark; (2) `[NAME]`'s pink/Lato tokens are pulled from the design-system token files instead of retyped, because they already hold the mock's exact values (`--pk: #FF3CAC`, `--font-body: 'Lato', sans-serif`) — this is a source-of-truth swap, not a value change.
+- If an implementer hits a case the mock/spec doesn't cover (e.g. App Preview has no dedicated screenshot asset, OG images don't exist yet), that gap is called out explicitly in code comments/PR notes as a deviation — never silently designed around.
+- The implementation plan written from this doc must be **code-level explicit**: exact copy strings, exact hex/token values, exact spacing values, exact file/line references into the mock HTML — not "style it similarly to the mock."
+
 ## 2. Non-goals
 
 - No real infrastructure provisioning. Terraform files (`infra/*.tf`) are written per spec but never `apply`'d — no Hostinger credentials, domain, or VPS exist yet.
