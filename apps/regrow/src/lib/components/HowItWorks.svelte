@@ -2,30 +2,9 @@
   import { t } from '$lib/i18n'
 
   const steps = [
-    {
-      number: '01',
-      titleKey: 'how.step1_title',
-      descKey: 'how.step1_desc',
-      altKey: 'how.step1_alt',
-      image: 'screen-winter',
-      reversed: false,
-    },
-    {
-      number: '02',
-      titleKey: 'how.step2_title',
-      descKey: 'how.step2_desc',
-      altKey: 'how.step2_alt',
-      image: 'screen-party',
-      reversed: true,
-    },
-    {
-      number: '03',
-      titleKey: 'how.step3_title',
-      descKey: 'how.step3_desc',
-      altKey: 'how.step3_alt',
-      image: 'screen-size',
-      reversed: false,
-    },
+    { number: '01', titleKey: 'how.step1_title', descKey: 'how.step1_desc' },
+    { number: '02', titleKey: 'how.step2_title', descKey: 'how.step2_desc' },
+    { number: '03', titleKey: 'how.step3_title', descKey: 'how.step3_desc' },
   ] as const
 </script>
 
@@ -41,26 +20,15 @@
       <h2 class="how__title"><span>{$t('how.subtitle_line1')}</span><br /><span>{$t('how.subtitle_line2')}</span></h2>
     </div>
 
-    {#each steps as step (step.number)}
-      <div class="how__row" class:how__row--reversed={step.reversed}>
-        <div class="how__text">
+    <div class="how__grid">
+      {#each steps as step (step.number)}
+        <div class="how__item">
           <span class="how__number" aria-hidden="true">{step.number}</span>
           <h3 class="how__step-title">{$t(step.titleKey)}</h3>
           <p class="how__step-desc">{$t(step.descKey)}</p>
         </div>
-        <div class="how__phone">
-          <img
-            src="/images/{step.image}.png"
-            alt={$t(step.altKey)}
-            loading="lazy"
-            decoding="async"
-            width="340"
-            height="580"
-            class="how__phone-image"
-          />
-        </div>
-      </div>
-    {/each}
+      {/each}
+    </div>
   </div>
 </section>
 
@@ -123,45 +91,29 @@
     color: var(--text-primary);
   }
 
-  .how__row {
+  .how__grid {
     display: grid;
-    grid-template-columns: 1fr 17rem;
-    gap: clamp(1.8rem, 6vw, 4.8rem);
-    align-items: center;
-    margin-bottom: clamp(3.2rem, 8vw, 5.5rem);
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(2rem, 5vw, 3.5rem);
   }
 
-  .how__row--reversed {
-    grid-template-columns: 17rem 1fr;
-  }
-
-  .how__row--reversed .how__text {
-    order: 2;
-  }
-
-  .how__row--reversed .how__phone {
-    order: 1;
-  }
-
-  .how__text {
-    position: relative;
-    padding-left: 0.7rem;
+  .how__item {
+    text-align: center;
   }
 
   .how__number {
-    position: absolute;
-    top: -1.4rem;
-    left: -0.2rem;
-    font-size: clamp(5rem, 12vw, 7.5rem);
+    display: block;
+    font-size: clamp(5rem, 8vw, 7.5rem);
     font-weight: 900;
     line-height: 1;
     color: var(--pk);
     opacity: 0.055;
     user-select: none;
+    margin-bottom: -2.5rem;
   }
 
   .how__step-title {
-    font-size: clamp(1.4rem, 3.2vw, 2rem);
+    font-size: clamp(1.2rem, 2.4vw, 1.5rem);
     font-weight: 900;
     letter-spacing: -0.02em;
     line-height: 1.08;
@@ -175,33 +127,13 @@
     color: var(--text-secondary);
     font-weight: 300;
     max-width: 23rem;
-  }
-
-  .how__phone {
-    background: var(--surface-inverse);
-    border-radius: 2rem;
-    padding: 0.4rem;
-    box-shadow: 0 1.4rem 3.5rem rgba(0, 0, 0, 0.22);
-  }
-
-  .how__phone-image {
-    display: block;
-    width: 100%;
-    height: clamp(23rem, 52vw, 29rem);
-    object-fit: cover;
-    object-position: top;
-    border-radius: 1.65rem;
+    margin-inline: auto;
   }
 
   @media (max-width: 64rem) {
-    .how__row,
-    .how__row--reversed {
+    .how__grid {
       grid-template-columns: 1fr;
-    }
-
-    .how__row--reversed .how__text,
-    .how__row--reversed .how__phone {
-      order: unset;
+      gap: clamp(2.4rem, 8vw, 3.5rem);
     }
   }
 </style>

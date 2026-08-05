@@ -8,31 +8,36 @@ describe('HowItWorks', () => {
     expect(container.querySelector('#como-funciona')).not.toBeNull();
   });
 
-  it('renders all 3 step titles and descriptions', () => {
+  it('renders all 3 capability titles and descriptions', () => {
     render(HowItWorks);
-    expect(screen.getByText('Conta o que precisa')).toBeInTheDocument();
-    expect(screen.getByText('Fala com o assistente em linguagem natural')).toBeInTheDocument();
-    expect(screen.getByText('Recebe sugestões')).toBeInTheDocument();
-    expect(screen.getByText('Cards com fotos, preços e onde comprar')).toBeInTheDocument();
-    expect(screen.getByText('Salva e volta quando quiser')).toBeInTheDocument();
-    expect(screen.getByText('O app lembra de você e do seu filho')).toBeInTheDocument();
+    expect(screen.getByText('Encontra roupas de brechó')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Busca peças em brechós e lojas parceiras com preços competitivos para o seu bebê.',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Monta o enxoval ideal')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Monta o enxoval completo de acordo com o tempo de gestação, sem faltar nem sobrar nada.',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Prevê a próxima troca de tamanho')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Acompanha o crescimento da criança e avisa quando está na hora de trocar de tamanho.',
+      ),
+    ).toBeInTheDocument();
   });
 
-  it('renders 3 step images, each lazy-loaded, with translated alt text', () => {
+  it('does not render any step screenshots anymore', () => {
     render(HowItWorks);
-    const images = screen.getAllByRole('img');
-    expect(images).toHaveLength(3);
-    for (const img of images) {
-      expect(img).toHaveAttribute('loading', 'lazy');
-    }
-    expect(screen.getByAltText('Pedindo bodies de inverno para a Sofia')).toBeInTheDocument();
-    expect(screen.getByAltText('Sugestões de roupas de festa')).toBeInTheDocument();
-    expect(screen.getByAltText('Sugestões por tamanho e fase')).toBeInTheDocument();
+    expect(screen.queryAllByRole('img')).toHaveLength(0);
   });
 
-  it('renders the translated two-line subtitle', () => {
+  it('renders the translated two-line heading', () => {
     render(HowItWorks);
-    expect(screen.getByText('Simples como conversar')).toBeInTheDocument();
-    expect(screen.getByText('com uma amiga')).toBeInTheDocument();
+    expect(screen.getByText('Um assistente pessoal')).toBeInTheDocument();
+    expect(screen.getByText('para o enxoval do seu bebê')).toBeInTheDocument();
   });
 });

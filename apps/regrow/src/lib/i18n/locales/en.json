@@ -19,17 +19,14 @@
   },
   "how": {
     "title": "How it works",
-    "subtitle_line1": "As simple as chatting",
-    "subtitle_line2": "with a friend",
-    "step1_title": "Tell us what you need",
-    "step1_desc": "Chat with the assistant in plain language",
-    "step1_alt": "Asking for winter bodysuits for Sofia",
-    "step2_title": "Get suggestions",
-    "step2_desc": "Cards with photos, prices and where to buy",
-    "step2_alt": "Party outfit suggestions",
-    "step3_title": "Save and come back anytime",
-    "step3_desc": "The app remembers you and your child",
-    "step3_alt": "Suggestions by size and stage"
+    "subtitle_line1": "A personal assistant",
+    "subtitle_line2": "for your baby's wardrobe",
+    "step1_title": "Finds thrift clothes",
+    "step1_desc": "Searches partner thrift stores and shops for competitive prices for your baby.",
+    "step2_title": "Builds the ideal layette",
+    "step2_desc": "Builds the complete layette based on how far along your pregnancy is — nothing missing, nothing wasted.",
+    "step3_title": "Predicts the next size change",
+    "step3_desc": "Tracks your child's growth and tells you when it's time to size up."
   },
   "preview": {
     "title": "See the app in action",
