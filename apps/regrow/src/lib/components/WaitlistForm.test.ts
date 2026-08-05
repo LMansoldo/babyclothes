@@ -1,8 +1,13 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import WaitlistForm from './WaitlistForm.svelte';
+import { waitlistEmail } from '../stores/waitlist-email';
 
 describe('WaitlistForm', () => {
+  afterEach(() => {
+    waitlistEmail.set('');
+  });
+
   it('renders all 4 fields with translated labels when there is no prior submission', () => {
     render(WaitlistForm, { props: { form: null } });
     expect(screen.getByLabelText('Nome completo')).toBeInTheDocument();
@@ -44,5 +49,19 @@ describe('WaitlistForm', () => {
     expect(screen.getByText('Você está na lista!')).toBeInTheDocument();
     expect(screen.getByText('Avisaremos assim que abrirmos o acesso.')).toBeInTheDocument();
     expect(screen.queryByLabelText('Nome completo')).toBeNull();
+  });
+
+  it('pre-fills the email field from the waitlistEmail store when there is no prior submission', () => {
+    waitlistEmail.set('ana@example.com');
+    render(WaitlistForm, { props: { form: null } });
+    expect(screen.getByLabelText('E-mail')).toHaveValue('ana@example.com');
+  });
+
+  it('prefers a previously submitted email over the waitlistEmail store value', () => {
+    waitlistEmail.set('store@example.com');
+    render(WaitlistForm, {
+      props: { form: { errorKey: 'form.error_email', values: { email: 'bad-input' } } },
+    });
+    expect(screen.getByLabelText('E-mail')).toHaveValue('bad-input');
   });
 });

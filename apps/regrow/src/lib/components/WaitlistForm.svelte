@@ -2,6 +2,7 @@
   import { enhance } from '$app/forms'
   import { t } from '$lib/i18n'
   import WaitlistCta from './WaitlistCta.svelte'
+  import { waitlistEmail } from '../stores/waitlist-email'
 
   let {
     form,
@@ -79,7 +80,7 @@
         name="email"
         type="email"
         required
-        value={form?.values?.email ?? ''}
+        value={form?.values?.email ?? $waitlistEmail}
         class="waitlist-form__input"
       />
     </div>
