@@ -13,7 +13,7 @@
     variant?: 'hero' | 'form' | 'topbar'
   } = $props()
 
-  const hasShimmer = $derived(variant === 'hero')
+  const hasShimmer = $derived(variant !== 'topbar')
   const hasIcon = $derived(variant === 'hero')
 </script>
 
@@ -63,10 +63,6 @@
     border-radius: var(--radius-pill);
     text-decoration: none;
     cursor: pointer;
-  }
-
-  .waitlist-cta.waitlist-cta--hero,
-  .waitlist-cta.waitlist-cta--topbar {
     transition:
       background var(--transition-fast),
       transform var(--transition-fast),

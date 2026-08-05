@@ -37,7 +37,6 @@
   const ogLocale = $derived(htmlLang.replace('-', '_'))
   const canonicalBase = 'https://regrow.com.br'
   const canonicalUrl = $derived(`${canonicalBase}/${data.lang}`)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const jsonLd = $derived(
     JSON.stringify({
       '@context': 'https://schema.org',
@@ -81,7 +80,7 @@
 
   <meta name="robots" content="index, follow" />
 
-  <script type="application/ld+json">{jsonLd}</script>
+  {@html `<script type="application/ld+json">${jsonLd}</script>`}
 </svelte:head>
 
 <LandingTopbar />

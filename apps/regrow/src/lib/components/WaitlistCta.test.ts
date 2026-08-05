@@ -31,7 +31,7 @@ describe('WaitlistCta', () => {
     expect(container.querySelector('svg')).toBeNull();
   });
 
-  it('omits the shimmer element for the topbar variant but includes it for hero', () => {
+  it('omits the shimmer element for the topbar variant but includes it for hero and form', () => {
     const topbar = render(WaitlistCta, {
       props: { label: 'CTA', href: '#waitlist', variant: 'topbar' },
     });
@@ -42,5 +42,11 @@ describe('WaitlistCta', () => {
       props: { label: 'CTA', href: '#waitlist', variant: 'hero' },
     });
     expect(hero.container.querySelector('.waitlist-cta__shimmer')).not.toBeNull();
+    hero.unmount();
+
+    const form = render(WaitlistCta, {
+      props: { label: 'CTA', type: 'submit', variant: 'form' },
+    });
+    expect(form.container.querySelector('.waitlist-cta__shimmer')).not.toBeNull();
   });
 });
