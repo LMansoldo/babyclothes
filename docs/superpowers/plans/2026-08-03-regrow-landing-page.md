@@ -3353,9 +3353,24 @@ Expected: PASS — key parity still holds since both files got the same 7 new ke
      leaving AppPreview and the whole waitlist section invisible forever
      for a reduced-motion user. Gate the hide/reveal rules to the
      no-preference case so the default (no JS, or reduced motion) is
-     fully visible. */
+     fully visible.
+
+     Second correction (discovered later, reported by the user as "the
+     form never appears"): both `.reveal` and `.reveal--visible` must be
+     :global. Svelte appends its own scoping class to a plain scoped
+     selector, so `.reveal { opacity: 0 }` compiles to effective
+     specificity (0,2,0) — .reveal plus the scoping hash — while an
+     unscoped `:global(.reveal--visible) { opacity: 1 }` stays at
+     (0,1,0). (0,2,0) beats (0,1,0) regardless of source order, so the
+     "visible" override never won even though the IntersectionObserver
+     correctly added the class at runtime — the whole waitlist section
+     (and AppPreview) stayed invisible forever for every
+     prefers-reduced-motion: no-preference user (i.e. almost everyone),
+     while still occupying its layout space. Making `.reveal` itself
+     :global too gives both rules matching specificity so source order
+     decides the winner as intended. */
   @media (prefers-reduced-motion: no-preference) {
-    .reveal {
+    :global(.reveal) {
       opacity: 0;
       transform: translateY(1rem);
       transition:
