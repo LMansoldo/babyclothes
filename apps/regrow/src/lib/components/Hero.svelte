@@ -2,6 +2,7 @@
   import { t } from '$lib/i18n'
   import WaitlistCta from './WaitlistCta.svelte'
   import { waitlistEmail } from '../stores/waitlist-email'
+  import { ItemCard } from '@babyclothes/design-system'
 
   let quickEmail = $state('')
 
@@ -58,22 +59,44 @@
     </div>
   </div>
 
-  <div class="hero__floating-card">
-    <div class="hero__floating-card-image">
-      <span class="hero__floating-card-badge">{$t('hero.floating_card_badge')}</span>
-      <span class="hero__floating-card-favorite" aria-hidden="true">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FF3CAC" stroke-width="2.2">
-          <path
-            d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"
-          />
-        </svg>
-      </span>
+  <div class="hero__card-collage">
+    <div class="hero__card-collage-secondary hero__card-collage-secondary--a">
+      <ItemCard
+        title={$t('hero.card2_title')}
+        price={22}
+        oldPrice={39}
+        clothingSize={$t('hero.card2_size')}
+        conditionLabel={$t('hero.condition_seminovo')}
+        onclick={scrollToWaitlist}
+      />
     </div>
-    <p class="hero__floating-card-title">Body inverno manga longa</p>
-    <p class="hero__floating-card-meta">M · 6-9 meses · Menina</p>
-    <div class="hero__floating-card-price-row">
-      <span class="hero__floating-card-price">R$ 34,00</span>
-      <span class="hero__floating-card-price-old">R$ 59,00</span>
+    <div class="hero__card-collage-secondary hero__card-collage-secondary--b">
+      <ItemCard
+        title={$t('hero.card3_title')}
+        price={45}
+        oldPrice={68}
+        clothingSize={$t('hero.card3_size')}
+        conditionLabel={$t('hero.condition_seminovo')}
+        onclick={scrollToWaitlist}
+      />
+    </div>
+    <div class="hero__card-collage-featured">
+      <ItemCard
+        title={$t('hero.card1_title')}
+        price={34}
+        clothingSize={$t('hero.card1_size')}
+        conditionLabel={$t('hero.condition_seminovo')}
+        sellerName={$t('hero.card1_seller')}
+        sellerVerifiedLabel={$t('hero.verified_label')}
+        paymentEnabled={true}
+        contactLabel={$t('hero.contact_label')}
+        buyLabel={$t('hero.buy_label')}
+        onclick={scrollToWaitlist}
+        onFavorite={scrollToWaitlist}
+        onContact={scrollToWaitlist}
+        onBuy={scrollToWaitlist}
+        onSellerClick={scrollToWaitlist}
+      />
     </div>
   </div>
 </section>
@@ -186,86 +209,44 @@
     }
   }
 
-  .hero__floating-card {
+  .hero__card-collage {
     position: absolute;
     right: clamp(0.8rem, 7vw, 4.5rem);
     bottom: 2.6rem;
     z-index: 3;
-    width: 11.5rem;
-    background: var(--surface-raised);
-    border-radius: 1rem;
-    padding: 0.7rem;
+  }
+
+  .hero__card-collage :global(.item-card) {
     box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.17);
   }
 
-  .hero__floating-card-image {
+  .hero__card-collage-featured {
     position: relative;
-    height: 4.7rem;
-    border-radius: 0.65rem;
-    background: linear-gradient(135deg, #c3d6ff 0%, #aeeef0 100%);
-    margin-bottom: 0.65rem;
+    width: 13rem;
+    z-index: 3;
   }
 
-  .hero__floating-card-badge {
+  .hero__card-collage-secondary {
     position: absolute;
-    top: 0.45rem;
-    left: 0.45rem;
-    padding: 0.2rem 0.5rem;
-    font-size: 0.55rem;
-    font-weight: 700;
-    color: var(--pk);
-    background: var(--brand-subtle);
-    border-radius: var(--radius-pill);
+    width: 9.5rem;
   }
 
-  .hero__floating-card-favorite {
-    position: absolute;
-    top: 0.4rem;
-    right: 0.4rem;
-    width: 1.35rem;
-    height: 1.35rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--surface-raised);
-    border-radius: 50%;
-    box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.1);
+  .hero__card-collage-secondary--a {
+    top: -3rem;
+    left: -4rem;
+    transform: rotate(-6deg);
+    z-index: 2;
   }
 
-  .hero__floating-card-title {
-    font-size: 0.675rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 0.15rem;
-    letter-spacing: -0.01em;
-  }
-
-  .hero__floating-card-meta {
-    font-size: 0.575rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.5rem;
-  }
-
-  .hero__floating-card-price-row {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
-  }
-
-  .hero__floating-card-price {
-    font-size: 0.95rem;
-    font-weight: 900;
-    color: var(--pk);
-  }
-
-  .hero__floating-card-price-old {
-    font-size: 0.575rem;
-    color: var(--text-tertiary);
-    text-decoration: line-through;
+  .hero__card-collage-secondary--b {
+    top: -1.5rem;
+    right: -3.5rem;
+    transform: rotate(5deg);
+    z-index: 1;
   }
 
   @media (max-width: 64rem) {
-    .hero__floating-card {
+    .hero__card-collage {
       display: none;
     }
   }

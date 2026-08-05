@@ -83,4 +83,36 @@ describe('Hero', () => {
 
     document.body.removeChild(waitlistSection);
   });
+
+  it('renders 3 product cards, all marked with the Seminovo condition', () => {
+    render(Hero);
+    expect(screen.getAllByText('Seminovo')).toHaveLength(3);
+  });
+
+  it('renders the featured card with contact and buy actions', () => {
+    render(Hero);
+    expect(screen.getByRole('button', { name: 'Contatar' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Comprar' })).toBeInTheDocument();
+  });
+
+  it('renders old prices on the two secondary cards', () => {
+    render(Hero);
+    expect(screen.getByText('R$ 39,00')).toBeInTheDocument();
+    expect(screen.getByText('R$ 68,00')).toBeInTheDocument();
+  });
+
+  it('scrolls to #waitlist when the buy button on the featured card is clicked', async () => {
+    render(Hero);
+
+    const waitlistSection = document.createElement('section');
+    waitlistSection.id = 'waitlist';
+    const scrollSpy = vi.fn();
+    waitlistSection.scrollIntoView = scrollSpy;
+    document.body.appendChild(waitlistSection);
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Comprar' }));
+    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
+
+    document.body.removeChild(waitlistSection);
+  });
 });
