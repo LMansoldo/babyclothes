@@ -68,8 +68,15 @@
 </section>
 
 <style>
+  /* Both rules below must be :global — Svelte's scoping hash makes a
+     plain scoped `.reveal { ... }` more specific ((0,2,0), since the
+     compiler appends its own scoping class to the selector) than an
+     unscoped `:global(.reveal--visible)` ((0,1,0)), so the "visible"
+     override never wins even after JS correctly adds the class. Making
+     both selectors :global keeps their specificity equal, so source
+     order (this block, in order) decides the winner as intended. */
   @media (prefers-reduced-motion: no-preference) {
-    .reveal {
+    :global(.reveal) {
       opacity: 0;
       transform: translateY(1rem);
       transition:
