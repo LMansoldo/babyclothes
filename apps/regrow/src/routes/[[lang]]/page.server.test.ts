@@ -27,10 +27,7 @@ describe('waitlist action', () => {
       params: { lang: 'pt' },
     } as never;
     const result = await actions.waitlist(event);
-    if (result && 'status' in result) {
-      expect(result.status).toBe(400);
-      expect(result.data).toMatchObject({ errorKey: 'form.error_required' });
-    }
+    expect(result).toMatchObject({ status: 400, data: { errorKey: 'form.error_required' } });
   });
 
   it('returns a 400 with error_email when the email is malformed', async () => {
@@ -44,10 +41,7 @@ describe('waitlist action', () => {
       params: { lang: 'pt' },
     } as never;
     const result = await actions.waitlist(event);
-    if (result && 'status' in result) {
-      expect(result.status).toBe(400);
-      expect(result.data).toMatchObject({ errorKey: 'form.error_email' });
-    }
+    expect(result).toMatchObject({ status: 400, data: { errorKey: 'form.error_email' } });
   });
 
   it('creates a lead and returns success on valid input', async () => {
@@ -86,10 +80,7 @@ describe('waitlist action', () => {
       params: { lang: 'pt' },
     } as never;
     const result = await actions.waitlist(event);
-    if (result && 'status' in result) {
-      expect(result.status).toBe(409);
-      expect(result.data).toMatchObject({ errorKey: 'form.error_duplicate' });
-    }
+    expect(result).toMatchObject({ status: 409, data: { errorKey: 'form.error_duplicate' } });
   });
 
   it('returns a 500 with error_server on any other database error', async () => {
@@ -104,10 +95,7 @@ describe('waitlist action', () => {
       params: { lang: 'pt' },
     } as never;
     const result = await actions.waitlist(event);
-    if (result && 'status' in result) {
-      expect(result.status).toBe(500);
-      expect(result.data).toMatchObject({ errorKey: 'form.error_server' });
-    }
+    expect(result).toMatchObject({ status: 500, data: { errorKey: 'form.error_server' } });
   });
 
   it('defaults locale to pt when params.lang is absent', async () => {

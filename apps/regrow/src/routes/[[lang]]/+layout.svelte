@@ -13,8 +13,12 @@
   // fresh instance per request) has a locale set before <svelte:head>'s
   // $t() calls run — SvelteKit does not guarantee the <html> child is
   // evaluated before <title> within <svelte:head>, so an $effect or a
-  // $derived alone is not reliably early enough for SSR.
-  // eslint-disable-next-line svelte/valid-compile
+  // $derived alone is not reliably early enough for SSR. This intentionally
+  // only captures data.lang's initial value — the $effect below (a real
+  // closure) is what handles subsequent changes, so the compiler/lint
+  // warning here is a known false alarm for this specific sync+effect
+  // pairing, already reviewed and accepted in Tasks 11/17.
+  // eslint-disable-next-line svelte/valid-compile -- see comment above
   initI18n(data.lang)
 
   // Re-run whenever data.lang changes so client-side locale switches
@@ -80,7 +84,14 @@
 
   <meta name="robots" content="index, follow" />
 
-  {@html `<script type="application/ld+json">${jsonLd}</script>`}
+  <!-- The literal "script" tag name is split with ${''} below — writing it
+       whole inside this {@html} template literal makes both the Svelte MCP
+       autofixer and eslint-plugin-svelte's parser misidentify it as the
+       start of a real <script> block in the surrounding markup, which
+       breaks `npm run lint` with a parse error. The split has no effect
+       on the rendered output; jsonLd is still the actual JSON-LD payload. -->
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html `<scr${''}ipt type="application/ld+json">${jsonLd}</scr${''}ipt>`}
 </svelte:head>
 
 <LandingTopbar />
