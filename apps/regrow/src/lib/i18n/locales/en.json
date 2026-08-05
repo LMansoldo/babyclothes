@@ -29,8 +29,14 @@
     "step3_desc": "Tracks your child's growth and tells you when it's time to size up."
   },
   "preview": {
-    "title": "See the app in action",
-    "caption": "Product cards rendered right inside the conversation"
+    "list_title": "What's good?",
+    "image_alt": "Suggested outfits shown inside an app conversation",
+    "item1_title": "Predictability",
+    "item1_text": "The assistant predicts your child's growth so you can plan ahead and get the best pieces.",
+    "item2_title": "Smart search",
+    "item2_text": "The ideal pieces are sourced from partner shops and thrift stores that aren't listed on search engines.",
+    "item3_title": "Savings and quality",
+    "item3_text": "Only well-kept items at a good price are shown — no bad surprises."
   },
   "form": {
     "title": "Join the waitlist",

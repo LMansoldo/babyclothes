@@ -29,8 +29,14 @@
     "step3_desc": "Acompanha o crescimento da criança e avisa quando está na hora de trocar de tamanho."
   },
   "preview": {
-    "title": "Veja o app em ação",
-    "caption": "Cards de produto renderizados direto na conversa"
+    "list_title": "O que há de bom?",
+    "image_alt": "Roupas sugeridas em uma conversa no app",
+    "item1_title": "Previsibilidade",
+    "item1_text": "O assistente prevê o crescimento das crianças para que você possa se planejar e conseguir as melhores peças.",
+    "item2_title": "Busca inteligente",
+    "item2_text": "As peças ideais são pesquisadas em lojas e brechós parceiros que não estão catalogados em sites de busca.",
+    "item3_title": "Economia e qualidade",
+    "item3_text": "Apenas itens de bom estado com um bom preço são retornados, sem surpresas negativas."
   },
   "form": {
     "title": "Entre na lista de espera",
