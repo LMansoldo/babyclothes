@@ -1,27 +1,46 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/svelte';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/svelte';
+import { get } from 'svelte/store';
 import Hero from './Hero.svelte';
+import { waitlistEmail } from '../stores/waitlist-email';
 
 describe('Hero', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation((query: string) => ({
+        matches: false,
+        media: query,
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+      })),
+    });
+  });
+
+  afterEach(() => {
+    waitlistEmail.set('');
+  });
+
   it('renders the translated headline', () => {
     render(Hero);
     expect(screen.getByText('Achadinhos com o')).toBeInTheDocument();
     expect(screen.getByText('match perfeito')).toBeInTheDocument();
   });
 
-  it('renders the translated sub-headline', () => {
+  it('does not render a sub-headline anymore', () => {
     render(Hero);
     expect(
-      screen.getByText(
+      screen.queryByText(
         'O assistente gratuito que encontra roupinhas e acessórios acompanhando todo o crescimento dos nossos pequenos',
       ),
-    ).toBeInTheDocument();
+    ).toBeNull();
   });
 
-  it('renders the CTA anchored to #waitlist', () => {
+  it('does not render the trust chips anymore', () => {
     render(Hero);
-    const cta = screen.getByRole('link', { name: 'Quero entrar na lista' });
-    expect(cta).toHaveAttribute('href', '#waitlist');
+    expect(screen.queryByText('Lista de espera aberta')).toBeNull();
+    expect(screen.queryByText('100% grátis')).toBeNull();
+    expect(screen.queryByText('IA conversacional')).toBeNull();
   });
 
   it('renders the hero image with fetchpriority high and no lazy loading', () => {
@@ -38,15 +57,30 @@ describe('Hero', () => {
     expect(img).toHaveAttribute('height');
   });
 
-  it('renders all 3 trust chips from the mock', () => {
+  it('renders an email input and a submit button with the quick-signup copy', () => {
     render(Hero);
-    expect(screen.getByText('Lista de espera aberta')).toBeInTheDocument();
-    expect(screen.getByText('100% grátis')).toBeInTheDocument();
-    expect(screen.getByText('IA conversacional')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Seu melhor e-mail')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Cadastre-se para economizar' }),
+    ).toBeInTheDocument();
   });
 
-  it('renders the floating card badge', () => {
+  it('writes the typed email into the waitlistEmail store and scrolls to #waitlist on submit', async () => {
     render(Hero);
-    expect(screen.getByText('Seminovo')).toBeInTheDocument();
+
+    const waitlistSection = document.createElement('section');
+    waitlistSection.id = 'waitlist';
+    const scrollSpy = vi.fn();
+    waitlistSection.scrollIntoView = scrollSpy;
+    document.body.appendChild(waitlistSection);
+
+    const input = screen.getByPlaceholderText('Seu melhor e-mail');
+    await fireEvent.input(input, { target: { value: 'ana@example.com' } });
+    await fireEvent.click(screen.getByRole('button', { name: 'Cadastre-se para economizar' }));
+
+    expect(get(waitlistEmail)).toBe('ana@example.com');
+    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
+
+    document.body.removeChild(waitlistSection);
   });
 });

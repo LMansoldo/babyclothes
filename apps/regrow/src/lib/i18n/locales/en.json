@@ -3,12 +3,8 @@
     "headline": "The perfect match for every little outfit",
     "headline_line1": "The perfect match",
     "headline_line2": "for every little outfit",
-    "subheadline": "The free assistant that finds clothes and accessories as your little one grows",
-    "cta": "Join the waitlist",
-    "trust_chip_open": "Waitlist open",
-    "trust_chip_free": "100% free",
-    "trust_chip_ai": "Conversational AI",
-    "floating_card_badge": "Pre-loved"
+    "email_placeholder": "Your best email",
+    "email_cta": "Sign up and save"
   },
   "how": {
     "title": "How it works",

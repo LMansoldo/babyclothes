@@ -1,6 +1,21 @@
 <script lang="ts">
-  import { t } from '$lib/i18n';
-  import WaitlistCta from './WaitlistCta.svelte';
+  import { t } from '$lib/i18n'
+  import WaitlistCta from './WaitlistCta.svelte'
+  import { waitlistEmail } from '../stores/waitlist-email'
+
+  let quickEmail = $state('')
+
+  function scrollToWaitlist() {
+    const target = document.getElementById('waitlist')
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    target?.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+  }
+
+  function handleQuickSignup(event: SubmitEvent) {
+    event.preventDefault()
+    waitlistEmail.set(quickEmail)
+    scrollToWaitlist()
+  }
 </script>
 
 <section id="top" class="hero">
@@ -24,23 +39,22 @@
 
   <div class="hero__content">
     <div class="hero__copy">
-      <div class="hero__chips">
-        <span class="hero__chip hero__chip--live">
-          <span class="hero__chip-dot"></span>
-          {$t('hero.trust_chip_open')}
-        </span>
-        <span class="hero__chip">{$t('hero.trust_chip_free')}</span>
-        <span class="hero__chip">{$t('hero.trust_chip_ai')}</span>
-      </div>
-
       <h1 class="hero__headline">
         {$t('hero.headline_line1')}<br />
         <em class="hero__headline-accent">{$t('hero.headline_line2')}</em>
       </h1>
 
-      <p class="hero__subheadline">{$t('hero.subheadline')}</p>
-
-      <WaitlistCta label={$t('hero.cta')} href="#waitlist" variant="hero" />
+      <form class="hero__quick-signup" onsubmit={handleQuickSignup}>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder={$t('hero.email_placeholder')}
+          class="hero__quick-signup-input"
+          bind:value={quickEmail}
+        />
+        <WaitlistCta type="submit" variant="hero" label={$t('hero.email_cta')} />
+      </form>
     </div>
   </div>
 
@@ -124,39 +138,6 @@
     max-width: 30rem;
   }
 
-  .hero__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .hero__chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.25rem 0.65rem;
-    font-size: 0.625rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    background: rgba(255, 255, 255, 0.88);
-    border: 0.05rem solid var(--border-default);
-    border-radius: var(--radius-pill);
-  }
-
-  .hero__chip--live {
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    border-color: rgba(255, 60, 172, 0.22);
-  }
-
-  .hero__chip-dot {
-    width: 0.35rem;
-    height: 0.35rem;
-    border-radius: 50%;
-    background: var(--pk);
-  }
-
   .hero__headline {
     font-size: clamp(2.5rem, 6.4vw, 4.2rem);
     font-weight: 900;
@@ -171,13 +152,38 @@
     color: var(--pk);
   }
 
-  .hero__subheadline {
-    font-size: clamp(0.9rem, 1.7vw, 1.1rem);
-    line-height: 1.55;
-    color: var(--text-secondary);
-    max-width: 25rem;
-    margin-bottom: 2rem;
-    font-weight: 300;
+  .hero__quick-signup {
+    display: flex;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .hero__quick-signup-input {
+    flex: 1;
+    min-width: 0;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    background: var(--surface-sunken);
+    border: 0.075rem solid var(--border-default);
+    border-radius: var(--radius-pill);
+    padding: 0.85rem 1.2rem;
+    outline: none;
+    transition:
+      border-color var(--transition-fast),
+      box-shadow var(--transition-fast);
+  }
+
+  .hero__quick-signup-input:focus {
+    border-color: var(--pk);
+    box-shadow: 0 0 0 0.2rem rgba(255, 60, 172, 0.09);
+    background: var(--surface-raised);
+  }
+
+  @media (max-width: 40rem) {
+    .hero__quick-signup {
+      flex-direction: column;
+    }
   }
 
   .hero__floating-card {
