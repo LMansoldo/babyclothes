@@ -9,7 +9,7 @@
     <div class="landing-topbar__nav">
       <a class="landing-topbar__link" href="#como-funciona">{$t('how.title')}</a>
     </div>
-    <WaitlistCta label={$t('hero.cta')} href="#waitlist" variant="topbar" />
+    <WaitlistCta label={$t('hero.email_cta')} href="#waitlist" variant="topbar" />
   </nav>
 </header>
 
