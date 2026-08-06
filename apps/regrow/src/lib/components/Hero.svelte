@@ -139,7 +139,7 @@
     font-size: 0.65rem;
     font-weight: 700;
     color: #ffffff;
-    background: #e91e8c;
+    background: linear-gradient(135deg, #e91e8c, #b03eff);
     border-radius: var(--radius-pill);
   }
 
@@ -185,7 +185,7 @@
   .hero__chat-mockup {
     display: block;
     width: 100%;
-    max-width: 20rem;
+    max-width: 16rem;
     height: fit-content;
     margin: 0 auto;
     border-radius: 1.25rem;
