@@ -35,8 +35,7 @@
       class="hero__image"
     />
   </picture>
-  <div class="hero__scrim hero__scrim--horizontal"></div>
-  <div class="hero__scrim hero__scrim--vertical"></div>
+  <div class="hero__overlay"></div>
 
   <div class="hero__content">
     <div class="hero__copy">
@@ -57,46 +56,46 @@
         <WaitlistCta type="submit" variant="hero" label={$t('hero.email_cta')} />
       </form>
     </div>
-  </div>
 
-  <div class="hero__card-collage">
-    <div class="hero__card-collage-secondary hero__card-collage-secondary--a">
-      <ItemCard
-        title={$t('hero.card2_title')}
-        price={22}
-        oldPrice={39}
-        clothingSize={$t('hero.card2_size')}
-        conditionLabel={$t('hero.condition_seminovo')}
-        onclick={scrollToWaitlist}
-      />
-    </div>
-    <div class="hero__card-collage-secondary hero__card-collage-secondary--b">
-      <ItemCard
-        title={$t('hero.card3_title')}
-        price={45}
-        oldPrice={68}
-        clothingSize={$t('hero.card3_size')}
-        conditionLabel={$t('hero.condition_seminovo')}
-        onclick={scrollToWaitlist}
-      />
-    </div>
-    <div class="hero__card-collage-featured">
-      <ItemCard
-        title={$t('hero.card1_title')}
-        price={34}
-        clothingSize={$t('hero.card1_size')}
-        conditionLabel={$t('hero.condition_seminovo')}
-        sellerName={$t('hero.card1_seller')}
-        sellerVerifiedLabel={$t('hero.verified_label')}
-        paymentEnabled={true}
-        contactLabel={$t('hero.contact_label')}
-        buyLabel={$t('hero.buy_label')}
-        onclick={scrollToWaitlist}
-        onFavorite={scrollToWaitlist}
-        onContact={scrollToWaitlist}
-        onBuy={scrollToWaitlist}
-        onSellerClick={scrollToWaitlist}
-      />
+    <div class="hero__visual">
+      <div class="hero__card hero__card--back">
+        <ItemCard
+          title={$t('hero.card2_title')}
+          price={22}
+          oldPrice={39}
+          clothingSize={$t('hero.card2_size')}
+          conditionLabel={$t('hero.condition_seminovo')}
+          onclick={scrollToWaitlist}
+        />
+      </div>
+      <div class="hero__card hero__card--middle">
+        <ItemCard
+          title={$t('hero.card3_title')}
+          price={45}
+          oldPrice={68}
+          clothingSize={$t('hero.card3_size')}
+          conditionLabel={$t('hero.condition_seminovo')}
+          onclick={scrollToWaitlist}
+        />
+      </div>
+      <div class="hero__card hero__card--front">
+        <ItemCard
+          title={$t('hero.card1_title')}
+          price={34}
+          clothingSize={$t('hero.card1_size')}
+          conditionLabel={$t('hero.condition_seminovo')}
+          sellerName={$t('hero.card1_seller')}
+          sellerVerifiedLabel={$t('hero.verified_label')}
+          paymentEnabled={true}
+          contactLabel={$t('hero.contact_label')}
+          buyLabel={$t('hero.buy_label')}
+          onclick={scrollToWaitlist}
+          onFavorite={scrollToWaitlist}
+          onContact={scrollToWaitlist}
+          onBuy={scrollToWaitlist}
+          onSellerClick={scrollToWaitlist}
+        />
+      </div>
     </div>
   </div>
 </section>
@@ -105,7 +104,7 @@
   .hero {
     position: relative;
     overflow: hidden;
-    min-height: 36rem;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     padding: 7rem 0 5rem;
@@ -121,133 +120,158 @@
     z-index: 0;
   }
 
-  .hero__scrim {
+  .hero__overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
-  }
-
-  .hero__scrim--horizontal {
-    background: linear-gradient(
-      to right,
-      rgba(248, 245, 242, 1) 0%,
-      rgba(248, 245, 242, 0.97) 30%,
-      rgba(248, 245, 242, 0.72) 55%,
-      rgba(248, 245, 242, 0.15) 78%,
-      transparent 100%
-    );
-  }
-
-  .hero__scrim--vertical {
-    background: linear-gradient(
-      to bottom,
-      rgba(248, 245, 242, 0.6) 0%,
-      transparent 18%,
-      transparent 72%,
-      rgba(248, 245, 242, 0.9) 100%
-    );
+    background: rgba(255, 255, 255, 0.8);
   }
 
   .hero__content {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 62rem;
+    max-width: 72rem;
     margin: 0 auto;
-    padding: 0 clamp(1rem, 5vw, 3.6rem);
+    padding: 0 clamp(1rem, 5vw, 4rem);
+    display: flex;
+    align-items: center;
+    gap: clamp(1.5rem, 4vw, 3rem);
   }
 
   .hero__copy {
-    max-width: 30rem;
+    flex: 0 0 45%;
+    max-width: 26rem;
   }
 
   .hero__headline {
-    font-size: clamp(2.5rem, 6.4vw, 4.2rem);
-    font-weight: 900;
-    line-height: 1.01;
-    letter-spacing: -0.032em;
-    color: var(--text-primary);
-    margin-bottom: 1.1rem;
+    font-size: clamp(1.8rem, 4.4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+    margin-bottom: 2rem;
   }
 
   .hero__headline-accent {
     font-style: normal;
-    color: var(--pk);
+    color: #e91e8c;
   }
 
   .hero__quick-signup {
     display: flex;
-    gap: 0.5rem;
-    align-items: stretch;
+    gap: 0;
   }
 
   .hero__quick-signup-input {
     flex: 1;
     min-width: 0;
     font-family: var(--font-body);
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     color: var(--text-primary);
-    background: var(--surface-sunken);
-    border: 0.075rem solid var(--border-default);
-    border-radius: var(--radius-pill);
-    padding: 0.85rem 1.2rem;
+    background: #f0f0f0;
+    border: none;
+    border-radius: 1.5rem 0 0 1.5rem;
+    padding: 0.8rem 1.2rem;
     outline: none;
-    transition:
-      border-color var(--transition-fast),
-      box-shadow var(--transition-fast);
+    transition: box-shadow var(--transition-fast);
+  }
+
+  .hero__quick-signup-input::placeholder {
+    color: #999999;
   }
 
   .hero__quick-signup-input:focus {
-    border-color: var(--pk);
-    box-shadow: 0 0 0 0.2rem rgba(255, 60, 172, 0.09);
-    background: var(--surface-raised);
+    box-shadow: inset 0 0 0 0.1rem #e91e8c;
   }
 
-  @media (max-width: 40rem) {
-    .hero__quick-signup {
-      flex-direction: column;
-    }
+  .hero__quick-signup :global(.waitlist-cta--hero) {
+    border-radius: 0 1.5rem 1.5rem 0;
+    padding: 0.8rem 1.6rem;
+    font-size: 0.75rem;
+    background: linear-gradient(135deg, #e91e8c, #f54dab);
+    box-shadow: none;
   }
 
-  .hero__card-collage {
-    position: absolute;
-    right: clamp(0.8rem, 7vw, 4.5rem);
-    bottom: 2.6rem;
-    z-index: 3;
+  .hero__quick-signup :global(.waitlist-cta--hero:hover) {
+    filter: brightness(0.95);
   }
 
-  .hero__card-collage :global(.item-card) {
-    box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.17);
-  }
-
-  .hero__card-collage-featured {
+  .hero__visual {
     position: relative;
-    width: 13rem;
-    z-index: 3;
+    flex: 0 0 55%;
+    height: 26rem;
   }
 
-  .hero__card-collage-secondary {
+  .hero__card {
     position: absolute;
-    width: 9.5rem;
+    width: 15rem;
   }
 
-  .hero__card-collage-secondary--a {
-    top: -3rem;
-    left: -4rem;
-    transform: rotate(-6deg);
-    z-index: 2;
+  .hero__card :global(.item-card) {
+    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
   }
 
-  .hero__card-collage-secondary--b {
-    top: -1.5rem;
-    right: -3.5rem;
-    transform: rotate(5deg);
+  .hero__card--back {
+    top: 0;
+    right: 10rem;
+    transform: scale(0.9);
+    opacity: 0.7;
     z-index: 1;
   }
 
-  @media (max-width: 64rem) {
-    .hero__card-collage {
+  .hero__card--middle {
+    top: -1rem;
+    right: 6rem;
+    transform: scale(0.95);
+    opacity: 0.85;
+    z-index: 2;
+  }
+
+  .hero__card--front {
+    top: 1rem;
+    right: 2rem;
+    transform: scale(1);
+    z-index: 3;
+  }
+
+  @media (max-width: 48rem) {
+    .hero__content {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero__copy {
+      flex: none;
+      max-width: none;
+    }
+
+    .hero__quick-signup {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .hero__quick-signup-input {
+      border-radius: 1.5rem;
+    }
+
+    .hero__quick-signup :global(.waitlist-cta--hero) {
+      border-radius: 1.5rem;
+    }
+
+    .hero__visual {
+      height: auto;
+    }
+
+    .hero__card--back,
+    .hero__card--middle {
       display: none;
+    }
+
+    .hero__card--front {
+      position: static;
+      transform: none;
+      margin: 0 auto;
     }
   }
 </style>
