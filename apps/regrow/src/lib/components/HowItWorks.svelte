@@ -2,9 +2,9 @@
   import { t } from '$lib/i18n'
 
   const steps = [
-    { number: '01', titleKey: 'how.step1_title', descKey: 'how.step1_desc' },
-    { number: '02', titleKey: 'how.step2_title', descKey: 'how.step2_desc' },
-    { number: '03', titleKey: 'how.step3_title', descKey: 'how.step3_desc' },
+    { icon: '/images/icons8-onesies-48.svg', titleKey: 'how.step1_title', descKey: 'how.step1_desc' },
+    { icon: '/images/icons8-baby-calendar-48.svg', titleKey: 'how.step2_title', descKey: 'how.step2_desc' },
+    { icon: '/images/icons8-baby-feet-48.svg', titleKey: 'how.step3_title', descKey: 'how.step3_desc' },
   ] as const
 </script>
 
@@ -21,9 +21,9 @@
     </div>
 
     <div class="how__grid">
-      {#each steps as step (step.number)}
+      {#each steps as step (step.titleKey)}
         <div class="how__item">
-          <span class="how__number" aria-hidden="true">{step.number}</span>
+          <img src={step.icon} alt="" aria-hidden="true" width="48" height="48" loading="lazy" decoding="async" class="how__icon" />
           <h3 class="how__step-title">{$t(step.titleKey)}</h3>
           <p class="how__step-desc">{$t(step.descKey)}</p>
         </div>
@@ -101,15 +101,11 @@
     text-align: center;
   }
 
-  .how__number {
+  .how__icon {
     display: block;
-    font-size: clamp(5rem, 8vw, 7.5rem);
-    font-weight: 900;
-    line-height: 1;
-    color: var(--pk);
-    opacity: 0.055;
-    user-select: none;
-    margin-bottom: -2.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 1.2rem;
   }
 
   .how__step-title {

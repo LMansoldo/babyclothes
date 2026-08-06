@@ -35,6 +35,23 @@ describe('HowItWorks', () => {
     expect(screen.queryAllByRole('img')).toHaveLength(0);
   });
 
+  it('renders a decorative icon for each capability', () => {
+    const { container } = render(HowItWorks);
+    expect(container.querySelectorAll('.how__icon')).toHaveLength(3);
+  });
+
+  it('uses the icons8 SVG asset for each capability, in order', () => {
+    const { container } = render(HowItWorks);
+    const srcs = Array.from(container.querySelectorAll('.how__icon')).map((img) =>
+      img.getAttribute('src'),
+    );
+    expect(srcs).toEqual([
+      '/images/icons8-onesies-48.svg',
+      '/images/icons8-baby-calendar-48.svg',
+      '/images/icons8-baby-feet-48.svg',
+    ]);
+  });
+
   it('renders the translated two-line heading', () => {
     render(HowItWorks);
     expect(screen.getByText('Um assistente pessoal')).toBeInTheDocument();
