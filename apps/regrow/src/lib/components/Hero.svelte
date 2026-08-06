@@ -140,6 +140,7 @@
     font-weight: 700;
     color: #ffffff;
     background: linear-gradient(135deg, #e91e8c, #b03eff);
+    border: 0.1rem solid #ffffff;
     border-radius: var(--radius-pill);
   }
 
