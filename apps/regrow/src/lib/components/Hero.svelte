@@ -219,8 +219,23 @@
   }
 
   .hero__quick-signup {
+    position: relative;
     display: flex;
     gap: 0;
+  }
+
+  .hero__quick-signup::before {
+    content: '';
+    position: absolute;
+    inset: -3rem -2rem;
+    z-index: -1;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.25) 45%,
+      transparent 75%
+    );
+    pointer-events: none;
   }
 
   .hero__quick-signup-input {
