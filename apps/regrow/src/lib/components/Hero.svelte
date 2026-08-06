@@ -35,15 +35,19 @@
       </h1>
 
       <form class="hero__quick-signup" onsubmit={handleQuickSignup}>
-        <input
-          type="email"
-          name="email"
-          required
-          placeholder={$t('hero.email_placeholder')}
-          class="hero__quick-signup-input"
-          bind:value={quickEmail}
-        />
-        <WaitlistCta type="submit" variant="hero" label={$t('hero.email_cta')} />
+        <div class="hero__quick-signup-card">
+          <span class="hero__quick-signup-badge">{$t('hero.vip_badge')}</span>
+          <input
+            type="email"
+            name="email"
+            required
+            placeholder={$t('hero.email_placeholder')}
+            class="hero__quick-signup-input"
+            bind:value={quickEmail}
+          />
+        </div>
+        <p class="hero__quick-signup-disclaimer">{$t('hero.signup_disclaimer')}</p>
+        <WaitlistCta type="submit" variant="hero" label={$t('hero.signup_cta')} />
       </form>
     </div>
 
@@ -219,49 +223,58 @@
   }
 
   .hero__quick-signup {
-    position: relative;
     display: flex;
-    gap: 0;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .hero__quick-signup::before {
-    content: '';
+  .hero__quick-signup-card {
+    position: relative;
+    background: #ffffff;
+    border: 0.1rem solid var(--border-default);
+    border-radius: 1rem;
+    padding: 1.2rem 1.4rem;
+    box-shadow: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.15);
+  }
+
+  .hero__quick-signup-badge {
     position: absolute;
-    inset: -3rem -2rem;
-    z-index: -1;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(255, 255, 255, 0.25) 45%,
-      transparent 75%
-    );
-    pointer-events: none;
+    top: -0.9rem;
+    right: 1.2rem;
+    padding: 0.35rem 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #e91e8c, #b03eff);
+    border-radius: var(--radius-pill);
   }
 
   .hero__quick-signup-input {
-    flex: 1;
-    min-width: 0;
+    display: block;
+    width: 100%;
     font-family: var(--font-body);
     font-size: 0.9rem;
     color: var(--text-primary);
-    background: #f0f0f0;
+    background: transparent;
     border: none;
-    border-radius: 1.5rem 0 0 1.5rem;
-    padding: 1rem 1.6rem;
     outline: none;
-    transition: box-shadow var(--transition-fast);
+    padding: 0.3rem 0;
   }
 
   .hero__quick-signup-input::placeholder {
     color: #999999;
   }
 
-  .hero__quick-signup-input:focus {
-    box-shadow: inset 0 0 0 0.1rem #e91e8c;
+  .hero__quick-signup-disclaimer {
+    font-size: 0.65rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   .hero__quick-signup :global(.waitlist-cta--hero) {
-    border-radius: 0 1.5rem 1.5rem 0;
+    width: 100%;
+    border-radius: var(--radius-pill);
     padding: 1rem 2.1rem;
     font-size: 1rem;
     background: linear-gradient(135deg, #e91e8c, #f54dab);
@@ -323,19 +336,6 @@
     .hero__copy {
       flex: none;
       max-width: none;
-    }
-
-    .hero__quick-signup {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .hero__quick-signup-input {
-      border-radius: 1.5rem;
-    }
-
-    .hero__quick-signup :global(.waitlist-cta--hero) {
-      border-radius: 1.5rem;
     }
 
     .hero__visual {

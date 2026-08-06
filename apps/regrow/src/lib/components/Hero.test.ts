@@ -52,7 +52,19 @@ describe('Hero', () => {
     render(Hero);
     expect(screen.getByPlaceholderText('Seu melhor e-mail')).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Cadastrar' }),
+      screen.getByRole('button', { name: 'Cadastre-se e entre na lista de espera' }),
+    ).toBeInTheDocument();
+  });
+
+  it('renders the "Lista VIP" badge above the email card', () => {
+    render(Hero);
+    expect(screen.getByText('Lista VIP')).toBeInTheDocument();
+  });
+
+  it('renders a disclaimer explaining the limited early signup', () => {
+    render(Hero);
+    expect(
+      screen.getByText('O app será lançado em breve, com vagas de cadastro limitadas.'),
     ).toBeInTheDocument();
   });
 
@@ -67,7 +79,7 @@ describe('Hero', () => {
 
     const input = screen.getByPlaceholderText('Seu melhor e-mail');
     await fireEvent.input(input, { target: { value: 'ana@example.com' } });
-    await fireEvent.click(screen.getByRole('button', { name: 'Cadastrar' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Cadastre-se e entre na lista de espera' }));
 
     expect(get(waitlistEmail)).toBe('ana@example.com');
     expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
