@@ -18,7 +18,7 @@ describe('AppPreview', () => {
     render(AppPreview);
     const img = screen.getByRole('img');
     expect(img).toHaveAttribute('loading', 'lazy');
-    expect(img).toHaveAttribute('src', '/images/screen-party.png');
+    expect(img).toHaveAttribute('src', '/images/preview-phone-mockup.webp');
   });
 
   it('renders the 3 feature items with their titles and texts', () => {

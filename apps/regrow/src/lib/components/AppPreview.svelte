@@ -13,12 +13,12 @@
   <div class="preview__inner">
     <div class="preview__phone">
       <img
-        src="/images/screen-party.png"
+        src="/images/preview-phone-mockup.webp"
         alt={$t('preview.image_alt')}
         loading="lazy"
         decoding="async"
-        width="340"
-        height="580"
+        width="700"
+        height="1059"
         class="preview__phone-image"
       />
     </div>
@@ -59,20 +59,14 @@
 
   .preview__phone {
     flex: 0 0 40%;
-    background: var(--surface-inverse);
-    border-radius: 2rem;
-    padding: 0.4rem;
-    box-shadow: 0.6rem 1rem 3rem rgba(0, 0, 0, 0.22);
     transform: rotate(-2deg);
   }
 
   .preview__phone-image {
     display: block;
     width: 100%;
-    height: clamp(23rem, 42vw, 29rem);
-    object-fit: cover;
-    object-position: top;
-    border-radius: 1.65rem;
+    height: auto;
+    filter: drop-shadow(0.6rem 1rem 2rem rgba(0, 0, 0, 0.25));
   }
 
   .preview__content {
