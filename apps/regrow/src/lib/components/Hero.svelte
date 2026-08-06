@@ -167,8 +167,7 @@
     padding: 0.8rem 1.6rem;
     font-size: 0.75rem;
     background: linear-gradient(135deg, #e91e8c, #f54dab);
-    border: 0.2rem solid #ffffff;
-    box-shadow: none;
+    box-shadow: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.35);
   }
 
   .hero__quick-signup :global(.waitlist-cta--hero:hover) {
