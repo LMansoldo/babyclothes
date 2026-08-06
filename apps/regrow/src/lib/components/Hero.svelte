@@ -20,22 +20,7 @@
 </script>
 
 <section id="top" class="hero">
-  <picture>
-    <source srcset="/images/hero-mobile.webp" media="(max-width: 40rem)" type="image/webp" />
-    <source srcset="/images/hero-desktop.webp" type="image/webp" />
-    <img
-      src="/images/hero-desktop.png"
-      srcset="/images/hero-mobile.png 640w, /images/hero-desktop.png 1200w"
-      sizes="(max-width: 40rem) 100vw, 50vw"
-      alt={$t('hero.headline')}
-      width="1200"
-      height="800"
-      fetchpriority="high"
-      decoding="async"
-      class="hero__image"
-    />
-  </picture>
-  <div class="hero__overlay"></div>
+  <div class="hero__bottom-fade"></div>
 
   <div class="hero__content">
     <div class="hero__copy">
@@ -58,6 +43,21 @@
     </div>
 
     <div class="hero__visual">
+      <picture>
+        <source srcset="/images/hero-mobile.webp" media="(max-width: 40rem)" type="image/webp" />
+        <source srcset="/images/hero-desktop.webp" type="image/webp" />
+        <img
+          src="/images/hero-desktop.png"
+          srcset="/images/hero-mobile.png 640w, /images/hero-desktop.png 1200w"
+          sizes="(max-width: 40rem) 100vw, 50vw"
+          alt={$t('hero.headline')}
+          width="1200"
+          height="800"
+          fetchpriority="high"
+          decoding="async"
+          class="hero__image"
+        />
+      </picture>
       <div class="hero__card hero__card--back">
         <ItemCard
           title={$t('hero.card2_title')}
@@ -108,23 +108,28 @@
     display: flex;
     align-items: center;
     padding: 7rem 0 5rem;
+    background: #e91e8c;
+  }
+
+  .hero__bottom-fade {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 1;
+    height: 10rem;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
   }
 
   .hero__image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    position: relative;
+    z-index: 0;
+    display: block;
+    width: 24rem;
+    height: 24rem;
+    margin: 0 auto 2rem;
+    border-radius: 50%;
     object-fit: cover;
     object-position: center 20%;
-    z-index: 0;
-  }
-
-  .hero__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
   }
 
   .hero__content {
@@ -145,17 +150,17 @@
   }
 
   .hero__headline {
-    font-size: clamp(1.8rem, 4.4vw, 2.6rem);
+    font-size: clamp(3rem, 7vw, 5.5rem);
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 1.05;
     letter-spacing: -0.01em;
-    color: #1a1a1a;
+    color: #ffffff;
     margin-bottom: 2rem;
   }
 
   .hero__headline-accent {
     font-style: normal;
-    color: #e91e8c;
+    color: #ffffff;
   }
 
   .hero__quick-signup {
@@ -261,6 +266,12 @@
 
     .hero__visual {
       height: auto;
+    }
+
+    .hero__image {
+      width: 14rem;
+      height: 14rem;
+      margin-bottom: 1.5rem;
     }
 
     .hero__card--back,
