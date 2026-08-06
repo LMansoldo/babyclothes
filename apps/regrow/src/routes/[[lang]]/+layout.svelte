@@ -60,6 +60,7 @@
 <svelte:head>
   <title>{$t('meta.title')}</title>
   <meta name="description" content={$t('meta.description')} />
+  <meta name="keywords" content={$t('meta.keywords')} />
 
   <link rel="canonical" href={canonicalUrl} />
 

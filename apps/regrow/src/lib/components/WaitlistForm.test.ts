@@ -8,28 +8,40 @@ describe('WaitlistForm', () => {
     waitlistEmail.set('');
   });
 
-  it('renders all 4 fields with translated labels when there is no prior submission', () => {
+  it('renders all 5 fields with translated labels when there is no prior submission', () => {
     render(WaitlistForm, { props: { form: null } });
-    expect(screen.getByLabelText('Nome completo')).toBeInTheDocument();
-    expect(screen.getByLabelText('Telefone')).toBeInTheDocument();
+    expect(screen.getByLabelText('Nome')).toBeInTheDocument();
     expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
-    expect(screen.getByLabelText('O que você mais busca?')).toBeInTheDocument();
+    expect(screen.getByLabelText('WhatsApp (opcional)')).toBeInTheDocument();
+    expect(screen.getByLabelText('Cidade')).toBeInTheDocument();
+    expect(screen.getByLabelText('Em que fase você está?')).toBeInTheDocument();
   });
 
-  it('renders the 4 interest options with the exact spec values', () => {
+  it('marks WhatsApp as optional (not required)', () => {
     render(WaitlistForm, { props: { form: null } });
-    const select = screen.getByLabelText('O que você mais busca?') as HTMLSelectElement;
+    expect(screen.getByLabelText('WhatsApp (opcional)')).not.toBeRequired();
+  });
+
+  it('marks nome, email, cidade and fase as required', () => {
+    render(WaitlistForm, { props: { form: null } });
+    expect(screen.getByLabelText('Nome')).toBeRequired();
+    expect(screen.getByLabelText('E-mail')).toBeRequired();
+    expect(screen.getByLabelText('Cidade')).toBeRequired();
+    expect(screen.getByLabelText('Em que fase você está?')).toBeRequired();
+  });
+
+  it('renders the 5 stage options with the exact spec values', () => {
+    render(WaitlistForm, { props: { form: null } });
+    const select = screen.getByLabelText('Em que fase você está?') as HTMLSelectElement;
     const values = Array.from(select.options).map((option) => option.value);
-    expect(values).toEqual(['', 'roupas', 'acessorios', 'crescimento', 'tudo']);
+    expect(values).toEqual(['', 'gravida', '0_6', '6_12', '1_3anos', 'outro']);
   });
 
   it('shows the error message with role=alert when form.errorKey is set', () => {
     render(WaitlistForm, {
       props: { form: { errorKey: 'form.error_required', values: {} } },
     });
-    expect(screen.getByRole('alert')).toHaveTextContent(
-      'Preencha todos os campos obrigatórios.',
-    );
+    expect(screen.getByRole('alert')).toHaveTextContent('Preencha os campos obrigatórios.');
   });
 
   it('preserves submitted field values after a validation error', () => {
@@ -37,18 +49,21 @@ describe('WaitlistForm', () => {
       props: {
         form: {
           errorKey: 'form.error_email',
-          values: { nome: 'Maria', telefone: '119999', email: 'bad', interesse: 'roupas' },
+          values: { nome: 'Maria', email: 'bad', cidade: 'São Paulo', fase: 'gravida' },
         },
       },
     });
-    expect(screen.getByLabelText('Nome completo')).toHaveValue('Maria');
+    expect(screen.getByLabelText('Nome')).toHaveValue('Maria');
+    expect(screen.getByLabelText('Cidade')).toHaveValue('São Paulo');
   });
 
   it('shows the success confirmation instead of the form when form.success is true', () => {
     render(WaitlistForm, { props: { form: { success: true } } });
-    expect(screen.getByText('Você está na lista!')).toBeInTheDocument();
-    expect(screen.getByText('Avisaremos assim que abrirmos o acesso.')).toBeInTheDocument();
-    expect(screen.queryByLabelText('Nome completo')).toBeNull();
+    expect(screen.getByText('Você tá dentro!')).toBeInTheDocument();
+    expect(
+      screen.getByText('Vamos te avisar assim que abrirmos o acesso na sua região.'),
+    ).toBeInTheDocument();
+    expect(screen.queryByLabelText('Nome')).toBeNull();
   });
 
   it('pre-fills the email field from the waitlistEmail store when there is no prior submission', () => {

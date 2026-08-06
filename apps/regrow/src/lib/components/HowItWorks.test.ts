@@ -8,24 +8,24 @@ describe('HowItWorks', () => {
     expect(container.querySelector('#como-funciona')).not.toBeNull();
   });
 
-  it('renders all 3 capability titles and descriptions', () => {
+  it('renders all 3 concierge step titles and descriptions', () => {
     render(HowItWorks);
-    expect(screen.getByText('Encontra roupas de brechó')).toBeInTheDocument();
+    expect(screen.getByText('Descreva o que precisa')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Busca peças em brechós e lojas parceiras com preços competitivos para o seu bebê.',
+        'Diga o que está buscando — tipo, tamanho, faixa de preço, qualquer detalhe. Como se estivesse pedindo pra uma amiga.',
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText('Monta o enxoval ideal')).toBeInTheDocument();
+    expect(screen.getByText('O assistente vasculha os brechós')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Monta o enxoval completo de acordo com o tempo de gestação, sem faltar nem sobrar nada.',
+        'Nossa IA pesquisa em brechós e lojas infantis da sua região — inclusive os que não têm site nem loja online.',
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText('Prevê a próxima troca de tamanho')).toBeInTheDocument();
+    expect(screen.getByText('Receba as melhores opções no chat')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Acompanha o crescimento da criança e avisa quando está na hora de trocar de tamanho.',
+        'Você recebe sugestões com preço, estado da peça e localização. É só escolher e retirar.',
       ),
     ).toBeInTheDocument();
   });
@@ -52,10 +52,9 @@ describe('HowItWorks', () => {
     ]);
   });
 
-  it('renders the translated two-line heading with a pink accent word', () => {
-    const { container } = render(HowItWorks);
-    expect(screen.getByText('Um assistente pessoal')).toBeInTheDocument();
-    expect(container.querySelector('.how__title')).toHaveTextContent('para o melhor fit');
-    expect(container.querySelector('.how__title-accent')).toHaveTextContent('fit');
+  it('renders the translated two-line heading', () => {
+    render(HowItWorks);
+    expect(screen.getByText('Seu concierge de brechó')).toBeInTheDocument();
+    expect(screen.getByText('em 3 passos')).toBeInTheDocument();
   });
 });

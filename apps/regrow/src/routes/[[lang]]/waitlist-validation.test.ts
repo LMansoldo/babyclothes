@@ -15,18 +15,20 @@ function formDataFrom(entries: Record<string, string>): FormData {
 }
 
 describe('readFormValues', () => {
-  it('reads and trims all 4 fields', () => {
+  it('reads and trims all 5 fields', () => {
     const data = formDataFrom({
       nome: '  Maria  ',
-      telefone: ' 11999999999 ',
       email: ' maria@example.com ',
-      interesse: 'roupas',
+      cidade: ' São Paulo ',
+      fase: 'gravida',
+      telefone: ' 11999999999 ',
     });
     expect(readFormValues(data)).toEqual({
       nome: 'Maria',
-      telefone: '11999999999',
       email: 'maria@example.com',
-      interesse: 'roupas',
+      cidade: 'São Paulo',
+      fase: 'gravida',
+      telefone: '11999999999',
     });
   });
 
@@ -39,20 +41,35 @@ describe('readFormValues', () => {
 });
 
 describe('isCompleteWaitlistForm', () => {
-  it('returns true when all 4 fields are present and non-empty', () => {
+  it('returns true when nome, email, cidade and fase are present — telefone is optional', () => {
     expect(
       isCompleteWaitlistForm({
         nome: 'Maria',
-        telefone: '119999999',
         email: 'a@b.com',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
       }),
     ).toBe(true);
   });
 
-  it('returns false when any field is missing', () => {
+  it('returns true even when telefone is present too', () => {
+    expect(
+      isCompleteWaitlistForm({
+        nome: 'Maria',
+        email: 'a@b.com',
+        cidade: 'São Paulo',
+        fase: 'gravida',
+        telefone: '119999999',
+      }),
+    ).toBe(true);
+  });
+
+  it('returns false when any required field is missing', () => {
     expect(isCompleteWaitlistForm({ nome: 'Maria' })).toBe(false);
     expect(isCompleteWaitlistForm({})).toBe(false);
+    expect(
+      isCompleteWaitlistForm({ nome: 'Maria', email: 'a@b.com', cidade: 'São Paulo' }),
+    ).toBe(false);
   });
 });
 

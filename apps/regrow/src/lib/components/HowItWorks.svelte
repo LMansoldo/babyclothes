@@ -14,7 +14,7 @@
       <p class="how__eyebrow">{$t('how.title')}</p>
       <h2 class="how__title">
         <span>{$t('how.subtitle_line1')}</span><br />
-        <span>{$t('how.subtitle_line2')} <em class="how__title-accent">{$t('how.subtitle_accent')}</em></span>
+        <span>{$t('how.subtitle_line2')}</span>
       </h2>
     </div>
 
@@ -65,11 +65,6 @@
     letter-spacing: -0.025em;
     line-height: 1.07;
     color: var(--text-primary);
-  }
-
-  .how__title-accent {
-    font-style: normal;
-    color: var(--pk);
   }
 
   .how__grid {

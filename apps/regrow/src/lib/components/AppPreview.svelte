@@ -6,6 +6,7 @@
     { number: '1', titleKey: 'preview.item1_title', textKey: 'preview.item1_text' },
     { number: '2', titleKey: 'preview.item2_title', textKey: 'preview.item2_text' },
     { number: '3', titleKey: 'preview.item3_title', textKey: 'preview.item3_text' },
+    { number: '4', titleKey: 'preview.item4_title', textKey: 'preview.item4_text' },
   ] as const
 </script>
 
@@ -37,7 +38,7 @@
         {/each}
       </ul>
       <div class="preview__cta">
-        <WaitlistCta label={$t('hero.email_cta')} href="#waitlist" variant="hero" />
+        <WaitlistCta label={$t('preview.cta')} href="#waitlist" variant="hero" />
       </div>
     </div>
   </div>

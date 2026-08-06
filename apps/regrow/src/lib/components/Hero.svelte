@@ -2,7 +2,7 @@
   import { t } from '$lib/i18n'
   import WaitlistCta from './WaitlistCta.svelte'
   import { waitlistEmail } from '../stores/waitlist-email'
-  import { ItemCard } from '@babyclothes/design-system'
+  import { ChatBubble } from '@babyclothes/design-system'
 
   let quickEmail = $state('')
 
@@ -34,6 +34,8 @@
         <em class="hero__headline-accent">{$t('hero.headline_line2')}</em>
       </h1>
 
+      <p class="hero__subheadline">{$t('hero.subheadline')}</p>
+
       <form class="hero__quick-signup" onsubmit={handleQuickSignup}>
         <div class="hero__quick-signup-card">
           <span class="hero__quick-signup-badge">{$t('hero.vip_badge')}</span>
@@ -52,43 +54,13 @@
     </div>
 
     <div class="hero__visual">
-      <div class="hero__card hero__card--back">
-        <ItemCard
-          title={$t('hero.card2_title')}
-          price={22}
-          oldPrice={39}
-          clothingSize={$t('hero.card2_size')}
-          conditionLabel={$t('hero.condition_seminovo')}
-          onclick={scrollToWaitlist}
-        />
-      </div>
-      <div class="hero__card hero__card--middle">
-        <ItemCard
-          title={$t('hero.card3_title')}
-          price={45}
-          oldPrice={68}
-          clothingSize={$t('hero.card3_size')}
-          conditionLabel={$t('hero.condition_seminovo')}
-          onclick={scrollToWaitlist}
-        />
-      </div>
-      <div class="hero__card hero__card--front">
-        <ItemCard
-          title={$t('hero.card1_title')}
-          price={34}
-          clothingSize={$t('hero.card1_size')}
-          conditionLabel={$t('hero.condition_seminovo')}
-          sellerName={$t('hero.card1_seller')}
-          sellerVerifiedLabel={$t('hero.verified_label')}
-          paymentEnabled={true}
-          contactLabel={$t('hero.contact_label')}
-          buyLabel={$t('hero.buy_label')}
-          onclick={scrollToWaitlist}
-          onFavorite={scrollToWaitlist}
-          onContact={scrollToWaitlist}
-          onBuy={scrollToWaitlist}
-          onSellerClick={scrollToWaitlist}
-        />
+      <div class="hero__chat-mockup">
+        <ChatBubble role="user" surface="light" content={$t('hero.chat_msg1')} />
+        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg2')} />
+        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg3')} />
+        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg4')} />
+        <ChatBubble role="user" surface="light" content={$t('hero.chat_msg5')} />
+        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg6')} />
       </div>
     </div>
   </div>
@@ -222,6 +194,14 @@
     color: #ffffff;
   }
 
+  .hero__subheadline {
+    font-size: clamp(0.85rem, 1.6vw, 1rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 25rem;
+    margin-bottom: 1.6rem;
+  }
+
   .hero__quick-signup {
     display: flex;
     flex-direction: column;
@@ -286,45 +266,23 @@
   }
 
   .hero__visual {
-    position: relative;
     flex: 0 0 55%;
-    height: 24rem;
   }
 
-  .hero__card {
-    position: absolute;
-    width: 15rem;
+  .hero__chat-mockup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: #ffffff;
+    border-radius: 1.25rem;
+    padding: 1.4rem;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3);
+    max-width: 24rem;
+    margin: 0 auto;
   }
 
-  .hero__card :global(.item-card) {
-    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.3);
-  }
-
-  .hero__card :global(.item-card__photo) {
-    display: none;
-  }
-
-  .hero__card--back {
-    top: 0;
-    right: 10rem;
-    transform: scale(0.9);
-    opacity: 0.7;
-    z-index: 1;
-  }
-
-  .hero__card--middle {
-    top: -1rem;
-    right: 6rem;
-    transform: scale(0.95);
-    opacity: 0.85;
-    z-index: 2;
-  }
-
-  .hero__card--front {
-    top: 1rem;
-    right: 2rem;
-    transform: scale(1);
-    z-index: 3;
+  .hero__chat-mockup :global(.chat-bubble) {
+    max-width: 90%;
   }
 
   @media (max-width: 48rem) {
@@ -338,19 +296,8 @@
       max-width: none;
     }
 
-    .hero__visual {
-      height: auto;
-    }
-
-    .hero__card--back,
-    .hero__card--middle {
-      display: none;
-    }
-
-    .hero__card--front {
-      position: static;
-      transform: none;
-      margin: 0 auto;
+    .hero__subheadline {
+      max-width: none;
     }
   }
 </style>

@@ -23,17 +23,17 @@ describe('Hero', () => {
 
   it('renders the translated headline', () => {
     render(Hero);
-    expect(screen.getByText('Achadinhos com o')).toBeInTheDocument();
-    expect(screen.getByText('match perfeito')).toBeInTheDocument();
+    expect(screen.getByText('Me diz o que seu bebê precisa,')).toBeInTheDocument();
+    expect(screen.getByText('eu encontro no brechó perto de você')).toBeInTheDocument();
   });
 
-  it('does not render a sub-headline anymore', () => {
+  it('renders the concierge subheadline', () => {
     render(Hero);
     expect(
-      screen.queryByText(
-        'O assistente gratuito que encontra roupinhas e acessórios acompanhando todo o crescimento dos nossos pequenos',
+      screen.getByText(
+        'Um assistente que vasculha brechós infantis da sua região e traz as melhores peças direto pra você — sem sair de casa.',
       ),
-    ).toBeNull();
+    ).toBeInTheDocument();
   });
 
   it('does not render the trust chips anymore', () => {
@@ -52,19 +52,19 @@ describe('Hero', () => {
     render(Hero);
     expect(screen.getByPlaceholderText('Seu melhor e-mail')).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Cadastre-se e entre na lista de espera' }),
+      screen.getByRole('button', { name: 'Quero encontrar peças pra meu bebê' }),
     ).toBeInTheDocument();
   });
 
-  it('renders the "Lista VIP" badge above the email card', () => {
+  it('renders the "Acesso antecipado" badge above the email card', () => {
     render(Hero);
-    expect(screen.getByText('Lista VIP')).toBeInTheDocument();
+    expect(screen.getByText('Acesso antecipado')).toBeInTheDocument();
   });
 
   it('renders a disclaimer explaining the limited early signup', () => {
     render(Hero);
     expect(
-      screen.getByText('O app será lançado em breve, com vagas de cadastro limitadas.'),
+      screen.getByText('Vagas limitadas. Cadastre-se e seja uma das primeiras a usar.'),
     ).toBeInTheDocument();
   });
 
@@ -79,7 +79,9 @@ describe('Hero', () => {
 
     const input = screen.getByPlaceholderText('Seu melhor e-mail');
     await fireEvent.input(input, { target: { value: 'ana@example.com' } });
-    await fireEvent.click(screen.getByRole('button', { name: 'Cadastre-se e entre na lista de espera' }));
+    await fireEvent.click(
+      screen.getByRole('button', { name: 'Quero encontrar peças pra meu bebê' }),
+    );
 
     expect(get(waitlistEmail)).toBe('ana@example.com');
     expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
@@ -87,35 +89,25 @@ describe('Hero', () => {
     document.body.removeChild(waitlistSection);
   });
 
-  it('renders 3 product cards, all marked with the Seminovo condition', () => {
+  it('renders the chat mockup with all 6 messages in order', () => {
     render(Hero);
-    expect(screen.getAllByText('Seminovo')).toHaveLength(3);
-  });
-
-  it('renders the featured card with contact and buy actions', () => {
-    render(Hero);
-    expect(screen.getByRole('button', { name: 'Contatar' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Comprar' })).toBeInTheDocument();
-  });
-
-  it('renders old prices on the two secondary cards', () => {
-    render(Hero);
-    expect(screen.getByText('R$ 39,00')).toBeInTheDocument();
-    expect(screen.getByText('R$ 68,00')).toBeInTheDocument();
-  });
-
-  it('scrolls to #waitlist when the buy button on the featured card is clicked', async () => {
-    render(Hero);
-
-    const waitlistSection = document.createElement('section');
-    waitlistSection.id = 'waitlist';
-    const scrollSpy = vi.fn();
-    waitlistSection.scrollIntoView = scrollSpy;
-    document.body.appendChild(waitlistSection);
-
-    await fireEvent.click(screen.getByRole('button', { name: 'Comprar' }));
-    expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
-
-    document.body.removeChild(waitlistSection);
+    expect(
+      screen.getByText('Preciso de um body manga longa 6-9 meses, de preferência neutro'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Encontrei 3 opções em brechós perto de você')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Body inverno manga longa · 6-9m · Seminovo · R$ 18,00 — Brechó Fofurinha, 2km de você',
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Body listrado algodão · 6-9m · Novo com etiqueta · R$ 12,00 — Cantinho do Bebê, 4km de você',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Quero o primeiro!')).toBeInTheDocument();
+    expect(
+      screen.getByText('Reservado! Você pode retirar hoje até às 18h'),
+    ).toBeInTheDocument();
   });
 });

@@ -34,9 +34,9 @@ describe('waitlist action', () => {
     const event = {
       request: requestWith({
         nome: 'Maria',
-        telefone: '11999999999',
         email: 'not-an-email',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
       }),
       params: { lang: 'pt' },
     } as never;
@@ -44,14 +44,14 @@ describe('waitlist action', () => {
     expect(result).toMatchObject({ status: 400, data: { errorKey: 'form.error_email' } });
   });
 
-  it('creates a lead and returns success on valid input', async () => {
+  it('creates a lead and returns success on valid input without telefone (optional)', async () => {
     createMock.mockResolvedValue({ id: 1 });
     const event = {
       request: requestWith({
         nome: 'Maria',
-        telefone: '11999999999',
         email: 'maria@example.com',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
       }),
       params: { lang: 'pt' },
     } as never;
@@ -60,9 +60,35 @@ describe('waitlist action', () => {
     expect(createMock).toHaveBeenCalledWith({
       data: {
         nome: 'Maria',
-        telefone: '11999999999',
         email: 'maria@example.com',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
+        locale: 'pt',
+      },
+    });
+  });
+
+  it('creates a lead including telefone when provided', async () => {
+    createMock.mockResolvedValue({ id: 1 });
+    const event = {
+      request: requestWith({
+        nome: 'Maria',
+        email: 'maria@example.com',
+        cidade: 'São Paulo',
+        fase: 'gravida',
+        telefone: '11999999999',
+      }),
+      params: { lang: 'pt' },
+    } as never;
+    const result = await actions.waitlist(event);
+    expect(result).toEqual({ success: true });
+    expect(createMock).toHaveBeenCalledWith({
+      data: {
+        nome: 'Maria',
+        email: 'maria@example.com',
+        cidade: 'São Paulo',
+        fase: 'gravida',
+        telefone: '11999999999',
         locale: 'pt',
       },
     });
@@ -73,9 +99,9 @@ describe('waitlist action', () => {
     const event = {
       request: requestWith({
         nome: 'Maria',
-        telefone: '11999999999',
         email: 'maria@example.com',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
       }),
       params: { lang: 'pt' },
     } as never;
@@ -88,9 +114,9 @@ describe('waitlist action', () => {
     const event = {
       request: requestWith({
         nome: 'Maria',
-        telefone: '11999999999',
         email: 'maria@example.com',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
       }),
       params: { lang: 'pt' },
     } as never;
@@ -103,9 +129,9 @@ describe('waitlist action', () => {
     const event = {
       request: requestWith({
         nome: 'Maria',
-        telefone: '11999999999',
         email: 'maria@example.com',
-        interesse: 'roupas',
+        cidade: 'São Paulo',
+        fase: 'gravida',
       }),
       params: {},
     } as never;

@@ -62,18 +62,6 @@
     </div>
 
     <div class="waitlist-form__field">
-      <label for="telefone" class="waitlist-form__label">{$t('form.phone')}</label>
-      <input
-        id="telefone"
-        name="telefone"
-        type="tel"
-        required
-        value={form?.values?.telefone ?? ''}
-        class="waitlist-form__input"
-      />
-    </div>
-
-    <div class="waitlist-form__field">
       <label for="email" class="waitlist-form__label">{$t('form.email')}</label>
       <input
         id="email"
@@ -85,23 +73,49 @@
       />
     </div>
 
+    <div class="waitlist-form__field">
+      <label for="telefone" class="waitlist-form__label">{$t('form.whatsapp')}</label>
+      <input
+        id="telefone"
+        name="telefone"
+        type="tel"
+        value={form?.values?.telefone ?? ''}
+        class="waitlist-form__input"
+      />
+    </div>
+
+    <div class="waitlist-form__field">
+      <label for="cidade" class="waitlist-form__label">{$t('form.city')}</label>
+      <input
+        id="cidade"
+        name="cidade"
+        type="text"
+        required
+        value={form?.values?.cidade ?? ''}
+        class="waitlist-form__input"
+      />
+    </div>
+
     <div class="waitlist-form__field waitlist-form__field--select">
-      <label for="interesse" class="waitlist-form__label">{$t('form.interest_label')}</label>
-      <select id="interesse" name="interesse" required class="waitlist-form__select">
-        <option value="" disabled selected={!form?.values?.interesse}>
-          {$t('form.interest_placeholder')}
+      <label for="fase" class="waitlist-form__label">{$t('form.stage_label')}</label>
+      <select id="fase" name="fase" required class="waitlist-form__select">
+        <option value="" disabled selected={!form?.values?.fase}>
+          {$t('form.stage_placeholder')}
         </option>
-        <option value="roupas" selected={form?.values?.interesse === 'roupas'}>
-          {$t('form.interest_clothes')}
+        <option value="gravida" selected={form?.values?.fase === 'gravida'}>
+          {$t('form.stage_pregnant')}
         </option>
-        <option value="acessorios" selected={form?.values?.interesse === 'acessorios'}>
-          {$t('form.interest_accessories')}
+        <option value="0_6" selected={form?.values?.fase === '0_6'}>
+          {$t('form.stage_0_6')}
         </option>
-        <option value="crescimento" selected={form?.values?.interesse === 'crescimento'}>
-          {$t('form.interest_growth')}
+        <option value="6_12" selected={form?.values?.fase === '6_12'}>
+          {$t('form.stage_6_12')}
         </option>
-        <option value="tudo" selected={form?.values?.interesse === 'tudo'}>
-          {$t('form.interest_all')}
+        <option value="1_3anos" selected={form?.values?.fase === '1_3anos'}>
+          {$t('form.stage_1_3y')}
+        </option>
+        <option value="outro" selected={form?.values?.fase === 'outro'}>
+          {$t('form.stage_other')}
         </option>
       </select>
     </div>

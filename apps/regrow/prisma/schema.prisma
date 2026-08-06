@@ -10,9 +10,10 @@ datasource db {
 model Lead {
   id        Int      @id @default(autoincrement())
   nome      String
-  telefone  String
   email     String   @unique
-  interesse String
+  cidade    String?
+  fase      String?
+  telefone  String?
   locale    String   @default("pt")
   createdAt DateTime @default(now())
 }

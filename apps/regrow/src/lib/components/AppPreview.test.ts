@@ -3,15 +3,9 @@ import { render, screen } from '@testing-library/svelte';
 import AppPreview from './AppPreview.svelte';
 
 describe('AppPreview', () => {
-  it('no longer renders the old "Veja o app em ação" title or caption', () => {
+  it('renders the "Por que usar o ReGrow?" heading', () => {
     render(AppPreview);
-    expect(screen.queryByText('Veja o app em ação')).toBeNull();
-    expect(screen.queryByText('Cards de produto renderizados direto na conversa')).toBeNull();
-  });
-
-  it('renders the "O que há de bom?" heading', () => {
-    render(AppPreview);
-    expect(screen.getByText('O que há de bom?')).toBeInTheDocument();
+    expect(screen.getByText('Por que usar o ReGrow?')).toBeInTheDocument();
   });
 
   it('renders one lazy-loaded preview image', () => {
@@ -21,31 +15,37 @@ describe('AppPreview', () => {
     expect(img).toHaveAttribute('src', '/images/preview-phone-mockup.webp');
   });
 
-  it('renders the 3 feature items with their titles and texts', () => {
+  it('renders the 4 feature items with their titles and texts', () => {
     render(AppPreview);
-    expect(screen.getByText('Previsibilidade')).toBeInTheDocument();
+    expect(screen.getByText('Brechós invisíveis, agora acessíveis')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'O assistente prevê o crescimento das crianças para que você possa se planejar e conseguir as melhores peças.',
+        'A maioria dos brechós infantis não tem site. O ReGrow é o único jeito de encontrar essas peças sem sair visitando loja por loja.',
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText('Busca inteligente')).toBeInTheDocument();
+    expect(screen.getByText('Previsão de crescimento')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'As peças ideais são pesquisadas em lojas e brechós parceiros que não estão catalogados em sites de busca.',
+        'O assistente acompanha o crescimento do seu filho e avisa quando é hora de buscar o próximo tamanho — antes que aperte.',
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText('Economia e qualidade')).toBeInTheDocument();
+    expect(screen.getByText('Economia real')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Apenas itens de bom estado com um bom preço são retornados, sem surpresas negativas.',
+        'Peças de qualidade por uma fração do preço. Enxoval completo por até 70% menos do que comprar tudo novo.',
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Sustentável por natureza')).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        'Cada peça reutilizada é menos uma no lixo. Vestir seu bebê bem e cuidar do planeta não precisa ser uma escolha.',
       ),
     ).toBeInTheDocument();
   });
 
   it('renders a CTA linking to #waitlist below the feature list', () => {
     render(AppPreview);
-    const cta = screen.getByRole('link', { name: 'Cadastrar' });
+    const cta = screen.getByRole('link', { name: 'Quero experimentar' });
     expect(cta).toHaveAttribute('href', '#waitlist');
   });
 });
