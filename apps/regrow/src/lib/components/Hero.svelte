@@ -209,6 +209,7 @@
     line-height: 1.05;
     letter-spacing: -0.01em;
     color: #ffffff;
+    text-shadow: 0 0.15rem 0.6rem rgba(0, 0, 0, 0.35);
     margin-bottom: 2rem;
   }
 
