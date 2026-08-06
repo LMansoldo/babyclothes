@@ -89,25 +89,12 @@ describe('Hero', () => {
     document.body.removeChild(waitlistSection);
   });
 
-  it('renders the chat mockup with all 6 messages in order', () => {
+  it('renders the pt chat mockup screenshot with a lazy-loaded, descriptive alt', () => {
     render(Hero);
-    expect(
-      screen.getByText('Preciso de um body manga longa 6-9 meses, de preferência neutro'),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Encontrei 3 opções em brechós perto de você')).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Body inverno manga longa · 6-9m · Seminovo · R$ 18,00 — Brechó Fofurinha, 2km de você',
-      ),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(
-        'Body listrado algodão · 6-9m · Novo com etiqueta · R$ 12,00 — Cantinho do Bebê, 4km de você',
-      ),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Quero o primeiro!')).toBeInTheDocument();
-    expect(
-      screen.getByText('Reservado! Você pode retirar hoje até às 18h'),
-    ).toBeInTheDocument();
+    const img = screen.getByAltText(
+      'Conversa no app: pedido de body 6-9 meses, 3 opções encontradas em brechós perto de você e reserva confirmada',
+    );
+    expect(img).toHaveAttribute('src', '/images/hero-chat-mockup-pt.webp');
+    expect(img).toHaveAttribute('loading', 'lazy');
   });
 });

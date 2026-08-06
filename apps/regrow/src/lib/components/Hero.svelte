@@ -1,10 +1,13 @@
 <script lang="ts">
-  import { t } from '$lib/i18n'
+  import { t, locale } from '$lib/i18n'
   import WaitlistCta from './WaitlistCta.svelte'
   import { waitlistEmail } from '../stores/waitlist-email'
-  import { ChatBubble } from '@babyclothes/design-system'
 
   let quickEmail = $state('')
+
+  const chatMockupSrc = $derived(
+    $locale === 'en' ? '/images/hero-chat-mockup-en.webp' : '/images/hero-chat-mockup-pt.webp',
+  )
 
   function scrollToWaitlist() {
     const target = document.getElementById('waitlist')
@@ -54,14 +57,15 @@
     </div>
 
     <div class="hero__visual">
-      <div class="hero__chat-mockup">
-        <ChatBubble role="user" surface="light" content={$t('hero.chat_msg1')} />
-        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg2')} />
-        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg3')} />
-        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg4')} />
-        <ChatBubble role="user" surface="light" content={$t('hero.chat_msg5')} />
-        <ChatBubble role="agent" surface="light" content={$t('hero.chat_msg6')} />
-      </div>
+      <img
+        src={chatMockupSrc}
+        alt={$t('hero.chat_mockup_alt')}
+        loading="lazy"
+        decoding="async"
+        width="500"
+        height="1056"
+        class="hero__chat-mockup"
+      />
     </div>
   </div>
 </section>
@@ -270,19 +274,12 @@
   }
 
   .hero__chat-mockup {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-    background: #ffffff;
-    border-radius: 1.25rem;
-    padding: 1.4rem;
-    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3);
-    max-width: 24rem;
+    display: block;
+    width: 100%;
+    max-width: 20rem;
     margin: 0 auto;
-  }
-
-  .hero__chat-mockup :global(.chat-bubble) {
-    max-width: 90%;
+    border-radius: 1.25rem;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3);
   }
 
   @media (max-width: 48rem) {

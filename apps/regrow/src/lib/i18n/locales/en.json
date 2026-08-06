@@ -7,12 +7,7 @@
     "signup_cta": "I want to find pieces for my baby",
     "vip_badge": "Early access",
     "signup_disclaimer": "Limited spots. Sign up and be one of the first to try it.",
-    "chat_msg1": "I need a long-sleeve bodysuit 6-9 months, preferably gender-neutral",
-    "chat_msg2": "Found 3 options at thrift stores near you",
-    "chat_msg3": "Winter long-sleeve bodysuit · 6-9m · Pre-loved · R$ 18.00 — Fofurinha Thrift, 2km away",
-    "chat_msg4": "Striped cotton bodysuit · 6-9m · New with tags · R$ 12.00 — Baby Corner, 4km away",
-    "chat_msg5": "I want the first one!",
-    "chat_msg6": "Reserved! You can pick it up today until 6 PM"
+    "chat_mockup_alt": "Conversation in the app: request for a 6-9 month bodysuit, 3 options found at thrift stores near you, and a confirmed reservation"
   },
   "how": {
     "title": "How it works",
