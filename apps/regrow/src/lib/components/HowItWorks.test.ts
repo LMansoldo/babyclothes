@@ -13,13 +13,13 @@ describe('HowItWorks', () => {
     expect(screen.getByText('Descreva o que precisa')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Diga o que está buscando — tipo, tamanho, faixa de preço, qualquer detalhe. Como se estivesse pedindo pra uma amiga.',
+        'Diga o que está buscando: tipo, tamanho, faixa de preço, qualquer detalhe. Como se estivesse pedindo pra uma amiga.',
       ),
     ).toBeInTheDocument();
     expect(screen.getByText('O assistente vasculha os brechós')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'Nossa IA pesquisa em brechós e lojas infantis da sua região — inclusive os que não têm site nem loja online.',
+        'Nossa IA pesquisa em brechós e lojas infantis da sua região, inclusive os que não têm site nem loja online.',
       ),
     ).toBeInTheDocument();
     expect(screen.getByText('Receba as melhores opções no chat')).toBeInTheDocument();

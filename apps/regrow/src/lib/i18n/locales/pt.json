@@ -2,11 +2,11 @@
   "hero": {
     "headline_line1": "Me diz o que seu bebê precisa,",
     "headline_line2": "eu encontro no brechó perto de você",
-    "subheadline": "Um assistente que vasculha brechós infantis da sua região e traz as melhores peças direto pra você — sem sair de casa.",
+    "subheadline": "Um assistente que vasculha brechós infantis da sua região e traz as melhores peças direto pra você, sem sair de casa.",
     "email_placeholder": "Seu melhor e-mail",
     "signup_cta": "Quero encontrar peças pra meu bebê",
     "vip_badge": "Acesso antecipado",
-    "signup_disclaimer": "Vagas limitadas. Cadastre-se e seja uma das primeiras a usar.",
+    "signup_disclaimer": "Vagas limitadas. Cadastre-se e seja uma das primeiras pessoas a usar.",
     "chat_mockup_alt": "Conversa no app: pedido de body 6-9 meses, 3 opções encontradas em brechós perto de você e reserva confirmada"
   },
   "how": {
@@ -14,9 +14,9 @@
     "subtitle_line1": "Seu concierge de brechó",
     "subtitle_line2": "em 3 passos",
     "step1_title": "Descreva o que precisa",
-    "step1_desc": "Diga o que está buscando — tipo, tamanho, faixa de preço, qualquer detalhe. Como se estivesse pedindo pra uma amiga.",
+    "step1_desc": "Diga o que está buscando: tipo, tamanho, faixa de preço, qualquer detalhe. Como se estivesse pedindo pra uma amiga.",
     "step2_title": "O assistente vasculha os brechós",
-    "step2_desc": "Nossa IA pesquisa em brechós e lojas infantis da sua região — inclusive os que não têm site nem loja online.",
+    "step2_desc": "Nossa IA pesquisa em brechós e lojas infantis da sua região, inclusive os que não têm site nem loja online.",
     "step3_title": "Receba as melhores opções no chat",
     "step3_desc": "Você recebe sugestões com preço, estado da peça e localização. É só escolher e retirar."
   },
@@ -27,7 +27,7 @@
     "item1_title": "Brechós invisíveis, agora acessíveis",
     "item1_text": "A maioria dos brechós infantis não tem site. O ReGrow é o único jeito de encontrar essas peças sem sair visitando loja por loja.",
     "item2_title": "Previsão de crescimento",
-    "item2_text": "O assistente acompanha o crescimento do seu filho e avisa quando é hora de buscar o próximo tamanho — antes que aperte.",
+    "item2_text": "O assistente acompanha o crescimento do seu filho e avisa quando é hora de buscar o próximo tamanho antes que aperte.",
     "item3_title": "Economia real",
     "item3_text": "Peças de qualidade por uma fração do preço. Enxoval completo por até 70% menos do que comprar tudo novo.",
     "item4_title": "Sustentável por natureza",

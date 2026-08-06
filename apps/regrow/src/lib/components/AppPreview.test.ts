@@ -26,7 +26,7 @@ describe('AppPreview', () => {
     expect(screen.getByText('Previsão de crescimento')).toBeInTheDocument();
     expect(
       screen.getByText(
-        'O assistente acompanha o crescimento do seu filho e avisa quando é hora de buscar o próximo tamanho — antes que aperte.',
+        'O assistente acompanha o crescimento do seu filho e avisa quando é hora de buscar o próximo tamanho antes que aperte.',
       ),
     ).toBeInTheDocument();
     expect(screen.getByText('Economia real')).toBeInTheDocument();

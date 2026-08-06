@@ -31,7 +31,7 @@ describe('Hero', () => {
     render(Hero);
     expect(
       screen.getByText(
-        'Um assistente que vasculha brechós infantis da sua região e traz as melhores peças direto pra você — sem sair de casa.',
+        'Um assistente que vasculha brechós infantis da sua região e traz as melhores peças direto pra você, sem sair de casa.',
       ),
     ).toBeInTheDocument();
   });
@@ -64,7 +64,7 @@ describe('Hero', () => {
   it('renders a disclaimer explaining the limited early signup', () => {
     render(Hero);
     expect(
-      screen.getByText('Vagas limitadas. Cadastre-se e seja uma das primeiras a usar.'),
+      screen.getByText('Vagas limitadas. Cadastre-se e seja uma das primeiras pessoas a usar.'),
     ).toBeInTheDocument();
   });
 
