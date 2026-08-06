@@ -122,11 +122,11 @@
   }
 
   .hero__headline {
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: Verdana, sans-serif;
     font-size: clamp(2.4rem, 5.6vw, 4.4rem);
-    font-weight: 400;
+    font-weight: 700;
     line-height: 1.05;
-    letter-spacing: 0.01em;
+    letter-spacing: -0.01em;
     color: #ffffff;
     margin-bottom: 2rem;
   }
