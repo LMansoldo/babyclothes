@@ -80,7 +80,8 @@
   }
 
   .preview__title {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-body);
+    font-weight: 900;
     font-size: 1.8rem;
     color: var(--text-primary);
     margin-bottom: 2rem;

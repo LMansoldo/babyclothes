@@ -43,18 +43,9 @@ describe('Hero', () => {
     expect(screen.queryByText('IA conversacional')).toBeNull();
   });
 
-  it('renders the hero image with fetchpriority high and no lazy loading', () => {
+  it('does not render the hero photo anymore', () => {
     render(Hero);
-    const img = screen.getByAltText('Achadinhos com o match perfeito');
-    expect(img).toHaveAttribute('fetchpriority', 'high');
-    expect(img).not.toHaveAttribute('loading', 'lazy');
-  });
-
-  it('sets explicit width and height on the hero image to prevent CLS', () => {
-    render(Hero);
-    const img = screen.getByAltText('Achadinhos com o match perfeito');
-    expect(img).toHaveAttribute('width');
-    expect(img).toHaveAttribute('height');
+    expect(screen.queryByAltText('Achadinhos com o match perfeito')).toBeNull();
   });
 
   it('renders an email input and a submit button with the quick-signup copy', () => {

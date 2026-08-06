@@ -43,21 +43,6 @@
     </div>
 
     <div class="hero__visual">
-      <picture>
-        <source srcset="/images/hero-mobile.webp" media="(max-width: 40rem)" type="image/webp" />
-        <source srcset="/images/hero-desktop.webp" type="image/webp" />
-        <img
-          src="/images/hero-desktop.png"
-          srcset="/images/hero-mobile.png 640w, /images/hero-desktop.png 1200w"
-          sizes="(max-width: 40rem) 100vw, 50vw"
-          alt={$t('hero.headline')}
-          width="1200"
-          height="800"
-          fetchpriority="high"
-          decoding="async"
-          class="hero__image"
-        />
-      </picture>
       <div class="hero__card hero__card--back">
         <ItemCard
           title={$t('hero.card2_title')}
@@ -117,19 +102,6 @@
     z-index: 1;
     height: 10rem;
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #ffffff 100%);
-  }
-
-  .hero__image {
-    position: relative;
-    z-index: 0;
-    display: block;
-    width: 24rem;
-    height: 24rem;
-    margin: 0 auto 2rem;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center 20%;
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
   }
 
   .hero__content {
@@ -206,7 +178,7 @@
   .hero__visual {
     position: relative;
     flex: 0 0 55%;
-    height: 26rem;
+    height: 24rem;
   }
 
   .hero__card {
@@ -267,12 +239,6 @@
 
     .hero__visual {
       height: auto;
-    }
-
-    .hero__image {
-      width: 14rem;
-      height: 14rem;
-      margin-bottom: 1.5rem;
     }
 
     .hero__card--back,
