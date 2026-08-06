@@ -52,9 +52,10 @@ describe('HowItWorks', () => {
     ]);
   });
 
-  it('renders the translated two-line heading', () => {
-    render(HowItWorks);
+  it('renders the translated two-line heading with a pink accent word', () => {
+    const { container } = render(HowItWorks);
     expect(screen.getByText('Um assistente pessoal')).toBeInTheDocument();
-    expect(screen.getByText('para o enxoval do seu bebê')).toBeInTheDocument();
+    expect(container.querySelector('.how__title')).toHaveTextContent('para o melhor fit');
+    expect(container.querySelector('.how__title-accent')).toHaveTextContent('fit');
   });
 });

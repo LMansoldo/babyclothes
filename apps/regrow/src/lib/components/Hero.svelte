@@ -190,6 +190,10 @@
     box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.3);
   }
 
+  .hero__card :global(.item-card__photo) {
+    display: none;
+  }
+
   .hero__card--back {
     top: 0;
     right: 10rem;

@@ -9,15 +9,13 @@
 </script>
 
 <section id="como-funciona" class="how">
-  <div class="how__lines" aria-hidden="true">
-    <div class="how__line how__line--left"></div>
-    <div class="how__line how__line--right"></div>
-  </div>
-
   <div class="how__inner">
     <div class="how__header">
       <p class="how__eyebrow">{$t('how.title')}</p>
-      <h2 class="how__title"><span>{$t('how.subtitle_line1')}</span><br /><span>{$t('how.subtitle_line2')}</span></h2>
+      <h2 class="how__title">
+        <span>{$t('how.subtitle_line1')}</span><br />
+        <span>{$t('how.subtitle_line2')} <em class="how__title-accent">{$t('how.subtitle_accent')}</em></span>
+      </h2>
     </div>
 
     <div class="how__grid">
@@ -38,28 +36,6 @@
     padding: clamp(4rem, 9vw, 6.4rem) clamp(1rem, 5vw, 3.6rem);
     background: linear-gradient(180deg, #ffffff 0%, #fdf0f7 60%, #fceaf5 100%);
     overflow: hidden;
-  }
-
-  .how__lines {
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-  }
-
-  .how__line {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 0.05rem;
-    background: rgba(255, 60, 172, 0.07);
-  }
-
-  .how__line--left {
-    left: 33%;
-  }
-
-  .how__line--right {
-    left: 66%;
   }
 
   .how__inner {
@@ -89,6 +65,11 @@
     letter-spacing: -0.025em;
     line-height: 1.07;
     color: var(--text-primary);
+  }
+
+  .how__title-accent {
+    font-style: normal;
+    color: var(--pk);
   }
 
   .how__grid {
