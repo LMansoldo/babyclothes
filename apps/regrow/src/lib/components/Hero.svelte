@@ -20,6 +20,11 @@
 </script>
 
 <section id="top" class="hero">
+  <div class="hero__aurora" aria-hidden="true">
+    <span class="hero__aurora-blob hero__aurora-blob--1"></span>
+    <span class="hero__aurora-blob hero__aurora-blob--2"></span>
+    <span class="hero__aurora-blob hero__aurora-blob--3"></span>
+  </div>
   <div class="hero__bottom-fade"></div>
 
   <div class="hero__content">
@@ -94,6 +99,82 @@
     align-items: center;
     padding: 7rem 0 5rem;
     background: #e91e8c;
+  }
+
+  .hero__aurora {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    filter: blur(4.5rem);
+  }
+
+  .hero__aurora-blob {
+    position: absolute;
+    width: 45rem;
+    height: 45rem;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    opacity: 0.8;
+  }
+
+  .hero__aurora-blob--1 {
+    top: -15rem;
+    left: -10rem;
+    background: radial-gradient(circle, #ff9ad5 0%, transparent 70%);
+  }
+
+  .hero__aurora-blob--2 {
+    top: 8rem;
+    right: -15rem;
+    background: radial-gradient(circle, #b03eff 0%, transparent 70%);
+  }
+
+  .hero__aurora-blob--3 {
+    bottom: -20rem;
+    left: 20%;
+    background: radial-gradient(circle, #f54dab 0%, transparent 70%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__aurora-blob--1 {
+      animation: hero-aurora-drift-1 16s ease-in-out infinite alternate;
+    }
+
+    .hero__aurora-blob--2 {
+      animation: hero-aurora-drift-2 20s ease-in-out infinite alternate;
+    }
+
+    .hero__aurora-blob--3 {
+      animation: hero-aurora-drift-3 24s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes hero-aurora-drift-1 {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(8rem, 6rem) scale(1.15);
+    }
+  }
+
+  @keyframes hero-aurora-drift-2 {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(-6rem, 8rem) scale(1.1);
+    }
+  }
+
+  @keyframes hero-aurora-drift-3 {
+    from {
+      transform: translate(0, 0) scale(1);
+    }
+    to {
+      transform: translate(5rem, -7rem) scale(1.2);
+    }
   }
 
   .hero__bottom-fade {
