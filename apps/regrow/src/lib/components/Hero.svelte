@@ -208,7 +208,7 @@
 
   .hero__headline {
     font-family: Verdana, sans-serif;
-    font-size: clamp(2.4rem, 5.6vw, 4.4rem);
+    font-size: clamp(2.04rem, 4.76vw, 3.74rem);
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.01em;
