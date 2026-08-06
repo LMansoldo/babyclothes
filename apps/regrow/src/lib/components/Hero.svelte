@@ -50,15 +50,18 @@
     </div>
 
     <div class="hero__visual">
-      <img
-        src={chatMockupSrc}
-        alt={$t('hero.chat_mockup_alt')}
-        loading="lazy"
-        decoding="async"
-        width="500"
-        height="1056"
-        class="hero__chat-mockup"
-      />
+      <div class="hero__chat-mockup">
+        <div class="hero__chat-mockup-notch" aria-hidden="true"></div>
+        <img
+          src={chatMockupSrc}
+          alt={$t('hero.chat_mockup_alt')}
+          loading="lazy"
+          decoding="async"
+          width="500"
+          height="1056"
+          class="hero__chat-mockup-image"
+        />
+      </div>
     </div>
   </div>
 </section>
@@ -184,13 +187,32 @@
   }
 
   .hero__chat-mockup {
-    display: block;
+    position: relative;
     width: 100%;
     max-width: 16rem;
-    height: fit-content;
     margin: 0 auto;
-    border-radius: 1.25rem;
+    border: 0.4rem solid #000000;
+    border-radius: 1.6rem;
+    overflow: hidden;
     box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.3);
+  }
+
+  .hero__chat-mockup-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 0.9rem;
+    background: #000000;
+    border-radius: 0 0 0.7rem 0.7rem;
+    z-index: 1;
+  }
+
+  .hero__chat-mockup-image {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   @media (max-width: 48rem) {

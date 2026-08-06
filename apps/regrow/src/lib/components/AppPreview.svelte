@@ -13,13 +13,14 @@
 <section class="preview">
   <div class="preview__inner">
     <div class="preview__phone">
+      <div class="preview__phone-notch" aria-hidden="true"></div>
       <img
-        src="/images/preview-phone-mockup.webp"
+        src="/images/screen-size.webp"
         alt={$t('preview.image_alt')}
         loading="lazy"
         decoding="async"
-        width="700"
-        height="1059"
+        width="720"
+        height="1520"
         class="preview__phone-image"
       />
     </div>
@@ -59,15 +60,31 @@
   }
 
   .preview__phone {
+    position: relative;
     flex: 0 0 40%;
     transform: rotate(-2deg);
+    border: 0.5rem solid #000000;
+    border-radius: 1.8rem;
+    overflow: hidden;
+    box-shadow: 0.6rem 1rem 2rem rgba(0, 0, 0, 0.25);
+  }
+
+  .preview__phone-notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40%;
+    height: 0.9rem;
+    background: #000000;
+    border-radius: 0 0 0.7rem 0.7rem;
+    z-index: 1;
   }
 
   .preview__phone-image {
     display: block;
     width: 100%;
     height: auto;
-    filter: drop-shadow(0.6rem 1rem 2rem rgba(0, 0, 0, 0.25));
   }
 
   .preview__content {

@@ -12,7 +12,7 @@ describe('AppPreview', () => {
     render(AppPreview);
     const img = screen.getByRole('img');
     expect(img).toHaveAttribute('loading', 'lazy');
-    expect(img).toHaveAttribute('src', '/images/preview-phone-mockup.webp');
+    expect(img).toHaveAttribute('src', '/images/screen-size.webp');
   });
 
   it('renders the 4 feature items with their titles and texts', () => {
