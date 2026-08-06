@@ -45,7 +45,7 @@ describe('AppPreview', () => {
 
   it('renders a CTA linking to #waitlist below the feature list', () => {
     render(AppPreview);
-    const cta = screen.getByRole('link', { name: 'Cadastre-se para economizar' });
+    const cta = screen.getByRole('link', { name: 'Cadastrar' });
     expect(cta).toHaveAttribute('href', '#waitlist');
   });
 });

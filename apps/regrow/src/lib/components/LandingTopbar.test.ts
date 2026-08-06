@@ -17,7 +17,7 @@ describe('LandingTopbar', () => {
 
   it('renders the waitlist CTA link pointing to #waitlist', () => {
     render(LandingTopbar);
-    const cta = screen.getByRole('link', { name: 'Cadastre-se para economizar' });
+    const cta = screen.getByRole('link', { name: 'Cadastrar' });
     expect(cta).toHaveAttribute('href', '#waitlist');
   });
 

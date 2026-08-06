@@ -122,10 +122,11 @@
   }
 
   .hero__headline {
+    font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(2.4rem, 5.6vw, 4.4rem);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.05;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.01em;
     color: #ffffff;
     margin-bottom: 2rem;
   }
@@ -186,7 +187,7 @@
   }
 
   .hero__card :global(.item-card) {
-    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.3);
   }
 
   .hero__card--back {

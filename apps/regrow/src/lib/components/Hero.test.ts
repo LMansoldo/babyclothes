@@ -52,7 +52,7 @@ describe('Hero', () => {
     render(Hero);
     expect(screen.getByPlaceholderText('Seu melhor e-mail')).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Cadastre-se para economizar' }),
+      screen.getByRole('button', { name: 'Cadastrar' }),
     ).toBeInTheDocument();
   });
 
@@ -67,7 +67,7 @@ describe('Hero', () => {
 
     const input = screen.getByPlaceholderText('Seu melhor e-mail');
     await fireEvent.input(input, { target: { value: 'ana@example.com' } });
-    await fireEvent.click(screen.getByRole('button', { name: 'Cadastre-se para economizar' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Cadastrar' }));
 
     expect(get(waitlistEmail)).toBe('ana@example.com');
     expect(scrollSpy).toHaveBeenCalledWith({ behavior: 'smooth' });
