@@ -207,5 +207,9 @@
     .hero__subheadline {
       max-width: none;
     }
+
+    .hero__visual {
+      display: none;
+    }
   }
 </style>
