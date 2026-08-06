@@ -122,7 +122,7 @@
   }
 
   .hero__headline {
-    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-size: clamp(2.4rem, 5.6vw, 4.4rem);
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.01em;
@@ -144,12 +144,12 @@
     flex: 1;
     min-width: 0;
     font-family: var(--font-body);
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     color: var(--text-primary);
     background: #f0f0f0;
     border: none;
     border-radius: 1.5rem 0 0 1.5rem;
-    padding: 0.8rem 1.2rem;
+    padding: 1rem 1.6rem;
     outline: none;
     transition: box-shadow var(--transition-fast);
   }
@@ -164,8 +164,8 @@
 
   .hero__quick-signup :global(.waitlist-cta--hero) {
     border-radius: 0 1.5rem 1.5rem 0;
-    padding: 0.8rem 1.6rem;
-    font-size: 0.75rem;
+    padding: 1rem 2.1rem;
+    font-size: 1rem;
     background: linear-gradient(135deg, #e91e8c, #f54dab);
     box-shadow: 0 0.6rem 1.6rem rgba(0, 0, 0, 0.35);
   }
