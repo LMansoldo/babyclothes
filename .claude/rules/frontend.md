@@ -1,6 +1,6 @@
-# apps/web — SvelteKit Frontend
+# Frontend Rules (apps/web)
 
-> **Before writing any code, read `RULES.md` at the project root.**
+> Before writing any code, read `.claude/rules/general.md` first.
 
 ## Tech Stack
 
@@ -87,7 +87,6 @@ src/lib/
 ## CSS Conventions
 
 - CSS custom properties from `@babyclothes/design-system/tokens.css`
-- BEM naming: `.block__element--modifier`
 - Component-scoped `<style>` blocks
 - Mobile-first responsive design
 

@@ -1,6 +1,6 @@
-# apps/api — Elixir REST API
+# Backend Rules (apps/api)
 
-> **Before writing any code, read `RULES.md` at the project root.**
+> Before writing any code, read `.claude/rules/general.md` first.
 
 ## Tech Stack
 
@@ -15,7 +15,7 @@
 
 ## Commands (Docker First)
 
-All commands run inside Docker containers. See root `RULES.md` for full list.
+All commands run inside Docker containers. See `.claude/rules/infra.md` for the full list.
 
 ```bash
 yarn api:migrate     # mix ecto.migrate (inside container)
@@ -38,7 +38,7 @@ config/
 ├── dev.exs               # Dev config
 ├── test.exs              # Test config
 ├── prod.exs              # Prod config
-└── runtime.exs           # Runtime config (env vars)
+└── runtime.exs            # Runtime config (env vars)
 test/
 ├── test_helper.exs
 └── support/              # Test factories (ex_machina)
@@ -197,11 +197,3 @@ end
 - **Swagger/OpenAPI spec** updated for every new/changed endpoint
 - Request/response schemas documented
 - Error responses documented with status codes
-
-## Environment Variables
-
-See root `.env.example` for:
-- `DATABASE_URL` — PostgreSQL connection
-- `SECRET_KEY_BASE` — JWT signing
-- `AWS_*` — S3 credentials
-- `GOOGLE_CLIENT_ID` — OAuth

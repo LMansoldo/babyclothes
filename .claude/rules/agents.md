@@ -1,6 +1,6 @@
-# apps/agents — AI Growth Prediction Agent
+# Agents Rules (apps/agents)
 
-> **Before writing any code, read `RULES.md` at the project root.**
+> Before writing any code, read `.claude/rules/general.md` first.
 
 ## Tech Stack
 
@@ -41,11 +41,6 @@ Defined in `proto/agent.proto`:
 ## Current Status
 
 **Stub implementation** — returns hardcoded responses. LangGraph integration is planned.
-
-## Environment Variables
-
-- `GRPC_PORT` — gRPC listen port (default: `50051`)
-- `ANTHROPIC_API_KEY` — Anthropic API key (planned)
 
 ## Conventions
 
