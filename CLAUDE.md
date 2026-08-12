@@ -1,8 +1,9 @@
 # BabyClothes Monorepo
 
-> **Before writing any code, read `RULES.md` at the project root.**
-
 C2C marketplace for buying/selling baby clothes with AI growth prediction.
+
+> **Before writing any code**, read `.claude/rules/general.md`, then the domain
+> rule file(s) relevant to what you're changing (linked below).
 
 ## Monorepo Structure
 
@@ -10,20 +11,6 @@ C2C marketplace for buying/selling baby clothes with AI growth prediction.
 - **Node 22** (`.nvmrc`)
 - Workspaces: `apps/web`, `apps/agents`, `packages/design-system`
 - `apps/api` is Elixir (Mix, not part of Yarn workspaces)
-
-## Commands (Docker First)
-
-All commands run inside Docker containers. See `RULES.md` for full list.
-
-```bash
-yarn dev               # Start all services (postgres + api + agents + web)
-yarn dev:down          # Stop all services
-yarn build             # Build all workspaces (inside container)
-yarn preview           # Preview web build (inside container)
-yarn test              # Test all workspaces (inside container)
-yarn check             # Type check all workspaces (inside container)
-yarn api:migrate       # Run Ecto migrations
-```
 
 ## Architecture Overview
 
@@ -40,28 +27,26 @@ yarn api:migrate       # Run Ecto migrations
 - API → Agents: gRPC (proto/agent.proto)
 - Web → Agents: SSE streaming (planned)
 
-## Design Tokens
+## Rules & Best Practices
 
-CSS custom properties defined in `packages/design-system/src/lib/tokens/tokens.css`:
-- `--pk` (pink), `--bk` (black), `--wh` (white)
-- `--of2`, `--of3` (off-white variants)
-- `--gr` (Inter body font)
-- `--ld` (Londrina Solid), `--sr` (Sriracha), `--vd` (Vidaloka) — display fonts
+All prescriptive rules live in `.claude/rules/`:
 
-## Docker
+| File | Covers |
+|------|--------|
+| [`.claude/rules/general.md`](.claude/rules/general.md) | Docker-first workflow, type safety, SRP/DRY, SOLID, Object Calisthenics, CSS units, commit/i18n/emoji conventions — applies repo-wide |
+| [`.claude/rules/frontend.md`](.claude/rules/frontend.md) | `apps/web`: stack, structure, routes, Svelte 5 conventions, i18n, testing |
+| [`.claude/rules/design-system.md`](.claude/rules/design-system.md) | `packages/design-system`: component layers, file set, reuse policy, tokens |
+| [`.claude/rules/backend.md`](.claude/rules/backend.md) | `apps/api`: DDD/contexts, OTP, Ecto, security, testing |
+| [`.claude/rules/agents.md`](.claude/rules/agents.md) | `apps/agents`: gRPC services, LangGraph conventions |
+| [`.claude/rules/infra.md`](.claude/rules/infra.md) | Docker Compose services, Postgres, env vars |
 
-All services run via `docker compose up`. Dependency chain: `postgres` → `api` → `agents` + `web`.
+## Dev Agents
 
-| Service | Port | Description |
-|---------|------|-------------|
-| `postgres` | 5432 | PostgreSQL 16 |
-| `api` | 4000 | Elixir REST API |
-| `agents` | 50051 | TypeScript gRPC AI agent |
-| `web` | 5173 | SvelteKit dev server |
+Specialized agents in `.claude/agents/`:
 
-## Conventions
-
-- **No emojis** in UI — use `lucide-svelte` for icons (web app) or inline SVGs (SDK)
-- **Semantic commits**: `feat(scope):`, `fix(scope):`, `docs(scope):`, etc.
-- **BEM CSS naming**: `.block__element--modifier`
-- **i18n**: All user-facing strings must support en-US and pt-BR
+| Agent | Use for |
+|-------|---------|
+| `frontend-builder` | Implementing/modifying UI in `apps/web` or `packages/design-system`, strict TDD |
+| `backend-builder` | Implementing/modifying `apps/api` Elixir code, strict TDD |
+| `backend-reviewer` | Standalone Elixir/OTP code-quality checklist review |
+| `quality-reviewer` | Checking a finished implementation against a spec you provide |
