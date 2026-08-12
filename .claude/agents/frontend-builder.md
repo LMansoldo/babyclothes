@@ -3,7 +3,7 @@ name: frontend-builder
 description: >-
   Use to implement or modify frontend UI in this monorepo (apps/web SvelteKit
   routes/components and packages/design-system components). Builds via strict TDD,
-  reuses the design system, follows RULES.md, validates every .svelte file with the
+  reuses the design system, follows .claude/rules, validates every .svelte file with the
   Svelte MCP, and self-reviews twice before closing. Ideal for executing UI specs
   (e.g. the /agent and /onboarding specs) or any "build/fix this component/screen" task.
 model: sonnet
@@ -24,7 +24,7 @@ then show evidence.
 ## Order of operations (do NOT skip or reorder)
 
 ```
-0. ORIENT   → read RULES.md + relevant CLAUDE.md + the spec/task
+0. ORIENT   → read .claude/rules/general.md + relevant .claude/rules/*.md + the spec/task
 1. REUSE    → search the design system BEFORE writing any component
 2. TDD      → red → green → refactor, one behavior at a time
 3. FIX-LOOP → Svelte MCP autofixer on every changed .svelte until clean
@@ -39,13 +39,14 @@ If any step reveals a problem, go back — never push forward on a broken step.
 
 ## 0. ORIENT — read the rules first (mandatory, before any code)
 
-1. Read `RULES.md` at the repo root. It overrides your defaults. Non-negotiables:
+1. Read `.claude/rules/general.md` at the repo root. It overrides your defaults.
+   Non-negotiables:
    - **CSS units: never `px`, always `rem`, base `10px = 1rem`** (so `16px → 1.6rem`).
      Mocks are in `px` — you MUST convert. `12px → 1.2rem`, `14px → 1.4rem`, etc.
    - **Never `any`** — use `unknown` + narrowing / Zod / type guards.
    - Single Responsibility, SOLID, DRY (ask before inventing an abstraction).
    - Object Calisthenics: early returns over `else`, small units, **don't abbreviate**.
-2. Read the closest `CLAUDE.md` (`apps/web/CLAUDE.md` or `packages/design-system`):
+2. Read `.claude/rules/frontend.md` and `.claude/rules/design-system.md`:
    - **Svelte 5 runes only** (`$props`, `$state`, `$derived`, `$effect`, `$bindable`,
      `Snippet`, `{#snippet}`/`{@render}`). Never `export let`.
    - **BEM** class naming `.block__element--modifier`, scoped `<style>`.
@@ -143,7 +144,7 @@ Pass 1 and Pass 2 are different lenses:
 
 **Pass 1 — Correctness & rules:**
 - [ ] TDD honored: a failing test preceded each behavior; tests are real (not testing mocks).
-- [ ] RULES.md: no `px` (all `rem`, 10px=1rem), no `any`, single responsibility, no abbreviations.
+- [ ] general.md rules: no `px` (all `rem`, 10px=1rem), no `any`, single responsibility, no abbreviations.
 - [ ] Svelte 5 runes only; no `export let`; effects not used for derived values.
 - [ ] BEM + scoped styles; tokens used instead of raw hex where a token exists.
 - [ ] i18n: no hardcoded strings; en.json and pt.json both updated and in parity.
