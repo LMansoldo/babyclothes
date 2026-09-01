@@ -6,9 +6,10 @@ const meta = {
   component: TopBar,
   tags: ['autodocs'],
   argTypes: {
-    variant: { control: 'select', options: ['catalog', 'chat'] },
+    variant: { control: 'select', options: ['catalog', 'chat', 'agent'] },
     onSearch: { action: 'search' },
     onNavigate: { action: 'navigate' },
+    onProfile: { action: 'profile' },
   },
   render: (args: Record<string, unknown>) => ({
     Component: TopBar,
@@ -41,6 +42,16 @@ export const CatalogWithPath: Story = {
     publishLabel: 'Vender',
     onNavigate: () => {},
     onSearch: () => {},
+  },
+}
+
+export const AgentVariant: Story = {
+  args: {
+    variant: 'agent',
+    userInitials: 'LM',
+    profileAriaLabel: 'Perfil',
+    onNavigate: () => {},
+    onProfile: () => {},
   },
 }
 

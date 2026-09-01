@@ -4,6 +4,8 @@
     "chat": "Chat",
     "child": "Filho",
     "sell": "Vender",
+    "agent": "Início",
+    "profile": "Perfil",
     "main_aria": "Navegação principal"
   },
   "topbar": {
@@ -432,6 +434,7 @@
     "results": {
       "heading": "Opções para você",
       "modal_title": "Detalhes do item",
+      "close": "Fechar",
       "load_error": "Não foi possível carregar este item."
     }
   }

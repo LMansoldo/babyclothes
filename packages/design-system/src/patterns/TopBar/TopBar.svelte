@@ -14,8 +14,12 @@
     chatStatus = 'SSE Live',
     chatChildContext = '',
     onMenuClick,
+    userInitials,
+    onProfile,
+    profileAriaLabel = 'Perfil',
+    logoHref = '/catalog',
   }: {
-    variant?: 'catalog' | 'chat'
+    variant?: 'catalog' | 'chat' | 'agent'
     searchPlaceholder?: string
     searchAriaLabel?: string
     publishLabel?: string
@@ -27,26 +31,34 @@
     chatStatus?: string
     chatChildContext?: string
     onMenuClick?: () => void
+    userInitials?: string
+    onProfile?: () => void
+    profileAriaLabel?: string
+    logoHref?: string
   } = $props()
 </script>
 
+{#snippet logo()}
+  {#if onNavigate}
+    <button class="topnav__logo" onclick={() => onNavigate(logoHref)}>
+      <svg width="12" height="15" viewBox="0 0 20 24" fill="none">
+        <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
+      </svg>
+      <span>BabyClothes</span>
+    </button>
+  {:else}
+    <a href={logoHref} class="topnav__logo">
+      <svg width="12" height="15" viewBox="0 0 20 24" fill="none">
+        <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
+      </svg>
+      <span>BabyClothes</span>
+    </a>
+  {/if}
+{/snippet}
+
 {#if variant === 'catalog'}
   <nav class="topnav topnav--catalog">
-    {#if onNavigate}
-      <button class="topnav__logo" onclick={() => onNavigate('/catalog')}>
-        <svg width="12" height="15" viewBox="0 0 20 24" fill="none">
-          <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
-        </svg>
-        <span>BabyClothes</span>
-      </button>
-    {:else}
-      <a href="/catalog" class="topnav__logo">
-        <svg width="12" height="15" viewBox="0 0 20 24" fill="none">
-          <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="var(--pk)"/>
-        </svg>
-        <span>BabyClothes</span>
-      </a>
-    {/if}
+    {@render logo()}
 
     <div class="topnav__search">
       {#if searchIcon}
@@ -78,6 +90,21 @@
       {@render avatar()}
     {:else}
       <div class="topnav__avatar-placeholder">BC</div>
+    {/if}
+  </nav>
+{:else if variant === 'agent'}
+  <nav class="topnav topnav--agent">
+    {@render logo()}
+    {#if onProfile}
+      <button
+        class="topnav__avatar-btn"
+        onclick={onProfile}
+        aria-label={profileAriaLabel}
+      >
+        {userInitials ?? 'BC'}
+      </button>
+    {:else}
+      <div class="topnav__avatar-placeholder">{userInitials ?? 'BC'}</div>
     {/if}
   </nav>
 {:else}
@@ -138,6 +165,13 @@
     background: #fff;
   }
 
+  .topnav--agent {
+    display: flex;
+    align-items: center;
+    padding: 0 0.7rem;
+    height: 4rem;
+  }
+
   /* Logo */
   .topnav__logo {
     display: flex;
@@ -195,7 +229,8 @@
   }
 
   /* Avatar placeholder */
-  .topnav__avatar-placeholder {
+  .topnav__avatar-placeholder,
+  .topnav__avatar-btn {
     width: 1.4rem;
     height: 1.4rem;
     border-radius: 50%;
@@ -207,6 +242,17 @@
     font-weight: 700;
     color: #fff;
     flex-shrink: 0;
+  }
+
+  .topnav--agent .topnav__avatar-btn,
+  .topnav--agent .topnav__avatar-placeholder {
+    margin-left: auto;
+  }
+
+  .topnav__avatar-btn {
+    border: none;
+    cursor: pointer;
+    padding: 0;
   }
 
   /* Chat variant — AI avatar */

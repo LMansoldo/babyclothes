@@ -5,6 +5,7 @@
   import { goto } from '$app/navigation'
   import { t, get } from '$lib/i18n'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
+  import { flags } from '$lib/feature-flags'
   import { HttpChildRepository } from '$lib/infrastructure/http/HttpChildRepository'
   import type { Child } from '$lib/domain/child/entities/Child'
   import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
@@ -158,7 +159,9 @@
         progress={progress}
         sizes={growthSizes}
         description={$t('child.growth_description', { name: activeChild.name })}
-        primaryAction={{ label: $t('child.view_catalog'), onclick: () => goto('/catalog') }}
+        primaryAction={flags.marketplace
+          ? { label: $t('child.view_catalog'), onclick: () => goto('/catalog') }
+          : undefined}
         secondaryAction={{ label: $t('child.update_measurements'), onclick: () => console.log('Update measurements') }}
       />
     </div>

@@ -6,16 +6,16 @@
   import { page } from '$app/stores'
   import { goto } from '$app/navigation'
   import { t } from '$lib/i18n'
-  import { Home, MessageSquare, Baby, PlusCircle } from 'lucide-svelte'
-  import { TopBar, BottomNav, Footer, AgentTopBar } from '@babyclothes/design-system'
-  import { flags } from '$lib/feature-flags'
+  import { Home, MessageSquare, Baby, PlusCircle, User } from 'lucide-svelte'
+  import { TopBar, BottomNav, Footer } from '@babyclothes/design-system'
+  import { flags, HOME_ROUTE } from '$lib/feature-flags'
   import ToastContainer from '$lib/presentation/components/ToastContainer.svelte'
   let { data, children } = $props()
 
   const bareRoutes = ['/login', '/register', '/onboarding']
   const isBareRoute = $derived(bareRoutes.some((r) => $page.url.pathname.startsWith(r)))
   const isChatRoute = $derived($page.url.pathname.startsWith('/chat') || $page.url.pathname.startsWith('/agent'))
-  const topbarVariant = $derived(isChatRoute ? 'chat' : 'catalog')
+  const topbarVariant = $derived(flags.marketplace ? 'catalog' : 'agent')
   const currentPath = $derived($page.url.pathname)
 
   const footerLinks = $derived([
@@ -30,15 +30,18 @@
   })
 
   setContext('session', sessionStore)
-  const unreadCountStore = writable(0)
-  setContext('unreadCount', unreadCountStore)
-
-  function initials(name: string): string {
-    return name.split(' ').filter(Boolean).slice(0, 2).map(p => p[0]!.toUpperCase()).join('')
-  }
 
   function handleNavigate(href: string) {
     goto(href)
+  }
+
+  function initials(name: string): string {
+    return name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]!.toUpperCase())
+      .join('')
   }
 </script>
 
@@ -54,38 +57,37 @@
 {#snippet sellIcon()}
   <PlusCircle size={20} strokeWidth={1.75} />
 {/snippet}
+{#snippet profileIcon()}
+  <User size={20} strokeWidth={1.75} />
+{/snippet}
 
 {#if isBareRoute}
   {@render children()}
 {:else}
-  {@const tabs = [
-    { href: '/catalog', label: $t('nav.catalog'), icon: homeIcon },
-    { href: '/chat', label: $t('nav.chat'), icon: chatNavIcon },
-    { href: '/child', label: $t('nav.child'), icon: childIcon },
-    { href: '/sell', label: $t('nav.sell'), icon: sellIcon },
-  ]}
+  {@const tabs = flags.marketplace
+    ? [
+        { href: '/catalog', label: $t('nav.catalog'), icon: homeIcon },
+        { href: '/chat', label: $t('nav.chat'), icon: chatNavIcon },
+        { href: '/child', label: $t('nav.child'), icon: childIcon },
+        { href: '/sell', label: $t('nav.sell'), icon: sellIcon },
+      ]
+    : [
+        { href: '/agent', label: $t('nav.agent'), icon: homeIcon },
+        { href: '/child', label: $t('nav.child'), icon: childIcon },
+        { href: '/profile', label: $t('nav.profile'), icon: profileIcon },
+      ]}
   <div class="app-shell" class:app-shell--chat={isChatRoute}>
-    {#if flags.marketplace}
-      <TopBar
-        variant={topbarVariant}
-        searchPlaceholder={$t('topbar.search_placeholder')}
-        searchAriaLabel={$t('topbar.search_aria')}
-        publishLabel={$t('topbar.publish')}
-        chatTitle={$t('topbar.nav.chat_ai')}
-        chatStatus={$t('topbar.chat_status')}
-        onNavigate={handleNavigate}
-      />
-    {:else}
-      <AgentTopBar
-        agentName={$t('agent.topbar.name')}
-        status="online"
-        statusLabel={$t('agent.topbar.online')}
-        unreadCount={$unreadCountStore}
-        userInitials={initials(data.session?.name ?? '')}
-        onNotifications={() => goto('/notifications')}
-        onProfile={() => goto('/profile')}
-      />
-    {/if}
+    <TopBar
+      variant={topbarVariant}
+      searchPlaceholder={$t('topbar.search_placeholder')}
+      searchAriaLabel={$t('topbar.search_aria')}
+      publishLabel={$t('topbar.publish')}
+      userInitials={initials(data.session?.name ?? '')}
+      profileAriaLabel={$t('topbar.profile_aria')}
+      logoHref={HOME_ROUTE}
+      onNavigate={handleNavigate}
+      onProfile={() => goto('/profile')}
+    />
     <main class="app-main" class:app-main--with-nav={flags.marketplaceNav}>
       {@render children()}
     </main>
@@ -130,7 +132,7 @@
   /* Mobile: add space for BottomNav */
   @media (max-width: 64rem) {
     .app-main--with-nav {
-      padding-bottom: 6.4rem;
+      padding-bottom: 2.8rem;
     }
   }
 </style>

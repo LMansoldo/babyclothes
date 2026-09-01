@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Guia de Loop Engineering, Ralph Loop e Graph Engineering</title>
+<style>
+  :root { --fg:#1d1d1f; --muted:#6e6e73; --bg:#ffffff; --code-bg:#f5f5f7; --border:#d2d2d7; --link:#0066cc; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--fg); background: var(--bg); line-height: 1.65;
+    max-width: 860px; margin: 0 auto; padding: 3rem 1.5rem 6rem;
+  }
+  h1 { font-size: 2.2rem; line-height: 1.2; margin-top: 2.5rem; }
+  h2 { font-size: 1.6rem; margin-top: 2.5rem; padding-bottom: .3rem; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.2rem; margin-top: 1.8rem; }
+  h4 { font-size: 1.02rem; margin-top: 1.4rem; }
+  p, li { font-size: 1rem; }
+  a { color: var(--link); text-decoration: none; word-break: break-word; }
+  a:hover { text-decoration: underline; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: .88em;
+          background: var(--code-bg); padding: .15em .4em; border-radius: 4px; }
+  pre { background: var(--code-bg); padding: 1rem 1.2rem; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  blockquote { margin: 1.2rem 0; padding: .4rem 1rem; border-left: 4px solid var(--border);
+                color: var(--muted); }
+  table { border-collapse: collapse; width: 100%; margin: 1.2rem 0; font-size: .92rem; }
+  th, td { border: 1px solid var(--border); padding: .5rem .7rem; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); }
+  hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+  .mermaid { display: flex; justify-content: center; margin: 1.5rem 0; }
+  input[type=checkbox] { margin-right: .5rem; }
+  ul.contains-task-list { list-style: none; padding-left: 1rem; }
+</style>
+</head>
+<body>
+<article id="content"><p>Carregando…</p></article>
+
+<script id="md" type="text/markdown">
+# Guia de Loop Engineering, Ralph Loop e Graph Engineering
+
+> Este guia ENSINA os três pilares de um workflow agêntico de codificação orientado a contrato e testes.
+> Cada seção explica a teoria, mostra como funciona na prática e ancora num exemplo de um workflow de
+> referência (setup determinístico + workflow multi-agente Contract → Implement → Report).
+
+---
+
+## 0. Visão geral: por que esses três pilares
+
+Desenvolvimento assistido por IA de alta qualidade não é "pedir código e colar". É desenhar um SISTEMA
+que produz código correto de forma repetível. Esse sistema tem três disciplinas complementares:
+
+- *Loop Engineering* — projetar o ciclo de execução do agente: o que roda, quantas vezes, quando para,
+  quem julga e como se recupera de erro. É o "motor" que roda em repetição controlada.
+- *Ralph Loop* — um padrão específico de loop: rodar o agente repetidamente sobre a MESMA tarefa até um
+  critério de aprovação ser atingido. No workflow de referência isso vira um ciclo TDD com um juiz (modelo
+  forte) que aprova ou rejeita cada tentativa.
+- *Graph Engineering* — modelar o trabalho como um GRAFO de dependências (DAG), ordenar por toposort e
+  executar respeitando as arestas. É o que define a ORDEM e o TAMANHO de cada unidade de trabalho.
+
+No workflow de referência os três aparecem juntos: o *contrato* vira um grafo de itens (dependsOn), o
+grafo é ordenado por toposort (graph engineering), e cada item é implementado dentro de um ralph loop TDD
+(loop + ralph engineering).
+
+---
+
+## 1. Loop Engineering
+
+### 1.1 O que é um loop agêntico
+Um agente de IA opera em LOOP: ele raciocina, age (usa ferramenta), observa o resultado e decide o próximo
+passo, repetindo até concluir o objetivo. Loop Engineering é a disciplina de PROJETAR esse ciclo com
+intenção, em vez de deixá-lo implícito. O padrão base é o loop raciocínio-ação (ReAct) e sua variante com
+auto-crítica (Reflexion).
+Fontes: https://www.anthropic.com/engineering/building-effective-agents · https://arxiv.org/abs/2210.03629 · https://arxiv.org/abs/2303.11366
+
+### 1.2 As decisões de projeto de um loop
+Ao engenheirar um loop, você define explicitamente:
+
+- *Unidade de trabalho* — o que UM passo do loop produz. No workflow de referência a unidade é "um item do
+  contrato, pequeno o bastante para UM commit". Unidades pequenas = loops mais confiáveis e reversíveis.
+- *Condição de término* — quando o loop para. Pode ser "objetivo atingido", "juiz aprovou", "máximo de
+  tentativas" ou "erro fatal". Sem término claro, o loop trava ou gasta tokens à toa.
+- *Critério de sucesso / juiz* — quem decide que o passo está bom. No workflow de referência é um modelo
+  forte no papel de juiz (padrão LLM-as-judge). Ver seção 2.4.
+- *Estratégia de retry* — o que acontece quando o passo falha. No workflow de referência, rejeição do juiz
+  volta com feedback específico e incrementa attempt++, tentando de novo até aprovar.
+- *Estado / memória entre passos* — como o contexto sobrevive entre iterações. No workflow de referência,
+  arquivos de memória são a fonte de verdade; cada subagente parte de contexto FRESCO lendo esses arquivos
+  (evita context rot).
+- *Guardrails* — invariantes que o loop nunca pode violar (ex.: "nunca burlar o hook de commit", "nunca
+  escreve fora da área de trabalho isolada", "nunca push").
+
+### 1.3 Loop sequencial vs. paralelo (fan-out)
+Um loop pode processar itens em paralelo (fan-out) ou um por vez (sequencial). O workflow de referência
+escolhe DELIBERADAMENTE o sequencial: "um item por vez, sem fan-out paralelo". Motivo: os itens têm
+dependências (um reescreve linhas que o outro criou), então paralelizar causaria conflito. Loop Engineering
+é justamente tomar essa decisão com base na estrutura do trabalho (que vem do grafo, seção 3).
+
+### 1.4 Por que contexto fresco a cada iteração
+LLMs sofrem de degradação de contexto: quanto mais longo e poluído o histórico, pior a resposta (fenômenos
+"lost in the middle" e "context rot"). Loops bem engenheirados NÃO acumulam todo o histórico numa única
+janela; eles persistem o estado essencial fora do modelo (arquivos, banco) e recarregam só o necessário a
+cada iteração. É exatamente o que os arquivos de memória fazem no workflow de referência.
+Fontes: https://arxiv.org/abs/2307.03172 · https://research.trychroma.com/context-rot · https://www.anthropic.com/engineering/effective-context-engineering-for-agents
+
+### 1.5 Setup determinístico antes do loop
+Nem tudo deve ser feito pelo LLM. Loop Engineering separa a parte DETERMINÍSTICA (scripts confiáveis) da
+parte que exige raciocínio. No workflow de referência, os passos de setup são determinísticos: resolver o
+ticket, criar a área de trabalho/branch, copiar variáveis de ambiente, instalar dependências, cross-check,
+extrair contratos, gerar a tasklist, escrever a memória inicial. Só depois o workflow invoca os LLMs. Regra
+prática: se dá para fazer com código confiável, não delegue ao modelo.
+
+---
+
+## 2. Ralph Loop
+
+### 2.1 Origem: a técnica "Ralph"
+"Ralph" é a técnica de rodar um agente de codificação em loop contínuo sobre a mesma tarefa/prompt,
+deixando-o iterar repetidamente até convergir para uma solução. A ideia contraintuitiva: um agente
+"simples" rodando em repetição persistente, com bons guardrails, resolve tarefas complexas que uma única
+passada não resolveria.
+Fonte: https://ghuntley.com/ralph/
+
+### 2.2 O ralph loop do workflow de referência: TDD com juiz
+O workflow de referência refina o Ralph puro num loop TDD disciplinado, com um JUIZ que aprova cada etapa.
+Em vez de "roda até parecer pronto", é "roda até o juiz aprovar, com testes verdes". O ciclo por item tem
+5 passos:
+
+| Passo | Quem | Modelo | Faz |
+| --- | --- | --- | --- |
+| A. Testes (TDD red) | agente dev | modelo do item | Escreve só testes; roda e CONFIRMA que falham (red). Se passam de cara, reescreve. |
+| B. Review dos testes | agente juiz | modelo forte | Testes cobrem objetivo+AC? Usam contratos como declarado? Seguem regras? Red verificado? Aprova só se tudo. |
+| C. Implementação | agente dev | modelo do item | Faz os testes passarem (green); lint + style; autofix até limpo. NÃO commita. |
+| D. Review final | agente juiz | modelo forte | Requisito satisfeito? Contratos verbatim? Regras (com file:line)? Testes ainda verdes? Scope creep? Aprova só se tudo. |
+| E. Commit | agente | modelo leve | git add só os arquivos esperados (nunca -A); commit semântico; NUNCA burla o hook. |
+
+Rejeição em B ou D volta com feedback específico e nova tentativa (attempt++). Só avança ao commit quando
+o juiz aprova. Item commitado → completed, próximo item.
+
+### 2.3 Por que TDD é o núcleo do ralph loop
+TDD (escrever o teste ANTES do código) é ideal para loops de IA porque o teste é um critério de sucesso
+OBJETIVO e executável. O passo A força o "red" (teste falhando) para provar que o teste realmente testa
+algo; o passo C busca o "green" (teste passando). Isso transforma "o código está bom?" (subjetivo) em
+"os testes passam?" (verificável). Sem TDD, o loop não tem como saber se convergiu.
+Fonte: https://martinfowler.com/bliki/TestDrivenDevelopment.html
+
+### 2.4 O padrão LLM-as-judge (o "juiz")
+Usar um modelo forte para avaliar a saída de outro (ou de si mesmo) é o padrão "LLM-as-a-judge". No
+workflow de referência, um modelo forte é o juiz: nunca implementa, só JULGA (produz o contrato e faz os
+reviews B e D). Boas práticas do padrão: critérios de aprovação explícitos, feedback acionável na rejeição
+e o juiz rodando os testes de fato (não confiando só na leitura). Separar "quem faz" de "quem julga" reduz
+o viés do agente aprovar o próprio trabalho.
+Fonte: https://arxiv.org/abs/2306.05685
+
+### 2.5 Model tiering (economia e adequação)
+Nem toda etapa precisa do modelo mais caro. O workflow de referência atribui modelos por complexidade:
+- *modelo leve* — mecânico puro: arquivo de types, enum, const estática, wrapper de estilo, extrair
+  styles, remover código morto, o commit.
+- *modelo médio* — lógica, hooks, containers, testes com asserts reais, mudanças em fluxo de dados/
+  condicionais.
+- *modelo forte* — reservado ao JUIZ (contrato + reviews). Nunca atribuído a itens de implementação.
+
+Isso é Loop Engineering aplicado a custo: reserve o modelo caro para o julgamento, use os baratos para o
+trabalho mecânico.
+
+### 2.6 Guardrails do ralph loop
+Loops autônomos precisam de trilhos rígidos para não causar dano:
+- Nunca ramifica de main/master.
+- Agentes nunca escrevem fora da área de trabalho isolada.
+- Não passa do cross-check com inconsistências não resolvidas.
+- Contratos de interface são IMUTÁVEIS — usados verbatim em todo item.
+- Nunca burla o hook de commit: se o hook falha, corrige e faz commit NOVO (nunca amend).
+- Commita por item, mas NUNCA dá push e NUNCA muda o estado do ticket além do combinado.
+
+Git worktree é o que dá o isolamento físico do loop: uma árvore de trabalho separada por branch.
+Fonte: https://git-scm.com/docs/git-worktree
+
+---
+
+## 3. Graph Engineering
+
+### 3.1 O trabalho como um grafo (DAG)
+Graph Engineering é modelar as tarefas como um GRAFO DIRIGIDO ACÍCLICO (DAG): cada item é um nó, e uma aresta
+A → B significa "B depende de A". "Dirigido" = as dependências têm direção. "Acíclico" = não há ciclos
+(A não pode depender de B que depende de A). No workflow de referência, o contrato define cada item com um
+campo dependsOn[], que são exatamente as arestas do grafo.
+Fonte: https://en.wikipedia.org/wiki/Directed_acyclic_graph
+
+### 3.2 Toposort: transformar o grafo em uma ordem de execução
+Uma ordenação topológica (toposort) produz uma sequência linear dos nós tal que todo nó aparece DEPOIS de
+suas dependências. É assim que o workflow de referência decide a ordem: os itens são ordenados por toposort
+do grafo dependsOn e então percorridos sequencialmente. Algoritmos clássicos: Kahn (por grau de entrada)
+e DFS.
+Fonte: https://en.wikipedia.org/wiki/Topological_sorting
+
+### 3.3 Quebra de ciclos
+Toposort só existe se o grafo for acíclico. Se houver um ciclo (dependência circular), não há ordem válida.
+O workflow de referência lida com isso "quebrando ciclos com aviso" — ou seja, detecta o ciclo, escolhe
+onde cortar e segue, mas sinaliza que houve uma dependência circular a revisar. Bom Graph Engineering torna
+ciclos visíveis, não os esconde.
+
+### 3.4 Granularidade dos nós: um commit por item
+A regra "cada item pequeno o bastante para UM commit" é uma decisão de Graph Engineering. Nós pequenos:
+- geram commits atômicos e reversíveis;
+- cabem no contexto de uma iteração do loop (menos context rot);
+- isolam falhas (se um item quebra, os anteriores já estão commitados).
+
+Quando um item "incha", o contrato o QUEBRA em vários com arestas dependsOn entre eles. Ou seja, o tamanho
+do nó e as arestas são co-desenhados.
+
+### 3.5 O contrato como grafo imutável e completo
+Na Fase Contract, o modelo forte transforma o plano num grafo de requisitos com duas propriedades fortes:
+- *Cobertura total* — todo item de DoD/AC do ticket/specs é coberto por ≥1 nó. Nada é descartado
+  silenciosamente. (Completude do grafo.)
+- *Imutabilidade dos contratos de interface* — interfaces/types/enums extraídos das specs são congelados e
+  batem verbatim em cada nó (sem rename/reshape/widening/narrowing).
+
+Cada nó carrega metadados ricos: id, title, why, projectRules[], specs{...}, objective,
+files[], model, testStrategy, dependsOn[]. Esses metadados são o que alimenta o loop da Fase 2.
+
+### 3.6 Como grafo e loop se encaixam
+O grafo responde "O QUÊ e em que ORDEM"; o loop responde "COMO cada item é feito". O toposort do grafo
+alimenta o loop sequencial; as arestas dependsOn são o que JUSTIFICA ser sequencial (ex.: cadeia
+A → B → C, onde C reescreve as mesmas linhas de B). Sem o grafo, o loop não saberia a ordem segura; sem o
+loop, o grafo seria só um plano estático.
+
+---
+
+## 4. Juntando tudo: a anatomia do workflow
+
+mermaid
+flowchart TD
+    S["Setup determinístico<br/>ticket + specs → área isolada → cross-check → contratos → tasklist → memória"]
+    C["Fase 1 — CONTRACT (modelo forte, juiz)<br/>plano → grafo de itens (dependsOn)<br/>1 commit por item · cobertura total · contratos imutáveis"]
+    I["Fase 2 — IMPLEMENT<br/>toposort(grafo) → item a item, sequencial"]
+    R["Fase 3 — REPORT<br/>relatório: itens aplicados/total · contratos congelados · tabela por item"]
+
+    S --> C
+    C -->|Graph Engineering| I
+    I -->|Graph + Loop + Ralph| R
+
+    subgraph Ralph["Ralph loop TDD (por item, retry até o juiz aprovar)"]
+        A["A. Testes (red)"] --> B["B. Review testes (juiz)"]
+        B --> Cimpl["C. Implementação (green)"]
+        Cimpl --> D["D. Review final (juiz)"]
+        D --> E["E. Commit"]
+        B -.rejeita.-> A
+        D -.rejeita.-> Cimpl
+    end
+
+    I -.executa.-> Ralph
+
+
+- *Graph Engineering* vive na Fase Contract (montar o DAG) e no início da Fase Implement (toposort).
+- *Loop Engineering* define a estrutura da Fase Implement (sequencial, memória fresca, guardrails, término).
+- *Ralph Loop* é o miolo por item: A→E com juiz e retry.
+
+---
+
+## 5. Checklist de boas práticas
+
+Loop Engineering
+- [ ] Unidade de trabalho pequena e reversível (idealmente "um commit").
+- [ ] Condição de término explícita (aprovação do juiz + testes verdes + limite de tentativas).
+- [ ] Estado persistido FORA do modelo (arquivos de memória), recarregado fresco a cada iteração.
+- [ ] Parte determinística separada da parte que exige LLM.
+- [ ] Guardrails duros e não-negociáveis codificados no workflow.
+
+Ralph Loop
+- [ ] TDD: teste primeiro, red verificado antes do green.
+- [ ] Juiz separado do executor (LLM-as-judge); juiz RODA os testes.
+- [ ] Rejeição gera feedback acionável + nova tentativa (não segue quebrado).
+- [ ] Model tiering: modelo caro só no julgamento; barato no mecânico.
+- [ ] Commit atômico, semântico, sem burlar o hook, sem push automático.
+
+Graph Engineering
+- [ ] Modele dependências como DAG explícito (dependsOn).
+- [ ] Ordene por toposort; detecte e sinalize ciclos.
+- [ ] Cobertura total: todo requisito de DoD/AC vira ≥1 nó.
+- [ ] Contratos de interface imutáveis e verbatim em cada nó.
+- [ ] Quebre nós grandes em nós menores conectados por arestas.
+
+---
+
+## 6. Referências
+
+Loops e agentes
+- Anthropic — Building effective agents: https://www.anthropic.com/engineering/building-effective-agents
+- ReAct (raciocínio + ação): https://arxiv.org/abs/2210.03629
+- Reflexion (auto-crítica): https://arxiv.org/abs/2303.11366
+- Effective context engineering for agents: https://www.anthropic.com/engineering/effective-context-engineering-for-agents
+
+Ralph
+- Geoffrey Huntley — "Ralph Wiggum as a software engineer": https://ghuntley.com/ralph/
+
+Juiz / avaliação
+- Judging LLM-as-a-Judge (MT-Bench): https://arxiv.org/abs/2306.05685
+
+TDD e qualidade
+- Test-Driven Development (Fowler): https://martinfowler.com/bliki/TestDrivenDevelopment.html
+- Continuous Integration (Fowler): https://martinfowler.com/articles/continuousIntegration.html
+
+Grafo
+- Directed Acyclic Graph: https://en.wikipedia.org/wiki/Directed_acyclic_graph
+- Topological sorting (Kahn/DFS): https://en.wikipedia.org/wiki/Topological_sorting
+
+Contexto
+- Lost in the Middle: https://arxiv.org/abs/2307.03172
+- Context Rot (Chroma): https://research.trychroma.com/context-rot
+
+Infra
+- git worktree: https://git-scm.com/docs/git-worktree
+
+---
+
+## 7. Anti-padrões (o que NÃO fazer)
+
+Anti-padrão = uma solução que parece boa mas gera problema. Abaixo, os mais comuns em cada pilar, com o
+"cheiro" (como detectar), por que dói e a correção que o workflow de referência aplica.
+
+### 7.1 Anti-padrões de Loop Engineering
+
+*A. Loop sem condição de término ("loop infinito otimista")*
+- Cheiro: "roda até ficar bom" sem definir o que é "bom" nem um teto de tentativas.
+- Por que dói: queima tokens, trava, ou o agente declara vitória prematuramente.
+- Correção: término explícito. O loop só encerra quando o juiz aprova E os testes estão verdes; a rejeição
+  incrementa attempt++ (retry acotado, com feedback).
+
+*B. Acúmulo de contexto ("bola de neve de histórico")*
+- Cheiro: cada iteração empilha todo o histórico anterior na mesma janela.
+- Por que dói: context rot e "lost in the middle" degradam a qualidade justamente quando a tarefa cresce.
+- Correção: estado persistido FORA do modelo. Os arquivos de memória são a fonte de verdade, e cada
+  subagente parte de contexto FRESCO lendo só o que precisa.
+  Fontes: https://arxiv.org/abs/2307.03172 · https://research.trychroma.com/context-rot
+
+*C. Delegar ao LLM o que é determinístico*
+- Cheiro: pedir ao modelo para criar branch, instalar dependências, mudar estado do ticket, montar caminhos.
+- Por que dói: não-determinismo em passos que precisam ser 100% confiáveis; falhas silenciosas.
+- Correção: setup determinístico em script; o LLM só entra na fase de raciocínio. Regra: se dá para fazer
+  com código confiável, não delegue ao modelo.
+
+*D. O executor é o próprio juiz ("réu no tribunal")*
+- Cheiro: o mesmo agente que escreve o código também aprova o código.
+- Por que dói: viés de auto-aprovação; o agente tende a validar o próprio trabalho.
+- Correção: separar papéis. O modelo forte é o juiz (contrato + reviews B/D) e NUNCA implementa itens.
+  Fonte: https://arxiv.org/abs/2306.05685
+
+*E. Juiz que só lê, não executa*
+- Cheiro: o review aprova "parece que os testes passam" sem rodar.
+- Por que dói: alucinação — o modelo "acha" que passa.
+- Correção: no Passo D o juiz RODA os testes e verifica o green de fato.
+
+*F. Modelo caro para tudo (ou barato para tudo)*
+- Cheiro: usar o modelo forte até para criar um enum, ou usar o modelo leve para revisar lógica crítica.
+- Por que dói: custo desnecessário ou qualidade insuficiente.
+- Correção: model tiering — leve (mecânico), médio (lógica/testes), forte (só juiz).
+
+### 7.2 Anti-padrões de Ralph Loop
+
+*G. Green sem red ("teste que não testa")*
+- Cheiro: escrever o teste e ele já passa de primeira.
+- Por que dói: teste que nunca falha não prova nada; pode estar testando o nada.
+- Correção: Passo A exige confirmar o RED; se passa de cara, reescreve o teste.
+  Fonte: https://martinfowler.com/bliki/TestDrivenDevelopment.html
+
+*H. Rejeição vaga ("tá ruim, tenta de novo")*
+- Cheiro: o juiz rejeita sem dizer o quê e onde.
+- Por que dói: o próximo attempt repete o erro; o loop não converge.
+- Correção: feedback acionável e específico (com file:line nos reviews D). A nova tentativa parte do que
+  foi apontado.
+
+*I. Burlar o portão de qualidade (pular o hook, amend)*
+- Cheiro: quando o git hook falha, o agente pula a verificação ou dá --amend para "resolver rápido".
+- Por que dói: mascara falhas de lint/commit-msg; reescreve história e some com o problema.
+- Correção: NUNCA burlar o hook. Se o hook falha, corrige e faz commit NOVO (nunca amend).
+
+*J. Commit-tudo (git add -A)*
+- Cheiro: git add -A / git add . no passo de commit.
+- Por que dói: arrasta arquivos não intencionais (build, variáveis de ambiente, lixo) para o commit do item.
+- Correção: git add só os arquivos ESPERADOS daquele item (declarados em files[]).
+
+*K. Scope creep dentro do item*
+- Cheiro: o item "aproveita e refatora" algo fora do seu objetivo.
+- Por que dói: quebra a atomicidade (o commit deixa de mapear 1:1 com o requisito) e escapa da revisão.
+- Correção: o Passo D checa explicitamente scope creep; nada além das specs.
+
+### 7.3 Anti-padrões de Graph Engineering
+
+*L. Nó grande demais ("épico disfarçado de item")*
+- Cheiro: um item que não cabe em um commit; toca 15 arquivos e três camadas.
+- Por que dói: não cabe no contexto de uma iteração (context rot), a revisão fica difícil e a falha não
+  isola.
+- Correção: "cada item pequeno o bastante para UM commit"; se incha, o contrato QUEBRA em vários nós ligados
+  por dependsOn.
+
+*M. Dependência oculta ("acoplamento fantasma")*
+- Cheiro: C na verdade depende de B, mas o dependsOn não registra isso.
+- Por que dói: o toposort pode ordenar C antes de B; C quebra ou reescreve algo inconsistente.
+- Correção: declarar TODA aresta real. Ver o exemplo A → B → C na Seção 8.
+
+*N. Ciclo ignorado ("dependência circular escondida")*
+- Cheiro: A depende de B e B depende de A; toposort não tem ordem válida.
+- Por que dói: trava a ordenação ou produz ordem arbitrária silenciosa.
+- Correção: detectar e QUEBRAR ciclos com aviso (não esconder). Ciclo é sinal de que os nós foram mal
+  fatiados.
+
+*O. Requisito órfão ("DoD que sumiu")*
+- Cheiro: um critério de aceitação do ticket não está coberto por nenhum item.
+- Por que dói: a feature entrega incompleta e ninguém percebe até o fim.
+- Correção: cobertura total — todo item de DoD/AC vira ≥1 nó; nada é descartado silenciosamente.
+
+*P. Reshape de contrato de interface ("melhorei a interface")*
+- Cheiro: um item renomeia um campo, alarga um tipo ou "arruma" uma interface das specs.
+- Por que dói: quebra o contrato com quem consome; os nós deixam de ser compatíveis entre si.
+- Correção: contrato imutável — interface/type/enum verbatim em todo nó (sem rename/reshape/widening/
+  narrowing).
+
+---
+
+## 8. Detalhando a modelagem do grafo
+
+Aqui destrinchamos como um plano vira um DAG executável, usando uma cadeia de exemplo: A → B → C.
+
+### 8.1 De requisito a nó
+
+Cada nó do grafo é um item de contrato com metadados. Estrutura de um nó:
+
+    {
+      "id": "B",
+      "title": "Ligar o container ao hook de dados",
+      "why": "AC-2 exige que a lista reflita o estado remoto em tempo real",
+      "projectRules": ["Object Calisthenics: sem else", "..."],
+      "specs": {
+        "interfaces": ["DataHookResult"],
+        "types": ["RowModel"],
+        "props": ["rows: RowModel[]", "isLoading: boolean"],
+        "signatures": ["useData(id: string): DataHookResult"],
+        "acceptanceCriteria": ["AC-2: lista atualiza ao aplicar"],
+        "notes": "reaproveita o loading do container"
+      },
+      "objective": "consumir useData no container e passar props ao componente",
+      "files": ["src/containers/ExampleContainer/ExampleContainer.tsx"],
+      "model": "medio",
+      "testStrategy": "render + mock do hook, assert nas linhas renderizadas",
+      "dependsOn": ["A"]
+    }
+
+Repare: dependsOn é o que cria a ARESTA. files é o que delimita o git add no commit (evita o
+anti-padrão J). specs.interfaces/types são verbatim das specs (evita o anti-padrão P).
+
+### 8.2 Descobrindo as arestas (a lógica das dependências)
+
+A pergunta que define cada aresta é: "o item Y pode ser feito de forma correta e testável SEM que X já
+esteja pronto?" Se não, então Y dependsOn X.
+
+No exemplo:
+- A cria o hook de dados (a fonte de dados).
+- B liga o container ao hook. Para o teste de B fazer sentido (render consumindo o hook), o hook precisa
+  existir. Logo B dependsOn A.
+- C reescreve as MESMAS linhas de B (ex.: troca o mapeamento das rows, ajusta o estado de loading). Como C
+  opera sobre o que B produziu, C dependsOn B.
+
+Resultado: uma cadeia linear.
+
+mermaid
+flowchart TD
+    A["A — hook de dados<br/>(fonte de dados)"]
+    B["B — container consome o hook"]
+    C["C — reescreve as linhas de B"]
+
+    A -->|dependsOn: existência| B
+    B -->|dependsOn: conflito de linha| C
+
+
+### 8.3 Por que essa cadeia FORÇA execução sequencial
+
+Duas arestas, dois motivos distintos, ambos exigindo ordem:
+
+1. Dependência de existência (B → A): sem o hook, o container e seu teste não compilam. Ordem necessária.
+2. Dependência de LINHA / conflito de escrita (C → B): C edita exatamente as linhas que B escreveu. Se
+   rodassem em paralelo, haveria conflito de merge e o segundo sobrescreveria o primeiro.
+
+É por isso que o workflow roda "um item por vez, sem fan-out paralelo": o grafo tem arestas de conflito de
+escrita, que paralelismo não tolera. Esta é a decisão de Loop Engineering (Seção 1.3) sendo DITADA pela
+estrutura do grafo.
+
+### 8.4 Toposort da cadeia
+
+O toposort transforma o DAG em uma ordem linear onde todo nó vem depois de suas dependências. Para a cadeia
+A → B → C, a única ordem válida é:
+
+    [A, B, C]
+
+Aplicando o algoritmo de Kahn (por grau de entrada):
+1. Grau de entrada inicial: A=0, B=1, C=1. → só A tem grau 0. Emite A.
+2. Remove A; atualiza: B passa a grau 0. Emite B.
+3. Remove B; C passa a grau 0. Emite C.
+4. Fila vazia, todos emitidos → sem ciclo.
+Fonte: https://en.wikipedia.org/wiki/Topological_sorting
+
+### 8.5 Um caso com paralelismo (para contrastar)
+
+Se houvesse também um item D (criar um enum de status) independente do hook, o grafo seria:
+
+mermaid
+flowchart TD
+    A["A — hook de dados"] --> B["B — container"]
+    B --> C["C — reescreve linhas"]
+    D["D — enum de status<br/>(independente, pode rodar em paralelo)"]
+
+
+Aqui D não depende de nada e ninguém depende dele para começar, então PODERIA rodar em paralelo com a
+cadeia principal. O toposort admitiria várias ordens válidas (ex.: [D, A, B, C] ou [A, D, B, C]). Nesse
+cenário, um loop com fan-out ganharia tempo. A lição de Graph Engineering: o grafo revela onde há
+paralelismo seguro e onde NÃO há.
+
+### 8.6 Detecção de ciclo (o que o "quebra ciclos com aviso" faz)
+
+Suponha um erro de modelagem: alguém marca A dependsOn C. Agora temos A → B → C → A, um ciclo:
+
+mermaid
+flowchart LR
+    A["A"] --> B["B"]
+    B --> C["C"]
+    C -->|aresta inválida<br/>cria ciclo| A
+
+    classDef bad stroke:#c00,stroke-width:2px;
+    class A,B,C bad;
+
+
+Kahn nunca zera todos os graus de entrada (sobra um subconjunto preso em grau >=1), o que SINALIZA o ciclo.
+O workflow então quebra o ciclo (corta uma aresta) e emite um AVISO para revisão humana, em vez de esconder
+o problema. Ciclo quase sempre significa que dois nós deveriam ser um só, ou que uma aresta está invertida.
+
+### 8.7 Cobertura: fechando o loop com o DoD
+
+Depois de montar os nós e arestas, valida-se a COBERTURA: cada critério de aceitação (AC) e item de DoD do
+ticket tem de mapear para >=1 nó. Uma matriz simples ajuda:
+
+    DoD / AC                          -> coberto por
+    AC-1 (hook busca dados)           -> A
+    AC-2 (lista reflete estado)       -> B, C
+    AC-3 (loading correto)            -> C
+
+Se alguma linha ficar sem nó à direita, há um requisito órfão (anti-padrão O) e o contrato PARA para
+resolver antes de implementar.
+
+### 8.8 Resumo do fluxo de modelagem
+
+mermaid
+flowchart TD
+    IN["Specs + DoD do ticket"]
+    S1["1. Fatiar em itens pequenos (1 commit cada)"]
+    S2["2. Extrair contratos de interface verbatim por item"]
+    S3["3. Traçar arestas dependsOn<br/>(existência + conflito de linha)"]
+    S4["4. Validar acíclico (toposort)<br/>quebrar ciclos com aviso"]
+    S5["5. Validar cobertura DoD/AC ⇔ itens"]
+    OUT["DAG imutável → toposort → Fase Implement (ralph loop)"]
+
+    IN -->|Fase Contract, modelo forte| S1
+    S1 --> S2 --> S3 --> S4 --> S5 --> OUT
+
+    S1 -.evita.-> L["anti-padrão L: nó grande"]
+    S2 -.evita.-> P["anti-padrão P: reshape de contrato"]
+    S3 -.evita.-> M["anti-padrão M: dep. oculta"]
+    S4 -.trata.-> N["anti-padrão N: ciclo"]
+    S5 -.evita.-> O["anti-padrão O: requisito órfão"]
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+  const source = document.getElementById('md').textContent;
+
+  // Renderer custom: blocos mermaid viram <pre class="mermaid">.
+  const renderer = new marked.Renderer();
+  const origCode = renderer.code.bind(renderer);
+  renderer.code = (code, lang) => {
+    const c = typeof code === 'object' ? code.text : code;
+    const l = typeof code === 'object' ? code.lang : lang;
+    if ((l || '').trim() === 'mermaid') {
+      const esc = c.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return '<pre class="mermaid">' + esc + '</pre>';
+    }
+    return origCode(code, l);
+  };
+
+  marked.setOptions({ renderer, gfm: true, breaks: false });
+  document.getElementById('content').innerHTML = marked.parse(source);
+
+  mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+  await mermaid.run({ querySelector: '.mermaid' });
+</script>
+</body>
+</html>

@@ -7,6 +7,7 @@
   import type { Child } from '$lib/domain/child/entities/Child'
   import type { GrowthRecord } from '$lib/domain/child/entities/GrowthRecord'
   import { PUBLIC_MOCK_DATA } from '$lib/env'
+  import { flags } from '$lib/feature-flags'
   import { mockChildren, mockGrowthRecords } from '$lib/mocks/data'
   import { GrowthChart } from '@babyclothes/design-system'
   import { ArrowLeft } from 'lucide-svelte'
@@ -120,7 +121,9 @@
         sizes={growthSizes}
         eyebrow={$t('child.growth_prediction')}
         description={$t('child.growth_detail', { name: child.name, size: nextSize })}
-        primaryAction={{ label: $t('child.view_catalog'), onclick: () => goto('/catalog') }}
+        primaryAction={flags.marketplace
+          ? { label: $t('child.view_catalog'), onclick: () => goto('/catalog') }
+          : undefined}
         secondaryAction={{ label: $t('child.update_measurements'), onclick: () => console.log('Update') }}
       />
 

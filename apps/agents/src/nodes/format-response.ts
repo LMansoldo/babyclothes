@@ -26,7 +26,7 @@ export async function formatResponse(state: ChatState): Promise<Partial<ChatStat
             .clothing_size
         : 'unknown';
 
-    const model = createModel({ temperature: 0.7, maxOutputTokens: 500 });
+    const model = createModel({ temperature: 0.7, maxOutputTokens: 2048 });
     const response = await model.invoke(
       RESPONSE_PROMPT.replace('{child_name}', state.child_context.name || '')
         .replace('{current_size}', currentSize)

@@ -4,6 +4,8 @@
     "chat": "Chat",
     "child": "Child",
     "sell": "Sell",
+    "agent": "Home",
+    "profile": "Profile",
     "main_aria": "Main navigation"
   },
   "topbar": {
@@ -432,6 +434,7 @@
     "results": {
       "heading": "Options for you",
       "modal_title": "Item details",
+      "close": "Close",
       "load_error": "Could not load this item."
     }
   }

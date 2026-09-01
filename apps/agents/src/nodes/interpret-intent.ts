@@ -23,7 +23,7 @@ Respond with ONLY the intent name, nothing else.
 
 User message: {message}`;
 
-const model = createModel({ temperature: 0, maxOutputTokens: 500 });
+const model = createModel({ temperature: 0, maxOutputTokens: 2048 });
 
 export async function interpretIntent(state: ChatState): Promise<Partial<ChatState>> {
   try {

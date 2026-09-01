@@ -19,7 +19,7 @@ export function deriveFlags(mode: AppMode): FeatureFlags {
   return {
     marketplace: !isAgent,
     pjRegistration: !isAgent,
-    marketplaceNav: !isAgent,
+    marketplaceNav: true,
     agentOnboarding: isAgent,
     emailLogin: isAgent,
   }

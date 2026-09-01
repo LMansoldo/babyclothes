@@ -129,6 +129,7 @@
       emailLoading = false
       if (result.type === 'redirect') {
         step = 'redirecting'
+        goto(result.location)
       } else if (result.type === 'failure') {
         const err = (result.data as { error?: string } | undefined)?.error
         if (err === 'invalid_credentials') {

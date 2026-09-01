@@ -19,8 +19,8 @@
     MonthPicker,
     ChildInlineForm,
     Card,
-    Modal,
   } from '@babyclothes/design-system';
+  import { X } from 'lucide-svelte';
   import { mapAgentItem, type AgentItem } from '$lib/application/chat/mapAgentItem';
   import { loadItemDetail, type ItemDetail } from '$lib/infrastructure/http/loadItemDetail';
   import ItemDetailView from '$lib/presentation/components/ItemDetailView.svelte';
@@ -46,26 +46,31 @@
   let loading = $state(true);
   let searchQuery = $state('');
   let childFormSubmitting = $state(false);
-  let modalOpen = $state(false);
-  let modalDetail = $state<ItemDetail | null>(null);
-  let modalLoading = $state(false);
+  let itemSheetOpen = $state(false);
+  let itemSheetDetail = $state<ItemDetail | null>(null);
+  let itemSheetLoading = $state(false);
 
   function formatPrice(cents: number): string {
     return `R$ ${(cents / 100).toFixed(2).replace('.', ',')}`;
   }
 
-  async function openItemModal(id: string) {
-    modalOpen = true;
-    modalLoading = true;
-    modalDetail = null;
+  function closeItemSheet() {
+    itemSheetOpen = false;
+    itemSheetDetail = null;
+  }
+
+  async function openItemSheet(id: string) {
+    itemSheetOpen = true;
+    itemSheetLoading = true;
+    itemSheetDetail = null;
     try {
-      modalDetail = await loadItemDetail(id);
+      itemSheetDetail = await loadItemDetail(id);
     } catch (e) {
       console.error('Failed to load item detail:', e);
       toast.error(get(t)('agent.results.load_error'));
-      modalOpen = false;
+      itemSheetOpen = false;
     } finally {
-      modalLoading = false;
+      itemSheetLoading = false;
     }
   }
 
@@ -293,10 +298,11 @@
     } finally {
       loading = false;
       // Existing users (already have a child registered) skip the intake /
-      // registration forms and go straight to search. New users (no children)
-      // start at the greeting + "do you have children?" registration flow.
+      // registration forms and land in free chat with no unprompted agent
+      // message — they only see a message once they send one. New users (no
+      // children) start at the greeting + "do you have children?" registration flow.
       if (children.length > 0) {
-        intake = { ...initialIntakeState, step: 'ask_search_intent', hasChildren: 'yes' };
+        intake = { ...initialIntakeState, step: 'free_chat', hasChildren: 'yes' };
       }
       buildIntakeMessages();
     }
@@ -376,13 +382,13 @@
       {#if message.components}
         {#if message.role === 'agent' && message.content.type === 'text' && message.content.content && !message.components.some((c) => c.type === 'carousel')}
           <div class="agent-page__row">
-            <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
+            <!-- <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
               {#if !isConsecutiveAgent(messages, index)}
                 <svg viewBox="0 0 20 24" width="10" height="12" fill="none">
                   <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"/>
                 </svg>
               {/if}
-            </div>
+            </div> -->
             <div class="agent-page__bwrap">
               <ChatBubble
                 role="agent"
@@ -396,13 +402,13 @@
         {#each message.components as component}
           {#if component.type === 'choiceChips'}
             <div class="agent-page__row">
-              <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
+              <!-- <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
                 {#if !isConsecutiveAgent(messages, index)}
                   <svg viewBox="0 0 20 24" width="10" height="12" fill="none">
                     <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"/>
                   </svg>
                 {/if}
-              </div>
+              </div> -->
               <div class="agent-page__bwrap">
                 <ChoiceChipGroup
                   options={component.options}
@@ -457,13 +463,13 @@
             </div>
           {:else if component.type === 'dueDate'}
             <div class="agent-page__row">
-              <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
+              <!-- <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
                 {#if !isConsecutiveAgent(messages, index)}
                   <svg viewBox="0 0 20 24" width="10" height="12" fill="none">
                     <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"/>
                   </svg>
                 {/if}
-              </div>
+              </div> -->
               <div class="agent-page__bwrap">
                 <AgentFormCard title={component.title} maxWidth="26rem">
                   <MonthPicker
@@ -476,13 +482,13 @@
             </div>
           {:else if component.type === 'suggestions'}
             <div class="agent-page__row">
-              <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
+              <!-- <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
                 {#if !isConsecutiveAgent(messages, index)}
                   <svg viewBox="0 0 20 24" width="10" height="12" fill="none">
                     <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"/>
                   </svg>
                 {/if}
-              </div>
+              </div> -->
               <div class="agent-page__bwrap">
                 {#if component.heading}
                   <span class="agent-page__suggestions-label">{component.heading}</span>
@@ -502,13 +508,13 @@
             </div>
           {:else if component.type === 'carousel'}
             <div class="agent-page__row">
-              <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
+              <!-- <div class="agent-page__av" class:agent-page__av--hidden={isConsecutiveAgent(messages, index)}>
                 {#if !isConsecutiveAgent(messages, index)}
                   <svg viewBox="0 0 20 24" width="10" height="12" fill="none">
                     <path d="M10 0C10 0 0 10 0 15.5C0 20.75 4.48 24 10 24C15.52 24 20 20.75 20 15.5C20 10 10 0 10 0Z" fill="#FF3CAC"/>
                   </svg>
                 {/if}
-              </div>
+              </div> -->
               <div class="agent-page__bwrap agent-page__cards">
                 {#each component.items ?? [] as item (item.id)}
                   <Card
@@ -519,7 +525,7 @@
                     condition={$t(`item_card.condition_${item.condition}`)}
                     pinkPrice={true}
                     size="sm"
-                    onClick={() => openItemModal(item.id)}
+                    onClick={() => openItemSheet(item.id)}
                   />
                 {/each}
               </div>
@@ -602,17 +608,24 @@
     />
   </div>
 
-  <Modal bind:open={modalOpen} title={$t('agent.results.modal_title')} onclose={() => (modalDetail = null)}>
-    {#if modalLoading}
-      <div class="agent-page__modal-loading">
-        <span class="agent-page__typing-dot"></span>
-        <span class="agent-page__typing-dot"></span>
-        <span class="agent-page__typing-dot"></span>
+  {#if itemSheetOpen}
+    <div class="item-sheet" role="dialog" aria-modal="true" aria-label={$t('agent.results.modal_title')}>
+      <button class="item-sheet__close" type="button" onclick={closeItemSheet} aria-label={$t('agent.results.close')}>
+        <X size={20} strokeWidth={2.5} />
+      </button>
+      <div class="item-sheet__body">
+        {#if itemSheetLoading}
+          <div class="agent-page__modal-loading">
+            <span class="agent-page__typing-dot"></span>
+            <span class="agent-page__typing-dot"></span>
+            <span class="agent-page__typing-dot"></span>
+          </div>
+        {:else if itemSheetDetail}
+          <ItemDetailView item={itemSheetDetail.item} seller={itemSheetDetail.seller} />
+        {/if}
       </div>
-    {:else if modalDetail}
-      <ItemDetailView item={modalDetail.item} seller={modalDetail.seller} />
-    {/if}
-  </Modal>
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -743,5 +756,36 @@
 
   .agent-page__input {
     flex-shrink: 0;
+  }
+
+  .item-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: var(--wh, #fff);
+    overflow-y: auto;
+  }
+
+  .item-sheet__close {
+    position: fixed;
+    top: 1.2rem;
+    right: 1.2rem;
+    z-index: 1001;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .item-sheet__body {
+    min-height: 100%;
   }
 </style>
